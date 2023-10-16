@@ -53,7 +53,7 @@
     height: 2.5rem;
     line-height: 2.5rem;
     text-align: center;
-    color: rgb(116, 201, 23);
+    color:var(--primary-color);
     font-weight: bold;
 }
 .jVgBRe .login-top .header-login .fnKcEH.button  {
@@ -63,8 +63,8 @@
 .fnKcEH.button {
     color: rgb(245, 246, 247);
     box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(67, 179, 9);
-    background-image: conic-gradient(from 1turn, rgb(67, 179, 9), rgb(93, 219, 28));
+    background-color: var(--primary-color);
+    background-image: var(--primary-color);
 }
 .cBmlor {
     display: block;
@@ -142,7 +142,7 @@
     top: 0px;
     right: 0px;
     transform: translate(50%, -50%);
-    background-color: rgb(67, 179, 9);
+    background-color:var(--primary-color);
     color: rgb(255, 255, 255);
     height: 1.25rem;
     line-height: 1.25rem;

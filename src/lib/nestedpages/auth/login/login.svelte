@@ -269,7 +269,7 @@ const handleForgetPassword = (()=>{
 }
 
 .ipnwmW {
-    background-color: rgb(67, 179, 9);
+    background-color: var(--primary-color);
 }
 
 .dialog {
@@ -608,7 +608,7 @@ input:-webkit-autofill {
     filter: none !important;
 }
 .dA-dCPD {
-    background-color: rgb(67, 179, 9);
+    background-color: var(--primary-color);
 }
 .dialog {
     position: absolute;

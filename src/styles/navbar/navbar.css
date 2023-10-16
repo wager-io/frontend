@@ -5,7 +5,7 @@
   left: 0px;
   top: 0px;
   right: 0px;
-  background-color: rgb(36, 38, 43);
+  background-color: var(--background-color);
   transition: all 0.2s linear 0s;
 }
 .gAvMHL .header-wrap {
@@ -65,7 +65,7 @@
   margin: 0px 0.5rem 0px 0px;
   padding: 1rem;
   cursor: pointer;
-  color: rgb(67, 179, 9);
+  color: var(--primary-color);
   font-weight: bold;
 }
 .gAvMHL .login-in .button {
@@ -89,8 +89,8 @@
 .fnKcEH.button {
   color: rgb(245, 246, 247);
   box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-  background-color: rgb(67, 179, 9);
-  background-image: conic-gradient(from 1turn, rgb(67, 179, 9), rgb(93, 219, 28));
+  background-color: var(--primary-color);
+  background-image:var(--primary-color);
 }
 .jsyNKG {
   display: flex;

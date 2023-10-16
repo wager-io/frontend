@@ -7,7 +7,7 @@
     bottom: 0px;
     width: 240px;
     color: rgba(153, 164, 176, 0.8);
-    background-color: rgb(30, 32, 36);
+    background-color: var(--background-color);
     transition: all 0.2s linear 0s;
 }
 
@@ -65,7 +65,8 @@
 }
 .knLCVT.select .menu-pc {
     font-weight: bold;
-    background-image: linear-gradient(to right, rgba(105, 179, 1, 0.4), rgba(85, 89, 102, 0.4) 33%, rgba(85, 89, 102, 0.4));
+    /* background-color: var(--background-color); */
+    background-image: linear-gradient(to right,  #800080, #9401c573 33%, rgba(85, 89, 102, 0.4));
     color: rgb(245, 246, 247);
 }
 .knLCVT .menu-pc {
@@ -106,7 +107,7 @@
     padding-top: 2px;
 }
 .eTxQfM .special-nav span {
-    color: rgb(93, 219, 28);
+    color: var(--primary-color);;
     font-size: 1.125rem;
     font-weight: bold;
     font-family: FuturaBold;

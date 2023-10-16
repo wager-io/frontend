@@ -100,11 +100,11 @@ const handleRegister = (()=>{
                 <div class="sc-iukxot jivBdD logo-pc">
                     {#if styles }
                     <span style="margin-left: 270px; transition: all 0.5s ease-in;">
-                        <img alt="logo" class="logo-com" src="https://i.ibb.co/ct6qQgj/typpe-3.png">
+                        <img alt="logo" class="logo-com" src="https://i.ibb.co/cgkFhrm/type-1-removebg-preview.png">
                     </span>
                     {:else}
                     <span style="margin-left: 100px; transition: all 0.5s ease-in;">
-                        <img alt="logo" class="logo-com" src="https://i.ibb.co/ct6qQgj/typpe-3.png">
+                        <img alt="logo" class="logo-com" src="https://i.ibb.co/cgkFhrm/type-1-removebg-preview.png">
                     </span>
                     {/if}
                 </div>

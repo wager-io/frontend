@@ -283,7 +283,7 @@ input[type="checkbox"]{
     color: aqua;
 }
 .ipnwmW {
-    background-color: rgb(67, 179, 9);
+    background-color: var(--primary-color);
 }
 
 .dialog {
@@ -650,13 +650,6 @@ input:-webkit-autofill {
     width: 15rem;
     flex: 0 0 auto;
     margin-left: 0.625rem;
-}
-
-.fnKcEH.button {
-    color: rgb(245, 246, 247);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(67, 179, 9);
-    background-image: conic-gradient(from 1turn, rgb(67, 179, 9), rgb(93, 219, 28));
 }
 
 .cBmlor.button-big {
