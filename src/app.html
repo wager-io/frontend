@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/apple-touch-icon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="ccpayment-site-verification" content="fb598cb494b6e98253995d800fab908d"/> 
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<title>DOTPLAYPLAY</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,500;0,600;0,700;1,100;1,500;1,600&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,700;1,100&display=swap" rel="stylesheet">
+		
+		<style>
+			*{
+				padding: 0;
+				margin: 0;
+				font-family: Poppins;
+				text-decoration: none;
+				box-sizing: border-box;
+			}
+			*, *:before, *:after {
+				box-sizing: border-box;
+			}
+			/* Chrome, Safari, Edge, Opera */
+				input::-webkit-outer-spin-button,
+				input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+				}
+
+				/* Firefox */
+				input[type=number] {
+				-moz-appearance: textfield;
+				}
+			body{
+				padding: 0;
+				margin: 0;
+				background-color: #24262b;
+			}
+			body, input, textarea, a, button {
+				font-family: Montserrat,-apple-system,Framedcn,Helvetica Neue, Poppins, Condensed,DisplayRegular,Helvetica,Arial,PingFang SC,Hiragino Sans GB,WenQuanYi Micro Hei,Microsoft Yahei,sans-serif;
+			}
+			::-webkit-scrollbar{
+				display: none;
+			}
+			textarea, input{
+				outline: none;
+			}
+			button {
+				border: none;
+				padding: 0;
+				user-select: none;
+				cursor: pointer;
+				background-color: transparent;
+			}
+
+			body, input, textarea, a, button {
+				color: var(--text-color);
+			}
+			:root {
+				--text-color: rgba(153,164,176,.8);
+				--primary-color: #43b309;
+				--background-color: #24262b;
+				--placeholder-color: #75808c;
+				--autofill-color: #f5f6f7;
+				--scroll-color: #24262B;
+			}
+			.ttu {
+				text-transform: uppercase;
+			}
+
+
+			.error-message{
+				position: fixed;
+				background: #24262B;
+				width: 400px;
+				left: 6px;
+				bottom: 2%;
+				border-radius: 20px;
+
+				padding: 24px 15px;
+				margin: 10px;
+				z-index: 910;
+			}
+			.hTTvsjh{
+				color: #f5f6f7;
+			}
+
+			/*=========================================================== Main screen ================================================ */
+			@media only screen and ( min-width : 650px) {
+				.mobile {
+					display: none;
+				}
+				.ePAxUv {
+					margin-top: 4rem;
+				}
+
+				main{
+					width: 100%;
+					margin: 10px 0;
+					transition: left 0.2s linear 0s;
+				}
+				.app{
+					position: relative;
+					display: flex;
+					transition: 0.4s ease-in;
+				}
+				#side-bar{
+					height: 100vh;
+					background: var(--background-color);
+				}
+				#menu{
+					display: block;
+					width: 0.1764%;
+					position: relative;
+				}
+				.menu{
+					border: none;
+					width: 1.875rem;
+					height: 1.875rem;
+					border-radius: 0.9375rem;
+					background-color: rgb(26, 28, 32);
+					box-shadow: transparent 0px 2px 4px 0px;
+					z-index: 203;
+					position: fixed;
+					cursor: pointer;
+					top: 16px;
+					transition: left 0.2s linear 0s;
+				}
+				#right-bar{
+					transition: left 0.2s linear 0s;
+				}
+				.menu:hover{
+					background-color: rgb(46, 49, 56);
+				}
+				.menu img{
+					width: 0.625rem;
+					height: 0.625rem;
+				}
+				footer{
+					padding: 0;
+					margin: 0;
+					width: 100%;
+				}
+			}
+			/* ============================= mobile screen ====================================================== */
+			@media only screen and ( max-width : 650px) {
+				#main{
+					display: none;
+				}
+				.footer-general{
+					display: none;
+				}
+				#right-bar{
+					width: 100%;
+				}
+				.ePAxUv{
+					margin-top: 7.375rem;
+				}
+			}
+
+/* ==================================== Preloader ============================ */
+.center {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wave {
+  width: 2px;
+  height: 7px;
+  background: linear-gradient(45deg, cyan, #fff);
+  margin: 6px;
+  animation: wave 1s linear infinite;
+  border-radius: 20px;
+}
+.wave:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+  animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+  animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+  animation-delay: 0.9s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+		</style>
+
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+
+	<!-- Swiper JS -->
+	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-element-bundle.min.js"></script>
+	</body>
+</html>
