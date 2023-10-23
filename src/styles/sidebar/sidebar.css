@@ -103,7 +103,7 @@
     margin-right: 0.5rem;
 }
 .eTxQfM .special-nav.vip span {
-    color: rgb(235, 93, 15);
+    color: var(--primary-color);
     padding-top: 2px;
 }
 .eTxQfM .special-nav span {
@@ -265,7 +265,7 @@
     height: 2.5rem;
     min-width: 2.5rem;
     border-radius: 50%;
-    background: rgb(67, 179, 9);
+    background: var(--primary-color);
     display: flex;
     -webkit-box-align: center;
     align-items: center;

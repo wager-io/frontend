@@ -188,10 +188,21 @@
   align-items: center;
   position: relative;
 }
-.icGouR {
-  position: relative;
-  margin: 0.4375rem 1.95rem 0.2375rem 0.2375rem;
+
+@media only screen and (max-width: 650px){
+  .icGouR {
+    position: relative;
+    margin: 0;
+    font-size: 11px;
+  }
 }
+@media only screen and (min-width: 650px){
+  .icGouR {
+    position: relative;
+    margin: 0.4375rem 1.95rem 0.2375rem 0.2375rem;
+  }
+}
+
 .boxpOO {
   display: flex;
   -webkit-box-align: center;

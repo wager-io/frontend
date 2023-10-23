@@ -4,8 +4,10 @@ export let data;
 import { routes } from "$lib/store/routes"
 import { handleAuthToken } from "$lib/store/routes"
 $: routes.set(data)
+import Icon from 'svelte-icons-pack/Icon.svelte';
 import { handleSepProfile } from "$lib/profleAuth/store"
 import {handleCountdown} from "$lib/crashgame/socket"
+import HiSolidMenu from "svelte-icons-pack/hi/HiSolidMenu";
 import {
     page
 } from '$app/stores'
@@ -35,22 +37,22 @@ let isMenu = false
 let sideDetection = 0
 
 $:{
-        for(let i = 0; i < $handle_IsRedwinners.length; i++){
-            let wllet = {
-                coin_name: $handle_IsRedwinners[i].token,
-                coin_image:  $handle_IsRedwinners[i].token_img,
-                balance:  $handle_IsRedwinners[i].update_bal
-            }
-            if($profileStore.user_id === $handle_IsRedwinners[i].user_id){
-                default_Wallet.set(wllet)
-            }
+    for(let i = 0; i < $handle_IsRedwinners.length; i++){
+        let wllet = {
+            coin_name: $handle_IsRedwinners[i].token,
+            coin_image:  $handle_IsRedwinners[i].token_img,
+            balance:  $handle_IsRedwinners[i].update_bal
         }
+        if($profileStore.user_id === $handle_IsRedwinners[i].user_id){
+            default_Wallet.set(wllet)
+        }
+    }
 } 
 
 
 $:{
     onMount(async()=>{
-        data.profile &&  handleAuthToken.set(data.profile.Token)
+        data.token &&  handleAuthToken.set(data.token)
     })
 }
 
@@ -90,8 +92,13 @@ const handleMainMenu = (() => {
         isOpenSide = false
         sideDetection = 76
     } else {
+        if (browser && window.innerWidth > 650 && window.innerWidth < 1000) {
+        isOpenSide = true
+        sideDetection = 76
+    }else{
         isOpenSide = true
         sideDetection = 240
+    }
     }
 })
 
@@ -142,7 +149,7 @@ const handleMenu = () => {
     <div id="main">
         <div id="menu">
             <button style={`left:${isOpenSide ? 224 : 60}px`} on:click={handleMainMenu}  class="menu">
-                <img src='https://www.linkpicture.com/q/menu_2.svg' alt="" />
+                <Icon src={HiSolidMenu}  size="18"   color="#fff"  />
             </button>
         </div>
     </div>

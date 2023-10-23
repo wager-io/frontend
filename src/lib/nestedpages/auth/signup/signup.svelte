@@ -69,7 +69,7 @@ const handleCancel = (()=>{
 
     <div class="dialog " style="opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px; transform: scale(1) translateZ(0px);">
         <div class="dialog-head has-close">
-            <img src="https://i.ibb.co/ct6qQgj/typpe-3.png" alt="" class="sc-bOtlzW QccSQ">
+            <img alt="logo" class="sc-bOtlzW QccSQ" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697848521/dpp-logowhite_lbifm7.png">
         </div>
         <button on:click={()=> handleCancel()} class="sc-ieecCq fLASqZ close-icon dialog-close">
             <Icon src={IoCloseSharp}  size="18"  color="rgb(255, 255, 255)" className="custom-icon" title="arror" />
@@ -94,18 +94,18 @@ const handleCancel = (()=>{
                                     <input type="password"  autocomplete="off" placeholder="Login Password" bind:value={password} >
                                 </div>
                             </div>
-                            {#if  isREf}
+                            <!-- {#if  isREf} -->
                             <div class="sc-ezbkAF kDuLvp input ">
                                 <div class="input-label">Referral/Promo Code (Optional)</div>
                                 <div class="input-control">
                                     <input type="text" bind:value={referral_code}  autocomplete="off" placeholder="Referral/Promo Code" >
                                 </div>
                             </div>
-                            {:else}
+                            <!-- {:else}
                             <button on:click={()=> isREf = true} class="casino-code hover">Referral/Promo Code (Optional)
                                  <Icon src={RiSystemArrowDropDownLine}  size="18"  color="rgb(255, 255, 255)" className="sc-gsDKAQ hxODWG icon" title="arror" />
                             </button>
-                            {/if}
+                            {/if} -->
                         </div>
                         <hr>
                         <div class="box">
@@ -283,7 +283,7 @@ input[type="checkbox"]{
     color: aqua;
 }
 .ipnwmW {
-    background-color: var(--primary-color);
+    background-color: rgb(67, 179, 9);
 }
 
 .dialog {
@@ -650,6 +650,13 @@ input:-webkit-autofill {
     width: 15rem;
     flex: 0 0 auto;
     margin-left: 0.625rem;
+}
+
+.fnKcEH.button {
+    color: rgb(245, 246, 247);
+    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
+    background-color: rgb(67, 179, 9);
+    background-image: conic-gradient(from 1turn, rgb(67, 179, 9), rgb(93, 219, 28));
 }
 
 .cBmlor.button-big {

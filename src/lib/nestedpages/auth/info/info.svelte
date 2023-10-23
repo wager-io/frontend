@@ -10,6 +10,8 @@ import { profileStore } from "$lib/store/profile";
 import { routes} from "$lib/store/routes";
 import { handleAuthToken } from "$lib/store/routes";
 import { handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index"
+import { ServerURl } from "$lib/backendUrl"
+const URL = ServerURl()
 
 let img1 = true
 let img2 = false
@@ -108,7 +110,7 @@ const handleSubmit = (async() => {
                 username: username,
                 vip_level: $profileStore.vip_level
             }
-              await  axios.post("http://localhost:8000/api/profile/update-user", {
+              await  axios.post(`${URL}/api/profile/update-user`, {
             data
           },{
             headers: {
@@ -150,7 +152,7 @@ const handleClose = (()=>{
     {/if}   
     <div class="dialog " style="opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px; transform: scale(1) translateZ(0px);">
         <div class="dialog-head has-close">
-            <img src="https://www.linkpicture.com/q/dpp-logowhite.pngg" alt="" class="sc-bOtlzW QccSQ">
+            <img alt="logo" class="sc-bOtlzW QccSQ" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697848521/dpp-logowhite_lbifm7.png">
         </div>
         <button on:click={()=> handleClose()} class="sc-ieecCq fLASqZ close-icon dialog-close">
             <Icon src={IoCloseSharp}  size="18"  color="rgb(255, 255, 255)" className="custom-icon" title="arror" />

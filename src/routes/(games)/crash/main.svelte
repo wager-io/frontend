@@ -237,6 +237,7 @@ const handleCashout = (()=>{
 
 </script>
 
+
 <div class="game-main">
     {#if ishotKey }
         <Hotkeys on:close={handleHotkeyEnable} />
@@ -261,7 +262,7 @@ const handleCashout = (()=>{
     </div>
  {/if}   
 
-    <div id="crash-control-0" class="sc-jNHqnW bqxYHQ game-control style1">
+<div id="crash-control-0" class="sc-jNHqnW bqxYHQ game-control style1">
         <div class="sc-iwjdpV ikWSlH radio game-control-switch">
             <button on:click={()=>handleAdvancebg(1)} class={`${!isAdvance &&  "is-active"}`} >
                 <div class="label">Manual</div>
@@ -343,7 +344,7 @@ const handleCashout = (()=>{
                         {#if !id}
                             <div class="input-control">
                                 <input type="number" bind:value={bet_amount}>
-                                <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/ppf_logo.png">
+                                <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png">
                                 <div class="sc-kDTinF bswIvI button-group">
                                     <button  on:click={()=>handleHalf(1)}>/2</button>
                                     <button  on:click={()=>handleHalf(2)}>x2</button>
@@ -418,6 +419,7 @@ const handleCashout = (()=>{
         </button>
     </div>
 </div>
+
 
 <style>
  

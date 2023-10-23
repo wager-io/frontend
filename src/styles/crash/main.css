@@ -41,7 +41,7 @@
     opacity: 1;
 }
 .bqxYHQ.style1 .game-control-switch > button.is-active {
-    border-right: 2px solid rgb(67, 179, 9);
+    border-right: 2px solid var(--primary-color);
     background-image: linear-gradient(to left, rgba(91, 174, 28, 0.176), rgba(0, 0, 0, 0) 50%);
 }
 .bqxYHQ.style1 .game-control-switch > button {
@@ -78,7 +78,7 @@
     white-space: nowrap;
 }
 .bqxYHQ.style1 .game-control-switch > button.is-active {
-    border-right: 2px solid rgb(67, 179, 9);
+    border-right: 2px solid var(--primary-color);
     background-image: linear-gradient(to left, rgba(91, 174, 28, 0.176), rgba(0, 0, 0, 0) 50%);
 }
 .bqxYHQ.style1 .game-control-switch > button {
@@ -356,7 +356,7 @@
     font-weight: bold;
 }
 .gcFpfw .payout-txt {
-    color: rgb(67, 179, 9);
+    color: var(--primary-color);
     margin-right: -0.3125rem;
     font-size: 1.625rem;
 }

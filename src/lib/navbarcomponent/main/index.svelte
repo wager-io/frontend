@@ -15,10 +15,12 @@ import { profileStore, handleisLoading, handleisLoggin } from "$lib/store/profil
 import { onMount} from "svelte";
 import {  goto } from "$app/navigation";
 import { default_Wallet } from "$lib/store/coins";
+import { ServerURl } from "$lib/backendUrl"
+const URL = ServerURl()
 
 $:{
  onMount(async()=>{
-   await axios.get("http://localhost:8000/api/profile",{
+   await axios.get(`${URL}/api/profile`,{
     headers: {
         "Content-type": "application/json",
         "Authorization": `Bearer ${$handleAuthToken}`
@@ -27,13 +29,16 @@ $:{
    .then((res)=>{
     profileStore.set(res.data[0])
    })
+   .catch((err)=>{
+        console.log(err)
+   })
 })
 }
 
 
 $:{
  onMount(async()=>{
-   await axios.get("http://localhost:8000/api/wallet/default-wallets",{
+   await axios.get(`${URL}/api/wallet/default-wallets`,{
     headers: {
         "Content-type": "application/json",
         "Authorization": `Bearer ${$handleAuthToken}`
@@ -42,11 +47,14 @@ $:{
    .then((res)=>{
     default_Wallet.set(res.data[0])
    })
+   .catch((err)=>{
+        console.log(err)
+   })
 })
 }
 
 const handleDailyPPFbonus = (async()=>{
-    await axios.get("http://localhost:8000/api/profile/ppf-daily-bonus",{
+    await axios.get(`${URL}/api/profile/ppf-daily-bonus`,{
     headers: {
         "Content-type": "application/json",
         "Authorization": `Bearer ${$handleAuthToken}`
@@ -54,11 +62,11 @@ const handleDailyPPFbonus = (async()=>{
    })
 })
 
-onMount(async()=>{
-    setTimeout(()=>{
-        handleDailyPPFbonus()
-    },6000)
-})
+// onMount(async()=>{
+//     setTimeout(()=>{
+//         handleDailyPPFbonus()
+//     },6000)
+// })
 
 
 let isCoinDrop = false
@@ -86,6 +94,7 @@ const handleChat = ((e) => {
 })
 </script>
 
+<div id="main">
 {#if !$handleisLoading && $default_Wallet.coin_image != undefined}
 <div class="sc-DtmNo euzHLF right">
     <div class="sc-gjNHFA juteh wallet-enter">
@@ -98,7 +107,7 @@ const handleChat = ((e) => {
                 </div>
                 <div class="sc-Galmp erPQzq coin notranslate balance">
                     <div class="amount">
-                        <span class="amount-str">{$default_Wallet.balance}<span class="suffix">00</span></span>
+                        <span class="amount-str">{($default_Wallet.balance)}<span class="suffix">00</span></span>
                     </div>
                 </div>
             </button>
@@ -130,7 +139,7 @@ const handleChat = ((e) => {
                     <div class="wave"></div>
                 </div>
             {/if}
-            <button on:mouseenter={handleUserProfile} on:mouseleave={handleUserProfile} class="svg">
+            <button on:mouseenter={handleUserProfile} on:mouseleave={handleUserProfile} class ="svg">
                 <span class="na-menu"><Icon src={CgMenuCheese}  size="18"   color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" /></span>
                 {#if userProfile}
                     <Navprofile />
@@ -223,7 +232,35 @@ const handleChat = ((e) => {
 </div>
 {/if}
 
+</div>
 
+
+<div class="mobile">
+    <div class="sc-gjNHFA jlttqa wallet-enter">
+        <div class="sc-fmciRz LQlWw">
+            <div class="sc-iFMAIt icGouR">
+                <div class="sc-eXlEPa boxpOO">
+                    <img class="coin-icon" alt="" src={$handleisLoggin && $default_Wallet.coin_image}>
+                    <span class="currency">{$handleisLoggin && $default_Wallet.coin_name}</span>
+                    <Icon src={RiSystemArrowDropDownLine}  size="18"  color="rgb(171, 182, 194)" className="custom-icon" title="arror" />
+                </div>
+                <div class="sc-Galmp erPQzq coin notranslate balance">
+                    <div class="amount">
+                        <span class="amount-str">{($default_Wallet.balance)}<span class="suffix">00</span></span>
+                    </div>
+                </div>
+            </div>
+            <button class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
+                <div class="button-inner">
+                    <span class="wallet-icon">
+                        <Icon src={BiSolidWallet}  size="18"  color="rgb(255, 255, 255)"  title="arror" />
+                    </span>
+                    <span>Wallet</span>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
 
 <style>
 .bhYvJJ{
@@ -232,4 +269,22 @@ const handleChat = ((e) => {
     height: 50px;
     border-radius: 50%;
 }
+
+@media only screen and (max-width: 650px){
+    .LQlWw {
+    background-color: rgb(30, 32, 36);
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    height: 2.6rem;
+    margin-left: 10px;
+    border-radius: 1.5rem;
+    padding-left: 0.875rem;
+    line-height: 1;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+}
+}
+
 </style>

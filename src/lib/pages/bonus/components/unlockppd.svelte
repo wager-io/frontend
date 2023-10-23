@@ -1,11 +1,32 @@
 <script>
-  
+import axios from "axios"
+import { ServerURl } from "$lib/backendUrl"
+import { handleAuthToken} from "$lib/store/routes"
+const URL = ServerURl()
+import { ppd_unlock } from "../store/index"
+
+const handleGetUnLocked = (async()=>{
+    await axios.get(`${URL}/api/cashback/displayUnlockDDP`,{
+        headers:{
+            Authorization: `bearer ${$handleAuthToken}`
+        }
+    })
+    .then((response)=>{
+        ppd_unlock.set(response.data[0])
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+handleGetUnLocked()
+
+
 </script>
 
 <div class="sc-hrJsxi jdKyKT bcd ">
     <div class="left">
-        <div class="title ttu bold">NND Unlock</div>
-        <div class="desc">Enjoy the game while unlocking NND to your wallet</div>
+        <div class="title ttu bold">PPD Unlock</div>
+        <div class="desc">Enjoy the game while unlocking PPD to your wallet</div>
         <div class="detail">
             <span>Details</span>
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -17,20 +38,20 @@
         <div class="preview">
             <div class="released">
                 <div class="type">Unlocked  </div>
-                <div class="value bold">0.00 NND</div>
+                <div class="value bold">{$ppd_unlock.unlocked} PPD</div>
             </div>
             <div class="lucked">
                 <div class="type">Locked</div>
-                <div class="value bold">0.00 NND</div>
+                <div class="value bold">{$ppd_unlock.locked} PPD</div>
             </div>
         </div>
         <div class="percent">
-            <div class="percent-value">Unlocked   0%</div>
+            <div class="percent-value">Unlocked  {$ppd_unlock.progress}%</div>
             <div class="bar-wrap">
                 <div class="pointer p-25"></div>
                 <div class="pointer p-50"></div>
                 <div class="pointer p-75"></div>
-                <div class="bar-current" style="width: 1%;"></div>
+                <div class="bar-current" style={`width: ${$ppd_unlock.progress}%;`}></div>
             </div>
         </div>
     </div>
@@ -53,6 +74,7 @@
     border-radius: 1.25rem;
     overflow: hidden;
     /* display: flex; */
+    margin-top: 15px;
     padding: .7rem 1.25rem;
     background-image: linear-gradient(to right, rgba(147, 42, 195, 0.76) 27%, rgb(139, 43, 184) 57%, rgb(48, 52, 60) 121%);
     color: rgb(255, 255, 255);

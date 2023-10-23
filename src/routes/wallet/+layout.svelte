@@ -1,9 +1,7 @@
 <script>
 import "../../styles/transactions/deposit.css"
-
 /** @type {import('./$types').PageLoad} */
 export let data;
-
 
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
@@ -14,12 +12,14 @@ import SiVault from "svelte-icons-pack/si/SiVault";
 import {
     checkIsOpen
 } from "$lib/store/swaps/index"
+import { showcoins , handleSecurity} from "$lib/store/deposit"
 import BsCashCoin from "svelte-icons-pack/bs/BsCashCoin";
 import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine";
 
 import {
     goto
 } from "$app/navigation"
+    import Security from "./security.svelte";
 
 let count = 1
 
@@ -36,6 +36,7 @@ const handleClose = (() => {
 const handleOpenCoinSelect = (() => {
     if ($checkIsOpen) {
         checkIsOpen.set(false)
+        showcoins.set(false)
     } else {
         checkIsOpen.set(true)
     }
@@ -46,14 +47,19 @@ const handleOpenCoinSelect = (() => {
 <div id="main">
     <div class="sc-bkkeKt kBjSXI" style="opacity: 1;">
         <div class="dialog " style="opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px; transform: scale(1) translateZ(0px);">
-            {#if $checkIsOpen}
+            {#if $checkIsOpen || !$handleSecurity}
             <button on:click={()=> handleOpenCoinSelect()} class="dialog-back" style="opacity: 1; transform: none;">
                 <Icon src={RiSystemArrowLeftSLine}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" />
             </button>
             {/if}
 
-            <div class={`dialog-head ${$checkIsOpen ? "has-back" : "has-close"}`}>
-                <div class="dialog-title">Wallet</div>
+            <div class={`dialog-head ${$checkIsOpen || $handleSecurity ? "has-back" : "has-close"}`}>
+                {#if !$handleSecurity}
+                <div class="dialog-title">{ $showcoins ? "Choose Coin" : "Wallet"}</div>
+                {:else}
+                <div class="dialog-title">{"Security-2FA"}</div>
+                {/if}
+              
                 {#if !$checkIsOpen}
                 <div class="sc-fZzbTk sobNK">
                     <button>
@@ -69,7 +75,9 @@ const handleOpenCoinSelect = (() => {
                 <Icon src={IoCloseSharp}  size="18"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" />
             </button>
 
+           
             <div class="dialog-body no-style" style="z-index: 2; transform: none;">
+                {#if !$handleSecurity}
                 <div id="wallet" class="sc-kMyqmI hioXRL">
                     <div class="sc-cAUCVt fsVpnS">
                         <button on:click={()=> handleNavigation("/wallet/deposit")} class={`tab ${ "/wallet/deposit" === data.route  ? `active` : "" } `}>
@@ -107,7 +115,12 @@ const handleOpenCoinSelect = (() => {
                     {/if}
 
                 </div>
+                {:else}
+                <Security />
+                {/if}
             </div>
+    
+        
         </div>
     </div>
 </div>
@@ -320,6 +333,14 @@ const handleOpenCoinSelect = (() => {
         background-color: rgb(67, 179, 9);
         color: rgb(255, 255, 255);
     }
+    .exYdcu {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(23, 24, 27);
+    padding: 1.125rem 0px;
+    border-top: 1px solid rgba(128, 141, 152, 0.1);
+}
 }
 
 @media screen and (max-width: 650px) {
@@ -463,6 +484,12 @@ const handleOpenCoinSelect = (() => {
         font-size: 12px;
     }
 
+.exYdcu {
+    position: relative;
+    padding: 1.125rem 0px;
+    border-top: 1px solid rgba(128, 141, 152, 0.1);
+}
+
 }
 
 .jEHNdH .tab.active {
@@ -486,11 +513,7 @@ const handleOpenCoinSelect = (() => {
     border-radius: 1.25rem;
 }
 
-.exYdcu {
-    position: relative;
-    padding: 1.125rem 0px;
-    border-top: 1px solid rgba(128, 141, 152, 0.1);
-}
+
 
 .iTVeFz {
     margin: 0px auto;

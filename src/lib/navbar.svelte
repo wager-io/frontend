@@ -1,6 +1,7 @@
 <script>
 import HiSolidSearch from "svelte-icons-pack/hi/HiSolidSearch";
 import MainNavbar from "../lib/navbarcomponent/main/index.svelte"
+
 import { goto } from "$app/navigation";
 import "../styles/navbar/mobileNavbar.css";
 import "../styles/navbar/navbar.css";
@@ -18,6 +19,7 @@ import Login from "./nestedpages/auth/login/login.svelte";
 import Signup from "./nestedpages/auth/signup/signup.svelte";
 import Info from "./nestedpages/auth/info/info.svelte";
 import { handleNestedRoute } from "$lib/store/nested_routes"
+import BsDroplet from "svelte-icons-pack/bs/BsDroplet";
 
 const dispatch = createEventDispatcher()
 const handleChat = ((e) => {
@@ -77,7 +79,7 @@ const handleRegister = (()=>{
 
 </script>
 
-    {#if ($handleNestedRoute === "/login" || browser && window.location.pathname === "/login")}
+    <!-- {#if ($handleNestedRoute === "/login" || browser && window.location.pathname === "/login")}
          <Login on:close={handleLogin} />
     {/if}
 
@@ -87,7 +89,7 @@ const handleRegister = (()=>{
 
     {#if  $handleNestedRoute === "/login/info" || browser && window.location.pathname === "/login/info"  }
         <Info />
-    {/if}
+    {/if} -->
 
 
 <div id="main" class="sc-gVkuDy gAvMHL" style={` margin-right: ${chatroom}px; `} >
@@ -99,13 +101,9 @@ const handleRegister = (()=>{
             <div class="sc-hGnimi ftyLxH left">
                 <div class="sc-iukxot jivBdD logo-pc">
                     {#if styles }
-                    <span style="margin-left: 270px; transition: all 0.5s ease-in;">
-                        <img alt="logo" class="logo-com" src="https://i.ibb.co/cgkFhrm/type-1-removebg-preview.png">
-                    </span>
+                    <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698028237/type_1_vd0s7p.png">
                     {:else}
-                    <span style="margin-left: 100px; transition: all 0.5s ease-in;">
-                        <img alt="logo" class="logo-com" src="https://i.ibb.co/cgkFhrm/type-1-removebg-preview.png">
-                    </span>
+                    <img style="border-radius: 12px;" class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
                     {/if}
                 </div>
             </div>
@@ -114,15 +112,15 @@ const handleRegister = (()=>{
                 <MainNavbar on:handleChatRoom={handleChat} />
             {:else}
             <div class="login-in">
-                <button  on:click={()=> handleLogin()} >
+                <button  on:click={()=> goto("/login")} >
                     <p >Sign in</p>
                 </button>
-                <button on:click={handleRegister} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+                <button on:click={()=> goto("/register")}  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
                     <div class="button-inner">Sign up</div>
                 </button>
                 <button on:click={handleChat} id="chat" class="sc-eicpiI PGOpB">
                     <div class="chat-btn ">
-                        <img class="sc-gsDKAQ hxODWG icon" src="https://www.linkpicture.com/q/play_2.png" alt="" />
+                        <Icon src={BsDroplet}  size="18"   color="#fff" className="custom-icon" title="arror" />
                         <div class="sc-fotOHu gGSOuF badge ">26</div>
                     </div>
                 </button>
@@ -138,22 +136,20 @@ const handleRegister = (()=>{
 <!-- ============================================ Mobile view =========================================== -->
 <div class="mobile">
     <div class="sc-hJhJFJ jVgBRe" style="transform: translate3d(0px, 0%, 0px);">
+        {#if !$handleisLoading}
         <div class="login-top">
-            <div class="logo-wrap">
-                <img alt="logo" style="border-radius: 12px;" src="https://www.linkpicture.com/q/dpp-favicon-logo.jpg">
-            </div>
+            <a href="/">
+                <div class="logowrap">
+                    <img alt="logo" style="border-radius: 12px; width: 34px" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698028237/type_1_vd0s7p.png">
+                </div>
+            </a>
             <button on:click={handleMenu} class="sc-bQtKYq cUTdQJ">
                 <span class="open-wrap">
                     <Icon src={HiSolidMenu}  size="18"   color="rgb(67, 179, 9)" className="custom-icon" title="arror" />
                 </span>
-            </button>
-            <div class="sc-eldieg elBGFt big-enter" bis_skin_checked="1">
-                <button>
-                    <Icon src={HiSolidSearch} title="search" />
-                </button>
-            </div>
+            </button> 
             {#if $handleisLoggin}
-            <h3>Logged in </h3>
+            <MainNavbar on:handleChatRoom={handleChat} />
             {:else}
             <div class="header-login">
                 <button on:click={()=> goto("/login")} >
@@ -163,26 +159,71 @@ const handleRegister = (()=>{
                     <div class="button-inner">Sign up</div>
                 </button>
             </div>
-            {/if}
+            {/if}        
         </div>
+     
         <div class="bottom">
             <div class="left"></div>
             <div class="right">
                 <button on:click={handleChat} id="chat" class="sc-eicpiI PGOpB chat-btn">
-                    <img class="sc-gsDKAQ hxODWG icon" src="https://www.linkpicture.com/q/play_2.png" alt="" />
+                    <Icon src={BsDroplet}  size="28"   color="#fff" className="custom-icon" title="arror" />
                     <div class="sc-fotOHu gGSOuF badge ">99</div>
                 </button>
             </div>
         </div>
+        {/if}
+        
     </div>
 </div>
 
 <style>
 
-.elBGFt.big-enter {
+
+@media only screen and (max-width: 650px){
+ .jVgBRe .login-top {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 5rem;
+    padding: 0px 0.75rem;
+    position: relative;
+}
+.jVgBRe .login-top .logo-wrap img {
+    width: 2rem;
+}
+.jVgBRe .login-top .logowrap {
+    margin-top: 0.25rem;
+    margin-right: 2px;
+    position: relative;
+}
+.jVgBRe .login-top .header-login .fnKcEH.button {
+    width: 6.95rem;
+    height: 3rem;
+}
+.jVgBRe .login-top .header-login button p {
+    width: 6.25rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+.cUTdQJ .open-wrap {
+    width: 1.6rem;
+    height: 1.6rem;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background: rgba(23, 22, 22, 0.52);
+    border-radius: 50%;
+}
+}
+
+/* .elBGFt.big-enter {
     -webkit-box-pack: end;
     justify-content: flex-end;
-   
 }
 
 .elBGFt {
@@ -191,5 +232,5 @@ const handleRegister = (()=>{
     align-items: center;
     overflow: hidden;
     margin-left: 6px;
-}
+} */
 </style>

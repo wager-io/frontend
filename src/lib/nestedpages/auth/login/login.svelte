@@ -84,10 +84,12 @@ const handleForgetPassword = (()=>{
 
 
 <div class="dialog " style="opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px; transform: scale(1) translateZ(0px);">
+  
 
     <div class="dialog-head has-close">
-        <img src="https://i.ibb.co/ct6qQgj/typpe-3.png" alt="" class="sc-bOtlzW QccSQ">
+        <img alt="logo" class="sc-bOtlzW QccSQ" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697848521/dpp-logowhite_lbifm7.png">
     </div>
+
     <button on:click={()=> handleCancel()} class="sc-ieecCq fLASqZ close-icon dialog-close">
         <Icon src={IoCloseSharp}  size="18"  color="rgb(255, 255, 255)" className="custom-icon" title="arror" />
     </button>
@@ -269,7 +271,7 @@ const handleForgetPassword = (()=>{
 }
 
 .ipnwmW {
-    background-color: var(--primary-color);
+    background-color: rgb(67, 179, 9);
 }
 
 .dialog {
@@ -608,7 +610,7 @@ input:-webkit-autofill {
     filter: none !important;
 }
 .dA-dCPD {
-    background-color: var(--primary-color);
+    background-color: rgb(67, 179, 9);
 }
 .dialog {
     position: absolute;
