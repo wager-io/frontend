@@ -9,7 +9,8 @@ import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
 import { profileStore } from "$lib/store/profile";
 import { handleAuthToken } from "$lib/store/routes";
 import { handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index"
-
+import { ServerURl } from "$lib/backendUrl"
+const URL = ServerURl()
 
 
 let img1 = true
@@ -86,11 +87,14 @@ const handleImgeSelect = ((e)=>{
 
 let username = $profileStore.username
 let is_loading = false
+
 const handleSubmit = (async() => {
+    // is_loading = true
     if (!username) {
         error_msg.set("username can't be empty")
         setTimeout(()=>{
             error_msg.set("")
+            is_loading = false
         },4000)
     } else {
             let data = {
@@ -108,9 +112,8 @@ const handleSubmit = (async() => {
                 username: username,
                 vip_level: $profileStore.vip_level
             }
-              await  axios.post("http://localhost:8000/api/profile/update-user", {
-            data
-          },{
+         await  axios.post(`${URL}/api/profile/update-user`, {data},
+         {
             headers: {
             "Content-type": "application/json",
             'Authorization': `Bearer ${$handleAuthToken}`
@@ -118,9 +121,14 @@ const handleSubmit = (async() => {
           }).then((res)=>{
             profileStore.set(data)
             goto("/")
+            is_loading = false
             // browser &&   window.history.replaceState(null, '', $routes.route);
             // handleNestedRoute.set("")
             // window.location.href = $routes.route
+          })
+          .catch((err)=>{
+            console.log(err)
+            is_loading = false
           })
     }
 })

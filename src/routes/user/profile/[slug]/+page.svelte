@@ -13,6 +13,8 @@ import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine"
 import RiDeviceDatabase2Fill from "svelte-icons-pack/ri/RiDeviceDatabase2Fill";
 import RiDesignPencilFill from "svelte-icons-pack/ri/RiDesignPencilFill";
 import BiBarChartAlt from "svelte-icons-pack/bi/BiBarChartAlt";
+import { ServerURl } from "$lib/backendUrl"
+const URL = ServerURl()
 import axios from 'axios';
 import { onMount } from 'svelte';
 import {
@@ -30,7 +32,7 @@ let is_loadingel
 let is_loading
 async function fetchData() {
     is_loadingel = true
-    await axios.post(`http://localhost:8000/api/users/profile/${$page.params.slug}`)
+    await axios.post(`${URL}/api/users/profile/${$page.params.slug}`)
         .then(res => {
             is_loadingel = false
             console.log(res.data)
@@ -41,7 +43,7 @@ async function fetchData() {
         })
 
     is_loading = true
-    await axios.post(`http://localhost:8000/admin/stat/global`,{
+    await axios.post(`${URL}/admin/stat/global`,{
        user_id: $page.params.slug
     })
     .then(res =>{
