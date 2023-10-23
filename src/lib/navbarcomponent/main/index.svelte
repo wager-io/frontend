@@ -12,45 +12,46 @@ import { createEventDispatcher } from 'svelte';
 const dispatch = createEventDispatcher()
 import { handleAuthToken } from "$lib/store/routes";
 import { profileStore, handleisLoading, handleisLoggin } from "$lib/store/profile";
-import { onMount} from "svelte";
+import { onMount } from "svelte";
 import {  goto } from "$app/navigation";
 import { default_Wallet } from "$lib/store/coins";
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
 
 
-onMount(async()=>{
-   await axios.get(`${URL}/api/profile`,{
-    headers: {
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${$handleAuthToken}`
-        },
-   })
-   .then((res)=>{
-    profileStore.set(res.data[0])
-   })
-   .catch((err)=>{
-        console.log(err)
-   })
-})
+// onMount(async()=>{
+//    await axios.get(`${URL}/api/profile`,{
+//     headers: {
+//         "Content-type": "application/json",
+//         "Authorization": `Bearer ${$handleAuthToken}`
+//         },
+//    })
+//    .then((res)=>{
+//     profileStore.set(res.data[0])
+//     console.log()
+//    })
+//    .catch((err)=>{
+//         console.log(err)
+//    })
+// })
 
 
 
 
-onMount(async()=>{
-   await axios.get(`${URL}/api/wallet/default-wallets`,{
-    headers: {
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${$handleAuthToken}`
-        },
-   })
-   .then((res)=>{
-    default_Wallet.set(res.data[0])
-   })
-   .catch((err)=>{
-        console.log(err)
-   })
-})
+// onMount(async()=>{
+//    await axios.get(`${URL}/api/wallet/default-wallets`,{
+//     headers: {
+//         "Content-type": "application/json",
+//         "Authorization": `Bearer ${$handleAuthToken}`
+//         },
+//    })
+//    .then((res)=>{
+//     default_Wallet.set(res.data[0])
+//    })
+//    .catch((err)=>{
+//         console.log(err)
+//    })
+// })
 
 
 const handleDailyPPFbonus = (async()=>{
