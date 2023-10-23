@@ -19,39 +19,49 @@ import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
 
 
-// onMount(async()=>{
-//    await axios.get(`${URL}/api/profile`,{
-//     headers: {
-//         "Content-type": "application/json",
-//         "Authorization": `Bearer ${$handleAuthToken}`
-//         },
-//    })
-//    .then((res)=>{
-//     profileStore.set(res.data[0])
-//     console.log()
-//    })
-//    .catch((err)=>{
-//         console.log(err)
-//    })
-// })
+const handleProfile = (async()=>{
+    try{
+        await axios.get(`${URL}/api/profile`,{
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${$handleAuthToken}`
+            },
+    })
+    .then((res)=>{
+        profileStore.set(res.data[0])
+    })
+    .catch((err)=>{
+         console.log(err)
+    })
+    }
+    catch(err){
+        console.log(err)
+    }
+})
 
+const handleDefaultWallet = (async()=>{
+    try{
+     await axios.get(`${URL}/api/wallet/default-wallets`,{
+        headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${$handleAuthToken}`
+        },
+    })
+    .then((res)=>{
+        default_Wallet.set(res.data[0])
+    })
+    .catch((err)=>{
+            console.log(err)
+    })
+    }
+    catch(err){
+        console.log(err)
+    }
 
+})
 
-
-// onMount(async()=>{
-//    await axios.get(`${URL}/api/wallet/default-wallets`,{
-//     headers: {
-//         "Content-type": "application/json",
-//         "Authorization": `Bearer ${$handleAuthToken}`
-//         },
-//    })
-//    .then((res)=>{
-//     default_Wallet.set(res.data[0])
-//    })
-//    .catch((err)=>{
-//         console.log(err)
-//    })
-// })
+handleProfile()
+handleDefaultWallet()
 
 
 const handleDailyPPFbonus = (async()=>{
