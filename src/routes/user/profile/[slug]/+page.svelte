@@ -5,6 +5,7 @@ import AiFillHeart from "svelte-icons-pack/ai/AiFillHeart";
 import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
 import SiChakraui from "svelte-icons-pack/si/SiChakraui";
 import BsCoin from "svelte-icons-pack/bs/BsCoin";
+import { browser } from '$app/environment';
 import BiMedal from "svelte-icons-pack/bi/BiMedal";
 import IoPersonAddSharp from "svelte-icons-pack/io/IoPersonAddSharp";
 import "../../../../styles/profile/index.css"
@@ -35,21 +36,20 @@ async function fetchData() {
     await axios.post(`${URL}/api/users/profile/${$page.params.slug}`)
         .then(res => {
             is_loadingel = false
-            console.log(res.data)
             users_profile.set(res.data[0])
         })
         .catch((error) => {
             console.log(error)
         })
 
-    is_loading = true
-    await axios.post(`${URL}/admin/stat/global`,{
-       user_id: $page.params.slug
-    })
-    .then(res =>{
-        is_loading = false
-        userStatistics.set(res.data)
-    })
+    // is_loading = true
+    // await axios.post(`${URL}/admin/stat/global`,{
+    //    user_id: $page.params.slug
+    // })
+    // .then(res =>{
+    //     is_loading = false
+    //     userStatistics.set(res.data)
+    // })
 }
 let is_edit = false
 let is_stats = false
@@ -77,11 +77,22 @@ $: {
     is_loadingel
 }
 
+let is_mobile = false
+$:{
+    if (browser && window.innerWidth < 650) {
+        is_mobile = true
+    }
+    else {
+        is_mobile = false
+    }
+}
+
+
 
 </script>
 
 <div class="sc-bkkeKt kBjSXI" style="opacity: 1;">
-    <div class="dialog " style="opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px; transform: scale(1) translateZ(0px);">
+    <div class="dialog "style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         {#if is_edit || is_stats}
             <button on:click={()=> handleDiooosb(1)} class="dialog-back" style="opacity: 1; transform: none;">
                 <Icon src={RiSystemArrowLeftSLine}  size="23"  color="rgba(153, 164, 176, 0.6)" />
@@ -821,5 +832,17 @@ $: {
 .bRYT .darken {
     color: rgba(153, 164, 176, 0.6);
     background: none;
+}
+
+@media screen and (max-width: 650px){
+.dialog {
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    margin: 0px;
+    border-radius: 0px;
+}
+
 }
 </style>
