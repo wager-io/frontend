@@ -133,6 +133,7 @@ const handleCrashBet = (async()=>{
             username: $profileStore.username,
             user_img: $profileStore.profile_image,
             game_id: $game_id,
+            time: new Date(),
             bet_amount : parseFloat(parseFloat(bet_amountEl)),
             auto_cashout: auto_bet,
              bet_token_img: $default_Wallet.coin_image, 

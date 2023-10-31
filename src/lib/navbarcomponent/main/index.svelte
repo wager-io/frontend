@@ -18,8 +18,6 @@
     import { default_Wallet } from "$lib/store/coins";
     import { ServerURl } from "$lib/backendUrl"
     const URL = ServerURl()
-    
-    
     const handleProfile = (async()=>{
         try{
             await axios.get(`${URL}/api/profile`,{
@@ -184,8 +182,8 @@
             <div class="sc-fmciRz LQlWw">
                 <button on:click={()=>handleCoinsDrop("open")} class="sc-iFMAIt icGouR">
                     <div class="sc-eXlEPa boxpOO">
-                        <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/ppf_logo.png">
-                        <span class="currency">PPF</span>
+                        <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698010748/wft_z3ouah.png">
+                        <span class="currency">WGF</span>
                         <Icon src={RiSystemArrowDropDownLine}  size="18"  color="rgb(171, 182, 194)" className="custom-icon" title="arror" />
                     </div>
                     <div class="sc-Galmp erPQzq coin notranslate balance">
