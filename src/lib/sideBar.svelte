@@ -4,11 +4,7 @@ import {
     goto
 } from "$app/navigation"
 import Icon from 'svelte-icons-pack/Icon.svelte';
-import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
-import IoMoon from "svelte-icons-pack/io/IoMoon";
-import HiSolidLightBulb from "svelte-icons-pack/hi/HiSolidLightBulb";
 import FaSolidHeadphones from "svelte-icons-pack/fa/FaSolidHeadphones";
-import AiFillGift from "svelte-icons-pack/ai/AiFillGift";
 import Original from "./original.svelte";
 import '../styles/sidebar/sidebar.css'
 import '../styles/sidebar/sidebarmobile.css'
@@ -55,37 +51,6 @@ const handeTheme = ((e) => {
             {#if (showOriginals)}
             <Original styls={styls} />
             {/if}
-        </button>
-        <button on:click={()=> goto("/bonus")}  class={`sc-iNGGcK knLCVT menu-item  ${routes.route === "/bonus" ? "select" : ""} `}>
-            <div class="menu-pc">
-                <span style="padding: 10px">
-                    <Icon src={AiFillGift}  size="25"  color="rgb(67, 179, 9)" className="custom-icon" title="arror" />
-                </span>
-                <span>Bonus</span>
-            </div>
-        </button>
-        <button on:click={()=> goto("/promotion")}  class={`sc-iNGGcK knLCVT menu-item special-nav  ${routes.route === "/promotion" ? "select" : ""} `}>
-            <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/promotion.316446ec.png"><span>Promotions</span>
-            </div>
-        </button>
-        <button  on:click={()=> goto("/lottery")}  class={`sc-iNGGcK knLCVT menu-item ${ routes.route === "/lottery" ? "select" : ""} `}>
-            <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/lottery.bc95b607.png">
-                <span>Lottery</span>
-            </div>
-        </button>
-        <button on:click={()=> goto("/affiliate")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route ==="/affiliate" ? "select" : ""}`}>
-            <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/affiliate.6f434c33.png">
-                <span>Affiliate</span>
-            </div>
-        </button>
-        <button  on:click={()=> goto("/vip-games")} class={`sc-iNGGcK knLCVT menu-item special-nav vip ${  routes.route === "/vip-games" ? "select" : ""}`} >
-            <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/vipclub.3b37e72c.png">
-                <span>VIP Club</span>
-            </div>
         </button>
         <button on:click={()=> goto("/help/provably-fair")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route === `/help/agreement` || routes.route === `/help/provably-fair` ||
             routes.route === `/help/coinlimit` || routes.route === `/help/contactus` || routes.route === `/help/fee`  || routes.route === `/help/googlecheck`  || routes.route === `/help/faq`  || routes.route === `/help/passcurrency` ||

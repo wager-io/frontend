@@ -98,13 +98,9 @@ const handleRegister = (()=>{
     {/if}
     <div class="header-wrap">
         <div class="header">
-            <div class="sc-hGnimi ftyLxH left">
+            <div class={`sc-hGnimiftyLxH left`} style={`${styles ? "margin-left: 250px" : "margin-left: 90px"}`}>
                 <div class="sc-iukxot jivBdD logo-pc">
-                    {#if styles }
                     <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698028237/type_1_vd0s7p.png">
-                    {:else}
-                    <img style="border-radius: 12px;" class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
-                    {/if}
                 </div>
             </div>
             {#if !$handleisLoading}

@@ -9,6 +9,8 @@ import { handleAuthToken } from "$lib/store/routes"
 import { profileStore,handleisLoggin } from "$lib/store/profile"
 import {  HandleDicePoint ,dice_history, HandleHas_won } from "../ClassicDice/store/index"
 import { error_msg } from "./store/index"
+import {ServerURl } from "$lib/backendUrl"
+const URL = ServerURl()
 import {  soundHandler } from "../../games/ClassicDice/store/index"
 import axios from "axios";
 import cr from "./audio/click.wav"
@@ -24,7 +26,13 @@ let Handlemax_profit_tips = ((e)=>{
 })
 
 let wining_amount = '' ;
-let bet_amount = 10
+let bet_amount
+if($default_Wallet.coin_name === "USDT"){
+    bet_amount = (0.20).toFixed(4)
+}else{
+    bet_amount = (100).toFixed(4)
+}
+
 
 $:{
     wining_amount = (bet_amount * $payout).toFixed(4)
@@ -92,9 +100,15 @@ const handleRollSubmit = (async()=>{
                 error_msg.set('')
             },4000)
         }
-        
-        
         else{
+            let date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let newformat = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            let time = (hours + ':' + minutes + ' ' + newformat);
             const data = {
                 username: $profileStore.username,
                 user_img: $profileStore.profile_image,
@@ -103,9 +117,10 @@ const handleRollSubmit = (async()=>{
                 bet_token_name: $default_Wallet.coin_name ,
                 chance: $betPosition,
                 payout: $payout,
+                time: new Date(),
                 wining_amount: parseFloat(wining_amount) -  parseFloat(bet_amount)
             }
-            await axios.post('http://localhost:8000/api/user/dice-game/bet', {
+            await axios.post(`${URL}/api/user/dice-game/bet`, {
                 sent_data: data
             },{
                 headers:{
@@ -141,15 +156,14 @@ const handleRollSubmit = (async()=>{
 
 </script>
 
-<div class="game-control-panel">
-    {#if $error_msg}
-    <div class="error-message">
-        <div class="hTTvsjh"> 
-            <div>{$error_msg}</div>
-        </div>
-    </div>
- {/if}   
-
+<div class="game-control-panel"> 
+ {#if $error_msg}
+ <div style="background-color:crimson;" class="error-message">
+     <div class="hTTvsjh"> 
+         <div>{$error_msg}</div>
+     </div>
+ </div>
+{/if}
     <div class="sc-juEPzu lgTgT">
         <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp sc-gsFzgR fCSgTW game-coininput">
             <div class="input-label">
@@ -179,7 +193,7 @@ const handleRollSubmit = (async()=>{
                 {#if $handleisLoggin}
                     <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
                 {:else}
-                    <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
+                    <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png">
                 {/if}
                 <div class="sc-kDTinF bswIvI button-group">
                     <button on:click={()=> dive()}>/2</button>
@@ -201,7 +215,7 @@ const handleRollSubmit = (async()=>{
                 {#if $handleisLoggin}
                     <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
                     {:else}
-                    <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
+                    <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png">
                 {/if}
             </div>
         </div>
@@ -216,5 +230,7 @@ const handleRollSubmit = (async()=>{
 </div>
 
 <style>
-
+.input-control:focus-within {
+    border: 1px solid var(--primary-color);
+}
 </style>

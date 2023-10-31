@@ -7,6 +7,7 @@ import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine"
 import AiFillQuestionCircle from "svelte-icons-pack/ai/AiFillQuestionCircle";
 import Hotkeys from './hotkeys.svelte';
 import axios from "axios"
+import { goto } from "$app/navigation";
 import Livestat from './livestat.svelte';
 import Help from './help.svelte';
 import Crashview from './crashview.svelte';
@@ -15,17 +16,14 @@ import { loadingCrash,handleHasbet,game_id,  crashIsAlive, hasCrashed, crashRunn
 import {default_Wallet } from "$lib/store/coins";
 import { handleAuthToken } from "$lib/store/routes";
 import { profileStore,handleisLoggin } from "$lib/store/profile";
-
+import { ServerURl } from "$lib/backendUrl"
+const URL = ServerURl()
 export let isClassic
 import { error_msg  } from "$lib/crashgame/store";
-
-import {
-    browser
-} from '$app/environment'
+import { browser } from '$app/environment'
 import Trendball from "$lib/crashgame/components/trendball/Trendball.svelte";
 const id = browser && JSON.parse(localStorage.getItem('user'))
 let getBet_amount;
-
 
 let ishotKey = false
 const handleHotkeyEnable = (()=>{
@@ -35,6 +33,7 @@ const handleHotkeyEnable = (()=>{
         ishotKey = true
     }
 })
+
 
 let isAdvance = false
 const handleAdvancebg = ((q)=>{
@@ -103,12 +102,15 @@ $:{
 let auto_bet = (100).toFixed(2)
 let bet_amountEl =  0
 let chance;
-
+let x;
+let l;
 $:{
     if(auto_bet < 1){
         auto_bet = 1.01
     }
-    chance =(  100 / auto_bet - 0.01).toFixed(2)
+    x = 100 / auto_bet
+    l = x / 100
+    chance =(x - l).toFixed(2)
     if(chance < 0){
        chance = (0.01).toFixed(2)
     }
@@ -135,9 +137,9 @@ const handleCrashBet = (async()=>{
             auto_cashout: auto_bet,
              bet_token_img: $default_Wallet.coin_image, 
             bet_token_name: $default_Wallet.coin_name ,
-            chance: 0
+            chance: "0"
         }
-        axios.post("http://localhost:8000/api/user/crash-game/bet", {
+        axios.post(`${URL}/api/user/crash-game/bet`, {
             data
         },{
             headers: {
@@ -157,18 +159,18 @@ const handleCrashBet = (async()=>{
         })
         .catch((error)=>{
             is_loading = false
+            console.log(error)
         })
     }
     }else{
         error_msg.set('You are not Logged in')
         setTimeout(()=>{
             error_msg.set('')
+            goto("/login")
         },4000)
         is_loading = false
     }
 })
-
-
 
 let isLoadBet = false
 let loop;
@@ -178,7 +180,7 @@ const handleLoadBet = (()=>{
         if($loadingCrash){
             setTimeout(()=>{
                 handleCrashBet()
-            },500)
+            },100)
             clearInterval(loop)
             isLoadBet = false
         }else{
@@ -205,7 +207,7 @@ const handleCashout = (()=>{
         bet_token_name: $default_Wallet.coin_name,
         crash: $crashRunning
     }
-    axios.post("http://localhost:8000/api/user/crash-game/cashout", {
+    axios.post(`${URL}/api/user/crash-game/cashout`, {
         data
     },{
         headers: {
@@ -218,20 +220,16 @@ const handleCashout = (()=>{
      let wllet = {
         coin_name: result.bet_token_name,
         coin_image:  result.bet_token_img,
-        balance:  result.cash
+        balance:  parseFloat(result.balance).toFixed(4)
     }
     default_Wallet.set(wllet)
      handleHasbet.set(false)
 })
-
-    // let win = $crashRunning * $handleHasbet_amount - bet_amount
-    // winningEl.set(win)
-
     }else{
         error_msg.set('You are not Logged in')
         setTimeout(()=>{
             error_msg.set('')
-        },4000)
+        },2000)
     }
 })
 
@@ -402,7 +400,6 @@ const handleCashout = (()=>{
         {:else}
        <Trendball />
         {/if}
-
     </div>
 
     <Crashview on:closeTrend={handleTrends}  />

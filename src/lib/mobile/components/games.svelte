@@ -31,42 +31,6 @@ const handleDispatch = ((e)=>{
                     </div>
                 </button>
             </div>
-            <div class={`game-item ${$routes.route === "/(games)/plinko" ? "select" : ""}`}>
-                <button on:click={()=> handleDispatch("/plinko")} class="game-area">
-                    <Icon src={IoDice} color="rgba(153, 164, 176, 0.6)" size="17" className="custom-icon" title="Custom icon params" />
-                    <div class="sc-jrQzAO iodxXo p">
-                        <span style="transform: scale(1);">plinko</span>
-                    </div>
-                </button>
-            </div>
-            <div class={`game-item ${$routes.route === "/(games)/tower" ? "select" : ""}`}>
-                <button on:click={()=> handleDispatch("/tower")} class="game-area">
-                    <Icon src={IoDice} color="rgba(153, 164, 176, 0.6)" size="20" className="custom-icon" title="Custom icon params" />
-                    <div class="sc-jrQzAO iodxXo p">
-                        <span style="transform: scale(0.925);">Tower</span>
-                    </div>
-                </button>
-            </div>
-        </div>
-
-        <div class="item-wrap">
-            <div class={`game-item ${$routes.route === "/(games)/hilo" ? "select" : ""}`}>
-                <button on:click={()=> handleDispatch("/hilo")} class="game-area">
-                    <Icon src={IoDice} color="rgba(153, 164, 176, 0.6)" size="17" className="crash-icon" title="Custom icon params" />
-                    <div class="sc-jrQzAO iodxXo p">
-                        <span style="transform: scale(1);">Hilo</span>
-                    </div>
-                </button>
-            </div>
-            <div class={`game-item ${$routes.route === "/(games)/diamonds" ? "select" : ""}`}>
-                <button on:click={()=> handleDispatch("/diamonds")} class="game-area">
-                    <Icon src={IoDice} color="rgba(153, 164, 176, 0.6)" size="17" className="custom-icon" title="Custom icon params" />
-
-                    <div class="sc-jrQzAO iodxXo p">
-                        <span style="transform: scale(1);">Diamond</span>
-                    </div>
-                </button>
-            </div>
             <div class={`game-item ${$routes.route === "/(games)/mines" ? "select" : ""}`}>
                 <button on:click={()=> handleDispatch("/mines")} class="game-area">
                     <Icon src={IoDice} color="rgba(153, 164, 176, 0.6)" size="17" className="custom-icon" title="Custom icon params" />

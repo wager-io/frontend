@@ -27,34 +27,6 @@ $: { games = [{
         isAtive: $routes.route === "/(games)/classic-dice"
     },
     {
-        id: 3,
-        name: "Plinko",
-        icon: IoDice,
-        route: "plinko",
-        isAtive: $routes.route === "/(games)/plinko"
-    },
-    {
-        id: 4,
-        name: "Tower",
-        icon: IoDice,
-        route: "tower",
-        isAtive: $routes.route === "/(games)/tower"
-    },
-    {
-        id: 5,
-        name: "HiLo",
-        icon: IoDice,
-        route: "hilo",
-        isAtive: $routes.route === "/(games)/hilo"
-    },
-    {
-        id: 6,
-        name: "Diamonds",
-        icon: IoDice,
-        route: "diamonds",
-        isAtive: $routes.route === "/(games)/diamonds"
-    },
-    {
         id: 7,
         name: "Mines",
         icon: IoDice,

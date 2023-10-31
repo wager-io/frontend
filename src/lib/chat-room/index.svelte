@@ -5,7 +5,7 @@ import "./styles/coinrain.css"
 import "./styles/gif.css"
 import {  goto } from "$app/navigation"
 import SiRainmeter from "svelte-icons-pack/si/SiRainmeter";
-import HiSolidEmojiHappy from "svelte-icons-pack/hi/HiSolidEmojiHappy";
+import BsTelegram from "svelte-icons-pack/bs/BsTelegram";
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import CgInfo from "svelte-icons-pack/cg/CgInfo";
 import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
@@ -13,8 +13,6 @@ import IoClose from "svelte-icons-pack/io/IoClose";
 import BsFiletypeGif from "svelte-icons-pack/bs/BsFiletypeGif";
 import BsEmojiSunglasses from "svelte-icons-pack/bs/BsEmojiSunglasses";
 import FaSolidAt from "svelte-icons-pack/fa/FaSolidAt";
-import WiRaindrop from "svelte-icons-pack/wi/WiRaindrop";
-import RiFinanceCopperCoinLine from "svelte-icons-pack/ri/RiFinanceCopperCoinLine";
 import { afterUpdate,  tick } from 'svelte';
 import axios from "axios"
 import { GIFs } from "./data/index"
@@ -22,7 +20,9 @@ import { emojis } from "./data/index"
 import {  createEventDispatcher,  onMount } from "svelte";
 import {tipped_user } from "$lib/store/tipUser"
 import { profileStore } from '$lib/store/profile';
-import { handleAuthToken} from "$lib/store/routes"
+import { handleisLoggin } from "$lib/store/profile";
+import {handleCountdown} from "../../lib/crashgame/socket"
+const { handleChattingMessages } = handleCountdown()
 let element;
 let newMessages = ''
 import { chats } from "$lib/chat-room/store/index"
@@ -36,30 +36,18 @@ onMount(async () => {
     })
 })
 
-const handleSendMessages = async(data)=>{
-    await axios.post(`${URL}/api/public-chat`, {
-        data
-    },{
-        headers:{
-            Authorization: `bearer ${$handleAuthToken}`
-        }
-    }
-    )
-}
-
-if ($chats && element) {
-    scrollToBottom(element);
-}
-
-afterUpdate(() => {
-    if ($chats) scrollToBottom(element);
-})
 
 const handleSendMessage = (async (e, name) => {
-    if (e.key === "Enter" && name.newMessages || e === "gifHit") {
+    if($handleisLoggin){
+        if (e.key === "Enter" && name.newMessages || e.type === "click" || e === "gifHit") {
         if (e.key === "Enter") {
             e.preventDefault();
         }
+
+        if ($chats && element) {
+            scrollToBottom(element);
+        }
+
         if (newMessages === "/rain ") {
             goto("/user/rain")
         }  
@@ -71,44 +59,29 @@ const handleSendMessage = (async (e, name) => {
             goto("/user/tip")
         }
         else {
-            let date = new Date();
-            let hours = date.getHours();
-            let minutes = date.getMinutes();
-            let newformat = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            let time = (hours + ':' + minutes + ' ' + newformat);
-           
         let data = {
-            id: Math.floor(Math.random() * 230000000),
+            msg_id: Math.floor(Math.random() * 230000000),
+            user_id: $profileStore.user_id,
             type: name.type,
-            text: name.newMessages ? name.newMessages : "",
-            sent_at: time,
+            text: name.newMessages ? name.newMessages : ".",
             profle_img: $profileStore.profile_image,
-            sender_username: $profileStore.username,
-            gif: name.gif ? name.gif : "",
-            coin_rain_amount: 0 ,
-            coin_rain_comment: '',
-            coin_rain_num: 0,
-            coin_rain_token:  '',
-            coin_drop_amount: 0,
-            coin_drop_comment: '',
-            coin_drop_num:0,
-            coin_drop_token: '',
-            tipped_user: "",
-            tipped_amount: 0,
-            tipped_comment: "",
-            tipped_coin_image: "",
-            tip_Token: "",
-            vip_level: $profileStore.vip_level
+            username: $profileStore.username,
+            gif: name.gif ? name.gif : ".",
+            hide_profile:$profileStore.hide_profile,
+            vip_level: $profileStore.vip_level,
+            time: new Date()
         }
-        handleSendMessages(data)
+        handleChattingMessages(data)
     }
         newMessages = ''
         isGif = false
     }
+    }else{
+        goto("/login")
+        handlecloseChat()
+    }
 })
+
 
 const scrollToBottom = async (node) => {
     node.scroll({
@@ -116,7 +89,12 @@ const scrollToBottom = async (node) => {
         behavior: 'smooth'
     });
 }
+$:{
+ afterUpdate(() => {
+    if ($chats) scrollToBottom(element);
+})
 
+}
 
 const dispatch = createEventDispatcher()
 const handlecloseChat = (() => {
@@ -200,6 +178,15 @@ const handleTipsControls = ((e) => {
         newMessages = "/coindrop "
     }
 })
+function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    return `${formattedHours}:${formattedMinutes} ${ampm}`;
+}
 
 </script>
 
@@ -285,8 +272,7 @@ const handleTipsControls = ((e) => {
                                         <img class="img-star" alt="level-star" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAABGCAMAAAC0TEcTAAAAflBMVEUAAADl5f/U1PzAwOV4eLrr6//////Ly/HS0vXFxerb2/v09P/f3/7KyuTOzvS5uea+vubCwu/AwObBwea/v+afn9GHh8N+fry/v+d9fbq5ueKyst2mptaUlMp4eLnAwOZ5ebzAwOe/v+XBweV4eL7Bwee/v+a/v+h4eLl6ercEdekCAAAAKnRSTlMAWVlZWVlZWVlZWVlZBFkPTQlURyhZWVkwI1lZWVlLQj41Ih0aFDw4My7zJdT+AAACBklEQVRIx83X2XKjMBAFUCRLCMRm4hDbWRzHcbb//8HRSMCtsURL1LzkPnk7RV9VUY2zpXSHQ5etS3PYmByaNeZyt7G5uySTj91mzu4jifSf9tdlUZT2xWefUsYRZmJZvNpla3/W1symbu3b7SVeRlniohVdrf9yk2kQy9yMX32ozL075oJ5Kdzx33vV3lHmNqj2/g/pXr3JgjO+dijzhmMOB8f/1lNlyGrdFsccSa1ctS7bhcrQ1XbZ8mRycca/SAVJnlcsEOVQ+EK5ifTn4xTKbW5PgnMKVUZAgQQRjKc0pxFMXkkQAsmRwNnJKGSFpzSFZB4yUsqaQFWQmDBqPJ+4aArJIJHpBwHDOI2YR0x0DFUguFAMsYkgPI6qW8NSEEgyqplcjTjXa5Hm6Qi3ZgjVYTQTIFZrPdbTywhfGT+/MZDxMAKJBUjVPD2lQ0alG7sDxgXQppHWLYBp1ZRFnBTluGqw1FR8MuxrrM+WnAzrE4uaZi0Wtf9IoIpgGeU/Eoz7euPYUpmNKeNn/4wZ/cme91koQjw8OVZ4x/z0IEQYmbw8ohrKPL4IsYRshqkaygxCRJCYqik1lRFxNFebyyQhVw1laITsB1tmL5IQZhwGTBZHyO9Fp2PTHE+r0Hc33mffqeh8bPBhczzH0emn9/4Z/JxIdL5mwVzPS+iKsRCMec3+L38A3Osupj7TKGcAAAAASUVORK5CYII=">
                                         <img class="img-star" alt="level-star" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAABGCAMAAAC0TEcTAAAAflBMVEUAAADl5f/U1PzAwOV4eLrr6//////Ly/HS0vXFxerb2/v09P/f3/7KyuTOzvS5uea+vubCwu/AwObBwea/v+afn9GHh8N+fry/v+d9fbq5ueKyst2mptaUlMp4eLnAwOZ5ebzAwOe/v+XBweV4eL7Bwee/v+a/v+h4eLl6ercEdekCAAAAKnRSTlMAWVlZWVlZWVlZWVlZBFkPTQlURyhZWVkwI1lZWVlLQj41Ih0aFDw4My7zJdT+AAACBklEQVRIx83X2XKjMBAFUCRLCMRm4hDbWRzHcbb//8HRSMCtsURL1LzkPnk7RV9VUY2zpXSHQ5etS3PYmByaNeZyt7G5uySTj91mzu4jifSf9tdlUZT2xWefUsYRZmJZvNpla3/W1symbu3b7SVeRlniohVdrf9yk2kQy9yMX32ozL075oJ5Kdzx33vV3lHmNqj2/g/pXr3JgjO+dijzhmMOB8f/1lNlyGrdFsccSa1ctS7bhcrQ1XbZ8mRycca/SAVJnlcsEOVQ+EK5ifTn4xTKbW5PgnMKVUZAgQQRjKc0pxFMXkkQAsmRwNnJKGSFpzSFZB4yUsqaQFWQmDBqPJ+4aArJIJHpBwHDOI2YR0x0DFUguFAMsYkgPI6qW8NSEEgyqplcjTjXa5Hm6Qi3ZgjVYTQTIFZrPdbTywhfGT+/MZDxMAKJBUjVPD2lQ0alG7sDxgXQppHWLYBp1ZRFnBTluGqw1FR8MuxrrM+WnAzrE4uaZi0Wtf9IoIpgGeU/Eoz7euPYUpmNKeNn/4wZ/cme91koQjw8OVZ4x/z0IEQYmbw8ohrKPL4IsYRshqkaygxCRJCYqik1lRFxNFebyyQhVw1laITsB1tmL5IQZhwGTBZHyO9Fp2PTHE+r0Hc33mffqeh8bPBhczzH0emn9/4Z/JxIdL5mwVzPS+iKsRCMec3+L38A3Osupj7TKGcAAAAASUVORK5CYII=">
                                         </div>
-            
-                                        
+                 
                                     {:else if chat.vip_level === 22 || chat.vip_level === 23 || chat.vip_level === 24  || chat.vip_level === 25  || chat.vip_level === 26  || chat.vip_level === 27 || chat.vip_level === 28 ||  chat.vip_level === 29}
                                     <div class="sc-khQegj fPtvsS level levelnums_2">
                                         <img class="img-star" alt="level-star" src="https://static.nanogames.io/assets/g.d9fc75c0.png">
@@ -349,16 +335,15 @@ const handleTipsControls = ((e) => {
                                         <img class="img-star" alt="level-star" src="https://static.nanogames.io/assets/p.47604fa2.png">
                                     </div>
                                  {/if}
-
                                 </a>
                             </div>
                             <div class="content">
                                 <div class="title">
                                     <div class="name">
-                                        <a href="/user/profile/78805">
+                                        <a href={`/user/profile/${chat.user_id}`}>
                                             <span>{chat.username}</span>
                                         </a>
-                                        <div class="time">{chat.sent_at}</div>
+                                        <div class="time">{formatTime(chat.time)}</div>
                                     </div>
                                 </div>
                                 {#if (chat.type === "normal")}
@@ -520,19 +505,16 @@ const handleTipsControls = ((e) => {
                             </button>
                         </div>
                     </div>
+                    {#if newMessages}
+                    <button  on:click={()=>handleSendMessage(event, {newMessages, type: "normal"})} class="sc-JkixQ cVsgdS emoji-r-wrap">
+                        <Icon src={BsTelegram}  size="34"  color="#fff" title="arror" />
+                    </button>
+                {/if}
                 </div>
 
                 <div class="send-controls">
                     <div class="left-actions">
-                        <a class="chat-icon" href="/user/rain">
-                            <Icon src={WiRaindrop}   size="28"  color="rgba(153, 164, 176, 0.8)" title="arror" />
-                        </a>
-                        <button on:click={()=> newMessages = "/"} class="command-btn">
-                            <Icon src={IoLanguageOutline}   size="20"  color="rgba(153, 164, 176, 0.8)" title="arror" />
-                        </button>
-                        <a class="chat-icon" href="/user/coindrop_send">
-                            <Icon src={RiFinanceCopperCoinLine}  size="20"  color="rgba(153, 164, 176, 0.8)" title="arror" />
-                        </a>
+                       
                     </div>
                     <div class="sc-dkQkyq gbjudO gift-r-wrap hide-gift">
 
@@ -881,7 +863,7 @@ const handleTipsControls = ((e) => {
 
                     <div class="chat-infos "></div>
                     <div class="sc-hkgtus ddROGz">
-                        <div class="send-input">
+                        <div style="transition: all 0.5s ease; gap:10px" class="send-input">
                             <div class="sc-ezbkAF kDuLvp input sc-ikJyIC iowset input-area">
                                 <div class="input-control">
                                     <textarea bind:value={newMessages} placeholder="Your Message" style="height: 44px;"></textarea>
@@ -899,6 +881,12 @@ const handleTipsControls = ((e) => {
                                     </button>
                                 </div>
                             </div>
+                            {#if newMessages}
+                                <button  on:click={()=>handleSendMessage(event, {newMessages, type: "normal"})} class="sc-JkixQ cVsgdS emoji-r-wrap">
+                                    <Icon src={BsTelegram}  size="34"  color="#fff" title="arror" />
+                                </button>
+                            {/if}
+                         
                         </div>
                         <div class="send-controls">
                             <div class="left-actions">

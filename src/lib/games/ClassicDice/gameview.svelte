@@ -9,6 +9,7 @@ import HistoryDetails from "./componets/historyDetails.svelte";
 import click from "./audio/click.wav"
 import cr from "./audio/click.wav"
 let range = 50
+
 $:{
     onMount(async()=>{
         $handleisLoggin &&  historyD()
@@ -38,6 +39,14 @@ $: {
     total_charge = game_logic / game__charges
     payout.set((game_logic - total_charge).toFixed(4))
 }
+
+$: {
+    game_logic = 100 / $payout
+    total_charge = game_logic / game__charges
+    betPosition.set((game_logic - total_charge).toFixed(2))
+}
+
+
 let DgII = ''
 let hisQQ = false
 const handleDiceHistoryDetail = ((data)=>{
@@ -82,7 +91,7 @@ const handleChange = ((e)=>{
             {#if $handleisLoggin}
                 {#if $dice_history.length !== 0}
                 <div class="recent-list" style="width: 100%; transform: translate(0%, 0px);">
-                {#each $dice_history.slice(-6) as  dice (dice.id)} 
+                {#each $dice_history.slice(-6) as  dice (dice._id)} 
                     <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style="width: 20%;">
                         <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{dice.cashout}</div>
                     </button>
@@ -110,9 +119,9 @@ const handleChange = ((e)=>{
             <div class="slider-wrapper">
                 <div class="slider-handles">
                     {#if ishover}
-                        <div class="slider-tip" style={`left: ${$betPosition -5}%;`}>{$betPosition}</div>
+                        <div class="slider-tip" style={`left: ${$betPosition -5}%;`}>{range}</div>
                     {/if}
-                    <input type="range" on:mouseenter={()=>handleRangl(1)} on:mouseleave={()=>handleRangl(2)} min="2" max="98" step="1" class="drag-block "  on:input={(e)=> handleChange(e.target.value)} bind:value={range}>
+                    <input type="range" on:mouseenter={()=>handleRangl(1)} on:mouseleave={()=>handleRangl(2)} min="2" max="98" step="1" class="drag-block "  on:input={(e)=> handleChange(e.target.value)} bind:value={$betPosition}>
                     <div class="slider-track " style={`transform: translate(${$HandleDicePoint}%, 0px);`}>
                         <div class="dice_num ">{$HandleDicePoint}</div>
                         <div class={`dice_png ${$HandleHas_won ? "dice-animate" : ""}`}>
@@ -158,7 +167,7 @@ const handleChange = ((e)=>{
                 <div class="sc-ezbkAF gcQjQT input win-change">
                     <div class="input-label">Win Chance</div>
                     <div class="input-control">
-                        <input type="number" bind:value={range}>
+                        <input type="number" min="2" max="98" bind:value={$betPosition}>
                         <div class="right-info">
                             <span class="right-percent">%</span>
                             <button on:click={()=> range = 2} class="amount-scale">Min</button>
@@ -523,6 +532,7 @@ const handleChange = ((e)=>{
 .jdrurA .input-control {
     display: flex;
     background-color: rgba(49, 52, 60, 0.5);
+    
 }
 .gcQjQT .input-control {
     position: relative;
@@ -535,6 +545,9 @@ const handleChange = ((e)=>{
     height: 2.75rem;
     border-radius: 1.5rem;
     padding: 0px 1.375rem;
+}
+.gcQjQT .input-control:focus-within {
+    border: 1px solid var(--primary-color);
 }
 .jdrurA .input {
     flex: 1 1 0%;

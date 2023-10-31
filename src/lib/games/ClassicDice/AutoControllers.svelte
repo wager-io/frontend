@@ -1,4 +1,5 @@
 <script>
+import { goto } from "$app/navigation";    
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import RiSystemArrowUpSLine from "svelte-icons-pack/ri/RiSystemArrowUpSLine";
 import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
@@ -7,7 +8,8 @@ import { profileStore,handleisLoggin } from "$lib/store/profile"
 import { handleAuthToken } from "$lib/store/routes"
 import { payout, isbetLoadingBtn, betPosition } from "./store";
 import { error_msg, handlediceAutoInput, onWin, HandleDicePoint, soundHandler ,dice_history, HandleHas_won } from "../ClassicDice/store/index"
-
+import {ServerURl} from "$lib/backendUrl"
+const URL = ServerURl()
 import cr from "./audio/click-button-140881.mp3"
 import win from "./audio/mixkit-achievement-bell-600.wav"
 import axios from "axios"
@@ -16,10 +18,18 @@ let is_min_max = false
 const handleMinMax = (()=>{
    is_min_max = !is_min_max
 })
-let uiocd;
-$:{
-    uiocd = $handlediceAutoInput
+let uiocd = 4
+
+if($default_Wallet.coin_name === "USDT"){
+    uiocd = (0.20).toFixed(4)
+}else{
+    uiocd = (100).toFixed(4)
 }
+
+
+// $:{
+//     uiocd = $handlediceAutoInput
+// }
 
 let bet_number = 0
 let on_win = false
@@ -42,7 +52,7 @@ function playSound(e) {
         audio.play();
     }else{
         const audio = new Audio(win);
-        audio.volume = 0.5;
+        audio.volume = 0.1;
         audio.play();
     }
 }
@@ -115,8 +125,7 @@ const handleRollSubmit = (async()=>{
                 error_msg.set("")
             },4000)
         }
-
-        else if( parseFloat(bet_amount) > 5000 && $default_Wallet.coin_name === "USDT"){
+        else if( parseFloat(uiocd) > 5000 && $default_Wallet.coin_name === "USDT"){
             error_msg.set("Maximum bet amount for USDT is 5,000")
               is_Looping = false
             clearInterval(yu)
@@ -124,7 +133,7 @@ const handleRollSubmit = (async()=>{
                 error_msg.set('')
             },4000)
         }
-        else if( parseFloat(bet_amount) > 10000 && $default_Wallet.coin_name === "PPF"){
+        else if( parseFloat(uiocd) > 10000 && $default_Wallet.coin_name === "PPF"){
             error_msg.set("Maximum bet amount for PPF is 10,000")
               is_Looping = false
             clearInterval(yu)
@@ -132,7 +141,7 @@ const handleRollSubmit = (async()=>{
                 error_msg.set('')
             },4000)
         }
-        else if( parseFloat(bet_amount) < 100 && $default_Wallet.coin_name === "PPF"){
+        else if( parseFloat(uiocd) < 100 && $default_Wallet.coin_name === "PPF"){
             error_msg.set("Minimum bet amount for PPF is 100")
              is_Looping = false
             clearInterval(yu)
@@ -140,7 +149,7 @@ const handleRollSubmit = (async()=>{
                 error_msg.set('')
             },4000)
         }
-        else if( parseFloat(bet_amount) < 0.20 && $default_Wallet.coin_name === "USDT"){
+        else if( parseFloat(uiocd) < 0.20 && $default_Wallet.coin_name === "USDT"){
             error_msg.set("Minimum bet amount for USDT is 0.20")
              is_Looping = false
             clearInterval(yu)
@@ -149,6 +158,14 @@ const handleRollSubmit = (async()=>{
             },4000)
         }
         else{
+            let date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let newformat = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            let time = (hours + ':' + minutes + ' ' + newformat);
             const data = {
                 username: $profileStore.username,
                 user_img: $profileStore.profile_image,
@@ -157,9 +174,10 @@ const handleRollSubmit = (async()=>{
                 bet_token_name: $default_Wallet.coin_name ,
                 chance: $betPosition,
                 payout: $payout,
+                time: new Date(),
                 wining_amount: parseFloat(uiocd * $payout) - parseFloat(uiocd)
             }
-            await axios.post('http://localhost:8000/api/user/dice-game/bet', {
+            await axios.post(`${URL}/api/user/dice-game/bet`, {
                 sent_data: data
             },{
                 headers:{
@@ -203,6 +221,7 @@ const handleRollSubmit = (async()=>{
         clearInterval(yu)
         is_Looping = false
         setTimeout(()=>{
+            goto("/login")
             error_msg.set("")
         },4000)
     }
@@ -214,13 +233,13 @@ const handleRollSubmit = (async()=>{
 
 <div class="game-control-panel">
 
-{#if $error_msg}
-    <div class="error-message">
+    {#if $error_msg}
+    <div style="background-color:crimson;" class="error-message">
         <div class="hTTvsjh"> 
             <div>{$error_msg}</div>
         </div>
     </div>
-{/if}
+   {/if}
 
     <div class="sc-gFSQbh hRGEiw">
         <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp sc-gsFzgR fCSgTW game-coininput">
@@ -564,6 +583,7 @@ const handleRollSubmit = (async()=>{
 .input-control {
     background-color: rgba(49, 52, 60, 0.4);
 }
+
 .gcQjQT .input-control {
     position: relative;
     display: flex;
@@ -576,6 +596,7 @@ const handleRollSubmit = (async()=>{
     border-radius: 1.5rem;
     padding: 0px 1.375rem;
 }
+
 .fCSgTW .input-control input {
     font-weight: bold;
 }
@@ -880,5 +901,8 @@ const handleRollSubmit = (async()=>{
 .kvRMBr .increse {
     font-weight: bold;
     color: rgb(255, 255, 255);
+}
+.input-control:focus-within {
+    border: 1px solid var(--primary-color);
 }
 </style>

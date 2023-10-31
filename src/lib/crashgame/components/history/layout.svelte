@@ -3,10 +3,11 @@ import Icon from 'svelte-icons-pack/Icon.svelte';
 import { crash_historyEl } from "../../store"
 import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine";
 import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
-
+let newItem;
 
 $: {
-    $crash_historyEl.sort((a, b) => b.id - a.id);
+    // $crash_historyEl.sort((a, b) => b._id - a._id);
+    newItem =  [...$crash_historyEl].reverse()
 }
 
 </script>
@@ -35,18 +36,19 @@ $: {
                     </tr>
                 </thead>
                 <tbody>
-                    {#each $crash_historyEl.slice(0, 20) as history (history.id)}
+                    {#each newItem.slice(0, 20) as history (history._id)}
                     <tr>
                         <td>
                             <div class="game-link">
-                                <div class="dot type-2"></div>
+
+                                <div class={`dot ${history.crash_point > 2 ? "type-2" : "type-1" } `}></div>
                                 {history.game_id}
                             </div>
                         </td>
-                        <td>{history.crash_point}x</td>
+                        <td>{(history.crash_point).toFixed(2)}x</td>
                         <td>
                             <div class="flex-center">
-                                <input type="text" readonly="" value={history.hash}>
+                                <input type="text" readonly value={history.hash}>
                                 <a target="_blank" href={`https://dppgames.netlify.app/verify/crash?hash=${history.hash}`}>
                                     Verify
                                 </a>
@@ -180,6 +182,9 @@ table {
 }
 .iovqrr .dot.type-2 {
     background-color: rgb(67, 179, 9);
+}
+.iovqrr .dot.type-1 {
+    background-color: rgb(237, 99, 0);
 }
 .iovqrr .dot {
     width: 0.625rem;

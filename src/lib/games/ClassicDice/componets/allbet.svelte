@@ -4,9 +4,10 @@ import {
 } from "../store/index"
     import HistoryDetails from "./historyDetails.svelte";
 
-
-$: {
-    $dicegameplays.sort((a, b) => b.id - a.id);
+let newItem;
+ $: {
+    // $crash_historyEl.sort((a, b) => b._id - a._id);
+    newItem =  [...$dicegameplays].reverse()
 }
 
 let DgII = ''
@@ -19,7 +20,17 @@ const handleDiceHistoryDetail = ((data)=>{
         hisQQ = true
     }
 })
+function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    return `${formattedHours}:${formattedMinutes} ${ampm}`;
+}
 
+$: console.log(newItem)
 
 
 </script>
@@ -42,7 +53,7 @@ const handleDiceHistoryDetail = ((data)=>{
                 </tr>
             </thead>
             <tbody>
-                {#each $dicegameplays.slice(0, 15) as dice  (dice.id) }
+                {#each newItem.slice(0, 15) as dice  }
                 <tr  on:click={()=>handleDiceHistoryDetail(dice)}>
                     <td>
                         <button class="hash ellipsis">{dice.bet_id}</button>
@@ -58,7 +69,7 @@ const handleDiceHistoryDetail = ((data)=>{
                             </a>
                         {/if}
                     </td>
-                    <td>{dice.time}</td>
+                    <td>{formatTime(dice.time)}</td>
                     <td class="bet">
                         <div class="sc-Galmp erPQzq coin notranslate monospace">
                             <img class="coin-icon" alt="" src={dice.token_img}>
