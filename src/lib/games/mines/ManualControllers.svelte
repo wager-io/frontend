@@ -198,7 +198,7 @@ const handleDpojb = (async()=>{
                         <Icon src={RiSystemArrowRightSLine}  size="20"  color="rgba(153, 164, 176, 0.6)"  />
                     </div>
                 </button>
-                {#if !jufy}
+                {#if jufy}
                 <div class="sc-hiCibw iVwWcQ select-options-wrap" style="opacity: 1; top: 100%; transform: none;">
                     <div class="sc-dkPtRN jScFby scroll-view select-options len-24">
                         {#each vyfx as io }
@@ -211,7 +211,7 @@ const handleDpojb = (async()=>{
         </div>
         </div>
 
-    {#if !uuyd}
+    {#if uuyd}
         <div class="preview-wrap">
             <div class="sc-ezbkAF gcQjQT input ">
                 <div class="input-label">Gems</div>
