@@ -142,7 +142,7 @@ const handleMines = ((event)=>{
             <div class="sc-gWDJhD hnBJiv mine-stage">
                 <div class="grids-wrap ">
                     {#each skown as ui}
-                        <button on:click={()=>handleMines(ui)} class={`sc-kiwPtn gmXWCK grid-item ${false && "unselected"}`}>
+                        <button disabled on:click={()=>handleMines(ui)} class={`sc-kiwPtn gmXWCK grid-item ${false && "unselected"}`}>
                             {#if ui.active && !ui.mine}
                                 <div class={`sc-cdJjGe gsYRFa qLoBl`}>
                                     <div class="sc-cdJjGe gsYRFa graph"></div>
