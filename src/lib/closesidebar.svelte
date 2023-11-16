@@ -48,27 +48,27 @@ const openOriginal = ((e) => {
              <Original styls={styls} />
             {/if}
         </button>
-        <button on:click={()=> goto("/bonus")} class={`sc-iNGGcK knLCVT menu-item ${routes.route === "/bonus" ? "select" : ""}`}>
+        <button disabled={true} on:click={()=> goto("/bonus")} class={`sc-iNGGcK knLCVT menu-item ${routes.route === "/bonus" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <Icon src={AiFillGift}  size="25"  color="rgb(67, 179, 9)" className="custom-icon" title="arror" />
             </div>
         </button>
-        <button on:click={()=> goto("/promotion")} class={`sc-iNGGcK knLCVT menu-item ${routes.route === "/promotion" ? "select" : ""}`}>
+        <button disabled={true} on:click={()=> goto("/promotion")} class={`sc-iNGGcK knLCVT menu-item ${routes.route === "/promotion" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <img alt="menu-icon" src="https://static.nanogames.io/assets/promotion.316446ec.png">
             </div>
         </button>
-        <button on:click={()=> goto("/lottery")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route === "/lottery" ? "select" : ""}`}>
+        <button disabled={true} on:click={()=> goto("/lottery")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route === "/lottery" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <img alt="menu-icon" src="https://static.nanogames.io/assets/lottery.bc95b607.png">
             </div>
         </button>
-        <button on:click={()=> goto("/affiliate")} class={`sc-iNGGcK knLCVT menu-item ${routes.route ==="/affiliate" ? "select" : ""}`}>
+        <button disabled={true} on:click={()=> goto("/affiliate")} class={`sc-iNGGcK knLCVT menu-item ${routes.route ==="/affiliate" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <img alt="menu-icon" src="https://static.nanogames.io/assets/affiliate.6f434c33.png">
             </div>
         </button>
-        <button on:click={()=> goto("/vip-games")} class={`sc-iNGGcK knLCVT menu-item special-nav vip ${ routes.route === "/vip-games" ? "select" : ""}`}>
+        <button disabled={true} on:click={()=> goto("/vip-games")} class={`sc-iNGGcK knLCVT menu-item special-nav vip ${ routes.route === "/vip-games" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <img alt="menu-icon" src="https://static.nanogames.io/assets/vipclub.3b37e72c.png">
             </div>
@@ -103,7 +103,7 @@ const openOriginal = ((e) => {
 
 .eTxQfM {
     position: fixed;
-    z-index: 102;
+    z-index: 202;
     left: 0px;
     top: 0px;
     bottom: 0px;

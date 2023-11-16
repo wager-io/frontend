@@ -1,7 +1,7 @@
 <script>
 import HiSolidSearch from "svelte-icons-pack/hi/HiSolidSearch";
-import MainNavbar from "../lib/navbarcomponent/main/index.svelte"
-
+import MainNavbar from "$lib/navbarcomponent/main/index.svelte"
+import { handleAuthToken } from "$lib/store/routes"
 import { goto } from "$app/navigation";
 import "../styles/navbar/mobileNavbar.css";
 import "../styles/navbar/navbar.css";
@@ -12,7 +12,7 @@ export let chatroom;
 import { browser } from '$app/environment';
 import { current_route, routes } from "./store/routes"
 import { handleisLoggin, handleisLoading } from "$lib/store/profile";
-import { createEventDispatcher } from 'svelte';
+import { createEventDispatcher, onMount } from 'svelte';
 import Statistic from "./statistics/main/statistic.svelte";
 import { statisticsEl } from "$lib/store/statistic"
 import Login from "./nestedpages/auth/login/login.svelte";
@@ -20,7 +20,7 @@ import Signup from "./nestedpages/auth/signup/signup.svelte";
 import Info from "./nestedpages/auth/info/info.svelte";
 import { handleNestedRoute } from "$lib/store/nested_routes"
 import BsDroplet from "svelte-icons-pack/bs/BsDroplet";
-
+$: browser && localStorage.setItem("preload", JSON.stringify("is_active"));
 const dispatch = createEventDispatcher()
 const handleChat = ((e) => {
     dispatch("handleChatRoom", e)
@@ -77,6 +77,16 @@ const handleRegister = (()=>{
     }
 })
 
+let uyi
+$:{
+  uyi=  browser && window.navigator.onLine
+}
+
+let waitaibit = false
+setTimeout(()=>{
+    waitaibit = true
+},2000)
+
 </script>
 
     <!-- {#if ($handleNestedRoute === "/login" || browser && window.location.pathname === "/login")}
@@ -90,6 +100,15 @@ const handleRegister = (()=>{
     {#if  $handleNestedRoute === "/login/info" || browser && window.location.pathname === "/login/info"  }
         <Info />
     {/if} -->
+<!-- 
+{#if !uyi}
+    <div class="reconnecting">
+        <div class="riuwx">
+            <p>Connection lost, Reconnecting...</p>
+        </div>
+    </div>
+{/if} -->
+
 
 
 <div id="main" class="sc-gVkuDy gAvMHL" style={` margin-right: ${chatroom}px; `} >
@@ -98,31 +117,32 @@ const handleRegister = (()=>{
     {/if}
     <div class="header-wrap">
         <div class="header">
-            <div class={`sc-hGnimiftyLxH left`} style={`${styles ? "margin-left: 250px" : "margin-left: 90px"}`}>
-                <div class="sc-iukxot jivBdD logo-pc">
-                    <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698028237/type_1_vd0s7p.png">
+            <div class="sc-hGnimi ftyLxH left">
+                <div style={`margin-left: ${styles ? "250": "90"}px;`} class="sc-iukxot jivBdD logo-pc">
+                    <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">      
                 </div>
             </div>
-            {#if !$handleisLoading}
-            {#if $handleisLoggin}
-                <MainNavbar on:handleChatRoom={handleChat} />
-            {:else}
-            <div class="login-in">
-                <button  on:click={()=> goto("/login")} >
-                    <p >Sign in</p>
-                </button>
-                <button on:click={()=> goto("/register")}  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
-                    <div class="button-inner">Sign up</div>
-                </button>
-                <button on:click={handleChat} id="chat" class="sc-eicpiI PGOpB">
-                    <div class="chat-btn ">
-                        <Icon src={BsDroplet}  size="18"   color="#fff" className="custom-icon" title="arror" />
-                        <div class="sc-fotOHu gGSOuF badge ">26</div>
-                    </div>
-                </button>
-            </div>
+        {#if waitaibit}
+        {#if $handleAuthToken}
+            <MainNavbar on:handleChatRoom={handleChat} />
+        {:else}
+        <div class="login-in">
+            <button  on:click={()=> goto("/login")} >
+                <p >Sign in</p>
+            </button>
+            <button on:click={()=> goto("/register")}  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+                <div class="button-inner">Sign up</div>
+            </button>
+            <button on:click={handleChat} id="chat" class="sc-eicpiI PGOpB">
+                <div class="chat-btn ">
+                    <Icon src={BsDroplet}  size="18"   color="#fff" className="custom-icon" title="arror" />
+                    <div class="sc-fotOHu gGSOuF badge ">26</div>
+                </div>
+            </button>
+        </div>
+        {/if}
             {/if}
-            {/if}
+        
         </div>
     </div>
 </div>
@@ -136,12 +156,12 @@ const handleRegister = (()=>{
         <div class="login-top">
             <a href="/">
                 <div class="logowrap">
-                    <img alt="logo" style="border-radius: 12px; width: 34px" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698028237/type_1_vd0s7p.png">
+                    <img alt="logo" style="border-radius: 12px; width: 25px; margin-right:10px" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697848286/dpp-favicon-logo_j53rwc.jpg">
                 </div>
             </a>
             <button on:click={handleMenu} class="sc-bQtKYq cUTdQJ">
                 <span class="open-wrap">
-                    <Icon src={HiSolidMenu}  size="18"   color="rgb(67, 179, 9)" className="custom-icon" title="arror" />
+                    <Icon src={HiSolidMenu}  size="15"   color="rgb(67, 179, 9)" className="custom-icon" title="arror" />
                 </span>
             </button> 
             {#if $handleisLoggin}
@@ -216,6 +236,28 @@ const handleRegister = (()=>{
     border-radius: 50%;
 }
 }
+
+/* .reconnecting{
+    position: fixed;
+    right: 0;
+    display: flex;
+    background: rgba(91, 91, 91, 0.176);
+    z-index: 14689066;
+    width: 100%;
+    height: 100%;
+}
+.reconnecting .riuwx{
+    background-color: var(--background-color);
+    width: 300px;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    height: 40px;
+    border-radius: 12px;
+    text-align: center;
+    padding: 10px;
+    color: aliceblue;
+} */
 
 /* .elBGFt.big-enter {
     -webkit-box-pack: end;

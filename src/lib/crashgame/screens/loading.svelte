@@ -1,6 +1,5 @@
 <script>
-  import {
-   crashLoad, Load_animation} from "../store"
+import { crashLoad, Load_animation} from "../store"
 </script>
 
 <div class="bhuSSkjs">
@@ -42,7 +41,7 @@
       z-index: 12;
    }
    .nJbsiaks .load{
-      background: linear-gradient(90deg, #43B309 59.12%, rgba(74, 125, 48, 0.54) 80.17%);
+      background: var(--primary-color);
       position: absolute;
       top: 0;
       border-radius: 3px;

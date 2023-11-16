@@ -1,15 +1,17 @@
-
 import { dice_history } from "../store/index"
+import { ServerURl } from "$lib/backendUrl"
+const URl = ServerURl()
+import { browser } from '$app/environment';
 
 export const DiceHistory = () => {
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = browser && JSON.parse(localStorage.getItem('user'))
     const historyD = async (data) => {
       const response = await fetch(
-        "http://localhost:8000/api/user/dice-game",{
+        `${URL}/api/user/dice-game`,{
           method: "GET",
           headers: {
             "Content-type": "application/json",
-            'Authorization': `Bearer ${user.Token}`
+            'Authorization': `Bearer ${user}`
           },
         }
       );

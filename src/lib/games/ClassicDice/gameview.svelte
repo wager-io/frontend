@@ -1,13 +1,20 @@
 <script>
 import { payout } from "$lib/games/ClassicDice/store/index"
-import { HandleDicePoint, betPosition, dice_history, HandleHas_won} from "./store/index"
+import { HandleDicePoint, betPosition, dice_history, HandleHas_won, rollunder} from "./store/index"
 import { DiceHistory } from "./hook/diceHistory";
+import Icon from 'svelte-icons-pack/Icon.svelte';
+import AiOutlineSwap from "svelte-icons-pack/ai/AiOutlineSwap";
 const { historyD } = DiceHistory()
+import {dice_troo, dice_wallet} from "$lib/games/ClassicDice/store/index"
 import { onMount } from "svelte";
-import { handleisLoggin } from "../../store/profile"
+import { isbetLoadingBtn } from "./store";
+import { default_Wallet, coin_list } from "$lib/store/coins";
+import { handleisLoggin, profileStore } from "../../store/profile"
 import HistoryDetails from "./componets/historyDetails.svelte";
 import click from "./audio/click.wav"
+// import { handleTransmit } from "../ClassicDice/AutoControllers.svelte"
 import cr from "./audio/click.wav"
+import win from "./audio/mixkit-achievement-bell-600.wav";
 let range = 50
 
 $:{
@@ -17,6 +24,12 @@ $:{
 }
 
 $:{
+    if(range < 0){
+        range = 2
+    }
+    if(range > 98){
+        range = 98
+    }
     betPosition.set(range)
 }
 
@@ -58,7 +71,7 @@ const handleDiceHistoryDetail = ((data)=>{
     }
 })
 
-function playSound() {
+function playSounRd() {
     const audio = new Audio(cr);
     audio.volume = 0.5;
     audio.play();
@@ -75,9 +88,105 @@ function togglePlayback() {
 }
 
 const handleChange = ((e)=>{
-    playSound()
+    playSounRd()
     range = e
 })
+
+$:{
+    if($betPosition < 0){
+        $betPosition = 2
+    }
+    if($payout > 9900){
+        $payout = 98
+    }
+    if($payout < 1.0102){
+        $payout = 1.0102
+    }
+}
+
+const handleRollUnder = ()=>{
+    if($rollunder){
+        rollunder.set(false)
+    }else{
+        rollunder.set(true)
+    }
+}
+
+function playSoundR(e) {
+    if(e === 1){
+        const audio = new Audio(cr);
+        audio.volume = 0.05;
+        audio.play();
+    }else{
+        const audio = new Audio(win);
+        audio.volume = 0.05;
+        audio.play();
+    }
+}
+
+let history 
+$:{
+    history  = [...$dice_history]
+}
+
+$:{
+    if($dice_wallet.length > 0){
+        $dice_wallet.forEach(element => {
+        if($profileStore.user_id === element.user_id){
+            let wallet = {
+                coin_name: element.token,
+                coin_image: element.token_img,
+                balance:  element.current_amount
+             }
+             default_Wallet.set(wallet)
+        }
+    });
+    }
+}
+
+
+$:{
+    if($dice_troo.length > 0){
+        $dice_troo.forEach(element => {
+        if($profileStore.user_id === element.user_id){
+            dice_history.set(history)
+            HandleDicePoint.set(element.cashout)
+            history.push(element)
+            isbetLoadingBtn.set()
+            dice_troo.set([])
+            if(element.has_won){
+            //     let wallet = {
+            //     coin_name: $default_Wallet.coin_name ,
+            //     coin_image: $default_Wallet.coin_image,
+            //     balance:  (parseFloat(element.wining_amount) + parseFloat($default_Wallet.balance)).toFixed(4)
+            //  }
+            //  default_Wallet.set(wallet)
+            //  $coin_list.forEach(coin => {
+            //     if(coin.coin_name === $default_Wallet.coin_name){
+            //         coin.balance = parseFloat(wallet.balance)
+            //     }
+            //  });
+             playSoundR(2)
+             HandleHas_won.set(true)
+            }else{
+            //     let wallet = {
+            //     coin_name: $default_Wallet.coin_name ,
+            //     coin_image: $default_Wallet.coin_image,
+            //     balance: (parseFloat($default_Wallet.balance) - parseFloat(element.bet_amount)).toFixed(4)
+            // }
+            // default_Wallet.set(wallet)
+            // $coin_list.forEach(coin => {
+            //     if(coin.coin_name === $default_Wallet.coin_name){
+            //         coin.balance = parseFloat(wallet.balance)
+            //     }
+            //  });
+                HandleHas_won.set(false)
+            }
+        }
+    }); 
+    }
+
+}
 
 </script>
 
@@ -91,9 +200,9 @@ const handleChange = ((e)=>{
             {#if $handleisLoggin}
                 {#if $dice_history.length !== 0}
                 <div class="recent-list" style="width: 100%; transform: translate(0%, 0px);">
-                {#each $dice_history.slice(-6) as  dice (dice._id)} 
+                {#each $dice_history.slice(-6) as  dice} 
                     <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style="width: 20%;">
-                        <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{dice.cashout}</div>
+                        <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{(parseFloat(dice.cashout)).toFixed(2)}</div>
                     </button>
                 {/each}
                 </div> 
@@ -123,14 +232,18 @@ const handleChange = ((e)=>{
                     {/if}
                     <input type="range" on:mouseenter={()=>handleRangl(1)} on:mouseleave={()=>handleRangl(2)} min="2" max="98" step="1" class="drag-block "  on:input={(e)=> handleChange(e.target.value)} bind:value={$betPosition}>
                     <div class="slider-track " style={`transform: translate(${$HandleDicePoint}%, 0px);`}>
-                        <div class="dice_num ">{$HandleDicePoint}</div>
+                        {#if parseFloat($HandleDicePoint) === 50}
+                        <div class="dice_num ">{(parseFloat($HandleDicePoint)).toFixed(2)}</div>
+                        {:else}
+                            <div style={`color: ${$HandleHas_won ? "rgb(67, 179, 9)" : "rgb(237, 99, 0)"};`} class="dice_num ">{(parseFloat($HandleDicePoint)).toFixed(2)}</div>
+                        {/if}
                         <div class={`dice_png ${$HandleHas_won ? "dice-animate" : ""}`}>
                             <img alt="dice.png" src="https://static.nanogames.io/assets/dice.1007262a.png">
                         </div>
                     </div>
                     <div class="slider-line ">
-                        <div class="slide-win" style={`width: ${$betPosition}%;`}></div>
-                        <div class="slide-lose" style={`width: ${100 - $betPosition}%;`}></div>
+                        <div class={ $rollunder ? "slide-win" : "slide-lose"} style={`width: ${$betPosition}%;`}></div>
+                        <div class={$rollunder ? "slide-lose" : "slide-win"} style={`width: ${100 - $betPosition}%;`}></div>
                         <div class="slider-sign" style={`transform: translate(${$HandleDicePoint}%, 0px);`}>
                             <div class="sign"></div>
                         </div>
@@ -154,15 +267,13 @@ const handleChange = ((e)=>{
                     </div>
                 </div>
                 <div class="sc-ezbkAF gcQjQT input roll-switch">
-                    <div class="input-label">Roll Under</div>
-                    <div class="input-control">
+                    <div class="input-label">{ $rollunder ? "Roll Under" : "Roll Over"}</div>
+                    <button on:click={handleRollUnder} class="input-control">
                         <input type="text" readonly value={$betPosition}>
                         <span class="right-info">
-                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
-                                <use xlink:href="#icon_Exchange"></use>
-                            </svg>
+                            <Icon src={AiOutlineSwap}  size="18"  color="rgb(67, 179, 9)"/>
                         </span>
-                    </div>
+                    </button>
                 </div>
                 <div class="sc-ezbkAF gcQjQT input win-change">
                     <div class="input-label">Win Chance</div>
@@ -217,6 +328,7 @@ const handleChange = ((e)=>{
     margin: 0px 1.5rem;
     overflow: hidden;
     position: relative;
+    transition: all 0.5s ease-in;
     border-radius: 1.375rem;
 }
 
@@ -298,6 +410,7 @@ const handleChange = ((e)=>{
     display: flex;
     -webkit-box-pack: end;
     justify-content: flex-end;
+    transition: all 0.5s ease-in;
 }
 
 
@@ -305,7 +418,7 @@ const handleChange = ((e)=>{
     padding: 0px 0.25rem;
     cursor: pointer;
     animation: pull 1s ;
-
+    transition: all 0.5s ease;
 }
 
 .fIoiVG .is-lose {
@@ -645,4 +758,5 @@ const handleChange = ((e)=>{
     user-select: none;
     cursor: pointer;
 }
+
 </style>

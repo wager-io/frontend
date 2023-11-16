@@ -1,6 +1,6 @@
 <script>
 import { payout } from "$lib/games/ClassicDice/store/index"
-import { HandleDicePoint, betPosition, dice_history, HandleHas_won} from "./store/index"
+import { betPosition, dice_history} from "./store/index"
 import { DiceHistory } from "./hook/diceHistory";
 const { historyD } = DiceHistory()
 import { onMount } from "svelte";
@@ -9,12 +9,6 @@ import HistoryDetails from "./componets/historyDetails.svelte";
 import click from "./audio/click.wav"
 import cr from "./audio/click.wav"
 let range = 50
-
-$:{
-    onMount(async()=>{
-        $handleisLoggin &&  historyD()
-    })
-}
 
 $:{
     betPosition.set(range)
@@ -71,6 +65,43 @@ const handleChange = ((e)=>{
     range = e
 })
 
+let skown = [
+    {id:1, active: false, mine: true},
+    {id:2, active: false, mine: false},
+    {id:3, active: false, mine: false},
+    {id:4, active: false, mine: false},
+    {id:5, active: false, mine: false},
+    {id:6, active: false, mine: false},
+    {id:7, active: false, mine: false},
+    {id:8, active: false, mine: false},
+    {id:9, active: false, mine: false},
+    {id:10, active: false, mine: false},
+    {id:11, active: false, mine: false},
+    {id:12, active: false, mine: true},
+    {id:13, active: false, mine: false},
+    {id:14, active: false, mine: false},
+    {id:15, active: false, mine: false},
+    {id:16, active: false, mine: false},
+    {id:17, active: false, mine: false},
+    {id:18, active: false, mine: false},
+    {id:19, active: false, mine: false},
+    {id:20, active: false, mine: false},
+    {id:21, active: false, mine: false},
+    {id:22, active: false, mine: false},
+    {id:23, active: false, mine: true},
+    {id:24, active: false, mine: false},
+    {id:25, active: false, mine: false},
+]
+
+const handleMines = ((event)=>{
+    skown.forEach(element => {
+        if(element.id === event.id){
+            element.active = true
+            skown = skown
+        }
+    });
+})
+
 </script>
 
 {#if hisQQ}
@@ -110,25 +141,38 @@ const handleChange = ((e)=>{
          <div class="sc-hcupDf dqwCNK game-box sc-deghWO jKOkvT">
             <div class="sc-gWDJhD hnBJiv mine-stage">
                 <div class="grids-wrap ">
-                    <button class="sc-dSaQTq iuMTMb grid-item">
-                        <div class="sc-fAyhPT hLmIlp"></div>
-                    </button>
-                    <button class="sc-dSaQTq iuMTMb grid-item">
-                        <div class="sc-fAyhPT hLmIlp"></div>
-                    </button>
-                    <button class="sc-dSaQTq iuMTMb grid-item">
-                        <div class="sc-fAyhPT hLmIlp"></div>
-                    </button>
-                    <button class="sc-dSaQTq iuMTMb grid-item">
-                        <div class="sc-fAyhPT hLmIlp"></div>
-                    </button>
-                    <button class="sc-dSaQTq iuMTMb grid-item">
-                        <div class="sc-fAyhPT hLmIlp"></div>
-                    </button>
-                    <button class="sc-dSaQTq iuMTMb grid-item">
-                        <div class="sc-fAyhPT hLmIlp"></div>
-                    </button>
-                    <button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button><button class="sc-dSaQTq iuMTMb grid-item"><div class="sc-fAyhPT hLmIlp"></div></button></div><div class="sc-ieCETs dOthbb"><div class=" star-item index1"></div><div class=" star-item index2"></div><div class="active  star-item index3"></div><div class="active  star-item index4"></div></div></div><div class="sc-gLDmcm gnjHQb"><span>House Edge 1%</span></div><svg class="box-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 996 46"><defs><linearGradient id="gcardBg" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#31343C"></stop><stop offset="100%" stop-color="#1E2024" stop-opacity="0"></stop></linearGradient></defs><g opacity=".899"><path fill="url(#gcardBg)" fill-rule="evenodd" d="M0 0h996L892 46H96z" opacity=".598" transform="rotate(-180 498 23)"></path></g></svg></div>
+                    {#each skown as ui}
+                        <button on:click={()=>handleMines(ui)} class={`sc-kiwPtn gmXWCK grid-item ${false && "unselected"}`}>
+                            {#if ui.active && !ui.mine}
+                                <div class={`sc-cdJjGe gsYRFa qLoBl`}>
+                                    <div class="sc-cdJjGe gsYRFa graph"></div>
+                                </div>
+                            {:else if ui.active && ui.mine } 
+                                <div class="sc-cdJjGe sc-eSJyHI gsYRFa eojQMr effect end mines3"></div>
+                                {:else}
+                                <div class={`sc-cdJjGe gsYRFa`}>
+                                </div>
+                            {/if} 
+                        </button>
+                    {/each}
+                </div>
+                <div class="sc-ieCETs dOthbb">
+                    <div class=" star-item index1"></div>
+                    <div class=" star-item index2"></div>
+                    <div class="active  star-item index3"></div>
+                    <div class="active  star-item index4"></div>
+                </div>
+            </div>
+            <svg class="box-bg" xmlns="http://www.57896.org/2000/svg" viewBox="0 0 996 46"><defs>
+                <linearGradient id="gcardBg" x1="50%" x2="50%" y1="0%" y2="100%">
+                    <stop offset="0%" stop-color="#31343C"></stop>
+                    <stop offset="100%" stop-color="#1E2024" stop-opacity="0"></stop>
+                </linearGradient>
+            </defs>
+            <g opacity=".899"><path fill="url(#gcardBg)" fill-rule="evenodd" d="M0 0h996L892 46H96z" opacity=".598" transform="rotate(-180 498 23)"></path>
+            </g>
+        </svg>
+    </div>
 
     </div>
 </div>
@@ -283,8 +327,179 @@ const handleChange = ((e)=>{
     -webkit-box-pack: center;
     place-content: center;
     position: relative;
-    padding: 80px 10%;
+    /* padding: 80px 10%; */
     min-height: 37.5rem;
 }
+.dqwCNK {
+    position: relative;
+}
+.fPOXr {
+    flex: 1 1 0%;
+    background: url(https://static.nanogames.io/assets/bg.136f0468.png) center center / cover no-repeat;
+}
+.hnBJiv {
+    height: 90%;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+}
+.hnBJiv .grids-wrap {
+    margin: 4.375rem auto 0px;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 0.5rem 0.625rem;
+    max-width: 33.75rem;
+    padding: 1.25rem;
+    border-radius: 0.375rem;
+    background: rgb(17, 18, 20);
+    position: relative;
+}
+.hnBJiv .grids-wrap::before {
+    content: "";
+    position: absolute;
+    width: 5.3125rem;
+    height: 0.875rem;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAcCAMAAADGO9TYAAAAzFBMVEUAAABISEgVGRUaHBkfJR8VGRUYHBgXGhcXGxcZHRkVGRUXGxcXGhcYGxcoLiorKysXGhYXGxcaHRoZGxkfHx8aHhoXGhYaHhoaHhoXGxc6QTwaHxoXGhc4QDwXGxc8REA7RD8VGRUaHRk1PTk9Rz8XGhY1OzgbIBs1PDk9Rj89RT89RUEYGxcVGBUaHRktMzEpLiw4Pzs6Qj02PTk0Ozc8RD8+R0EyODUwNjMjJycmKikSFhMsMS8cHx8gIyQeIyAeISIZGx0kKSUhJSPPEBtlAAAALHRSTlMABPUlGo7ww4NT1c6pQDQJvJtgKxH3tnc76IpuWVNI7sB14bQl/umzlmLZeiYE94IAAAJsSURBVFjD1dT7d5owFAfwIFRBFMVHfdXHdH1tEdjqqoIZLfz//9NIfFzC0sh+wLrP4TQeven9nlwACXwdTl8/wXT29Gw1UH7KePbrc7yyv98W38cakoED/XkFprPhs6XID/THlVi5ftg17VG9Iz7Qhxfe2o389cvF0ZjOyfxRN1T+QBcrzsaLCCuNNqtL2kHMlG7FNhREacOHdYrrxcQBsbu+iOR0jjEJvcCgNmojarzYgJ0fO38JvU3BuJic8uPIQgeWewTlgrBuIeR9y7c97j3QcnfuzvNh5mJkm5S5tJauCfhMVwq+92ISRr6X/V28X5yz2+z1FcR78rbhPiZ2cHI5qc/dcvr7yMspOuxxwtg/X82aQx8WU4eYKRUslpx+X+n0Bhg40FnCJ5hhbVnerXQbwWndil5vILGyICZ75PYaozlOCbf+GSEWcOgN8QECVaY+YTHFVJwxt1sqV6G0qjiFxFsJCCrMK9rrYMa8mXSQlIHBfdW+04RFJtcy/ChofGgrzxtmotKYBosppy+XeImTS14+qdCaYy0mv0UIq6FKzTJdjvWZlQZ+O+2qGRrK5Zb+4wq7R+T6tBK8k7cMgk8/1pLmmqEneSXoAdN9dZRTNXnQIaaUVbvnWr2TNAhaheaqcXMmL3b6KCcF/QPVLvFHewJBS1+U7K47aV4LFSN50fKnAkFh9oDLWyldKCq8u8zsDJeC2efP20YFqu+fsGAZJBesMPsceWG/iooBN21wAHFh9ue1W0negFFRwTr6IOBIZi/Ja5YCDRWu0apCUMns5ZR2A13CpMlystlfvbZdYrP/L2g6zL5QfwACtwc45qOUEQAAAABJRU5ErkJggg==) center center / contain no-repeat;
+    z-index: 1;
+    top: -0.125rem;
+    left: 0px;
+}
+.iuMTMb {
+    width: 5.75rem;
+    height: 5.25rem;
+    position: relative;
+}
+.hLmIlp:hover{
+    background-color: rgb(50, 53, 60);
+    margin-bottom: 2px;
+    transition: all 0.5s ease;
+}
+.hnBJiv.graph {
+    background-color: rgb(33, 35, 40);
+    inset: 2px;
+}
+.hLmIlp {
+    position: absolute;
+    inset: 0px;
+    z-index: 1;
+    border-radius: 0.25rem;
+    background-color: rgb(33, 35, 40);
+}
+.hLmIlp::before {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+}
+.hnBJiv .grids-wrap::after {
+    content: "";
+    position: absolute;
+    top: -2.1875rem;
+    right: 0.125rem;
+    width: 11rem;
+    height: 3.625rem;
+    background: url(https://static.nanogames.io/assets/box-bg2.75183067.png) center center / contain no-repeat;
+}
+.gmXWCK {
+    width: 5.75rem;
+    height: 5.25rem;
+    position: relative;
+}
+.gsYRFa {
+    position: absolute;
+    inset: 0px;
+    z-index: 1;
+    border-radius: 0.25rem;
+    background-color: rgb(33, 35, 40);
+}
+.gsYRFa::before {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+}
 
+.hnBJiv {
+    height: 90%;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+}
+.hnBJiv .grids-wrap {
+    margin: 4.375rem auto 0px;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 0.5rem 0.625rem;
+    max-width: 33.75rem;
+    padding: 1.25rem;
+    border-radius: 0.375rem;
+    background: rgb(17, 18, 20);
+    position: relative;
+}
+.hnBJiv .grids-wrap::before {
+    content: "";
+    position: absolute;
+    width: 5.3125rem;
+    height: 0.875rem;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAAAcCAMAAADGO9TYAAAAzFBMVEUAAABISEgVGRUaHBkfJR8VGRUYHBgXGhcXGxcZHRkVGRUXGxcXGhcYGxcoLiorKysXGhYXGxcaHRoZGxkfHx8aHhoXGhYaHhoaHhoXGxc6QTwaHxoXGhc4QDwXGxc8REA7RD8VGRUaHRk1PTk9Rz8XGhY1OzgbIBs1PDk9Rj89RT89RUEYGxcVGBUaHRktMzEpLiw4Pzs6Qj02PTk0Ozc8RD8+R0EyODUwNjMjJycmKikSFhMsMS8cHx8gIyQeIyAeISIZGx0kKSUhJSPPEBtlAAAALHRSTlMABPUlGo7ww4NT1c6pQDQJvJtgKxH3tnc76IpuWVNI7sB14bQl/umzlmLZeiYE94IAAAJsSURBVFjD1dT7d5owFAfwIFRBFMVHfdXHdH1tEdjqqoIZLfz//9NIfFzC0sh+wLrP4TQeven9nlwACXwdTl8/wXT29Gw1UH7KePbrc7yyv98W38cakoED/XkFprPhs6XID/THlVi5ftg17VG9Iz7Qhxfe2o389cvF0ZjOyfxRN1T+QBcrzsaLCCuNNqtL2kHMlG7FNhREacOHdYrrxcQBsbu+iOR0jjEJvcCgNmojarzYgJ0fO38JvU3BuJic8uPIQgeWewTlgrBuIeR9y7c97j3QcnfuzvNh5mJkm5S5tJauCfhMVwq+92ISRr6X/V28X5yz2+z1FcR78rbhPiZ2cHI5qc/dcvr7yMspOuxxwtg/X82aQx8WU4eYKRUslpx+X+n0Bhg40FnCJ5hhbVnerXQbwWndil5vILGyICZ75PYaozlOCbf+GSEWcOgN8QECVaY+YTHFVJwxt1sqV6G0qjiFxFsJCCrMK9rrYMa8mXSQlIHBfdW+04RFJtcy/ChofGgrzxtmotKYBosppy+XeImTS14+qdCaYy0mv0UIq6FKzTJdjvWZlQZ+O+2qGRrK5Zb+4wq7R+T6tBK8k7cMgk8/1pLmmqEneSXoAdN9dZRTNXnQIaaUVbvnWr2TNAhaheaqcXMmL3b6KCcF/QPVLvFHewJBS1+U7K47aV4LFSN50fKnAkFh9oDLWyldKCq8u8zsDJeC2efP20YFqu+fsGAZJBesMPsceWG/iooBN21wAHFh9ue1W0negFFRwTr6IOBIZi/Ja5YCDRWu0apCUMns5ZR2A13CpMlystlfvbZdYrP/L2g6zL5QfwACtwc45qOUEQAAAABJRU5ErkJggg==) center center / contain no-repeat;
+    z-index: 1;
+    top: -0.125rem;
+    left: 0px;
+}
+
+.iVvsfA {
+    position: absolute;
+    inset: 0px;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: 0.25rem;
+}
+.qLoBl {
+    background-color: rgb(57, 14, 113);
+}
+.gsYRFa {
+    position: absolute;
+    inset: 0px;
+    z-index: 1;
+    border-radius: 0.25rem;
+    background-color: rgb(33, 35, 40);
+}
+.gsYRFa::before {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+}
+.gsYRFa.graph {
+    background-color: rgb(33, 35, 40);
+    inset: 2px;
+}
+.qLoBl .graph {
+    background-color: rgb(57, 14, 113);
+}
+.qLoBl .graph::before {
+    background-image: url(https://static.nanogames.io/assets/gems.f2815a6d.png);
+    animation: 300ms ease 0s 1 normal none running gemsZoomIn;
+    background-size: contain;
+    transform: scale(0.8);
+}
+.gsYRFa.mines3::before {
+    background-image: url(https://static.nanogames.io/assets/mines-3.b54d60a7.png);
+    background-size: 85%;
+}
+.unselected .sc-cdJjGe::before {
+    opacity: 0.3;
+}
 </style>

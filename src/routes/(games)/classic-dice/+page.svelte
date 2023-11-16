@@ -9,6 +9,9 @@ import BiStats from "svelte-icons-pack/bi/BiStats";
 import RiSystemArrowDropRightLine from "svelte-icons-pack/ri/RiSystemArrowDropRightLine";
 import BiSolidAlbum from "svelte-icons-pack/bi/BiSolidAlbum";
 import BsHurricane from "svelte-icons-pack/bs/BsHurricane";
+import axios from "axios"
+import {onMount} from "svelte"
+import { handleAuthToken } from "$lib/store/routes"
 import Allbet from "$lib/games/ClassicDice/componets/allbet.svelte";
 import Mybet from "$lib/games/ClassicDice/componets/mybet.svelte";
 import Hotkey from "$lib/games/ClassicDice/componets/hotkey.svelte";
@@ -16,7 +19,33 @@ import LiveStats from "$lib/games/ClassicDice/componets/liveStats.svelte";
 import SeedSetting from "$lib/games/ClassicDice/componets/seedSetting.svelte";
 import Help from "$lib/games/ClassicDice/componets/help.svelte";
 import { soundHandler } from "$lib/games/ClassicDice/store/index"
+import {DiceEncription} from '$lib/games/ClassicDice/store/index'
+import { ServerURl } from "$lib/backendUrl"
+    import Mobile from "./mobile.svelte";
+const URl = ServerURl()
 
+let is_loading = false
+const handleDiceGameEncrypt = (async()=>{
+    is_loading = true
+    await axios.get(`${URl}/api/user/dice-game/encrypt`,{
+        headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${$handleAuthToken}`
+        }
+    })
+    .then((res)=>{
+        is_loading = false
+        DiceEncription.set(res.data[0])
+    })
+    .catch((err)=>{
+        is_loading = false
+        console.log(err)
+    })
+})
+
+onMount(()=>{
+  $handleAuthToken && handleDiceGameEncrypt()
+})
 
 let is_allbet = true
 let is_mybet = false
@@ -65,6 +94,8 @@ const handleSoundState = (()=>{
     }
 })
 
+
+
 </script>
 
 {#if is_hotkey}
@@ -83,81 +114,124 @@ const handleSoundState = (()=>{
 <Help on:close={handleIsHelp} />
 {/if}
 
-
-
-
-
-<div class="sc-lhMiDA ePAxUv" style="opacity: 1; transform: none;">
-    <div id="game-ClassicDice" class="sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf">
-        <div class="game-area">
-            <div class="game-main">
-                <Controls />
-                <Gameview />
-
-                <div class="game-actions">
-                    <button on:click={()=> handleSoundState()} class={`action-item ${$soundHandler ? "active" : ""} `}>
-                        <Icon src={AiFillSound} size="23"  color={` ${$soundHandler ? "rgb(67, 179, 9)" : "rgba(153, 164, 176, 0.6)"} `} title="Sound" />
-                    </button>
-                    <button on:click={handleHotKey} class="action-item ">
-                        <Icon src={BiSolidKeyboard}  size="23"  color="rgba(153, 164, 176, 0.6)" />
-                    </button>
-                    <button on:click={stats} class="action-item ">
-                        <Icon src={BiStats}  size="18"  color="rgb(153, 164, 176)" />
-                    </button>
-                    <button on:click={hanhisSeed} class="action-item " id="set_seed">
-                        <Icon src={BiSolidAlbum}  size="18"  color="rgb(153, 164, 176)" />
-                    </button>
-                    <button on:click={handleIsHelp} class="action-item ">
-                        <Icon src={BsHurricane}  size="18"  color="rgb(153, 164, 176)" />
-                    </button>
+<div id="main">
+    {#if !is_loading}
+    <div class="sc-lhMiDA ePAxUv" style="opacity: 1; transform: none;">
+        <div id="game-ClassicDice" class="sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf">
+            <div class="game-area">
+                <div class="game-main">
+                    <Controls />
+                    <Gameview />
+    
+                    <div class="game-actions">
+                        <button on:click={()=> handleSoundState()} class={`action-item ${$soundHandler ? "active" : ""} `}>
+                            <Icon src={AiFillSound} size="23"  color={` ${$soundHandler ? "rgb(67, 179, 9)" : "rgba(153, 164, 176, 0.6)"} `} title="Sound" />
+                        </button>
+                        <button on:click={handleHotKey} class="action-item ">
+                            <Icon src={BiSolidKeyboard}  size="23"  color="rgba(153, 164, 176, 0.6)" />
+                        </button>
+                        <button on:click={stats} class="action-item ">
+                            <Icon src={BiStats}  size="18"  color="rgb(153, 164, 176)" />
+                        </button>
+                        <button on:click={hanhisSeed} class="action-item " id="set_seed">
+                            <Icon src={BiSolidAlbum}  size="18"  color="rgb(153, 164, 176)" />
+                        </button>
+                        <button on:click={handleIsHelp} class="action-item ">
+                            <Icon src={BsHurricane}  size="18"  color="rgb(153, 164, 176)" />
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="sc-cxpSdN kQfmQV tabs game-tabs len-3">
-            <div class="tabs-navs">
-                <button on:click={()=>handleAllbet(1)} class={`tabs-nav ${is_allbet && "is-active"}`}>All Bets</button>
-                <button on:click={()=>handleAllbet(2)} class={`tabs-nav ${is_mybet && "is-active"}`}>My Bets</button>
-                <button on:click={()=>handleAllbet(3)} class={`tabs-nav ${is_contest && "is-active"}`}>Contest</button>
-                {#if is_allbet}
-                <div class="bg" style={`left: 0%; right: 66.6667%;`}></div>
-                {:else if is_mybet}
-                <div class="bg" style="left: 33.3333%; right: 33.3333%;"></div>
-                {:else if is_contest}
-                <div class="bg" style="left: 66.6667%; right: 0%;"></div>
-               {/if}
-            </div>
+    
+            <div class="sc-cxpSdN kQfmQV tabs game-tabs len-3">
+                <div class="tabs-navs">
+                    <button on:click={()=>handleAllbet(1)} class={`tabs-nav ${is_allbet && "is-active"}`}>All Bets</button>
+                    <button on:click={()=>handleAllbet(2)} class={`tabs-nav ${is_mybet && "is-active"}`}>My Bets</button>
+                    <button on:click={()=>handleAllbet(3)} class={`tabs-nav ${is_contest && "is-active"}`}>Contest</button>
             {#if is_allbet}
-            <Allbet />
+                <div class="bg" style={`left: 0%; right: 66.6667%;`}></div>
             {:else if is_mybet}
-            <Mybet />
+                <div class="bg" style="left: 33.3333%; right: 33.3333%;"></div>
+            {:else if is_contest}
+                <div class="bg" style="left: 66.6667%; right: 0%;"></div>
             {/if}
-        </div>
-
-        <div class="sc-knKHOI cFxmZX">
-          <div class="intro-title">
-            <p>Classic Dice</p>
-            <div class="intro-tags">
-              <p>Our Best Games</p>
-              <p>BC Originals</p>
-              <p>Recommended Games</p>
-              <p>Dice</p>
+                </div>
+                {#if is_allbet}
+                <Allbet />
+                {:else if is_mybet}
+                <Mybet />
+                {/if}
             </div>
-          </div>
-          <div class="description">Classic Dice, a probability game established by blockchain hash value calculation and algorithm, provides more fun with bet and prediction, in which the closer the number rolled by players to the random number, the higher the probability winning.</div>
-          <button class="intro-detail">
-            Details
-            <span style="margin-left: 1.125rem;">
-              <Icon src={RiSystemArrowDropRightLine}  size="23"  color="rgba(153, 164, 176, 0.6)"  />
-            </span>
-          </button>
+    
+            <div class="sc-knKHOI cFxmZX">
+              <div class="intro-title">
+                <p>Classic Dice</p>
+                <div class="intro-tags">
+                  <p>Our Best Games</p>
+                  <p>BC Originals</p>
+                  <p>Recommended Games</p>
+                  <p>Dice</p>
+                </div>
+              </div>
+              <div class="description">Classic Dice, a probability game established by blockchain hash value calculation and algorithm, provides more fun with bet and prediction, in which the closer the number rolled by players to the random number, the higher the probability winning.</div>
+              <button class="intro-detail">
+                Details
+                <span style="margin-left: 1.125rem;">
+                  <Icon src={RiSystemArrowDropRightLine}  size="23"  color="rgba(153, 164, 176, 0.6)"  />
+                </span>
+              </button>
+            </div>
         </div>
     </div>
+    {:else}
+        <div class="uytutfyh">
+            <div class="tdthuy">
+                <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" alt="">
+            </div>
+        </div>
+    {/if}
+ 
+</div>
+
+<div class="mobile">
+    <Mobile />
 </div>
 
 
 
+
+
 <style>
+.uytutfyh{
+    background-color: var(--background-color);
+    width: 100%;
+    height: 100vh;
+}
+.tdthuy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    height: 500px;
+}
+.tdthuy img{
+    width: 250px;
+    background-color: rgba(51, 57, 57, 0.502);
+    padding: 20px;
+    border-radius: 10px;
+    animation: monyy 3s infinite;
+}
+
+@keyframes monyy{
+    10%{
+        margin-right: -100px;
+    }
+
+    100%{
+        margin-right: 100px;
+    }
+}
+
 .ePAxUv {
     margin-top: 4rem;
 }

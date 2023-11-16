@@ -63,8 +63,8 @@
 .fnKcEH.button {
     color: rgb(245, 246, 247);
     box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: var(--primary-color);
-    background-image: var(--primary-color);
+    background-color: var(--btn-color);
+    background-image: var(--btn-image);
 }
 .cBmlor {
     display: block;

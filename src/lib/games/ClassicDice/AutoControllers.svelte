@@ -7,9 +7,15 @@ import { default_Wallet } from '../../store/coins';
 import { profileStore,handleisLoggin } from "$lib/store/profile"
 import { handleAuthToken } from "$lib/store/routes"
 import { payout, isbetLoadingBtn, betPosition } from "./store";
+import {DiceEncription} from '$lib/games/ClassicDice/store/index'
 import { error_msg, handlediceAutoInput, onWin, HandleDicePoint, soundHandler ,dice_history, HandleHas_won } from "../ClassicDice/store/index"
 import {ServerURl} from "$lib/backendUrl"
+import { browser } from '$app/environment';
+import {dice_troo} from "$lib/games/ClassicDice/store/index"
 const URL = ServerURl()
+
+import { handleCountdown } from "../ClassicDice/socket/index";
+const { handleDicebet } = handleCountdown()
 import cr from "./audio/click-button-140881.mp3"
 import win from "./audio/mixkit-achievement-bell-600.wav"
 import axios from "axios"
@@ -18,18 +24,41 @@ let is_min_max = false
 const handleMinMax = (()=>{
    is_min_max = !is_min_max
 })
-let uiocd = 4
+let uiocd = 0
+let wining_amount = '' ;
 
-if($default_Wallet.coin_name === "USDT"){
-    uiocd = (0.20).toFixed(4)
-}else{
-    uiocd = (100).toFixed(4)
+
+let walletRange = 0
+let x = 0;
+$:{
+    wining_amount = (uiocd * $payout).toFixed(4)
+    if($default_Wallet.coin_name === "BTC"){
+        if(uiocd < 0.000028){
+            uiocd = (0.000028).toFixed(8)
+        }
+        if(uiocd > 0.14){
+            uiocd = (0.14).toFixed(8)
+        }        
+    }
+    else if($default_Wallet.coin_name === "ETH"){
+        if(uiocd < 0.00050){
+            uiocd = (0.00050).toFixed(8)
+        }
+        if(uiocd > 2.53){
+            uiocd = (2.53).toFixed(8)
+        }
+    }
+    else{
+        if(uiocd < 100){
+            uiocd = (100).toFixed(6)
+        }
+        if(uiocd > 10000){
+            uiocd = (10000).toFixed(6)
+        }
+    }
 }
 
 
-// $:{
-//     uiocd = $handlediceAutoInput
-// }
 
 let bet_number = 0
 let on_win = false
@@ -43,7 +72,7 @@ let stopOnlose = 0
 
 let is_Looping = false
 let yu 
-let turbo = 1300
+let turbo = 1000
 
 function playSound(e) {
     if(e === 1){
@@ -58,20 +87,24 @@ function playSound(e) {
 }
 
 const dive = (()=>{
-    uiocd = (uiocd / 2).toFixed(4)
+    uiocd = (uiocd / 2).toFixed(8)
     handlediceAutoInput.set(uiocd)
+})
+
+const handleRangeSTlop = ((eui)=>{
+    uiocd = (parseFloat($default_Wallet.balance)  * (walletRange / 100 )).toFixed(8)
 })
 
 const mult = (()=>{
-    uiocd = (uiocd * 2).toFixed(4)
+    uiocd = (uiocd * 2).toFixed(8)
     handlediceAutoInput.set(uiocd)
 })
-
 
 let winning_track = 0
 let lose_track = 0
 
 let bet_num_count = 0
+let load = false
 const handleAutoStart = (()=>{
     if(!is_Looping){
         is_Looping = true
@@ -114,10 +147,24 @@ const handleAutoStart = (()=>{
     }
 })
 
+let history 
+$:{
+    history  = [...$dice_history]
+}
 
+let non = 1
 const handleRollSubmit = (async()=>{
+    // if(browser && window.navigator.onLine){
+     $soundHandler && playSound(1)
+    if( $default_Wallet.coin_name !== "BTC" && $default_Wallet.coin_name !== "ETH" &&  $default_Wallet.coin_name !== "WGF"){
+        error_msg.set("Select another coin")
+        is_Looping = false
+        setTimeout(()=>{
+            error_msg.set('')
+        },4000)
+    }else{
     if($handleisLoggin){
-        if(parseFloat(uiocd) > parseFloat($default_Wallet.balance)){
+        if(parseFloat($default_Wallet.balance) <= 0){
             error_msg.set("insufficient balance")
             is_Looping = false
             clearInterval(yu)
@@ -125,32 +172,48 @@ const handleRollSubmit = (async()=>{
                 error_msg.set("")
             },4000)
         }
-        else if( parseFloat(uiocd) > 5000 && $default_Wallet.coin_name === "USDT"){
-            error_msg.set("Maximum bet amount for USDT is 5,000")
+        if( parseFloat(uiocd) > parseFloat($default_Wallet.balance)){
+            error_msg.set("Insufficient balance")
+            is_Looping = false
+            clearInterval(yu)
+            setTimeout(()=>{
+                error_msg.set("")
+            },4000)
+        }
+        if( parseFloat(uiocd) > 0.14 && $default_Wallet.coin_name === "BTC"){
+            error_msg.set("Maximum bet amount for BTC is 0.14")
+            is_Looping = false
+            clearInterval(yu)
+            setTimeout(()=>{
+                error_msg.set('')
+            },4000)
+        }
+        if( parseFloat(uiocd) > 261.91 && $default_Wallet.coin_name === "ETH"){
+                error_msg.set("Maximum bet amount for ETH is 261.91")
               is_Looping = false
             clearInterval(yu)
             setTimeout(()=>{
                 error_msg.set('')
             },4000)
         }
-        else if( parseFloat(uiocd) > 10000 && $default_Wallet.coin_name === "PPF"){
-            error_msg.set("Maximum bet amount for PPF is 10,000")
-              is_Looping = false
-            clearInterval(yu)
-            setTimeout(()=>{
-                error_msg.set('')
-            },4000)
-        }
-        else if( parseFloat(uiocd) < 100 && $default_Wallet.coin_name === "PPF"){
-            error_msg.set("Minimum bet amount for PPF is 100")
+        else if( parseFloat(uiocd) > 10000 && $default_Wallet.coin_name === "WGF"){
+            error_msg.set("Maximum bet amount for WGF is 10,000")
              is_Looping = false
             clearInterval(yu)
             setTimeout(()=>{
                 error_msg.set('')
             },4000)
         }
-        else if( parseFloat(uiocd) < 0.20 && $default_Wallet.coin_name === "USDT"){
-            error_msg.set("Minimum bet amount for USDT is 0.20")
+        else if( parseFloat(uiocd) < 0.00050 && $default_Wallet.coin_name === "ETH"){
+            error_msg.set("Minimum bet amount for ETH is 0.00050")
+             is_Looping = false
+            clearInterval(yu)
+            setTimeout(()=>{
+                error_msg.set('')
+            },4000)
+        }
+        else if( parseFloat(uiocd) < 0.00050 && $default_Wallet.coin_name === "BTC"){
+            error_msg.set("Minimum bet amount for BTC is 0.000028")
              is_Looping = false
             clearInterval(yu)
             setTimeout(()=>{
@@ -158,64 +221,80 @@ const handleRollSubmit = (async()=>{
             },4000)
         }
         else{
-            let date = new Date();
-            let hours = date.getHours();
-            let minutes = date.getMinutes();
-            let newformat = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            let time = (hours + ':' + minutes + ' ' + newformat);
-            const data = {
+            let data = {
+                user_id: $profileStore.user_id, 
+                server_seed: $DiceEncription.server_seed,
+                client_seed: $DiceEncription.client_seed,
+                hash_seed: $DiceEncription.hash_seed,
+                nonce:$DiceEncription.nonce + non,
                 username: $profileStore.username,
-                user_img: $profileStore.profile_image,
-                bet_amount: parseFloat(uiocd),
-                bet_token_img: $default_Wallet.coin_image, 
-                bet_token_name: $default_Wallet.coin_name ,
-                chance: $betPosition,
-                payout: $payout,
+                hidden_from_public: false,
+                profile_img: $profileStore.profile_image,
+                bet_amount:  parseFloat(uiocd),
+                prev_bal: parseFloat($default_Wallet.balance),
+                token_img: $default_Wallet.coin_image, 
+                token: $default_Wallet.coin_name ,
+                chance: parseFloat($betPosition).toFixed(2),
+                payout: parseFloat($payout),
                 time: new Date(),
-                wining_amount: parseFloat(uiocd * $payout) - parseFloat(uiocd)
+                wining_amount: parseFloat(uiocd) - parseFloat(wining_amount)
             }
-            await axios.post(`${URL}/api/user/dice-game/bet`, {
-                sent_data: data
-            },{
-                headers:{
-                    Authorization: `Bearer ${$handleAuthToken}`
-                }
-            })
-            .then(res =>{
-                isbetLoadingBtn.set(false)
-                dice_history.set(res.data.history)
-                default_Wallet.set(res.data.wallet)
-                HandleDicePoint.set(res.data.point)
-                let prev = res.data.history[res.data.history.length - 1]
-
-                if(prev.has_won){
-                  winning_track += parseFloat(uiocd * $payout) - parseFloat(uiocd)
-                  $soundHandler &&  playSound(2)
-                  HandleHas_won.set(true)
-                  if(onWinEl){
-                        let to = ((onWinEl/100) * parseFloat(uiocd)/1)
-                        let from = (to + parseFloat(uiocd)).toFixed(4)
-                        handlediceAutoInput.set(from)
-                    }
-                }
-                else{
-                    lose_track += parseFloat(uiocd)
-                    HandleHas_won.set(false)
-                    if(onLoseEl){
-                        let to = ((onLoseEl/100) * parseFloat(uiocd)/1)
-                        let from = (to + parseFloat(uiocd)).toFixed(4)
-                        handlediceAutoInput.set(from)
-                    }
-                }
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
-            onWin.set(onWinEl)
+            non += 1
+            setTimeout(()=>{
+            handleDicebet(data)
+            },1000)
+    //         await axios.post(`${URL}/api/user/dice-game/bet`, {
+    //             data
+    //         },{
+    //             headers:{
+    //                 Authorization: `Bearer ${$handleAuthToken}`
+    //             }
+    //         }).then(res =>{
+    //             let r = {
+    //                 client_seed: res.data.client_seed,
+    //                 server_seed:res.data.client_seed,
+    //                 hash_seed:res.data.hash,
+    //                 nonce:res.data.nonce + 1,
+    //             }
+    //             dice_history.set(history)
+    //             DiceEncription.set(r)
+    //             HandleDicePoint.set((parseFloat(res.data.point)).toFixed(2))
+    //             isbetLoadingBtn.set(false)
+    //             if(parseFloat($betPosition) > parseFloat($HandleDicePoint)){
+    //                 let wallet = {
+    //                     coin_name: $default_Wallet.coin_name ,
+    //                     coin_image: $default_Wallet.coin_image,
+    //                     balance:  (parseFloat(data.wining_amount) + parseFloat($default_Wallet.balance)).toFixed(4)
+    //                 }
+    //                 default_Wallet.set(wallet)
+    //                 $soundHandler &&  playSound(2)
+    //                 HandleHas_won.set(true)
+    //                 if(onWinEl){
+    //                     let to = ((onWinEl/100) * parseFloat(uiocd)/1)
+    //                     let from = (to + parseFloat(uiocd)).toFixed(4)
+    //                     handlediceAutoInput.set(from)
+    //                 }
+    //                 winning_track += parseFloat(uiocd * $payout) - parseFloat(uiocd)
+    //                 history.push({ ...data,has_won:true, cashout:res.data.point, profit:parseFloat(data.wining_amount), token:$default_Wallet.coin_name})
+    //             }else{
+    //                 let wallet = {
+    //                     coin_name: $default_Wallet.coin_name ,
+    //                     coin_image: $default_Wallet.coin_image,
+    //                     balance: (parseFloat($default_Wallet.balance) - parseFloat(data.bet_amount)).toFixed(4)
+    //                 }
+    //                 default_Wallet.set(wallet)
+    //                 HandleHas_won.set(false)
+    //                 if(onLoseEl){
+    //                     let to = ((onLoseEl/100) * parseFloat(uiocd)/1)
+    //                     let from = (to + parseFloat(uiocd)).toFixed(4)
+    //                     handlediceAutoInput.set(from)
+    //                 }
+    //                 lose_track += parseFloat(uiocd)
+    //                 history.push({...data,has_won:false, cashout:res.data.point, profit:0, token:$default_Wallet.coin_name})
+    //             }
+    //         })
         }
+     onWin.set(onWinEl)
     }else{
         error_msg.set("You are not Logged in")
         clearInterval(yu)
@@ -225,9 +304,21 @@ const handleRollSubmit = (async()=>{
             error_msg.set("")
         },4000)
     }
+}
+// }else{
+//     error_msg.set('Error in network connection')
+//     is_Looping = false
+//     clearInterval(yu)
+//     setTimeout(()=>{
+//         error_msg.set('')
+//      },4000)
+// }
 })
 
-
+const handlesjen = ((e)=>{
+    uiocd = (parseFloat($default_Wallet.balance)  * (e / 100 )).toFixed(4)
+    walletRange = e
+})
 
 </script>
 
@@ -274,17 +365,15 @@ const handleRollSubmit = (async()=>{
                     <button on:click={()=> mult() }>x2</button>
                     {#if is_min_max }
                      <div class="fix-layer" style="opacity: 1; transform: none;">
-                        <button  class="">Min</button>
+                        <button on:click={()=>  handlesjen(0) } style={`${walletRange === 0 ? `color:#ffff;` : ""}`} class="">Min</button>
                         <div class="sc-kLwhqv eOA-dmL slider">
-                           <div class="slider-after" style="transform: scaleX(10.001001);"></div>
-                           <div class="slider-handler-wrap" style="transform: translateX(0.1001%);">
-                              <button class="slider-handler"></button>
-                           </div>
-                           <div class="slider-before" style="transform: scaleX(10.998999);"></div>
+                           <div class="slider-after" style="transform: scaleX(100.001001);"></div>
+                             <input type="range" class="drag-block" on:input={(e)=> handleRangeSTlop(e.target.value)} bind:value={walletRange}>
+                           <div class="slider-before" style="transform: scaleX(100.998999);"></div>
                         </div>
-                        <button class="">Max</button>
+                        <button on:click={()=> handlesjen(100)} style={`${walletRange === 100 ? `color:#ffff;` : ""}`} class="">Max</button>
                      </div>
-                    {/if }
+                {/if}
 
                     <button on:click={handleMinMax} class="sc-cAhXWc cMPLfC">
                         <Icon src={RiSystemArrowUpSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"  title="min" />
@@ -326,7 +415,7 @@ const handleRollSubmit = (async()=>{
             </div>
             <div class="input-control">
                 <input type="number" bind:value={stopOnwin}>
-                {#if $handleisLoggin}
+            {#if $handleisLoggin}
                 <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
              {/if}
             </div>
@@ -377,7 +466,31 @@ const handleRollSubmit = (async()=>{
 
 
 <style>
-
+.drag-block {
+    position: absolute;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: transparent;
+    border-radius: 10px;
+    appearance: none;
+    width: 100%;
+    margin: 0px;
+    height: 100%;
+    cursor: grab;
+    -webkit-appearance: none;
+}
+.drag-block::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: 0px;
+    /* Centers thumb on the track */
+    background-color: #feffff;
+    height: 1.5rem;
+    width: 1rem;
+    border-radius: 10px;
+    cursor: grabbing;
+}
 .fCSgTW .fix-layer {
     position: absolute;
     right: 0px;
@@ -444,11 +557,6 @@ const handleRollSubmit = (async()=>{
     background-color: rgb(23, 24, 27);
     transform: scaleX(1) !important;
 }
-.eOA-dmL .slider-handler-wrap {
-    flex: 1 1 0%;
-    position: relative;
-    z-index: 2;
-}
 .eOA-dmL .slider-after {
     height: 2px;
     width: 98%;
@@ -461,35 +569,7 @@ const handleRollSubmit = (async()=>{
     background-color: rgba(216, 222, 227, 0.4);
     transform-origin: left center;
 }
-.eOA-dmL .slider-handler-wrap {
-    flex: 1 1 0%;
-    position: relative;
-    z-index: 2;
-}
-.fCSgTW .fix-layer .slider-handler {
-    height: 100%;
-    position: relative;
-    background: none;
-}
-.eOA-dmL .slider-handler {
-    display: block;
-    width: 1.5rem;
-    height: 100%;
-    border-radius: 0.4375rem;
-    transform: translate(-50%, 0px);
-    background-color: rgb(216, 216, 216);
-    touch-action: pan-y;
-}
-.fCSgTW .fix-layer .slider-handler::after {
-    content: "";
-    position: absolute;
-    top: 20%;
-    bottom: 20%;
-    left: 0.3125rem;
-    width: 0.75rem;
-    border-radius: 0.375rem;
-    background-color: rgb(204, 207, 217);
-}
+
 .fCSgTW .fix-layer .slider-before, .fCSgTW .fix-layer .slider-after {
     width: 86%;
     left: 7%;

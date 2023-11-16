@@ -8,11 +8,11 @@ import RiSystemArrowDropUpLine from "svelte-icons-pack/ri/RiSystemArrowDropUpLin
     <div class="footer-general-contaner">
         <div class="footer-logo">
             <div class="logo">
-                <img src='https://res.cloudinary.com/dxwhz3r81/image/upload/v1698028237/type_1_vd0s7p.png' alt="footer1" />
+                <img src='https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png' alt="footer1" />
             </div>
             <div class="footer-text1">
                 <h4>
-                    DOTPLAYPLAY is built by gamblers for gamblers.
+                    Wager is built by gamblers for gamblers.
                     With our unique community and a huge selection of games like Crash, HashDice,
                     Plinko, Slots, and many more. Your greatest casino adventure is waiting for you!
                 </h4>
@@ -40,7 +40,7 @@ import RiSystemArrowDropUpLine from "svelte-icons-pack/ri/RiSystemArrowDropUpLin
             <div class="footer-help">
                 <h4>CONTACT US</h4>
                 <h4>
-                    Help: <a href="/">help.Dotplayplay.com</a>
+                    Help: <a href="/">help.wager.com</a>
                 </h4>
             </div>
         </div>
@@ -52,10 +52,10 @@ import RiSystemArrowDropUpLine from "svelte-icons-pack/ri/RiSystemArrowDropUpLin
         </div>
         <div class="footer-last-row2">
             <div class="copyright">
-                <h4>©2023 Dotplayplay.COM ALL RIGHTS RESERVED</h4>
+                <h4>©2023 WAGER.COM ALL RIGHTS RESERVED</h4>
             </div>
             <div class="footer-top-arrow">
-                <Icon src={RiSystemArrowDropUpLine}  size="18"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" />
+                <Icon src={RiSystemArrowDropUpLine}  size="18"  color="rgba(153, 164, 176, 0.6)" />
                 <span>Top</span>
             </div>
         </div>
@@ -65,7 +65,7 @@ import RiSystemArrowDropUpLine from "svelte-icons-pack/ri/RiSystemArrowDropUpLin
 
 <div id="footer" class="sc-gfXuXe rIdoP">
     <div class="footer-wrap">
-        <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698028237/type_1_vd0s7p.png" alt="" class="logo">
+        <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" alt="" class="logo">
         <div class="footer__desc">WAGER.COM is built by gamblers for gamblers. With our unique community and a huge selection of games like Crash, HashDice, Plinko, Slots, and many more. Your greatest casino adventure is waiting for you!</div>
         <div class="footer__entries">
             <a href="/help/provably-fair">HELP CENTER</a>
@@ -137,7 +137,7 @@ import RiSystemArrowDropUpLine from "svelte-icons-pack/ri/RiSystemArrowDropUpLin
                 <div>©2023 wager.com ALL RIGHTS RESERVED</div>
             </div>
             <div class="to-top">
-                <Icon src={RiSystemArrowDropUpLine}  size="18"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" />
+                <Icon src={RiSystemArrowDropUpLine}  size="18"  color="rgba(153, 164, 176, 0.6)" />
                 <span>Top</span>
             </div>
         </div>

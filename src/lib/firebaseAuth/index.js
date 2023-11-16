@@ -1,5 +1,6 @@
 import firebase from "firebase/compat/app";
 import "firebase/firestore";
+import { browser } from '$app/environment';
 import { initializeApp } from "firebase/app";
 import {  goto } from "$app/navigation"
 import { useLogin } from "../hook/useLogin";
@@ -18,12 +19,12 @@ const { fblogin } = fbUseLogin()
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider,
     signInWithEmailAndPassword, signOut } from "firebase/auth";
 export const firebaseConfig = {
-    apiKey: "AIzaSyCBdS_oGeNWBPqwq0orDC-QamTvt-IDmXE",
-    authDomain: "wager-d268d.firebaseapp.com",
-    projectId: "wager-d268d",
-    storageBucket: "wager-d268d.appspot.com",
-    messagingSenderId: "237092725037",
-    appId: "1:237092725037:web:29353f4e2c2ca7958c73a4"
+    apiKey: "AIzaSyDzTvAEBt59YRXXHcddEN-jPCpYL17zYRQ",
+    authDomain: "dotplayplay-1692584380329.firebaseapp.com",
+    projectId: "dotplayplay-1692584380329",
+    storageBucket: "dotplayplay-1692584380329.appspot.com",
+    messagingSenderId: "934101502841",
+    appId: "1:934101502841:web:7c618c3beffda794a3bda8"
 };
 
 
@@ -93,10 +94,11 @@ export const handleSignIn = (async (email, password, reff)=>{
  export const handleLogout = (async()=>{
     const auth = getAuth(app);
     signOut(auth).then((res) => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("user_bet_amount");
         handleisLoggin.set(false)
         profileStore.set({})
+        window.location.href = ("")
+        localStorage.removeItem("user");
+        localStorage.removeItem("user_bet_amount");
       }).catch((error) => {
        console.log(error)
       });

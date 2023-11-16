@@ -3,11 +3,11 @@ import { writable } from "svelte/store"
 let payoutEl = ''
 export let payout = writable(payoutEl)
 
-let isbetDiceBTN = false
-export let isbetLoadingBtn = writable(isbetDiceBTN)
+let isbetMineBTN = false
+export let isbetLoadingBtn = writable(isbetMineBTN)
 
 let dicepoint = 50
-export let HandleDicePoint = writable(dicepoint)
+export let HandleMinePoint = writable(dicepoint)
 
 let betPositionEl = 50
 export let betPosition = writable(betPositionEl)
@@ -42,3 +42,6 @@ export let soundHandler = writable(sounds)
 
 let btn_constrolEl = false
 export let btn_constrol = writable(btn_constrolEl)
+
+let MineEncriptionEL = ""
+export let MinesEncription = writable(MineEncriptionEL)

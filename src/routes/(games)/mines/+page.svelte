@@ -1,63 +1,88 @@
 <script>
-    import Gameview from "$lib/games/mines/gameview.svelte";
-    import "$lib/games/mines/styles/index.css"
-    import Controls from "$lib/games/mines/Controls.svelte";
-    import Icon from 'svelte-icons-pack/Icon.svelte';
-    import AiFillSound from "svelte-icons-pack/ai/AiFillSound";
-    import BiSolidKeyboard from "svelte-icons-pack/bi/BiSolidKeyboard";
-    import BiStats from "svelte-icons-pack/bi/BiStats";
-    import RiSystemArrowDropRightLine from "svelte-icons-pack/ri/RiSystemArrowDropRightLine";
-    import { DicegameSocket } from "$lib/games/mines/socket/Socket"
-    import BiSolidAlbum from "svelte-icons-pack/bi/BiSolidAlbum";
-    import BsHurricane from "svelte-icons-pack/bs/BsHurricane";
-    import Allbet from "$lib/games/mines/componets/allbet.svelte";
-    import Mybet from "$lib/games/mines/componets/mybet.svelte";
-    import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
-    import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
-    import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
-    import Help from "$lib/games/mines/componets/help.svelte";
-    import { soundHandler } from "$lib/games/mines/store/index"
-     DicegameSocket()
+import Gameview from "$lib/games/mines/gameview.svelte";
+import "$lib/games/mines/styles/index.css"
+import Controls from "$lib/games/mines/Controls.svelte";
+import Icon from 'svelte-icons-pack/Icon.svelte';
+import AiFillSound from "svelte-icons-pack/ai/AiFillSound";
+import BiSolidKeyboard from "svelte-icons-pack/bi/BiSolidKeyboard";
+import BiStats from "svelte-icons-pack/bi/BiStats";
+import {onMount} from "svelte"
+import axios from "axios"
+import { handleAuthToken } from "$lib/store/routes"
+import RiSystemArrowDropRightLine from "svelte-icons-pack/ri/RiSystemArrowDropRightLine";
+import { DicegameSocket } from "$lib/games/mines/socket/Socket"
+import BiSolidAlbum from "svelte-icons-pack/bi/BiSolidAlbum";
+import BsHurricane from "svelte-icons-pack/bs/BsHurricane";
+import Allbet from "$lib/games/mines/componets/allbet.svelte";
+import Mybet from "$lib/games/mines/componets/mybet.svelte";
+import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
+import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
+import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
+import Help from "$lib/games/mines/componets/help.svelte";
+import { soundHandler } from "$lib/games/mines/store/index"
+import {MinesEncription} from "$lib/games/mines/store/index"
+DicegameSocket()
       
-    
-    
-    let is_allbet = true
-    let is_mybet = false
-    let is_contest = false
-    const handleAllbet = ((e) => {
-        if (e === 1) {
-            is_allbet = true
-            is_mybet = false
-            is_contest = false
-        } else if (e === 2) {
-            is_allbet = false
-            is_mybet = true
-        } else {
-            is_contest = true
-            is_allbet = false
-            is_mybet = false
+import { ServerURl } from "$lib/backendUrl"
+const URl = ServerURl()
+let is_loading = false
+const handleMinesGameEncrypt = (async()=>{
+    is_loading = true
+    await axios.get(`${URl}/api/user/mine-game/mine-encrypt`,{
+        headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${$handleAuthToken}`
         }
     })
-    
-    let is_hotkey = false
-    const handleHotKey = (()=>{
-      is_hotkey = !is_hotkey
+    .then((res)=>{
+        is_loading = false
+        MinesEncription.set(res.data[0])
     })
-    
-    let is_stats = false
-    let stats = (()=>{
-      is_stats = !is_stats
+    .catch((err)=>{
+        is_loading = false
+        console.log(err)
     })
-    let isSeed = false
-    const  hanhisSeed = (()=>{
-      isSeed = !isSeed
-    })
+})
+
+onMount(()=>{
+  $handleAuthToken && handleMinesGameEncrypt()
+})
     
-    let isHelp = false
-    
-    const handleIsHelp = (()=>{
-      isHelp = !isHelp
-    })
+let is_allbet = true
+let is_mybet = false
+let is_contest = false
+const handleAllbet = ((e) => {
+    if (e === 1) {
+        is_allbet = true
+        is_mybet = false
+        is_contest = false
+    } else if (e === 2) {
+        is_allbet = false
+        is_mybet = true
+    } else {
+        is_contest = true
+        is_allbet = false
+        is_mybet = false
+    }
+})
+let is_hotkey = false
+const handleHotKey = (()=>{
+    is_hotkey = !is_hotkey
+})
+
+let is_stats = false
+let stats = (()=>{
+    is_stats = !is_stats
+})
+let isSeed = false
+const  hanhisSeed = (()=>{
+    isSeed = !isSeed
+})
+
+let isHelp = false
+const handleIsHelp = (()=>{
+    isHelp = !isHelp
+})
     
     
     const handleSoundState = (()=>{
@@ -87,9 +112,7 @@
     {/if}
     
     
-    
-    
-    
+    {#if !is_loading}
     <div class="sc-lhMiDA ePAxUv" style="opacity: 1; transform: none;">
         <div id="game-ClassicDice" class="sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf">
             <div class="game-area">
@@ -157,10 +180,46 @@
             </div>
         </div>
     </div>
+    {:else}
+    <div class="uytutfyh">
+        <div class="tdthuy">
+            <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" alt="">
+        </div>
+    </div>
+{/if}
     
     
-    
-    <style>
+<style>
+.uytutfyh{
+    background-color: var(--background-color);
+    width: 100%;
+    height: 100vh;
+}
+.tdthuy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    height: 500px;
+}
+.tdthuy img{
+    width: 250px;
+    background-color: rgba(51, 57, 57, 0.502);
+    padding: 20px;
+    border-radius: 10px;
+    animation: monyy 3s infinite;
+}
+
+@keyframes monyy{
+    10%{
+        margin-right: -100px;
+    }
+
+    100%{
+        margin-right: 100px;
+    }
+}
+
     .ePAxUv {
         margin-top: 4rem;
     }

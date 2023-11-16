@@ -1,21 +1,56 @@
 <script>
 import Icon from 'svelte-icons-pack/Icon.svelte';
-import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp"
-  import {
-    createEventDispatcher
-} from 'svelte';
-
-
+import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
+import {createEventDispatcher } from 'svelte';
+import axios from 'axios';
+import { browser } from '$app/environment';
+import { ServerURl} from "../../../backendUrl";
+const URL = ServerURl()
 const dispatch = createEventDispatcher()
+
 
 const handleCloseHelp = (() => {
     dispatch("close", 5)
 })
 
+let client = ''
+let server = ''
+const handleSeedSettings = (async()=>{
+    if(!client){
+        console.log("Can't be empty")
+    }else{
+        let data = {
+            client,
+            server
+        }
+        await axios.post(`${URL}/api/user/dice-game/seed-settings`,{
+            data
+        })
+        .then((res)=>{
+            console.log(res)
+        })
+        .catch(error =>{
+            console.log(error)
+        })
+    }
+})
+
+let is_mobile = false
+$:{
+    if (browser && window.innerWidth < 650) {
+        is_mobile = true
+    }
+    else {
+        is_mobile = false
+    }
+}
+
+
+
 </script>
 
 <div class="sc-bkkeKt kBjSXI">
-    <div class="dialog " style="opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px; transform: scale(1) translateZ(0px);">
+    <div class="dialog " style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         <div class="dialog-head has-close">
             <div class="dialog-title">Seed Settings</div>
         </div>
@@ -27,7 +62,7 @@ const handleCloseHelp = (() => {
         <div class="dialog-body default-style " style="z-index: 2; transform: none;">
             <div class="sc-dkPtRN jScFby scroll-view sc-hxaKAp iGYNgq dialog-box">
                 <div class="warn">You may use this function to set a new server seed + a new client seed, they can be randomly generated or customized (at least 10 characters), 
-                    and the number of bets will be reset to zero.
+                    and the number of bets will be reset to .
                 </div>
                 <div class="detailForm">
                     <div class="title">Current seeds</div>
@@ -80,7 +115,7 @@ const handleCloseHelp = (() => {
                     </div>
                 </div>
                 <div class="submit">
-                    <button class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+                    <button on:click={handleSeedSettings} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
                         <div class="button-inner">Use New Seeds</div>
                     </button>
                 </div>
@@ -112,6 +147,27 @@ const handleCloseHelp = (() => {
     overflow: hidden;
     background-color: rgb(23, 24, 27);
 }
+
+@media only screen and (max-width: 650px){
+    
+.dialog {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    transition-property: width, height, margin-left, margin-top;
+    transition-duration: 0.5s;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background-color: rgb(23, 24, 27);
+}
+
+}
+
 .dialog-head.has-close {
     margin-right: 3.75rem;
 }

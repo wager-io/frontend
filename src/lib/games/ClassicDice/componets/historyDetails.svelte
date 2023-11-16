@@ -8,6 +8,7 @@ import BsCreditCardFill from "svelte-icons-pack/bs/BsCreditCardFill";
 import RiFinanceHandCoinFill from "svelte-icons-pack/ri/RiFinanceHandCoinFill";
 import BiChart from "svelte-icons-pack/bi/BiChart";
 import FaSolidDice from "svelte-icons-pack/fa/FaSolidDice";
+import { browser } from '$app/environment';
 import AiFillSlackCircle from "svelte-icons-pack/ai/AiFillSlackCircle";
 import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine";
 export let DgII
@@ -37,6 +38,26 @@ const handleSeedSettings = (()=>{
 })
 
 
+function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    return `${formattedHours}:${formattedMinutes} ${ampm}`;
+}
+
+let is_mobile = false
+$:{
+    if (browser && window.innerWidth < 650) {
+        is_mobile = true
+    }
+    else {
+        is_mobile = false
+    }
+}
+
 
 </script>
 
@@ -49,7 +70,7 @@ const handleSeedSettings = (()=>{
             </div>
         </div>
     {/if}   
-    <div class="dialog " style="opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px; transform: scale(1) translateZ(0px);">
+    <div class="dialog " style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         
         {#if is_seeed_settigs}
         <button on:click={()=> handleSeedSettings()} class="dialog-back" style="opacity: 1; transform: none;">
@@ -82,11 +103,11 @@ const handleSeedSettings = (()=>{
                         <img class="avatar avatar" alt="" src={DgII.profile_img}>
                         <div class="name">{DgII.username}</div>
                         <div class="flex">
-                            <div class="betid">Betting ID: {DgII.bet_id}</div>
+                            <div class="betid">{`${DgII.bet_id ? `Betting ID: ${DgII.bet_id}` : "" }`}</div>
                             <div class="verified">Verified</div>
                         </div>
                     </div>
-                    <div class="rt_time">{DgII.time}</div>
+                    <div class="rt_time"> {new Date(DgII.time).getFullYear()}:{new Date(DgII.time).getMonth()}:{new Date(DgII.time).getDate()} {formatTime(DgII.time)} </div>
                     <div class="rt_items">
                         <div class="item-wrap">
                             <div class="label flex-center">
@@ -95,7 +116,7 @@ const handleSeedSettings = (()=>{
                                 </span>
                                 Amount
                             </div>
-                            <div class="number flex-center">{DgII.bet_amount} {DgII.token}</div>
+                            <div class="number flex-center">{(parseFloat(DgII.bet_amount)).toFixed(2)} {DgII.token}</div>
                         </div>
                         <div class="item-wrap">
                             <div class="label flex-center">
@@ -104,7 +125,7 @@ const handleSeedSettings = (()=>{
                                 </span>
                                 Payout
                             </div>
-                            <div class="number flex-center">{DgII.payout} x</div>
+                            <div class="number flex-center">{(parseFloat(DgII.payout)).toFixed(2)} x</div>
                         </div>
                         <div class="item-wrap">
                             <div class="label flex-center">
@@ -113,7 +134,7 @@ const handleSeedSettings = (()=>{
                                 </span>
                                 Profit
                             </div>
-                            <div class="number flex-center">{DgII.profit} {DgII.token}</div>
+                            <div class="number flex-center">{(parseFloat(DgII.profit)).toFixed(6)} {DgII.token}</div>
                         </div>
                     </div>
                 </div>
@@ -227,6 +248,25 @@ const handleSeedSettings = (()=>{
     overflow: hidden;
     background-color: rgb(23, 24, 27);
 }
+
+@media only screen and (max-width: 650px){
+    .dialog {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    transition-property: width, height, margin-left, margin-top;
+    transition-duration: 0.5s;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background-color: rgb(23, 24, 27);
+}
+}
+
 .dialog-head.has-close {
     margin-right: 3.75rem;
 }

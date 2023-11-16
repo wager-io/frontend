@@ -36,9 +36,22 @@ export let onWin = writable(winIncrement)
 let settings = {}
 export let settingEl = writable(settings)
 
+
 let sounds = 1
 export let soundHandler = writable(sounds)
 
 
 let btn_constrolEl = false
 export let btn_constrol = writable(btn_constrolEl)
+
+let DiceEncriptionEL = ""
+export let DiceEncription = writable(DiceEncriptionEL)
+
+let rollunderEl = true
+export let rollunder = writable(rollunderEl)
+
+
+let dice_trooEL = []
+export let dice_troo = writable(dice_trooEL)
+let dice_waa = []
+export let dice_wallet = writable(dice_waa)

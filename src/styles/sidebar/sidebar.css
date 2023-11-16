@@ -1,7 +1,7 @@
 
 .eTxQfM {
     position: fixed;
-    z-index: 102;
+    z-index: 202;
     left: 0px;
     top: 0px;
     bottom: 0px;
@@ -65,8 +65,8 @@
 }
 .knLCVT.select .menu-pc {
     font-weight: bold;
-    /* background-color: var(--background-color); */
-    background-image: linear-gradient(to right,  #800080, #9401c573 33%, rgba(85, 89, 102, 0.4));
+    background-color: var(--btn-color);
+    background-image: var(--btn-image);
     color: rgb(245, 246, 247);
 }
 .knLCVT .menu-pc {
