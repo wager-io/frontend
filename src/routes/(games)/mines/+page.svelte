@@ -5,6 +5,7 @@ import Controls from "$lib/games/mines/Controls.svelte";
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import AiFillSound from "svelte-icons-pack/ai/AiFillSound";
 import BiSolidKeyboard from "svelte-icons-pack/bi/BiSolidKeyboard";
+import IoMusicalNotes from "svelte-icons-pack/io/IoMusicalNotes";
 import BiStats from "svelte-icons-pack/bi/BiStats";
 import {onMount} from "svelte"
 import axios from "axios"
@@ -19,10 +20,10 @@ import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
 import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
 import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
 import Help from "$lib/games/mines/componets/help.svelte";
-import { soundHandler } from "$lib/games/mines/store/index"
+import { soundHandler} from "$lib/games/mines/store/index"
 import {MinesEncription} from "$lib/games/mines/store/index"
+import background from "$lib/games/mines/audio/sadness.mp3"
 DicegameSocket()
-      
 import { ServerURl } from "$lib/backendUrl"
 const URl = ServerURl()
 let is_loading = false
@@ -47,6 +48,20 @@ const handleMinesGameEncrypt = (async()=>{
 onMount(()=>{
   $handleAuthToken && handleMinesGameEncrypt()
 })
+
+let playPlayb = false
+function playBackground() {
+    playPlayb =! playPlayb
+    if(playPlayb){
+        const audio = new Audio(background);
+        audio.volume = 1;
+        audio.play();
+    }else{
+        const audio = new Audio(background);        
+        audio.volume = 0;
+        audio.paused();
+    }
+}
     
 let is_allbet = true
 let is_mybet = false
@@ -83,7 +98,7 @@ let isHelp = false
 const handleIsHelp = (()=>{
     isHelp = !isHelp
 })
-    
+ 
     
     const handleSoundState = (()=>{
         if($soundHandler){
@@ -123,6 +138,9 @@ const handleIsHelp = (()=>{
                     <div class="game-actions">
                         <button on:click={()=> handleSoundState()} class={`action-item ${$soundHandler ? "active" : ""} `}>
                             <Icon src={AiFillSound} size="23"  color={` ${$soundHandler ? "rgb(67, 179, 9)" : "rgba(153, 164, 176, 0.6)"} `} title="Sound" />
+                        </button>
+                        <button on:click={()=> playBackground()} class={`action-item ${playPlayb ? "active" : ""} `}>
+                            <Icon src={IoMusicalNotes} size="23"  color={` ${playPlayb ? "rgb(67, 179, 9)" : "rgba(153, 164, 176, 0.6)"} `} title="Sound" />
                         </button>
                         <button on:click={handleHotKey} class="action-item ">
                             <Icon src={BiSolidKeyboard}  size="23"  color="rgba(153, 164, 176, 0.6)" />

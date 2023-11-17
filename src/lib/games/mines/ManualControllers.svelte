@@ -5,15 +5,17 @@ import RiSystemArrowUpSLine from "svelte-icons-pack/ri/RiSystemArrowUpSLine";
 import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
 import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
 import BsExclamationCircle from "svelte-icons-pack/bs/BsExclamationCircle";
-import { payout } from "./store";
+import { payout , minesStore, betDetails, Cashout } from "../mines/store/index";
 import { handleAuthToken } from "$lib/store/routes"
 import { handleisLoggin } from "$lib/store/profile"
 import { error_msg } from "./store/index"
-import {  soundHandler, MinesEncription } from "$lib/games/mines/store/index"
+import {  soundHandler,mine_history, MinesEncription,HandleHas_won, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
 import axios from "axios";
 import cr from "./audio/click.wav"
+import successSound from "./audio/success-1-6297.mp3"
 import win from "./audio/mixkit-achievement-bell-600.wav"
 import { ServerURl } from "$lib/backendUrl"
+import { onMount } from "svelte";
 const URL = ServerURl()
 
 let max_profit_tips = false
@@ -29,6 +31,19 @@ let wining_amount = '' ;
 let bet_amount = 0.000027
 
 $:{
+    onMount(()=>{
+    if($default_Wallet.coin_name === "BTC"){
+        bet_amount = (0.000027).toFixed(8)
+    }else  if($default_Wallet.coin_name === "ETH"){
+        bet_amount = (0.00050).toFixed(8)
+    }else{
+        bet_amount = (100).toFixed(8)
+    }
+})
+}
+
+
+$:{
     wining_amount = (bet_amount * $payout).toFixed(9)
 }
 
@@ -41,16 +56,10 @@ const mult = (()=>{
 })
 
 
-function playSound(e) {
-    if(e === 1){
-        const audio = new Audio(cr);
-        audio.volume = 0.05;
-        audio.play();
-    }else{
-        const audio = new Audio(win);
-        audio.volume = 0.05;
-        audio.play();
-    }
+function HandleWinningSound(e) {
+    const audio = new Audio(successSound);
+    audio.volume = 1;
+    audio.play();
 }
 
 
@@ -104,6 +113,13 @@ const handleActiveMines = ((els)=>{
 });
 handleDspo()
 })
+let multiplayerEl = 1.03
+let multiplier 
+let cm;
+$:{
+    multiplier = multiplayerEl * (25 - $HandlemineGems)
+}
+
 
 let uuyd = false
 let none = 1
@@ -113,6 +129,7 @@ const handleDpojb = (async()=>{
         bet_amount:  parseFloat(bet_amount),
         bet_token_img: $default_Wallet.coin_image, 
         bet_token_name: $default_Wallet.coin_name ,
+        token_balance: $default_Wallet.balance,
         client_seed: $MinesEncription.client_seed,
         server_seed: $MinesEncription.server_seed,
         hash_seed: $MinesEncription.hash_seed,
@@ -126,14 +143,63 @@ const handleDpojb = (async()=>{
     }
     })
     .then((response)=>{
-        console.log(response.data)
+        minesStore.set(response.data.daajs)
         none += 1
+        let ins = []
+        HandleWinning.set("")
+        $minesStore.forEach(element => {
+             if(!element.mine){
+                ins.push(element)
+             }
+        });
+        default_Wallet.set(response.data.skjb)
+        HandleIsAlive.set(true)
+        HandlemineGems.set(ins.length)
+        betDetails.set(response.data.waskj[0])
     })
     .catch((error)=>{
         console.log(error)
     })
 })
 
+
+const handleCashout = (async()=>{
+     let data = {
+        gamaLoop: $minesStore,
+        bet_amount:parseFloat($betDetails.bet_amount),
+        bet_token_img: $betDetails.bet_token_img,
+        bet_token_name: $betDetails.bet_token_name,
+        cashout:$Cashout,
+        profit: parseFloat($betDetails.bet_amount) * $Cashout,
+        has_won: true,
+        time: new Date(),
+     }
+     await axios.post(`${URL}/api/user/mine-game/cashout`, {
+        data
+    },{
+        headers:{
+        Authorization: `Bearer ${$handleAuthToken}`
+    }
+    })
+    .then((response)=>{
+        HandleWinningSound()
+        Cashout.set(0)
+        default_Wallet.set(response.data.skjb)
+        let iuss = response.data.data
+        let jks = {
+            profit: iuss.profit, 
+            cashout:iuss.cashout,
+            bet_token_name:iuss.bet_token_name
+        }
+        mine_history.set([...$mine_history, data])
+        HandleWinning.set(jks)
+        HandleIsAlive.set(false)
+        HandleHas_won.set(true)
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+})
 
 
 </script>
@@ -172,9 +238,17 @@ const handleDpojb = (async()=>{
                 <div class="label-amount">0 USD</div>
             </div>
             <div class="input-control">
-                <input type="number" bind:value={bet_amount}>
+                {#if $HandleIsAlive}
+                    <input type="number" readonly bind:value={$betDetails.bet_amount}>
+                    {:else}
+                    <input type="number" bind:value={bet_amount}>
+                {/if}
                 {#if $handleisLoggin}
+                {#if $HandleIsAlive}
+                    <img class="coin-icon" alt="" src={$betDetails.bet_token_img}>
+                    {:else}
                     <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
+                {/if}  
                 {:else}
                     <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
                 {/if}
@@ -192,11 +266,13 @@ const handleDpojb = (async()=>{
             <div class="input-label">Mines</div>
             <div class="input-control">
                 <div class="sc-jJoQJp gOHquD select is-open sc-bnOPBZ ewilmB">
-                    <button on:click={handleDspo} class="select-trigger">
-                        {activeMIne.id}
-                        <div class="arrow ">
+                    <button disabled={$HandleIsAlive} on:click={handleDspo} class="select-trigger">
+                    {activeMIne.id}
+                    {#if $minesStore.length < 1}
+                    <div class="arrow ">
                         <Icon src={RiSystemArrowRightSLine}  size="20"  color="rgba(153, 164, 176, 0.6)"  />
                     </div>
+                    {/if}
                 </button>
                 {#if jufy}
                 <div class="sc-hiCibw iVwWcQ select-options-wrap" style="opacity: 1; top: 100%; transform: none;">
@@ -209,43 +285,48 @@ const handleDpojb = (async()=>{
                 {/if}
             </div>
         </div>
-        </div>
+    </div>
 
-    {#if uuyd}
+    {#if $HandleIsAlive}
         <div class="preview-wrap">
             <div class="sc-ezbkAF gcQjQT input ">
                 <div class="input-label">Gems</div>
                 <div class="input-control">
-                    <input type="text" readonly="" value="24">
+                    <input type="text" readonly value={$HandlemineGems}>
                 </div>
             </div>
             <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp">
-                <div class="input-label">Profit on Next Tile(1.03x)
+                <div class="input-label">Profit on Next Tile({(multiplier).toFixed(2)}x)
                     <div class="label-amount">0 USD</div>
                 </div>
                 <div class="input-control">
-                    <input type="text" readonly value="103.000000000">
-                    <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
+                    <input type="text" readonly value={(parseFloat($betDetails.bet_amount) *multiplier).toFixed(8)}>
+                    <img class="coin-icon" alt="" src={$betDetails.bet_token_img}>
                 </div>
             </div>
             <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp">
-                <div class="input-label">Total profit(1.00x)
+                <div class="input-label">Total profit({ (parseFloat($Cashout)).toFixed(2)}x)
                     <div class="label-amount">0 USD</div>
                 </div>
                 <div class="input-control">
-                    <input type="text" readonly="" value="100.000000000">
-                    <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
+                    <input type="text" readonly value={ $Cashout === 0 ? (parseFloat($betDetails.bet_amount)).toFixed(8) : (parseFloat($betDetails.bet_amount)  * $Cashout).toFixed(8) }>
+                    <img class="coin-icon" alt="" src={$betDetails.bet_token_img}>
                 </div>
             </div>
-            <button class="sc-iqseJM sc-crHmcD cBmlor gEBngo button button-big pick-button">
+            <!-- <button class="sc-iqseJM sc-crHmcD cBmlor gEBngo button button-big pick-button">
                 <div class="button-inner">Pick a Tile Randomly</div>
-            </button>
+            </button> -->
         </div>
         {/if}
- 
+        {#if $HandleIsAlive}
+        <button disabled={$Cashout === 0} on:click={handleCashout} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big bet-button">
+            <div class="button-inner">Cash out</div>
+        </button>
+        {:else}
         <button on:click={handleDpojb} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big bet-button">
             <div class="button-inner">Roll Now</div>
         </button>
+        {/if}
     </div>
 </div>
 

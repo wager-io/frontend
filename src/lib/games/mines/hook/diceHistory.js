@@ -1,13 +1,13 @@
-import { dice_history } from "../store/index"
+import { mine_history } from "../store/index"
 import { ServerURl } from "$lib/backendUrl"
 const URl = ServerURl()
 import { browser } from '$app/environment';
 
-export const DiceHistory = () => {
+export const MinesHistory = () => {
     const user = browser && JSON.parse(localStorage.getItem('user'))
-    const historyD = async (data) => {
+    const historyMines = async (data) => {
       const response = await fetch(
-        `${URL}/api/user/dice-game`,{
+        `${URl}/api/user/mine-game/mine-history`,{
           method: "GET",
           headers: {
             "Content-type": "application/json",
@@ -20,8 +20,8 @@ export const DiceHistory = () => {
         console.log(json.error)
       }
       if (response.ok) {
-        dice_history.set(json)
+        mine_history.set(json)
       }
     };
-    return { historyD};
+    return { historyMines};
 };

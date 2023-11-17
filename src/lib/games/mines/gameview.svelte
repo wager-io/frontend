@@ -1,18 +1,19 @@
 <script>
 import { payout } from "$lib/games/ClassicDice/store/index"
-import { betPosition, dice_history} from "./store/index"
-import { DiceHistory } from "./hook/diceHistory";
-const { historyD } = DiceHistory()
+import { mine_history, minesStore, HandlemineGems, Cashout, HandleHas_won,betDetails, HandleIsAlive, HandleWinning} from "./store/index"
+import { MinesHistory } from "./hook/diceHistory";
+const { historyMines } = MinesHistory()
 import { onMount } from "svelte";
+import { handleAuthToken } from "$lib/store/routes"
+import axios from "axios"
 import { handleisLoggin } from "../../store/profile"
 import HistoryDetails from "./componets/historyDetails.svelte";
-import click from "./audio/click.wav"
+import win from "./audio/hit.mp3"
+import wion from "./audio/glass-breaking-151256.mp3"
 import cr from "./audio/click.wav"
 let range = 50
-
-$:{
-    betPosition.set(range)
-}
+import { ServerURl } from "$lib/backendUrl"
+const URL = ServerURl()
 
 let ishover = false
 const handleRangl = ((w)=>{
@@ -28,11 +29,6 @@ let game__charges = 100 / houseEgde
 let game_logic;
 let total_charge;
 
-$: {
-    game_logic = 100 / $betPosition
-    total_charge = game_logic / game__charges
-    payout.set((game_logic - total_charge).toFixed(4))
-}
 let DgII = ''
 let hisQQ = false
 const handleDiceHistoryDetail = ((data)=>{
@@ -61,8 +57,9 @@ function togglePlayback() {
 }
 
 const handleChange = ((e)=>{
-    playSound()
-    range = e
+    const audio = new Audio(win);
+    audio.volume = 0.5;
+    audio.play();
 })
 
 let skown = [
@@ -93,13 +90,86 @@ let skown = [
     {id:25, active: false, mine: false},
 ]
 
+const handleFubbf = (()=>{
+    const audio = new Audio(wion);
+    audio.volume = 0.5;
+    audio.play();
+})
+
+const handleLostBet = (async(data)=>{
+    mine_history.set([...$mine_history, data])
+    await axios.post(`${URL}/api/user/mine-game/lost-bet`,{
+        data
+    },{
+        headers:{
+        Authorization: `Bearer ${$handleAuthToken}`
+    }
+    })
+})
+
+let multiplayerEl = 1.03
+let multiplier 
 const handleMines = ((event)=>{
-    skown.forEach(element => {
-        if(element.id === event.id){
-            element.active = true
-            skown = skown
-        }
+$minesStore.forEach(element => {
+ if(element.id === event.id){
+    if(event.mine){
+        handleFubbf()
+        Cashout.set(0)
+        element.active = true
+        HandleIsAlive.set(false)
+        HandleHas_won.set(true)
+        minesStore.set($minesStore)
+        handleLostBet({gameLoop:$minesStore, cashout:0})
+    }else{
+        element.active = true
+        handleChange()
+        HandlemineGems.set($HandlemineGems - 1)
+        minesStore.set($minesStore)
+        multiplier = multiplayerEl * (24 - $HandlemineGems)
+        Cashout.set(multiplier)
+    }
+    }
     });
+})
+
+
+const handleActivemies = (async()=>{
+    await axios.get(`${URL}/api/user/mine-game/mine-init`,{
+        headers:{
+        Authorization: `Bearer ${$handleAuthToken}`
+    }
+    })
+    .then((response)=>{
+        let pops = response.data[0]
+        if(pops){
+            minesStore.set(pops.gameLoop)
+        let ins = []
+        $minesStore.forEach(element => {
+             if(!element.mine){
+                ins.push(element)
+             }
+        });
+        HandlemineGems.set(ins.length)
+        HandleIsAlive.set(pops.active)
+    let waskj = [
+    {
+     mines: pops.mine,
+      bet_amount:pops.bet_amount , 
+      bet_token_name:pops.bet_token_name,
+      bet_token_img:pops.bet_token_img
+    }]
+        betDetails.set(waskj[0])
+    }
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+   await historyMines()
+})
+
+
+onMount(async()=>{
+    $handleAuthToken && handleActivemies()
 })
 
 </script>
@@ -112,11 +182,11 @@ const handleMines = ((event)=>{
     <div class="sc-hoHwyw fIoiVG game-recent ">
         <div class="recent-list-wrap">
             {#if $handleisLoggin}
-                {#if $dice_history.length !== 0}
+                {#if $mine_history.length !== 0}
                 <div class="recent-list" style="width: 100%; transform: translate(0%, 0px);">
-                {#each $dice_history.slice(-6) as  dice (dice._id)} 
+                {#each $mine_history.slice(-6) as  dice (dice._id)} 
                     <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style="width: 20%;">
-                        <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{dice.cashout}</div>
+                        <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{(parseFloat(dice.cashout)).toFixed(2)}x</div>
                     </button>
                 {/each}
                 </div> 
@@ -140,21 +210,64 @@ const handleMines = ((event)=>{
 
          <div class="sc-hcupDf dqwCNK game-box sc-deghWO jKOkvT">
             <div class="sc-gWDJhD hnBJiv mine-stage">
+                {#if $HandleWinning}
+                    <div class="sc-lcdCCa gPUDNx win-wrap" style="opacity: 1; transform: none;">
+                        <div class="sc-jrQzAO iodxXo amount">
+                            <span style="transform: scale(0.963115);">{(parseFloat($HandleWinning.profit)).toFixed(5)} {$HandleWinning.bet_token_name}</span>
+                        </div>
+                        <div class="odds">{(parseFloat($HandleWinning.cashout)).toFixed(2)}×</div>
+                    </div>
+                {/if}
+               
                 <div class="grids-wrap ">
-                    {#each skown as ui}
-                        <button disabled on:click={()=>handleMines(ui)} class={`sc-kiwPtn gmXWCK grid-item ${false && "unselected"}`}>
-                            {#if ui.active && !ui.mine}
-                                <div class={`sc-cdJjGe gsYRFa qLoBl`}>
-                                    <div class="sc-cdJjGe gsYRFa graph"></div>
-                                </div>
-                            {:else if ui.active && ui.mine } 
-                                <div class="sc-cdJjGe sc-eSJyHI gsYRFa eojQMr effect end mines3"></div>
-                                {:else}
-                                <div class={`sc-cdJjGe gsYRFa`}>
-                                </div>
-                            {/if} 
-                        </button>
-                    {/each}
+                {#if $HandleIsAlive}
+                {#each $minesStore as ui}
+                    <button disabled={ui.active && !ui.mine} on:pointerenter={playSound} on:click={()=>handleMines(ui)} class={`sc-kiwPtn gmXWCK grid-item ${false && "unselected"}`}>
+                        {#if ui.active && !ui.mine}
+                            <div class={`sc-cdJjGe gsYRFa qLoBl`}>
+                                <div class="sc-cdJjGe gsYRFa graph"></div>
+                            </div>
+                        {:else if ui.active && ui.mine } 
+                            <div class="sc-cdJjGe sc-eSJyHI gsYRFa eojQMr effect end mines3"></div>
+                            {:else}
+                            <div class={`sc-cdJjGe gsYRFa`}>
+                            </div>
+                        {/if} 
+                    </button>
+                {/each}
+                {:else if $HandleHas_won && !$HandleIsAlive}
+                {#each $minesStore as ui}
+                <button disabled={true} class={`sc-kiwPtn gmXWCK grid-item ${!ui.active && !ui.mine && "unselected"} `}>
+                    {#if !ui.active && !ui.mine}
+                        <div class={`sc-cdJjGe gsYRFa qLoBl`}>
+                            <div class="sc-cdJjGe gsYRFa graph"></div>
+                        </div>
+                    {:else if !ui.active && ui.mine } 
+                    <div class="sc-lcDUFh gywOmz mines4"></div>
+                    {:else if ui.active && ui.mine } 
+                    <div class="sc-cdJjGe sc-eSJyHI gsYRFa eojQMr effect end mines3"></div>
+                    {:else}
+                    <div class={`sc-cdJjGe gsYRFa qLoBl`}>
+                        <div class="sc-cdJjGe gsYRFa graph"></div>
+                    </div>
+                {/if} 
+                </button>
+                {/each}
+                {:else}
+                {#each skown as ui}
+                <button disabled class={`sc-kiwPtn gmXWCK grid-item unselected`}>
+                {#if ui.active && !ui.mine}
+                    <div class={`sc-cdJjGe gsYRFa qLoBl`}>
+                        <div class="sc-cdJjGe gsYRFa graph"></div>
+                    </div>
+                {:else if ui.active && ui.mine } 
+                    <div class="sc-cdJjGe sc-eSJyHI gsYRFa eojQMr effect end mines3"></div>
+                {:else}
+                    <div class={`sc-cdJjGe gsYRFa`}></div>
+                {/if}
+                </button>
+            {/each}
+            {/if}
                 </div>
                 <div class="sc-ieCETs dOthbb">
                     <div class=" star-item index1"></div>
@@ -169,11 +282,12 @@ const handleMines = ((event)=>{
                     <stop offset="100%" stop-color="#1E2024" stop-opacity="0"></stop>
                 </linearGradient>
             </defs>
-            <g opacity=".899"><path fill="url(#gcardBg)" fill-rule="evenodd" d="M0 0h996L892 46H96z" opacity=".598" transform="rotate(-180 498 23)"></path>
+            <g opacity=".899">
+            <path fill="url(#gcardBg)" fill-rule="evenodd" d="M0 0h996L892 46H96z" opacity=".598" transform="rotate(-180 498 23)">
+                </path>
             </g>
         </svg>
     </div>
-
     </div>
 </div>
 
@@ -188,7 +302,39 @@ const handleMines = ((event)=>{
     margin-top: 0.625rem;
     margin-bottom: 0.625rem;
 }
-
+.bOVXMe {
+    width: 5.75rem;
+    height: 5.25rem;
+    position: relative;
+}
+.gywOmz {
+    position: absolute;
+    inset: 0px;
+    z-index: 1;
+    border-radius: 0.25rem;
+    background-color: rgb(33, 35, 40);
+}
+.unselected .sc-lcDUFh::before {
+    opacity: 0.3;
+}
+.gywOmz::before {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+}
+.gywOmz.mines4::before {
+    background-image: url(https://static.nanogames.io/assets/mines-4.8900a7b8.png);
+    background-size: 85%;
+}
+.unselected .sc-lcDUFh::before {
+    opacity: 0.3;
+}
+.boGbAB::before {
+    background-image: url(https://static.nanogames.io/assets/gems.f2815a6d.png);
+}
 .slider-tip {
     box-sizing: border-box;
     position: absolute;
@@ -381,6 +527,48 @@ const handleMines = ((event)=>{
     background-color: rgb(33, 35, 40);
     inset: 2px;
 }
+.hnBJiv .win-wrap {
+    z-index: 11;
+}
+.gPUDNx {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 16.875rem;
+    height: 7.5rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -3.75rem 0px 0px -8.4375rem;
+    border-radius: 0.5rem;
+    border: 0.3125rem solid rgb(49, 52, 60);
+    background-color: rgb(35, 38, 43);
+}
+.gPUDNx .amount {
+    color: rgb(67, 179, 9);
+    font-size: 1.875rem;
+    font-weight: bold;
+    width: 90%;
+}
+.iodxXo {
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+.iodxXo > span {
+    transform-origin: center center;
+    display: inline-block;
+    white-space: nowrap;
+}
+.gPUDNx .odds {
+    font-size: 1.625rem;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    line-height: 1;
+}
 .hLmIlp {
     position: absolute;
     inset: 0px;
@@ -409,6 +597,9 @@ const handleMines = ((event)=>{
     width: 5.75rem;
     height: 5.25rem;
     position: relative;
+}
+.gsYRFa:hover{
+    margin-bottom: 2px;
 }
 .gsYRFa {
     position: absolute;
