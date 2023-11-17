@@ -105,7 +105,7 @@ const handleLostBet = (async(data)=>{
         Authorization: `Bearer ${$handleAuthToken}`
     }
     })
-    .then(()=>{
+    .then((res)=>{
         console.log(res.data)
     })
     .catch((error)=>{
