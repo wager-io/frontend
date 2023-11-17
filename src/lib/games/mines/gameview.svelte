@@ -106,7 +106,7 @@ const handleLostBet = (async(data)=>{
     }
     })
     .then((res)=>{
-        console.log(res.data)
+        (res.data)
     })
     .catch((error)=>{
          console.log(error)

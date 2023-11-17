@@ -169,7 +169,7 @@ const handleMenu = () => {
     {#if !data.preloaed}
         <div class="preloading">
             <div class="gyuys">
-                <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1699447809/preload_b2jdw0.jpg">
+                <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698011384/type_1_w_hqvuex.png">
             </div>
         </div>
     {/if}
