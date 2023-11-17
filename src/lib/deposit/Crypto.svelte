@@ -72,12 +72,12 @@ if( active_coin.coin_name === "BTC"){
 }
 
 
-
+let err_msg;
 let is_olii = false
  const handleSubmit = (async()=>{
     is_olii = true
     let data = {
-        network: actice_network.network,
+        details: active_coin,
         amount,
     }
         await axios.post(`${url}/api/deposit/initiate`, {
