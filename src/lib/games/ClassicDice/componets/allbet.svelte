@@ -1,8 +1,6 @@
 <script>
-import {
-    dicegameplays
-} from "../store/index"
-    import HistoryDetails from "./historyDetails.svelte";
+import { dicegameplays } from "../store/index"
+import HistoryDetails from "./historyDetails.svelte";
 
 let newItem;
  $: {

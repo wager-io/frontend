@@ -171,11 +171,12 @@ const handleIsHelp = (()=>{
                     <div class="bg" style="left: 66.6667%; right: 0%;"></div>
                    {/if}
                 </div>
-                {#if is_allbet}
+                <Allbet />
+                <!-- {#if !is_allbet}
                 <Allbet />
                 {:else if is_mybet}
                 <Mybet />
-                {/if}
+                {/if} -->
             </div>
     
             <div class="sc-knKHOI cFxmZX">

@@ -11,9 +11,7 @@ import { handleisLoggin } from "$lib/store/profile"
 import { error_msg } from "./store/index"
 import {  soundHandler,mine_history, MinesEncription,HandleHas_won, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
 import axios from "axios";
-import cr from "./audio/click.wav"
 import successSound from "./audio/success-1-6297.mp3"
-import win from "./audio/mixkit-achievement-bell-600.wav"
 import { ServerURl } from "$lib/backendUrl"
 import { onMount } from "svelte";
 const URL = ServerURl()
@@ -123,43 +121,117 @@ $:{
 
 let uuyd = false
 let none = 1
+let is_loading = false
 const handleDpojb = (async()=>{
-    let data = {
-        mines: activeMIne.id,
-        bet_amount:  parseFloat(bet_amount),
-        bet_token_img: $default_Wallet.coin_image, 
-        bet_token_name: $default_Wallet.coin_name ,
-        token_balance: $default_Wallet.balance,
-        client_seed: $MinesEncription.client_seed,
-        server_seed: $MinesEncription.server_seed,
-        hash_seed: $MinesEncription.hash_seed,
-        nonce: $MinesEncription.nonce + none
-    }
-    await axios.post(`${URL}/api/user/mine-game/mine-initialize`, {
-        data
-    },{
-        headers:{
-        Authorization: `Bearer ${$handleAuthToken}`
-    }
-    })
-    .then((response)=>{
-        minesStore.set(response.data.daajs)
-        none += 1
-        let ins = []
-        HandleWinning.set("")
-        $minesStore.forEach(element => {
-             if(!element.mine){
-                ins.push(element)
-             }
-        });
-        default_Wallet.set(response.data.skjb)
-        HandleIsAlive.set(true)
-        HandlemineGems.set(ins.length)
-        betDetails.set(response.data.waskj[0])
-    })
-    .catch((error)=>{
-        console.log(error)
-    })
+     // if(browser && window.navigator.onLine){
+        is_loading = true
+        if($handleisLoggin){
+            if( $default_Wallet.coin_name !== "BTC" && $default_Wallet.coin_name !== "ETH" &&  $default_Wallet.coin_name !== "WGF"){
+                error_msg.set("Select another coin")
+                is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }
+        else{
+            if( parseFloat(bet_amount)> parseFloat($default_Wallet.balance)){
+                error_msg.set("Insufficient balance")
+                is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }  
+            else if( parseFloat(bet_amount) > 0.14 && $default_Wallet.coin_name === "BTC"){
+                error_msg.set("Maximum bet amount for BTC is 0.14")
+
+                is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }
+            else if( parseFloat(bet_amount) > 261.91 && $default_Wallet.coin_name === "ETH"){
+                error_msg.set("Maximum bet amount for ETH is 261.91")
+                is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }
+            else if( parseFloat(bet_amount) > 10000 && $default_Wallet.coin_name === "WGF"){
+                error_msg.set("Maximum bet amount for WGF is 10,000")
+                 is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }
+            else if( parseFloat(bet_amount) < 100 && $default_Wallet.coin_name === "PPF"){
+                error_msg.set("Minimum bet amount for PPF is 100")
+                 is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }
+            else if( parseFloat(bet_amount) < 0.00050 && $default_Wallet.coin_name === "ETH"){
+                error_msg.set("Minimum bet amount for ETH is 0.00050")
+                 is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }
+            else if( parseFloat(bet_amount) < 0.00050 && $default_Wallet.coin_name === "BTC"){
+                error_msg.set("Minimum bet amount for BTC is 0.000028")
+                 is_loading = false
+                setTimeout(()=>{
+                    error_msg.set('')
+                },4000)
+            }
+            else{
+                let data = {
+                    mines: activeMIne.id,
+                    bet_amount:  parseFloat(bet_amount),
+                    bet_token_img: $default_Wallet.coin_image, 
+                    bet_token_name: $default_Wallet.coin_name ,
+                    token_balance: $default_Wallet.balance,
+                    client_seed: $MinesEncription.client_seed,
+                    server_seed: $MinesEncription.server_seed,
+                    hash_seed: $MinesEncription.hash_seed,
+                    nonce: $MinesEncription.nonce + none
+                }
+                await axios.post(`${URL}/api/user/mine-game/mine-initialize`, {
+                    data
+                },{
+                    headers:{
+                    Authorization: `Bearer ${$handleAuthToken}`
+                }
+                })
+                .then((response)=>{
+                    minesStore.set(response.data.daajs)
+                    none += 1
+                    let ins = []
+                    HandleWinning.set("")
+                    $minesStore.forEach(element => {
+                        if(!element.mine){
+                            ins.push(element)
+                        }
+                    });
+                    default_Wallet.set(response.data.skjb)
+                    HandleIsAlive.set(true)
+                    HandlemineGems.set(ins.length)
+                    betDetails.set(response.data.waskj[0])
+                    is_loading = false
+                })
+                .catch((error)=>{
+                    console.log(error)
+                })
+            }
+        }
+        }  
+         else{
+            error_msg.set('You are not Logged in')
+            is_loading = false
+            setTimeout(()=>{
+                error_msg.set('')
+            },4000)
+        }
 })
 
 
@@ -206,7 +278,7 @@ const handleCashout = (async()=>{
 
 <div class="game-control-panel" style="margin-top: 30px;">
     {#if $error_msg}
-    <div class="error-message">
+    <div style="background-color:crimson;" class="error-message">
         <div class="hTTvsjh"> 
             <div>{$error_msg}</div>
         </div>
@@ -243,7 +315,7 @@ const handleCashout = (async()=>{
                     {:else}
                     <input type="number" bind:value={bet_amount}>
                 {/if}
-                {#if $handleisLoggin}
+            {#if $handleisLoggin}
                 {#if $HandleIsAlive}
                     <img class="coin-icon" alt="" src={$betDetails.bet_token_img}>
                     {:else}

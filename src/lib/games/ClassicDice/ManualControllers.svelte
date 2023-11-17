@@ -76,6 +76,7 @@ $:{
 let non = 0
 let is_loading = false
 const handleRollSubmit = (async()=>{
+    
     // if(browser && window.navigator.onLine){
     if( $default_Wallet.coin_name !== "BTC" && $default_Wallet.coin_name !== "ETH" &&  $default_Wallet.coin_name !== "WGF"){
         error_msg.set("Select another coin")
