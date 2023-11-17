@@ -105,6 +105,12 @@ const handleLostBet = (async(data)=>{
         Authorization: `Bearer ${$handleAuthToken}`
     }
     })
+    .then(()=>{
+        console.log(res.data)
+    })
+    .catch((error)=>{
+         console.log(error)
+    })
 })
 
 let multiplayerEl = 1.03

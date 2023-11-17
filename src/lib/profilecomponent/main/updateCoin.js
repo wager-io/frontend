@@ -1,11 +1,12 @@
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
+import { browser } from '$app/environment';
 
 export const updateCoins = () => {
     let error;
     let isLoading;
     const useCoinUpdate = async (data) => {
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = browser && JSON.parse(localStorage.getItem('user'))
       isLoading = true
       error = null
       const response = await fetch(`${URL}/api/wallet/update-default-wallets`,{
