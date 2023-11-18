@@ -42,18 +42,18 @@ async function fetchData() {
             console.log(error)
         })
 
-    is_loading = true
-    await axios.get(`${URL}/admin/stat/global`,{
-       user_id: $page.params.slug
-    })
-    .then(res =>{
-        is_loading = false
-        console.log(res.data)
-        // userStatistics.set(res.data)
-    })
-    .catch((error) => {
-            console.log(error)
-        })
+    // is_loading = true
+    // await axios.get(`${URL}/admin/stat/global`,{
+    //    user_id: $page.params.slug
+    // })
+    // .then(res =>{
+    //     is_loading = false
+    //     console.log(res.data)
+    //     // userStatistics.set(res.data)
+    // })
+    // .catch((error) => {
+    //         console.log(error)
+    //     })
 }
 let is_edit = false
 let is_stats = false
