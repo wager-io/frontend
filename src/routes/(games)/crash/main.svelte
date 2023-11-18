@@ -151,9 +151,9 @@ const handleCrashBet = (async()=>{
         .then((response)=>{
         let result = response.data
          let wllet = {
-          coin_name: result.bet_token_name,
-          coin_image:  result.bet_token_img,
-          balance:  result.current_amount,
+          coin_name: data.bet_token_name,
+          coin_image:  data.bet_token_img,
+          balance:  $default_Wallet.balance - parseFloat(parseFloat(bet_amountEl)),
         }
         default_Wallet.set(wllet)
          handleHasbet.set(true)
@@ -223,7 +223,9 @@ const handleCashout = (()=>{
         coin_image:  result.bet_token_img,
         balance:  parseFloat(result.balance).toFixed(4)
     }
-    default_Wallet.set(wllet)
+    if(result.bet_token_name === $default_Wallet.coin_name){
+        default_Wallet.set(wllet)
+    }
      handleHasbet.set(false)
 })
     }else{
@@ -343,7 +345,7 @@ const handleCashout = (()=>{
                         {#if !id}
                             <div class="input-control">
                                 <input type="number" bind:value={bet_amount}>
-                                <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png">
+                                <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
                                 <div class="sc-kDTinF bswIvI button-group">
                                     <button  on:click={()=>handleHalf(1)}>/2</button>
                                     <button  on:click={()=>handleHalf(2)}>x2</button>

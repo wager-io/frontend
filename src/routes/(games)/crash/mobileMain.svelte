@@ -175,7 +175,7 @@ let classic = false
                             </div>
                             <div class="input-control">
                                 <input type="text" value="1.00">
-                                <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png">
+                                <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
                                 <div class="sc-kDTinF bswIvI button-group">
                                     <button>/2</button>
                                     <button>x2</button>

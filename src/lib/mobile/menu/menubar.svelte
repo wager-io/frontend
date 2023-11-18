@@ -61,6 +61,14 @@ const handleNavigation = ((e) => {
         {#if (isGames)}
             <Games on:dipla={handleGames} />
         {/if}
+        <button on:click={()=>handleNavigation("/lottery")}  class="nav-item">
+            <img alt="menu-icon" src="https://static.nanogames.io/assets/lottery.bc95b607.png">
+            <div class="nav-right">Lottery</div>
+        </button>
+        <button on:click={()=>handleNavigation("/vip-games")} class="nav-item special-nav vip">
+            <img alt="menu-icon" src="https://static.nanogames.io/assets/vipclub.3b37e72c.png">
+            <div class="nav-right">VIP Club</div>
+        </button>
 
         <button on:click={()=>handleNavigation("/help/provably-fair")} class="nav-item">
             <img alt="menu-icon" src="https://static.nanogames.io/assets/fairness.12d49bfb.png">

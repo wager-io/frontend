@@ -156,7 +156,7 @@ setTimeout(()=>{
         <div class="login-top">
             <a href="/">
                 <div class="logowrap">
-                    <img alt="logo" style="border-radius: 12px; width: 25px; margin-right:10px" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697848286/dpp-favicon-logo_j53rwc.jpg">
+                    <img alt="logo" style="border-radius: 12px; width: 45px; margin-right:10px" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
                 </div>
             </a>
             <button on:click={handleMenu} class="sc-bQtKYq cUTdQJ">

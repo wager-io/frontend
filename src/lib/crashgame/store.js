@@ -222,3 +222,6 @@ export let h_onethousand = writable(h_onethousandEl)
 
 let error_msgEl = ''
 export let error_msg = writable(error_msgEl)
+
+let liso_msgEl = false
+export let APPLOAD = writable(liso_msgEl)

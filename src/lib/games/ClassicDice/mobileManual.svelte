@@ -31,7 +31,7 @@ let Handlemax_profit_tips = ((e)=>{
 let wining_amount = '' ;
 let bet_amount
 onMount(()=>{
-    if($default_Wallet.coin_name === "USDT"){
+    if($default_Wallet.coin_name === "BTC"){
     bet_amount = (0.20).toFixed(4)
 }else{
     bet_amount = (100).toFixed(4)
@@ -229,7 +229,7 @@ else{
                 {#if $handleisLoggin}
                     <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
                 {:else}
-                    <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png">
+                    <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
                 {/if}
                 <div class="sc-kDTinF bswIvI button-group">
                     <button on:click={()=> dive()}>/2</button>
@@ -250,7 +250,7 @@ else{
                 {#if $handleisLoggin}
                     <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
                     {:else}
-                    <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png">
+                    <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
                 {/if}
             </div>
         </div>

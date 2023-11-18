@@ -190,7 +190,7 @@ onMount(async()=>{
             {#if $handleisLoggin}
                 {#if $mine_history.length !== 0}
                 <div class="recent-list" style="width: 100%; transform: translate(0%, 0px);">
-                {#each $mine_history.slice(-6) as  dice (dice._id)} 
+                {#each $mine_history.slice(-6) as  dice } 
                     <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style="width: 20%;">
                         <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{(parseFloat(dice.cashout)).toFixed(2)}x</div>
                     </button>

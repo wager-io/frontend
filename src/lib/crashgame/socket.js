@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
-import {ServerURl} from "$lib/backendUrl"
-const URL = ServerURl()
+import {SocketURL} from "$lib/backendUrl"
+const URL = SocketURL()
 const socket = io(`${URL}`);
 import { crashLoad,handleHasbet,active_playerEl, Load_animation,game_id,crash_all_users_Moon_trendballEl,v_default,
      loadingCrash,handleHasbet_amount, crashIsAlive,crashCurve,green_trendball_hasWinEl,Moon_trendball_hasWinEl,

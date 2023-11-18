@@ -199,7 +199,7 @@ const handleIsHelp = (()=>{
             </div>
         </div>
     </div>
-    {:else}
+{:else}
     <div class="uytutfyh">
         <div class="tdthuy">
             <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" alt="">
