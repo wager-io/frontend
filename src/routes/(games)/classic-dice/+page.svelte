@@ -190,7 +190,6 @@ const handleSoundState = (()=>{
             </div>
         </div>
     {/if}
- 
 </div>
 
 <div class="mobile">

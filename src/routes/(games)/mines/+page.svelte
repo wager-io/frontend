@@ -20,11 +20,11 @@ import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
 import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
 import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
 import Help from "$lib/games/mines/componets/help.svelte";
-import { soundHandler} from "$lib/games/mines/store/index"
-import {MinesEncription} from "$lib/games/mines/store/index"
-import background from "$lib/games/mines/audio/sadness.mp3"
+import { soundHandler} from "$lib/games/mines/store/index";
+import {MinesEncription} from "$lib/games/mines/store/index";
+import background from "$lib/games/mines/audio/sadness.mp3";
 DicegameSocket()
-import { ServerURl } from "$lib/backendUrl"
+import { ServerURl } from "$lib/backendUrl";
 const URl = ServerURl()
 let is_loading = false
 const handleMinesGameEncrypt = (async()=>{

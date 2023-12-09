@@ -54,3 +54,9 @@ export let HandleIsAlive = writable(mineIsUp)
 
 let winnig = ""
 export let HandleWinning= writable(winnig)
+
+let mine = 0
+export let HandleMineCount= writable(mine)
+
+let SelectedMine = 0
+export let HandleSelectedMine = writable(SelectedMine)

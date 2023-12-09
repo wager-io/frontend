@@ -41,7 +41,11 @@ const handleProfile = (async()=>{
        });
     })
     .catch((err)=>{
-         console.log(err)
+        handleisLoggin.set(false)
+        profileStore.set({})
+        window.location.href = ("")
+        localStorage.removeItem("user");
+        localStorage.removeItem("user_bet_amount");
     })
     }
     catch(err){

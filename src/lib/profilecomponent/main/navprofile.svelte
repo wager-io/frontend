@@ -22,7 +22,7 @@ const handleProfile = (async()=>{
         proressbar.set(response)
     })
     .catch((err)=>{
-         console.log(err)
+        console.log(err)
     })
     }
     catch(err){

@@ -9,7 +9,7 @@ import { payout , minesStore, betDetails, Cashout } from "../mines/store/index";
 import { handleAuthToken } from "$lib/store/routes"
 import { handleisLoggin } from "$lib/store/profile"
 import { error_msg } from "./store/index"
-import {  soundHandler,mine_history, MinesEncription,HandleHas_won, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
+import {  soundHandler,mine_history,HandleSelectedMine, MinesEncription,HandleHas_won,HandleMineCount, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
 import axios from "axios";
 import successSound from "./audio/success-1-6297.mp3"
 import { ServerURl } from "$lib/backendUrl"
@@ -99,6 +99,7 @@ vyfx.forEach(element => {
     }
 });
 
+
 const handleActiveMines = ((els)=>{
     vyfx.forEach(element => {
     if(element.id === els.id){
@@ -113,13 +114,12 @@ handleDspo()
 })
 let multiplayerEl = 1.03
 let multiplier 
-let cm;
+
 $:{
     multiplier = multiplayerEl * (25 - $HandlemineGems)
 }
 
 
-let uuyd = false
 let none = 1
 let is_loading = false
 const handleDpojb = (async()=>{
@@ -143,7 +143,6 @@ const handleDpojb = (async()=>{
             }  
             else if( parseFloat(bet_amount) > 0.14 && $default_Wallet.coin_name === "BTC"){
                 error_msg.set("Maximum bet amount for BTC is 0.14")
-
                 is_loading = false
                 setTimeout(()=>{
                     error_msg.set('')
@@ -207,12 +206,18 @@ const handleDpojb = (async()=>{
                     minesStore.set(response.data.daajs)
                     none += 1
                     let ins = []
+                    let inseuy = []
                     HandleWinning.set("")
                     $minesStore.forEach(element => {
                         if(!element.mine){
                             ins.push(element)
                         }
-                    });
+                        if(element.active){
+                            inseuy.push(element)
+                        }
+                    })
+                    HandleSelectedMine.set(inseuy.length)
+                    HandleMineCount.set(response.data.waskj[0].mines)
                     default_Wallet.set(response.data.skjb)
                     HandleIsAlive.set(true)
                     HandlemineGems.set(ins.length)
@@ -224,14 +229,14 @@ const handleDpojb = (async()=>{
                 })
             }
         }
-        }  
-         else{
-            error_msg.set('You are not Logged in')
-            is_loading = false
-            setTimeout(()=>{
-                error_msg.set('')
-            },4000)
         }
+        else{
+        error_msg.set('You are not Logged in')
+        is_loading = false
+        setTimeout(()=>{
+            error_msg.set('')
+        },4000)
+    }
 })
 
 
@@ -273,7 +278,6 @@ const handleCashout = (async()=>{
     })
 })
 
-
 </script>
 
 <div class="game-control-panel" style="margin-top: 30px;">
@@ -311,8 +315,9 @@ const handleCashout = (async()=>{
             </div>
             <div class="input-control">
                 {#if $HandleIsAlive}
-                    <input type="number" readonly bind:value={$betDetails.bet_amount}>
-                    {:else}
+                    <div style="font-size: 13.5px; font-weight: bold">{(parseFloat($betDetails.bet_amount)).toFixed(6)}</div>
+                    <input type="number" readonly>
+                {:else}
                     <input type="number" bind:value={bet_amount}>
                 {/if}
             {#if $handleisLoggin}
@@ -339,8 +344,12 @@ const handleCashout = (async()=>{
             <div class="input-control">
                 <div class="sc-jJoQJp gOHquD select is-open sc-bnOPBZ ewilmB">
                     <button disabled={$HandleIsAlive} on:click={handleDspo} class="select-trigger">
-                    {activeMIne.id}
-                    {#if $minesStore.length < 1}
+                    {#if $HandleIsAlive}
+                        {$HandleMineCount}
+                    {:else}
+                        {activeMIne.id}
+                    {/if}
+                    {#if $HandleIsAlive}
                     <div class="arrow ">
                         <Icon src={RiSystemArrowRightSLine}  size="20"  color="rgba(153, 164, 176, 0.6)"  />
                     </div>
@@ -364,7 +373,7 @@ const handleCashout = (async()=>{
             <div class="sc-ezbkAF gcQjQT input ">
                 <div class="input-label">Gems</div>
                 <div class="input-control">
-                    <input type="text" readonly value={$HandlemineGems}>
+                    <input type="text" readonly value={$HandlemineGems - $HandleSelectedMine}>
                 </div>
             </div>
             <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp">
@@ -377,7 +386,7 @@ const handleCashout = (async()=>{
                 </div>
             </div>
             <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp">
-                <div class="input-label">Total profit({ (parseFloat($Cashout)).toFixed(2)}x)
+                <div class="input-label">Total profit({  $Cashout === 0 ? "1.00" : (parseFloat($Cashout)).toFixed(2)}x)
                     <div class="label-amount">0 USD</div>
                 </div>
                 <div class="input-control">
