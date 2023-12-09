@@ -60,3 +60,6 @@ export let HandleMineCount= writable(mine)
 
 let SelectedMine = 0
 export let HandleSelectedMine = writable(SelectedMine)
+
+let netTile = 0
+export let HandleNextTime = writable(netTile)

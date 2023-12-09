@@ -9,7 +9,7 @@ import { payout , minesStore, betDetails, Cashout } from "../mines/store/index";
 import { handleAuthToken } from "$lib/store/routes"
 import { handleisLoggin } from "$lib/store/profile"
 import { error_msg } from "./store/index"
-import {  soundHandler,mine_history,HandleSelectedMine, MinesEncription,HandleHas_won,HandleMineCount, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
+import {  soundHandler,mine_history,HandleSelectedMine,HandleNextTime, MinesEncription,HandleHas_won,HandleMineCount, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
 import axios from "axios";
 import successSound from "./audio/success-1-6297.mp3"
 import { ServerURl } from "$lib/backendUrl"
@@ -377,7 +377,7 @@ const handleCashout = (async()=>{
                 </div>
             </div>
             <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp">
-                <div class="input-label">Profit on Next Tile({(multiplier).toFixed(2)}x)
+                <div class="input-label">Profit on Next Tile({(parseFloat($HandleNextTime)).toFixed(2)}x)
                     <div class="label-amount">0 USD</div>
                 </div>
                 <div class="input-control">
