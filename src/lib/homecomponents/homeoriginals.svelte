@@ -71,7 +71,7 @@ let games = [
         <div class="sc-gfqkcP epfPPG bot-view   game-Mines">
             <a class="sc-hKTqa dbJiKC game-item-wrap " href="/mines">
                 <div class="lazy-img img">
-                    <img src="https://img2.nanogames.io/game/image/48c4ac4d-8e93-4ad4-af48-695fa8f5397e.png" alt="">
+                    <img src="https://img2.nanogames.io/game/image/0aa3d807-0380-4f8e-b65e-3179d4af2234.png" alt="">
                 </div>
                 <div class="hover-mask">
                     <div class="house-edge">House Edge 1%</div>
