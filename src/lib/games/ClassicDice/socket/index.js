@@ -5,7 +5,6 @@ import { chats } from "$lib/chat-room/store/index"
 const socket = io(`${URL}`);
 import { dice_troo, dicegameplays, dice_wallet, Handles_Loading } from "../store/index"
 import { handleliveHistory } from "$lib/games/mines/store/index"
-import { active_playerEl } from "$lib/crashgame/store";
 import { chatCounter } from "$lib/store/chat-counter"
 import { profileStore } from "$lib/store/profile";
 
@@ -48,9 +47,6 @@ export const handleCountdown = (()=>{
         handleliveHistory.set(data)
     })
 
-    socket.on("active-bets-crash", data => {
-        active_playerEl.set(data)
-    })
 
     const handleChattingMessages = ((data) => {
         socket.emit("message", data)
