@@ -5,10 +5,10 @@ import { handleAuthToken } from "$lib/store/routes";
 import { ServerURl } from "$lib/backendUrl"
 import axios from "axios"
 import { coin_list } from "$lib/store/coins";
-import { default_Wallet, usdt_Wallet } from "$lib/store/coins"
+import { default_Wallet, btc_Wallet } from "$lib/store/coins"
 import {onMount} from "svelte"
 import {UserProfileEl} from "$lib/index"
-const { handleUSDTwallet } = UserProfileEl()
+const { handleBTCwallet } = UserProfileEl()
 const URL = ServerURl()
 
 
@@ -30,7 +30,7 @@ $coin_list.forEach(element => {
 
 onMount(async()=>{
     let rts = await handleUSDTwallet()
-    usdt_Wallet.set(rts)
+    btc_Wallet.set(rts)
 })
 
 
@@ -148,14 +148,14 @@ networks.forEach(element => {
                         <div style="font-size: 12px;">Min: 5.6</div>
                     </div>
                 </div>
-                <div style={` ${ amount && amount < 5.6 && `border: 1px solid red;`}; ${amount > parseFloat($usdt_Wallet.balance) && `border: 1px solid red;`} `} class="input-control">
+                <div style={` ${ amount && amount < 5.6 && `border: 1px solid red;`}; ${amount > parseFloat($btc_Wallet.balance) && `border: 1px solid red;`} `} class="input-control">
                     <input type="number" placeholder="0.000" bind:value={amount}></div>
                 </div>
             </div>
             <div class="unlock-balance s13ylein">
                 <div class="available unlock-item">
                     <div class="label">Available:</div>
-                    <div class="value">${(parseFloat($usdt_Wallet.balance)).toFixed(2)}</div>
+                    <div class="value">${(parseFloat($btc_Wallet.balance)).toFixed(2)}</div>
                 </div>
             </div>
 
