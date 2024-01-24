@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
 import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
@@ -346,4 +346,4 @@ const handleSubmit = (() => {
 .kjMlDW.active {
     border-color: rgb(67, 179, 9);
 }
-</style>
+</style> -->
