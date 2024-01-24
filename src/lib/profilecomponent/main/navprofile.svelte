@@ -1,14 +1,13 @@
 <script>
 import {goto} from "$app/navigation";
 import {handleLogout } from "$lib/firebaseAuth/index";
-import { profileStore, proressbar} from "../../store/profile";
+import { profileStore, proressbar} from "$lib/store/profile";
 import { statisticsEl } from "$lib/store/statistic";
 import { handleAuthToken } from "$lib/store/routes";
 import axios from "axios"
 import { onMount } from "svelte";
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
-
 const handleProfile = (async()=>{
     try{
         await axios.get(`${URL}/api/profile`,{
@@ -22,7 +21,7 @@ const handleProfile = (async()=>{
         proressbar.set(response)
     })
     .catch((err)=>{
-        console.log(err)
+         console.log(err)
     })
     }
     catch(err){
@@ -33,6 +32,7 @@ const handleProfile = (async()=>{
 onMount(async()=>{
    await handleProfile()
 })
+
 
 const handleSignOut = (()=>{
     handleLogout()
@@ -50,7 +50,7 @@ const handleStatistics = (()=>{
     {#if $profileStore.email}
     <div class="user-info">
         <a class="left" href={`/user/profile/${$profileStore.user_id}`}>
-            <img class="avatar " alt="" src={$profileStore.profile_image}>
+            <img class="avatar " alt="" src={$profileStore?.profile_image}>
             <div class="name-level">
                 <p>{$profileStore.username}</p>
                 <div class="level">
@@ -191,7 +191,6 @@ const handleStatistics = (()=>{
     <h1 style="text-align: center; padding:20px">Loading...</h1>
     {/if}
       
-      
        <div class="link-info">
            <button on:click={()=> goto(`/user/profile/${$profileStore.user_id}`)} class="link-item">
                <div class="hover">
@@ -209,7 +208,7 @@ const handleStatistics = (()=>{
                        Wallet
                    </div>
                </button>
-               <button on:click={()=> handleStatistics()} class="link-item">
+               <button disabled on:click={()=> handleStatistics()} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Statistics"></use>
@@ -217,15 +216,15 @@ const handleStatistics = (()=>{
                        Statistics
                    </div>
                </button>
-               <button on:click={()=> goto("/wallet/swap")}  class="link-item">
+               <button disabled on:click={()=> goto("/wallet/swap")}  class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Swap"></use>
                        </svg>
-                       PDDSwap
+                       BA Swap
                    </div>
                </button>
-               <button on:click={()=> goto("/wallet/transaction")} class="link-item">
+               <button disabled on:click={()=> goto("/wallet/transaction")} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Transaction"></use>
@@ -233,7 +232,7 @@ const handleStatistics = (()=>{
                        Transactions
                    </div>
                </button>
-               <button  class="link-item">
+               <button disabled class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Vault"></use>
@@ -241,15 +240,15 @@ const handleStatistics = (()=>{
                        Vault Pro
                    </div>
                </button>
-               <div class="link-item">
+               <button disabled class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Support"></use>
                        </svg>
                        Live Support
                    </div>
-               </div>
-               <div class="link-item">
+               </button>
+               <div disabled class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Reward"></use>
@@ -502,13 +501,7 @@ const handleStatistics = (()=>{
 /* =========================================== mobile ================================== */
 
 @media screen and (max-width: 650px){
-    .setting-wrap {
-        position: absolute;
-        right: 0px;
-        top: 100%;
-        width: 130%;
-        padding-top: 0.75rem;
-    }
+
     .setting-wrap {
         padding-top: 0px;
     }
@@ -519,13 +512,10 @@ const handleStatistics = (()=>{
         box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 16px 0px;
     }
     .emGYim {
-        cursor: auto;
-        height: 25.625rem;
-        width: 105%;
-        background-color: rgb(23, 24, 27);
-        border-radius: 1.25rem;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 8px 0px;
-        padding: 1rem 0px;
+        width: 100%;
+        left: 0px;
+        border-radius: 0px 0px 1.25rem 1.25rem;
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 16px 0px;
     }
     .emGYim .user-info {
         width: 100%;

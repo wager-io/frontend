@@ -5,23 +5,37 @@ import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp"
 import FaSolidShare from "svelte-icons-pack/fa/FaSolidShare";
 import SiMoneygram from "svelte-icons-pack/si/SiMoneygram";
 import BsCreditCardFill from "svelte-icons-pack/bs/BsCreditCardFill";
+import { handleDiceDetails } from "../hook/fetchGameId"
+import { onMount } from "svelte";
 import RiFinanceHandCoinFill from "svelte-icons-pack/ri/RiFinanceHandCoinFill";
 import BiChart from "svelte-icons-pack/bi/BiChart";
 import FaSolidDice from "svelte-icons-pack/fa/FaSolidDice";
-import { browser } from '$app/environment';
+import { screen} from "$lib/store/screen";
+import { VerifyURl } from "$lib/backendUrl"
+const URl = VerifyURl()
+import { profileStore } from "$lib/store/profile"
 import AiFillSlackCircle from "svelte-icons-pack/ai/AiFillSlackCircle";
 import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine";
+import SeedMedal from "./seedMedal.svelte"
 export let DgII
-$: (DgII)
-
-import {
-    createEventDispatcher
-} from 'svelte';
+import {DiceEncription} from '$lib/games/ClassicDice/store/index'
+$: DgII
+$: $profileStore
+import { createEventDispatcher} from 'svelte';
 import Share from './share/share.svelte';
 import Seedsettings from './share/seedsettings.svelte';
+import Loader from "../../../components/loader.svelte";
+
+$: deatls = {}
+$: is_loading = true
+onMount(async()=>{
+   let response = await handleDiceDetails(DgII.bet_id)
+   is_loading = response.is_loading
+    deatls = response.response
+})
+
 
 const dispatch = createEventDispatcher()
-
 const handleCloseHelp = (() => {
     dispatch("close", 5)
 })
@@ -37,7 +51,6 @@ const handleSeedSettings = (()=>{
     is_seeed_settigs = !is_seeed_settigs
 })
 
-
 function formatTime(timestamp) {
     const date = new Date(timestamp);
     const hours = date.getHours();
@@ -48,18 +61,21 @@ function formatTime(timestamp) {
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
 
-let is_mobile = false
-$:{
-    if (browser && window.innerWidth < 650) {
-        is_mobile = true
+
+$: seedConfirmation = false
+const handleSeedMedal = ((event)=>{
+    if(event.detail === "cancel"){
+        seedConfirmation = false
     }
-    else {
-        is_mobile = false
+    if(event.detail === "confirm"){
+        seedConfirmation = false
+        is_seeed_settigs = true
     }
-}
+})
 
 
 </script>
+
 
 
 <div class="sc-bkkeKt kBjSXI">
@@ -70,7 +86,7 @@ $:{
             </div>
         </div>
     {/if}   
-    <div class="dialog " style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
+    <div class="dialog " style={`${$screen < 650 ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         
         {#if is_seeed_settigs}
         <button on:click={()=> handleSeedSettings()} class="dialog-back" style="opacity: 1; transform: none;">
@@ -82,148 +98,166 @@ $:{
         </div>
 
         <button on:click={()=> handleCloseHelp()}  class="sc-ieecCq fLASqZ close-icon dialog-close">
-            <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" />
+            <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
         </button>
 
         {#if !is_seeed_settigs}
-        <div class="dialog-body default-style " style="z-index: 2; transform: none;">
-            <div class="sc-dkPtRN jScFby scroll-view sc-bvFjSx jGQOsZ">
-                <div class="sc-emDsmM Osnbt">
-                    {#if !DgII.has_won}
-                    <img class="win-state" alt="" src="https://static.nanogames.io/assets/lose.b4ff48b7.png">
-                    {:else}
-                    <img class="win-state" alt="" src="https://static.nanogames.io/assets/win.431b83d6.png">
+        {#if is_loading}
+            <Loader />
+            {:else}
+            <div class="dialog-body default-style " style="z-index: 2; transform: none;">
+                <div class="sc-dkPtRN jScFby scroll-view sc-bvFjSx jGQOsZ">
+                    <div class="sc-emDsmM Osnbt">
+                        {#if !deatls.has_won}
+                        <img class="win-state" alt="" src="https://static.nanogames.io/assets/lose.b4ff48b7.png">
+                        {:else}
+                        <img class="win-state" alt="" src="https://static.nanogames.io/assets/win.431b83d6.png">
+                        {/if}
+                        <div class="sc-jibziO gZqspm game-share">
+                            <button on:click={handleSharedBet} class="sc-jibziO gZqspm game-share">
+                                <Icon src={FaSolidShare}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="share to friends" />
+                            </button>
+                        </div>
+                        <div class="rt_info">
+                            <img class="avatar avatar" alt="" src={deatls.profile_img}>
+                            <div class="name">{deatls.username}</div>
+                            <div class="flex">
+                                <div class="betid">{`${deatls.bet_id ? `Betting ID: ${deatls.bet_id}` : "" }`}</div>
+                                <div class="verified">Verified</div>
+                            </div>
+                        </div>
+                        <div class="rt_time"> {new Date(deatls.time).getFullYear()}:{new Date(deatls.time).getMonth()}:{new Date(deatls.time).getDate()} {formatTime(deatls.time)} </div>
+                        <div class="rt_items">
+                            <div class="item-wrap">
+                                <div class="label flex-center">
+                                    <span style="padding-right: 3px;">
+                                        <Icon src={SiMoneygram}  size="13"  color="rgb(223, 39, 113)" className="custom-icon" />
+                                    </span>
+                                    Amount
+                                </div>
+                                <div class="number flex-center">{(parseFloat(deatls.bet_amount)).toFixed(2)} {deatls.token}</div>
+                            </div>
+                            <div class="item-wrap">
+                                <div class="label flex-center">
+                                    <span style="padding-right: 3px;">
+                                        <Icon src={BsCreditCardFill}  size="13"  color="rgb(119, 60, 253)" className="custom-icon" />
+                                    </span>
+                                    Payout
+                                </div>
+                                <div class="number flex-center">{(parseFloat(deatls.payout)).toFixed(2)} x</div>
+                            </div>
+                            <div class="item-wrap">
+                                <div class="label flex-center">
+                                    <span style="padding-right: 3px;">
+                                        <Icon src={RiFinanceHandCoinFill} size="13"  color="rgb(218, 30, 40)" className="custom-icon" />
+                                    </span>
+                                    Profit
+                                </div>
+                                <div class="number flex-center">{(parseFloat(deatls.profit)).toFixed(6)} {deatls.token}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {#if hasSharedBet}
+                        <Share on:close={handleSharedBet}/>
                     {/if}
-                    <div class="sc-jibziO gZqspm game-share">
-                        <button on:click={handleSharedBet} class="sc-jibziO gZqspm game-share">
-                            <Icon src={FaSolidShare}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="share to friends" />
-                        </button>
-                    </div>
-                    <div class="rt_info">
-                        <img class="avatar avatar" alt="" src={DgII.profile_img}>
-                        <div class="name">{DgII.username}</div>
-                        <div class="flex">
-                            <div class="betid">{`${DgII.bet_id ? `Betting ID: ${DgII.bet_id}` : "" }`}</div>
-                            <div class="verified">Verified</div>
-                        </div>
-                    </div>
-                    <div class="rt_time"> {new Date(DgII.time).getFullYear()}:{new Date(DgII.time).getMonth()}:{new Date(DgII.time).getDate()} {formatTime(DgII.time)} </div>
-                    <div class="rt_items">
+    
+                    <div class="sc-ekrjqK fmwvmO rt_items">
                         <div class="item-wrap">
-                            <div class="label flex-center">
+                            <div class="item-num">
                                 <span style="padding-right: 3px;">
-                                    <Icon src={SiMoneygram}  size="13"  color="rgb(223, 39, 113)" className="custom-icon" title="arror" />
+                                    <Icon src={BiChart}  size="13"  color="rgb(67, 179, 9)" className="custom-icon" />
                                 </span>
-                                Amount
+                                Result
                             </div>
-                            <div class="number flex-center">{(parseFloat(DgII.bet_amount)).toFixed(2)} {DgII.token}</div>
+                            <div class="item-desc">{deatls.cashout}</div>
                         </div>
                         <div class="item-wrap">
-                            <div class="label flex-center">
+                            <div class="item-num">
                                 <span style="padding-right: 3px;">
-                                    <Icon src={BsCreditCardFill}  size="13"  color="rgb(119, 60, 253)" className="custom-icon" title="arror" />
+                                    <Icon src={FaSolidDice}  size="13"  color="rgb(15, 98, 254)" className="custom-icon" />
                                 </span>
-                                Payout
+                                Bet
                             </div>
-                            <div class="number flex-center">{(parseFloat(DgII.payout)).toFixed(2)} x</div>
+                            <div class="item-desc">
+                                <span class="mthan">&lt;{deatls.chance}</span>
+                            </div>
                         </div>
                         <div class="item-wrap">
-                            <div class="label flex-center">
+                            <div class="item-num">
                                 <span style="padding-right: 3px;">
-                                    <Icon src={RiFinanceHandCoinFill}  size="13"  color="rgb(218, 30, 40)" className="custom-icon" title="arror" />
+                                    <Icon src={AiFillSlackCircle}  size="17"  color="rgb(237, 99, 0)" className="custom-icon" />
                                 </span>
-                                Profit
+                                Chance
                             </div>
-                            <div class="number flex-center">{(parseFloat(DgII.profit)).toFixed(6)} {DgII.token}</div>
+                            <div class="item-desc">{deatls.chance}%</div>
                         </div>
                     </div>
-                </div>
-                {#if hasSharedBet}
-                    <Share on:close={handleSharedBet}/>
-                {/if}
-
-                <div class="sc-ekrjqK fmwvmO rt_items">
-                    <div class="item-wrap">
-                        <div class="item-num">
-                            <span style="padding-right: 3px;">
-                                <Icon src={BiChart}  size="13"  color="rgb(67, 179, 9)" className="custom-icon" title="arror" />
-                            </span>
-                            Result
-                        </div>
-                        <div class="item-desc">{DgII.cashout}</div>
-                    </div>
-                    <div class="item-wrap">
-                        <div class="item-num">
-                            <span style="padding-right: 3px;">
-                                <Icon src={FaSolidDice}  size="13"  color="rgb(15, 98, 254)" className="custom-icon" title="arror" />
-                            </span>
-                            Bet
-                        </div>
-                        <div class="item-desc">
-                            <span class="mthan">&lt;{DgII.chance}</span>
-                        </div>
-                    </div>
-                    <div class="item-wrap">
-                        <div class="item-num">
-                            <span style="padding-right: 3px;">
-                                <Icon src={AiFillSlackCircle}  size="17"  color="rgb(237, 99, 0)" className="custom-icon" title="arror" />
-                            </span>
-                            Chance
-                        </div>
-                        <div class="item-desc">{DgII.chance}%</div>
-                    </div>
-                </div>
-
-
-                <div class="seed-main">
-                    <div class="sc-ezbkAF kDuLvp input ">
-                        <div class="input-label">Server Seed</div>
-                        <div class="input-control">
-                            <input type="text" placeholder="The seed hasn't been revealed yet." readonly value="">
-                        </div>
-                    </div>
-                    <div class="sc-ezbkAF kDuLvp input ">
-                        <div class="input-label">
-                            <div class="seed-col">
-                                <div>Server Seed (hash)</div>
-                                <button on:click={()=>handleSeedSettings()} class="cl-primary">Seed Settings</button>
-                            </div>
-                        </div>
-                        <div class="input-control">
-                            <input type="text" readonly value={DgII.server_seed}>
-                        </div>
-                    </div>
-                    <div class="col">
+    
+                    <div class="seed-main">
                         <div class="sc-ezbkAF kDuLvp input ">
-                            <div class="input-label">Client Seed</div>
+                            <div class="input-label">Server Seed</div>
                             <div class="input-control">
-                                <input type="text" readonly value={DgII.client_seed}>
+                                <input type="text" placeholder="The seed hasn't been revealed yet." readonly value={$DiceEncription.server_seed === deatls.server_seed ? "" : deatls.server_seed}>
                             </div>
                         </div>
                         <div class="sc-ezbkAF kDuLvp input ">
-                            <div class="input-label">nonce</div>
+                            <div class="input-label">
+                                <div class="seed-col">
+                                    <div>Server Seed (hash)</div>
+                                    {#if $DiceEncription.server_seed === deatls.server_seed}
+                                        <button on:click={()=>handleSeedSettings()} class="cl-primary">Seed Settings</button>
+                                    {/if}
+                                </div>
+                            </div>
                             <div class="input-control">
-                                <input type="number" readonly value={DgII.game_nonce}>
+                                <input type="text" readonly value={deatls.server_seed}>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="sc-ezbkAF kDuLvp input ">
+                                <div class="input-label">Client Seed</div>
+                                <div class="input-control">
+                                    <input type="text" readonly value={deatls.client_seed}>
+                                </div>
+                            </div>
+                            <div class="sc-ezbkAF kDuLvp input ">
+                                <div class="input-label">nonce</div>
+                                <div class="input-control">
+                                    <input type="number" readonly value={deatls.game_nonce}>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="verify-wrap">
-                    <a href={`https://dppgames.netlify.app/verify/classic-dice/?s=${DgII.server_seed}&c=${DgII.client_seed}&n=${DgII.game_nonce}`} target="_blank"> 
-                        <button  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal verify-btn">
+    
+                    {#if $profileStore.user_id === deatls.user_id}
+                    {#if $DiceEncription.server_seed === deatls.server_seed}
+                        <button on:click={()=> seedConfirmation = true} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal verify-btn">
                             <div class="button-inner">Verify</div>
                         </button>
-                    </a>
+                    {:else}
+                        <button  class="verify-wrap">
+                            <a href={`${URl}/classic-dice/?s=${deatls.server_seed}&c=${deatls.client_seed}&n=${deatls.game_nonce}`} target="_blank"> 
+                                <button  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal verify-btn">
+                                    <div class="button-inner">Verify</div>
+                                </button>
+                            </a>
+                        </button>
+                    {/if}
+                    {/if}
                 </div>
             </div>
-        </div>
+        {/if}
+
         {:else}
-        <Seedsettings on:close={handleSeedSettings} settin={DgII} />
+        <Seedsettings on:close={handleSeedSettings} settin={deatls} />
         {/if}
     
     </div>
 </div>
+
+{#if seedConfirmation}
+    <SeedMedal on:close={handleSeedMedal}/>
+{/if}
 
 <style>
 .kBjSXI {
@@ -581,25 +615,13 @@ $:{
 .jGQOsZ > div:last-of-type {
     margin-bottom: 3.375rem;
 }
+.jGQOsZ .verify-wrap  {
+    width: 100%;
+}
 .jGQOsZ .verify-wrap .verify-btn {
     width: 70%;
     height: 3.5rem;
-    margin: 1.25rem auto 0px;
-}
-.fnKcEH.button {
-    color: rgb(245, 246, 247);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(67, 179, 9);
-    background-image: conic-gradient(from 1turn, rgb(67, 179, 9), rgb(93, 219, 28));
-}
-.cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    margin: 0.25rem auto 0px;
 }
 
 </style>

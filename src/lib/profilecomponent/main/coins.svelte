@@ -1,42 +1,29 @@
 <script>
 import RiSystemSearchLine from "svelte-icons-pack/ri/RiSystemSearchLine";
 import Icon from 'svelte-icons-pack/Icon.svelte';
-import { createEventDispatcher , onMount} from 'svelte'
+import { createEventDispatcher } from 'svelte'
 const dispatch = createEventDispatcher()
-import { UserProfileEl } from "../../index"
 import { updateCoins } from "./updateCoin"
 const { useCoinUpdate } = updateCoins()
-import { coin_list } from "$lib/store/coins";
+import { default_Wallet, coin_list } from "$lib/store/coins";
 import { browser } from '$app/environment'
-import { ServerURl } from "$lib/backendUrl"
-const URL = ServerURl()
 let show_currencyName
-const { handlePPDwallet, handleUSDTwallet, handlePPFwallet, handlePPLwallet } = UserProfileEl()
-
 $:{
     show_currencyName = browser && JSON.parse(localStorage.getItem('show-full-curency'))
 }
-
-onMount(async()=>{
-    let usdt = await handleUSDTwallet()
-    let ppd = await handlePPDwallet()
-    let ppl = await handlePPLwallet()
-    let ppf = await handlePPFwallet()
-    coin_list.set([usdt, ppd, ppl, ppf])
-})
 
 const handleSelectCoin = ((e) => {
     dispatch(`coinDefault`, e)
     $coin_list.forEach(element => {
     if(element.coin_name === e.coin_name){
         element.is_active = true
+        default_Wallet.set(element)
     }else{
         element.is_active = false
     }
  });
     useCoinUpdate(e)
 })
-
 
 </script>
 
@@ -83,10 +70,10 @@ const handleSelectCoin = ((e) => {
 
 <style>
 .kjMlDW.active {
-    border-color: rgb(67, 179, 9);
+    border-color: var(--primary-color);
 }
 .eqDSYn {
-    height: 24.75rem;
+    height: 23.75rem;
     width: 26.25rem;
     position: absolute;
     right: 0px;
@@ -246,24 +233,14 @@ const handleSelectCoin = ((e) => {
 }
 
 @media screen and (max-width: 650px) {
-    .eqDSYn {
-    height: 21.75rem;
-    width: 26.2rem;
-    position: absolute;
-    right: 0px;
-    top: 100%;
-    padding-top: 0.5rem;
-    z-index: 99;
-}
 
 .eqDSYn {
-    width: 137%;
-    left: -80px;
+    width: 100%;
+    left: 0px;
     z-index: 10;
     padding-top: 0px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 6px 16px 0px;
 }
-
 .eqDSYn .balance-select {
     border-radius: 0px 0px 1.25rem 1.25rem;
 }

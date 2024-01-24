@@ -1,39 +1,27 @@
 <script>
-import { payout } from "$lib/games/ClassicDice/store/index"
-import { HandleDicePoint, betPosition, dice_history, HandleHas_won, rollunder} from "./store/index"
-import { DiceHistory } from "./hook/diceHistory";
+import { payout, range} from "$lib/games/ClassicDice/store/index"
+import { HandleDicePoint, betPosition, dice_history, Handles_alive, HandleHas_won,
+ rollunder, flix } from "./store/index"
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import AiOutlineSwap from "svelte-icons-pack/ai/AiOutlineSwap";
-const { historyD } = DiceHistory()
-import {dice_troo, dice_wallet} from "$lib/games/ClassicDice/store/index"
-import { onMount } from "svelte";
-import { isbetLoadingBtn } from "./store";
-import { default_Wallet, coin_list } from "$lib/store/coins";
-import { handleisLoggin, profileStore } from "../../store/profile"
+import { handleisLoggin } from "../../store/profile"
 import HistoryDetails from "./componets/historyDetails.svelte";
-import click from "./audio/click.wav"
-// import { handleTransmit } from "../ClassicDice/AutoControllers.svelte"
-import cr from "./audio/click.wav"
-import win from "./audio/mixkit-achievement-bell-600.wav";
-let range = 50
-
+import { soundManager } from "$lib/games/ClassicDice/store/index";
+import { soundHandler } from "$lib/games/ClassicDice/store/index";
+import { screen } from "$lib/store/screen";
+$: rangeEl = 50
 $:{
-    onMount(async()=>{
-        $handleisLoggin &&  historyD()
-    })
+    if($range < 0){
+        range.set(2)
+    }
+    if($range > 98){
+        range.set(98)
+    }
+    betPosition.set($range)
+    flix.set(rangeEl)
 }
 
-$:{
-    if(range < 0){
-        range = 2
-    }
-    if(range > 98){
-        range = 98
-    }
-    betPosition.set(range)
-}
-
-let ishover = false
+$: ishover = false
 const handleRangl = ((w)=>{
     if(w === 1){
         ishover = true
@@ -48,20 +36,34 @@ let game_logic;
 let total_charge;
 
 $: {
-    game_logic = 100 / $betPosition
-    total_charge = game_logic / game__charges
-    payout.set((game_logic - total_charge).toFixed(4))
+    if($rollunder){
+        game_logic =  100 / ($betPosition)
+        total_charge = game_logic / game__charges
+        payout.set((game_logic - total_charge).toFixed(4))
+    }else{
+        game_logic =  100 / (100 - $betPosition)
+        total_charge = game_logic / game__charges
+        payout.set((game_logic - total_charge).toFixed(4))
+    }
 }
 
 $: {
-    game_logic = 100 / $payout
-    total_charge = game_logic / game__charges
-    betPosition.set((game_logic - total_charge).toFixed(2))
+    if($rollunder){
+        game_logic = 100 / $payout
+        total_charge = game_logic / game__charges
+        betPosition.set((game_logic - total_charge).toFixed(2))
+        range.set($betPosition)
+    }else{
+        game_logic = 100 / $payout
+        total_charge = game_logic / game__charges
+        betPosition.set((game_logic - total_charge).toFixed(2))
+        range.set(100 - $betPosition)
+    }
 }
 
 
-let DgII = ''
-let hisQQ = false
+$: DgII = ''
+$: hisQQ = false
 const handleDiceHistoryDetail = ((data)=>{
     if(hisQQ){
         hisQQ = false
@@ -71,25 +73,13 @@ const handleDiceHistoryDetail = ((data)=>{
     }
 })
 
-function playSounRd() {
-    const audio = new Audio(cr);
-    audio.volume = 0.5;
-    audio.play();
-}
-
-// Function to toggle play/pause
-function togglePlayback() {
-  isPlaying = !isPlaying;
-  if (isPlaying) {
-    click.play();
-  } else {
-    click.pause();
-  }
-}
 
 const handleChange = ((e)=>{
-    playSounRd()
-    range = e
+    let sound = $soundManager.audioMap.bet
+    $soundManager.Play(sound, $soundHandler);
+    range.set(e)
+    let re = 100 - $range
+    rangeEl = 100 - $range
 })
 
 $:{
@@ -107,85 +97,17 @@ $:{
 const handleRollUnder = ()=>{
     if($rollunder){
         rollunder.set(false)
+        range.set(100 - $betPosition)
     }else{
         rollunder.set(true)
+        range.set($betPosition)
     }
 }
 
-function playSoundR(e) {
-    if(e === 1){
-        const audio = new Audio(cr);
-        audio.volume = 0.05;
-        audio.play();
-    }else{
-        const audio = new Audio(win);
-        audio.volume = 0.05;
-        audio.play();
-    }
-}
 
-let history 
+$: history = []
 $:{
     history  = [...$dice_history]
-}
-
-$:{
-    if($dice_wallet.length > 0){
-        $dice_wallet.forEach(element => {
-        if($profileStore.user_id === element.user_id){
-            let wallet = {
-                coin_name: element.token,
-                coin_image: element.token_img,
-                balance:  element.current_amount
-             }
-             default_Wallet.set(wallet)
-        }
-    });
-    }
-}
-
-
-$:{
-    if($dice_troo.length > 0){
-        $dice_troo.forEach(element => {
-        if($profileStore.user_id === element.user_id){
-            dice_history.set(history)
-            HandleDicePoint.set(element.cashout)
-            history.push(element)
-            isbetLoadingBtn.set()
-            dice_troo.set([])
-            if(element.has_won){
-            //     let wallet = {
-            //     coin_name: $default_Wallet.coin_name ,
-            //     coin_image: $default_Wallet.coin_image,
-            //     balance:  (parseFloat(element.wining_amount) + parseFloat($default_Wallet.balance)).toFixed(4)
-            //  }
-            //  default_Wallet.set(wallet)
-            //  $coin_list.forEach(coin => {
-            //     if(coin.coin_name === $default_Wallet.coin_name){
-            //         coin.balance = parseFloat(wallet.balance)
-            //     }
-            //  });
-             playSoundR(2)
-             HandleHas_won.set(true)
-            }else{
-            //     let wallet = {
-            //     coin_name: $default_Wallet.coin_name ,
-            //     coin_image: $default_Wallet.coin_image,
-            //     balance: (parseFloat($default_Wallet.balance) - parseFloat(element.bet_amount)).toFixed(4)
-            // }
-            // default_Wallet.set(wallet)
-            // $coin_list.forEach(coin => {
-            //     if(coin.coin_name === $default_Wallet.coin_name){
-            //         coin.balance = parseFloat(wallet.balance)
-            //     }
-            //  });
-                HandleHas_won.set(false)
-            }
-        }
-    }); 
-    }
-
 }
 
 </script>
@@ -199,9 +121,9 @@ $:{
         <div class="recent-list-wrap">
             {#if $handleisLoggin}
                 {#if $dice_history.length !== 0}
-                <div class="recent-list" style="width: 100%; transform: translate(0%, 0px);">
-                {#each $dice_history.slice(-6) as  dice} 
-                    <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style="width: 20%;">
+                <div class="recent-list" style={`width: ${$screen < 700 ? 160 : 100}%; transform: translate(0%, 0px);`} >
+                {#each $dice_history.slice(-10) as  dice} 
+                    <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style={`width: ${$screen > 700 ? 290 : 50}px;`}>
                         <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{(parseFloat(dice.cashout)).toFixed(2)}</div>
                     </button>
                 {/each}
@@ -228,9 +150,9 @@ $:{
             <div class="slider-wrapper">
                 <div class="slider-handles">
                     {#if ishover}
-                        <div class="slider-tip" style={`left: ${$betPosition -5}%;`}>{range}</div>
+                        <div class="slider-tip" style={`left: ${ $rollunder ? $betPosition - 5 : 100 - $betPosition - 5 }%;`}>{(parseFloat($range)).toFixed(0)}</div>
                     {/if}
-                    <input type="range" on:mouseenter={()=>handleRangl(1)} on:mouseleave={()=>handleRangl(2)} min="2" max="98" step="1" class="drag-block "  on:input={(e)=> handleChange(e.target.value)} bind:value={$betPosition}>
+                    <input disabled={$Handles_alive} type="range" on:mouseenter={()=>handleRangl(1)} on:mouseleave={()=>handleRangl(2)} min="2" max="98" step="1" class="drag-block "  on:input={(e)=> handleChange(e.target.value)} bind:value={$range}>
                     <div class="slider-track " style={`transform: translate(${$HandleDicePoint}%, 0px);`}>
                         {#if parseFloat($HandleDicePoint) === 50}
                         <div class="dice_num ">{(parseFloat($HandleDicePoint)).toFixed(2)}</div>
@@ -242,8 +164,8 @@ $:{
                         </div>
                     </div>
                     <div class="slider-line ">
-                        <div class={ $rollunder ? "slide-win" : "slide-lose"} style={`width: ${$betPosition}%;`}></div>
-                        <div class={$rollunder ? "slide-lose" : "slide-win"} style={`width: ${100 - $betPosition}%;`}></div>
+                        <div class={ $rollunder ? "slide-win" : "slide-lose"} style={`width: ${$rollunder ? $betPosition : 100 - $betPosition }%;`}></div>
+                        <div class={$rollunder ? "slide-lose" : "slide-win"} style={`width: ${$rollunder ? 100 - $betPosition : $betPosition}%;`}></div>
                         <div class="slider-sign" style={`transform: translate(${$HandleDicePoint}%, 0px);`}>
                             <div class="sign"></div>
                         </div>
@@ -269,7 +191,7 @@ $:{
                 <div class="sc-ezbkAF gcQjQT input roll-switch">
                     <div class="input-label">{ $rollunder ? "Roll Under" : "Roll Over"}</div>
                     <button on:click={handleRollUnder} class="input-control">
-                        <input type="text" readonly value={$betPosition}>
+                        <input type="text" readonly value={ $rollunder ? $betPosition : (parseFloat(100 - $betPosition)).toFixed(2)}>
                         <span class="right-info">
                             <Icon src={AiOutlineSwap}  size="18"  color="rgb(67, 179, 9)"/>
                         </span>
@@ -281,15 +203,17 @@ $:{
                         <input type="number" min="2" max="98" bind:value={$betPosition}>
                         <div class="right-info">
                             <span class="right-percent">%</span>
-                            <button on:click={()=> range = 2} class="amount-scale">Min</button>
-                            <button on:click={()=> range -= 5} class="amount-scale">-5</button>
-                            <button on:click={()=> range += 5}  class="amount-scale">+5</button>
-                            <button on:click={()=> range = 98} class="amount-scale">Max</button>
+                            <button on:click={()=> range.set(2)} class="amount-scale">Min</button>
+                            <button on:click={()=> range.set($range -5)} class="amount-scale">-5</button>
+                            <button on:click={()=> range.set($range + 5)}  class="amount-scale">+5</button>
+                            <button on:click={()=> range.set(98)} class="amount-scale">Max</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <svg class="box-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 996 46"><defs><linearGradient id="gcardBg" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#31343C"></stop><stop offset="100%" stop-color="#1E2024" stop-opacity="0"></stop></linearGradient></defs><g opacity=".899"><path fill="url(#gcardBg)" fill-rule="evenodd" d="M0 0h996L892 46H96z" opacity=".598" transform="rotate(-180 498 23)"></path></g></svg>
 
     </div>
 </div>
@@ -305,7 +229,13 @@ $:{
     margin-top: 0.625rem;
     margin-bottom: 0.625rem;
 }
-
+.dqwCNK .box-bg {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: -1px;
+    width: 100%;
+}
 .slider-tip {
     box-sizing: border-box;
     position: absolute;

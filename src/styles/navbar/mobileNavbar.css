@@ -60,12 +60,7 @@
     width: 6.25rem;
     height: 2.5rem;
 }
-.fnKcEH.button {
-    color: rgb(245, 246, 247);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: var(--btn-color);
-    background-image: var(--btn-image);
-}
+
 .cBmlor {
     display: block;
     width: 100%;

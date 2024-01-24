@@ -7,14 +7,20 @@ import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLin
 import BsExclamationCircle from "svelte-icons-pack/bs/BsExclamationCircle";
 import { payout , minesStore, betDetails, Cashout } from "../mines/store/index";
 import { handleAuthToken } from "$lib/store/routes"
-import { handleisLoggin } from "$lib/store/profile"
+import { handleisLoggin, profileStore } from "$lib/store/profile"
 import { error_msg } from "./store/index"
-import {  soundHandler,mine_history,HandleSelectedMine,HandleNextTime, MinesEncription,HandleHas_won,HandleMineCount, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
+import { bet_amount,canCashout, soundHandler,mine_history,HandleSelectedMine,HandleNextTime,HandleGame_id,
+     MinesEncription,HandleHas_won,HandleMineCount, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
 import axios from "axios";
+import Loader from "$lib/components/loader.svelte";
 import successSound from "./audio/success-1-6297.mp3"
 import { ServerURl } from "$lib/backendUrl"
 import { onMount } from "svelte";
+import { handleCountdown } from "$lib/games/ClassicDice/socket/index"
+const { handleMinesHistory } = handleCountdown()
 const URL = ServerURl()
+// import {useLiveStats} from "$lib/hook/livestats"
+// const {recordGame} = useLiveStats(liveStats, "MINES_LIVE_STATS")
 
 let max_profit_tips = false
 let Handlemax_profit_tips = ((e)=>{
@@ -26,31 +32,26 @@ let Handlemax_profit_tips = ((e)=>{
 })
 
 let wining_amount = '' ;
-let bet_amount = 0.000027
-
-$:{
-    onMount(()=>{
-    if($default_Wallet.coin_name === "BTC"){
-        bet_amount = (0.000027).toFixed(8)
-    }else  if($default_Wallet.coin_name === "ETH"){
-        bet_amount = (0.00050).toFixed(8)
+onMount(()=>{
+    if($default_Wallet.coin_name === "USDT"){
+        bet_amount.set((0.2).toFixed(4))
     }else{
-        bet_amount = (100).toFixed(8)
+        bet_amount.set((100).toFixed(4))
     }
 })
-}
+
 
 
 $:{
-    wining_amount = (bet_amount * $payout).toFixed(9)
+    wining_amount = ($bet_amount * $payout).toFixed(9)
 }
 
 const dive = (()=>{
-    bet_amount = (bet_amount / 2).toFixed(9)
+    bet_amount.set(($bet_amount / 2).toFixed(4))
 })
 
 const mult = (()=>{
-    bet_amount = (bet_amount * 2).toFixed(9)
+    bet_amount.set(($bet_amount * 2).toFixed(4))
 })
 
 
@@ -99,7 +100,6 @@ vyfx.forEach(element => {
     }
 });
 
-
 const handleActiveMines = ((els)=>{
     vyfx.forEach(element => {
     if(element.id === els.id){
@@ -114,19 +114,23 @@ handleDspo()
 })
 let multiplayerEl = 1.03
 let multiplier 
-
+let cm;
 $:{
     multiplier = multiplayerEl * (25 - $HandlemineGems)
 }
 
 
+
+let uuyd = false
 let none = 1
 let is_loading = false
 const handleDpojb = (async()=>{
      // if(browser && window.navigator.onLine){
         is_loading = true
         if($handleisLoggin){
-            if( $default_Wallet.coin_name !== "BTC" && $default_Wallet.coin_name !== "ETH" &&  $default_Wallet.coin_name !== "WGF"){
+            if( $default_Wallet.coin_name !== "BTC" 
+            && $default_Wallet.coin_name !== "WGF"
+            && $default_Wallet.coin_name !== "ETH"  ){
                 error_msg.set("Select another coin")
                 is_loading = false
                 setTimeout(()=>{
@@ -134,66 +138,27 @@ const handleDpojb = (async()=>{
                 },4000)
             }
         else{
-            if( parseFloat(bet_amount)> parseFloat($default_Wallet.balance)){
+            if( parseFloat($bet_amount)> parseFloat($default_Wallet.balance)){
                 error_msg.set("Insufficient balance")
                 is_loading = false
                 setTimeout(()=>{
                     error_msg.set('')
                 },4000)
             }  
-            else if( parseFloat(bet_amount) > 0.14 && $default_Wallet.coin_name === "BTC"){
-                error_msg.set("Maximum bet amount for BTC is 0.14")
-                is_loading = false
-                setTimeout(()=>{
-                    error_msg.set('')
-                },4000)
-            }
-            else if( parseFloat(bet_amount) > 261.91 && $default_Wallet.coin_name === "ETH"){
-                error_msg.set("Maximum bet amount for ETH is 261.91")
-                is_loading = false
-                setTimeout(()=>{
-                    error_msg.set('')
-                },4000)
-            }
-            else if( parseFloat(bet_amount) > 10000 && $default_Wallet.coin_name === "WGF"){
-                error_msg.set("Maximum bet amount for WGF is 10,000")
-                 is_loading = false
-                setTimeout(()=>{
-                    error_msg.set('')
-                },4000)
-            }
-            else if( parseFloat(bet_amount) < 100 && $default_Wallet.coin_name === "PPF"){
-                error_msg.set("Minimum bet amount for PPF is 100")
-                 is_loading = false
-                setTimeout(()=>{
-                    error_msg.set('')
-                },4000)
-            }
-            else if( parseFloat(bet_amount) < 0.00050 && $default_Wallet.coin_name === "ETH"){
-                error_msg.set("Minimum bet amount for ETH is 0.00050")
-                 is_loading = false
-                setTimeout(()=>{
-                    error_msg.set('')
-                },4000)
-            }
-            else if( parseFloat(bet_amount) < 0.00050 && $default_Wallet.coin_name === "BTC"){
-                error_msg.set("Minimum bet amount for BTC is 0.000028")
-                 is_loading = false
-                setTimeout(()=>{
-                    error_msg.set('')
-                },4000)
-            }
             else{
                 let data = {
                     mines: activeMIne.id,
-                    bet_amount:  parseFloat(bet_amount),
+                    bet_amount:  parseFloat($bet_amount),
                     bet_token_img: $default_Wallet.coin_image, 
+                    username: $profileStore.username, 
+                    profile_img: $profileStore.profile_image, 
                     bet_token_name: $default_Wallet.coin_name ,
                     token_balance: $default_Wallet.balance,
                     client_seed: $MinesEncription.client_seed,
                     server_seed: $MinesEncription.server_seed,
                     hash_seed: $MinesEncription.hash_seed,
-                    nonce: $MinesEncription.nonce + none
+                    nonce: $MinesEncription.nonce + none,
+                    time: new Date()
                 }
                 await axios.post(`${URL}/api/user/mine-game/mine-initialize`, {
                     data
@@ -203,6 +168,7 @@ const handleDpojb = (async()=>{
                 }
                 })
                 .then((response)=>{
+                    HandleGame_id.set(response.data.game_id)
                     minesStore.set(response.data.daajs)
                     none += 1
                     let ins = []
@@ -223,25 +189,128 @@ const handleDpojb = (async()=>{
                     HandlemineGems.set(ins.length)
                     betDetails.set(response.data.waskj[0])
                     is_loading = false
+                    if($HandleMineCount === 1){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.03)
+                    }
+                    if($HandleMineCount === 2){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.08)
+                    }
+                    if($HandleMineCount === 3){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.13)
+                    }
+                    if($HandleMineCount === 4){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.18)
+                    }
+                    if($HandleMineCount === 5){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.24)
+                    }
+                    if($HandleMineCount === 6){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.30)
+                    }
+                    if($HandleMineCount === 7){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.38)
+                    }
+                    if($HandleMineCount === 8){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.48)
+                    }
+                    if($HandleMineCount === 9){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.55)
+                    }
+                    if($HandleMineCount === 10){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.65)
+                    }
+                    if($HandleMineCount === 11){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.77)
+                    }
+                    if($HandleMineCount === 12){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(1.90)
+                    }
+                    if($HandleMineCount === 13){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(2.06)
+                    }
+                    if($HandleMineCount === 14){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(2.25)
+                    }
+                    if($HandleMineCount === 15){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(2.75)
+                    }
+                    if($HandleMineCount === 16){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(2.75)
+                    }
+                    if($HandleMineCount === 17){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(3.09)
+                    }
+                    if($HandleMineCount === 18){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(3.54)
+                    }
+                    if($HandleMineCount === 19){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(4.13)
+                    }
+                    if($HandleMineCount === 20){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(4.95)
+                    }
+                    if($HandleMineCount === 21){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(6.19)
+                    }
+                    if($HandleMineCount === 22){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(8.24)
+                    }
+                    if($HandleMineCount === 23){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(12.38)
+                    }
+                    if($HandleMineCount === 24){
+                        Cashout.set(1.00)
+                        HandleNextTime.set(24.75)
+                    }
                 })
                 .catch((error)=>{
                     console.log(error)
                 })
             }
         }
+        } 
+         else{
+            error_msg.set('You are not Logged in')
+            is_loading = false
+            setTimeout(()=>{
+                error_msg.set('')
+            },4000)
         }
-        else{
-        error_msg.set('You are not Logged in')
-        is_loading = false
-        setTimeout(()=>{
-            error_msg.set('')
-        },4000)
-    }
 })
+
+$:{
+  if($Cashout > 1){
+    canCashout.set(true)
+  }
+}
 
 
 const handleCashout = (async()=>{
-     let data = {
+    canCashout.set(false)
+    let data = {
         gamaLoop: $minesStore,
         bet_amount:parseFloat($betDetails.bet_amount),
         bet_token_img: $betDetails.bet_token_img,
@@ -249,18 +318,21 @@ const handleCashout = (async()=>{
         cashout:$Cashout,
         profit: parseFloat($betDetails.bet_amount) * $Cashout,
         has_won: true,
-        time: new Date(),
-     }
+        game_id: $HandleGame_id,
+        time: new Date()
+    }
      await axios.post(`${URL}/api/user/mine-game/cashout`, {
         data
     },{
         headers:{
         Authorization: `Bearer ${$handleAuthToken}`
-    }
-    })
+    }})
     .then((response)=>{
+        // recordGame(true, data.bet_amount, data.profit, data.bet_token_img);
         HandleWinningSound()
         Cashout.set(0)
+        HandleNextTime.set(0)
+        HandleSelectedMine.set(0)
         default_Wallet.set(response.data.skjb)
         let iuss = response.data.data
         let jks = {
@@ -268,7 +340,8 @@ const handleCashout = (async()=>{
             cashout:iuss.cashout,
             bet_token_name:iuss.bet_token_name
         }
-        mine_history.set([...$mine_history, data])
+        mine_history.set([...$mine_history, response.data.mineGameHistory[0]])
+        handleMinesHistory(response.data.mineGameHistory[0])
         HandleWinning.set(jks)
         HandleIsAlive.set(false)
         HandleHas_won.set(true)
@@ -277,6 +350,49 @@ const handleCashout = (async()=>{
         console.log(error)
     })
 })
+
+let is_min_max = false;
+  const handleMinMax = () => {
+    is_min_max = !is_min_max;
+};
+
+let walletRange = 0;
+  const handleRangeSTlop = (eui) => {
+    bet_amount.set((parseFloat($default_Wallet.balance) * (eui / 100)).toFixed(4));
+    if ($default_Wallet.coin_name === "USDT") {
+      if ($bet_amount < 0.1) {
+        bet_amount.set((0.1).toFixed(4));
+      } else if ($bet_amount > 2000) {
+        bet_amount.set((2000).toFixed(4));
+      }
+    } 
+    else {
+      if ($bet_amount < 100) {
+        bet_amount.set((100).toFixed(4));
+      } else if ($bet_amount > 5000) {
+        bet_amount.set((5000).toFixed(4));
+      }
+    }
+};
+
+const handlesjen = (e) => {
+    bet_amount.set((parseFloat($default_Wallet.balance) * (e / 100)).toFixed(4));
+    walletRange = e;
+    if ($default_Wallet.coin_name === "USDT") {
+      if ($bet_amount < 0.1) {
+        bet_amount.set((0.1).toFixed(4));
+      } else if ($bet_amount > 2000) {
+        bet_amount.set((2000).toFixed(4));
+      }
+    } 
+    else {
+      if ($bet_amount < 100) {
+        bet_amount.set((100).toFixed(4));
+      } else if ($bet_amount > 5000) {
+        bet_amount.set((5000).toFixed(4));
+      }
+    }
+  };
 
 </script>
 
@@ -315,26 +431,53 @@ const handleCashout = (async()=>{
             </div>
             <div class="input-control">
                 {#if $HandleIsAlive}
-                    <div style="font-size: 13.5px; font-weight: bold">{(parseFloat($betDetails.bet_amount)).toFixed(6)}</div>
+                    <div style="font-size: 13.5px; font-weight: bold">{(parseFloat($betDetails.bet_amount)).toFixed(4)}</div>
                     <input type="number" readonly>
                 {:else}
-                    <input type="number" bind:value={bet_amount}>
+                    <input type="number" bind:value={$bet_amount}>
                 {/if}
-            {#if $handleisLoggin}
+                {#if $handleisLoggin}
                 {#if $HandleIsAlive}
                     <img class="coin-icon" alt="" src={$betDetails.bet_token_img}>
                     {:else}
                     <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
                 {/if}  
                 {:else}
-                    <img class="coin-icon" alt="" src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400">
+                    <img class="coin-icon" alt="" src="https://nanogames.io/coin/BTC.black.png">
                 {/if}
                 <div class="sc-kDTinF bswIvI button-group">
                     <button on:click={()=> dive()}>/2</button>
                     <button on:click={()=> mult()}>x2</button>
-                    <button class="sc-cAhXWc cMPLfC">
-                        <Icon src={RiSystemArrowUpSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"  title="min" />
-                        <Icon src={RiSystemArrowDownSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"  title="max" />
+                    {#if is_min_max}
+                    <div class="fix-layer" style="opacity: 1; transform: none;">
+                      <button
+                        on:click={() => handlesjen(0)}
+                        style={`${walletRange === 0 ? `color:#ffff;` : ""}`}
+                        class="">Min</button
+                      >
+                      <div class="sc-kLwhqv eOA-dmL slider">
+                        <div  class="slider-after" style="transform: scaleX(100.001001);"></div>
+                        <input
+                          type="range"
+                          class="drag-block"
+                          on:input={(e) => handleRangeSTlop(e.target.value)}
+                          bind:value={walletRange}
+                        />
+                        <div
+                          class="slider-before"
+                          style="transform: scaleX(100.998999);"
+                        ></div>
+                      </div>
+                      <button
+                        on:click={() => handlesjen(100)}
+                        style={`${walletRange === 100 ? `color:#ffff;` : ""}`}
+                        class="">Max</button
+                      >
+                    </div>
+                  {/if}
+                    <button on:click={handleMinMax} class="sc-cAhXWc cMPLfC">
+                        <Icon src={RiSystemArrowUpSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"  />
+                        <Icon src={RiSystemArrowDownSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"  />
                     </button>
                 </div>
             </div>
@@ -349,7 +492,7 @@ const handleCashout = (async()=>{
                     {:else}
                         {activeMIne.id}
                     {/if}
-                    {#if $HandleIsAlive}
+                    {#if !$HandleIsAlive}
                     <div class="arrow ">
                         <Icon src={RiSystemArrowRightSLine}  size="20"  color="rgba(153, 164, 176, 0.6)"  />
                     </div>
@@ -373,7 +516,7 @@ const handleCashout = (async()=>{
             <div class="sc-ezbkAF gcQjQT input ">
                 <div class="input-label">Gems</div>
                 <div class="input-control">
-                    <input type="text" readonly value={$HandlemineGems - $HandleSelectedMine}>
+                    <input type="text" readonly value={$HandlemineGems}>
                 </div>
             </div>
             <div class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp">
@@ -381,7 +524,7 @@ const handleCashout = (async()=>{
                     <div class="label-amount">0 USD</div>
                 </div>
                 <div class="input-control">
-                    <input type="text" readonly value={(parseFloat($betDetails.bet_amount) *multiplier).toFixed(8)}>
+                    <input type="text" readonly value={(parseFloat($betDetails.bet_amount) * $HandleNextTime).toFixed(4)}>
                     <img class="coin-icon" alt="" src={$betDetails.bet_token_img}>
                 </div>
             </div>
@@ -390,7 +533,7 @@ const handleCashout = (async()=>{
                     <div class="label-amount">0 USD</div>
                 </div>
                 <div class="input-control">
-                    <input type="text" readonly value={ $Cashout === 0 ? (parseFloat($betDetails.bet_amount)).toFixed(8) : (parseFloat($betDetails.bet_amount)  * $Cashout).toFixed(8) }>
+                    <input type="text" readonly value={ $Cashout === 0 ? (parseFloat($betDetails.bet_amount)).toFixed(4) : (parseFloat($betDetails.bet_amount)  * $Cashout).toFixed(4) }>
                     <img class="coin-icon" alt="" src={$betDetails.bet_token_img}>
                 </div>
             </div>
@@ -400,18 +543,138 @@ const handleCashout = (async()=>{
         </div>
         {/if}
         {#if $HandleIsAlive}
-        <button disabled={$Cashout === 0} on:click={handleCashout} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big bet-button">
-            <div class="button-inner">Cash out</div>
-        </button>
+            <button disabled={!$canCashout} on:click={handleCashout} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big bet-button">
+                <div class="button-inner">Cash out</div>
+            </button>
         {:else}
-        <button on:click={handleDpojb} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big bet-button">
-            <div class="button-inner">Roll Now</div>
+        <button disabled={is_loading} on:click={handleDpojb} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big bet-button">
+            {#if is_loading}
+                <div style="height: 30px; color:aliceblue">
+                    <Loader />
+                </div>
+            {:else}
+                <div class="button-inner">Roll Now</div>
+            {/if}
         </button>
         {/if}
     </div>
 </div>
-
 <style>
+
+
+.input-control:focus-within {
+    border: 1px solid var(--primary-color);
+  }
+
+  .fCSgTW .fix-layer {
+    position: absolute;
+    right: 0px;
+    top: 2.875rem;
+    z-index: 2;
+    touch-action: pan-x;
+    width: 200px;
+    height: 2.5rem;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 0.625rem;
+    background-color: rgb(33, 35, 40);
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.15) 1px 0px 7px 0px;
+  }
+
+  .fCSgTW .fix-layer > button {
+    height: 100%;
+    width: 2.5rem;
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    background-color: rgba(60, 64, 74, 0.5);
+  }
+  .fCSgTW .fix-layer .slider {
+    flex: 1 1 0%;
+    height: 100%;
+  }
+
+  .drag-block {
+    position: absolute;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: transparent;
+    border-radius: 10px;
+    appearance: none;
+    width: 100%;
+    margin: 0px;
+    height: 100%;
+    cursor: grab;
+    -webkit-appearance: none;
+  }
+  .drag-block::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: 0px;
+    /* Centers thumb on the track */
+    background-color: #feffff;
+    height: 1.5rem;
+    width: 1rem;
+    border-radius: 10px;
+    cursor: grabbing;
+  }
+  .eOA-dmL {
+    position: relative;
+    display: flex;
+    height: 0.875rem;
+    overflow: hidden;
+    box-sizing: content-box;
+    padding: 0px 0.8125rem;
+    cursor: pointer;
+  }
+  .fCSgTW .fix-layer .slider-after {
+    width: 86%;
+    left: 7%;
+    height: 0.5rem;
+    margin-top: -0.25rem;
+    border-radius: 0.25rem;
+    background-color: rgb(23, 24, 27);
+    transform: scaleX(1) !important;
+  }
+  .eOA-dmL .slider-after {
+    height: 2px;
+    width: 98%;
+    position: absolute;
+    left: 1%;
+    top: 50%;
+    margin-top: -1px;
+  }
+  .eOA-dmL .slider-after {
+    background-color: rgba(216, 222, 227, 0.4);
+    transform-origin: left center;
+  }
+
+  .fCSgTW .fix-layer .slider-before,
+  .fCSgTW .fix-layer .slider-after {
+    width: 86%;
+    left: 7%;
+    height: 0.5rem;
+    margin-top: -0.25rem;
+    border-radius: 0.25rem;
+    background-color: rgb(23, 24, 27);
+    transform: scaleX(1) !important;
+  }
+  .eOA-dmL .slider-before {
+    background-color: rgba(216, 222, 227, 0.4);
+    transform-origin: right center;
+  }
+  .eOA-dmL .slider-before,
+  .eOA-dmL .slider-after {
+    height: 2px;
+    width: 98%;
+    position: absolute;
+    left: 1%;
+    top: 50%;
+    margin-top: -1px;
+  }
+
 .input-control {
     border-color: transparent;
 }
@@ -433,6 +696,10 @@ const handleCashout = (async()=>{
     height: 2.75rem;
     border-radius: 1.5rem;
     padding: 0px 1.375rem;
+}
+.cBmlor:disabled.sc-iqseJM:not(.is-loading) {
+    opacity: 0.5;
+    cursor: default;
 }
 .ewilmB {
     flex: 1 1 0%;

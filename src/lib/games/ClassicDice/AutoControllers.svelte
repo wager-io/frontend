@@ -1,138 +1,131 @@
 <script>
-import { goto } from "$app/navigation";    
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import RiSystemArrowUpSLine from "svelte-icons-pack/ri/RiSystemArrowUpSLine";
 import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
 import { default_Wallet } from '../../store/coins';
-import { profileStore,handleisLoggin } from "$lib/store/profile"
-import { handleAuthToken } from "$lib/store/routes"
-import { payout, isbetLoadingBtn, betPosition } from "./store";
-import {DiceEncription} from '$lib/games/ClassicDice/store/index'
-import { error_msg, handlediceAutoInput, onWin, HandleDicePoint, soundHandler ,dice_history, HandleHas_won } from "../ClassicDice/store/index"
-import {ServerURl} from "$lib/backendUrl"
-import { browser } from '$app/environment';
-import {dice_troo} from "$lib/games/ClassicDice/store/index"
-const URL = ServerURl()
-
-import { handleCountdown } from "../ClassicDice/socket/index";
-const { handleDicebet } = handleCountdown()
-import cr from "./audio/click-button-140881.mp3"
-import win from "./audio/mixkit-achievement-bell-600.wav"
-import axios from "axios"
+import { profileStore, handleisLoggin } from "$lib/store/profile";
+import { DiceBet } from "../ClassicDice/hook/manualEngine";
+import { handleAuthToken } from "$lib/store/routes";
+import { dice_history } from "../ClassicDice/store/index";
+import { payout, betPosition } from "./store";
+import { soundManager, turboManager} from "$lib/games/ClassicDice/store/index";
+import {DiceEncription} from '$lib/games/ClassicDice/store/index';
+import { error_msg, handlediceAutoInput,Handles_alive,handleOnLose,
+ winning_track,losing_track,Autopre_bal, handleStopOnLose,HandleHas_won,
+handleStopOnwin, handleOnwin, rollunder } from "../ClassicDice/store/index";
+import { soundHandler } from "$lib/games/ClassicDice/store/index";
+import { onMount } from "svelte";
 
 let is_min_max = false
 const handleMinMax = (()=>{
    is_min_max = !is_min_max
 })
-let uiocd = 0
+
 let wining_amount = '' ;
-
-
 let walletRange = 0
 let x = 0;
-$:{
-    wining_amount = (uiocd * $payout).toFixed(4)
-    if($default_Wallet.coin_name === "BTC"){
-        if(uiocd < 0.000028){
-            uiocd = (0.000028).toFixed(8)
-        }
-        if(uiocd > 0.14){
-            uiocd = (0.14).toFixed(8)
-        }        
-    }
-    else if($default_Wallet.coin_name === "ETH"){
-        if(uiocd < 0.00050){
-            uiocd = (0.00050).toFixed(8)
-        }
-        if(uiocd > 2.53){
-            uiocd = (2.53).toFixed(8)
-        }
-    }
-    else{
-        if(uiocd < 100){
-            uiocd = (100).toFixed(6)
-        }
-        if(uiocd > 10000){
-            uiocd = (10000).toFixed(6)
-        }
-    }
-}
-
-
-
-let bet_number = 0
-let on_win = false
-let onWinEl = 0
-
-let on_lose = false
-let onLoseEl = 0
-
-let stopOnwin = 0
-let stopOnlose = 0
-
-let is_Looping = false
-let yu 
-let turbo = 1000
-
-function playSound(e) {
-    if(e === 1){
-        const audio = new Audio(cr);
-        audio.volume = 0.5;
-        audio.play();
+onMount(()=>{
+    if($default_Wallet.coin_name === "USDT"){
+            handlediceAutoInput.set((0.10).toFixed(4))
     }else{
-        const audio = new Audio(win);
-        audio.volume = 0.1;
-        audio.play();
+        handlediceAutoInput.set((100).toFixed(4))
     }
+})
+
+$:{
+    wining_amount = ($handlediceAutoInput * $payout).toFixed(4)
 }
+
+$: bet_number = 0
+$: on_win = false
+$: onWinEl = 0
+$: on_lose = false
+$: onLoseEl = 0
+
+$: stopOnwin = 0
+$: stopOnlose = 0
+
+$: is_Looping = false
+$: yu = ""
+$: turbo = $turboManager ? 400 : 1000
+
 
 const dive = (()=>{
-    uiocd = (uiocd / 2).toFixed(8)
-    handlediceAutoInput.set(uiocd)
+    handlediceAutoInput.set(($handlediceAutoInput / 2).toFixed(4))
 })
 
 const handleRangeSTlop = ((eui)=>{
-    uiocd = (parseFloat($default_Wallet.balance)  * (walletRange / 100 )).toFixed(8)
+    handlediceAutoInput.set((parseFloat($default_Wallet.balance)  * (walletRange / 100 )).toFixed(4))
+    if($default_Wallet.coin_name === "USDT"){
+        if($handlediceAutoInput < 0.1){
+            handlediceAutoInput.set((0.1).toFixed(4))
+        }
+        else if($handlediceAutoInput > 2000){
+            handlediceAutoInput.set((2000).toFixed(4))
+        }
+    }else{
+        if($handlediceAutoInput < 100){
+            handlediceAutoInput.set((100).toFixed(4))
+        }
+        else if($handlediceAutoInput > 5000){
+            handlediceAutoInput.set((5000).toFixed(4))
+        }
+    }
 })
 
 const mult = (()=>{
-    uiocd = (uiocd * 2).toFixed(8)
-    handlediceAutoInput.set(uiocd)
+    handlediceAutoInput.set(($handlediceAutoInput * 2).toFixed(4))
 })
 
-let winning_track = 0
-let lose_track = 0
+let prev_bal;
+const handlePreBetamout = ((event)=>{
+   return prev_bal
+})
 
-let bet_num_count = 0
+let lose_track = 0
+let bet_num_count = 1
 let load = false
 const handleAutoStart = (()=>{
     if(!is_Looping){
+        prev_bal = $handlediceAutoInput
+        Autopre_bal.set(prev_bal)
         is_Looping = true
         yu = setInterval(()=>{
+        if(parseFloat($handlediceAutoInput) > parseFloat($default_Wallet.balance)){
+            error_msg.set("insufficient balance")
+            is_Looping = false
+            clearInterval(yu)
+            setTimeout(()=>{
+                error_msg.set("")
+            },4000)
+        }else{
             if(bet_number){
-                if(bet_num_count === bet_number){
+                if(bet_number < bet_num_count){
                     is_Looping = false
                     clearInterval(yu)
-                    bet_num_count = 0
+                    bet_num_count = 1
                 }
                 else{
                     handleRollSubmit()
                     bet_num_count += 1
                 }
-            } else if(stopOnwin){
-                if(winning_track > stopOnwin ){
+            } 
+           else if($handleStopOnwin){
+                if($winning_track >= $handleStopOnwin ){
                     is_Looping = false
                     clearInterval(yu)   
-                    stopOnwin = 0
+                    winning_track.set(0)
+                    handleStopOnwin.set(0)
                 }else{
                     handleRollSubmit()
                 }
             }
-            else if(stopOnlose){
-                if(lose_track > stopOnlose ){
+            else if($handleStopOnLose){
+                if(onLoseEl >= $handleStopOnLose ){
                     is_Looping = false
                     clearInterval(yu)   
-                    stopOnlose = 0
+                    losing_track.set(0)
+                    handleStopOnLose.set(0)
                 }else{
                     handleRollSubmit()
                 }
@@ -140,29 +133,23 @@ const handleAutoStart = (()=>{
             else{
                 handleRollSubmit()
             }
+        }
         }, turbo)
     }else{
         is_Looping = false
         clearInterval(yu)
+        let s = handlePreBetamout()
+        Handles_alive.set(false)
+        handlediceAutoInput.set((parseFloat(s)).toFixed(5))
     }
 })
 
-let history 
-$:{
-    history  = [...$dice_history]
-}
 
-let non = 1
+$: non = 1
 const handleRollSubmit = (async()=>{
-    // if(browser && window.navigator.onLine){
-     $soundHandler && playSound(1)
-    if( $default_Wallet.coin_name !== "BTC" && $default_Wallet.coin_name !== "ETH" &&  $default_Wallet.coin_name !== "WGF"){
-        error_msg.set("Select another coin")
-        is_Looping = false
-        setTimeout(()=>{
-            error_msg.set('')
-        },4000)
-    }else{
+    let sound = $soundManager.audioMap.bet
+    let winSound = $soundManager.audioMap.win
+     $soundManager.Play(sound, $soundHandler);
     if($handleisLoggin){
         if(parseFloat($default_Wallet.balance) <= 0){
             error_msg.set("insufficient balance")
@@ -172,48 +159,40 @@ const handleRollSubmit = (async()=>{
                 error_msg.set("")
             },4000)
         }
-        if( parseFloat(uiocd) > parseFloat($default_Wallet.balance)){
-            error_msg.set("Insufficient balance")
+        if(parseFloat($handlediceAutoInput) > parseFloat($default_Wallet.balance)){
+            error_msg.set("insufficient balance")
             is_Looping = false
             clearInterval(yu)
             setTimeout(()=>{
                 error_msg.set("")
             },4000)
         }
-        if( parseFloat(uiocd) > 0.14 && $default_Wallet.coin_name === "BTC"){
-            error_msg.set("Maximum bet amount for BTC is 0.14")
-            is_Looping = false
-            clearInterval(yu)
-            setTimeout(()=>{
-                error_msg.set('')
-            },4000)
-        }
-        if( parseFloat(uiocd) > 261.91 && $default_Wallet.coin_name === "ETH"){
-                error_msg.set("Maximum bet amount for ETH is 261.91")
+        else if( parseFloat($handlediceAutoInput) > 5000 && $default_Wallet.coin_name === "USDT"){
+            error_msg.set("Maximum bet amount for USDT is 5,000")
               is_Looping = false
             clearInterval(yu)
             setTimeout(()=>{
                 error_msg.set('')
             },4000)
         }
-        else if( parseFloat(uiocd) > 10000 && $default_Wallet.coin_name === "WGF"){
-            error_msg.set("Maximum bet amount for WGF is 10,000")
+        else if( parseFloat($handlediceAutoInput) > 10000 && $default_Wallet.coin_name === "PPF"){
+            error_msg.set("Maximum bet amount for PPF is 10,000")
+              is_Looping = false
+            clearInterval(yu)
+            setTimeout(()=>{
+                error_msg.set('')
+            },4000)
+        }
+        else if( parseFloat($handlediceAutoInput) < 100 && $default_Wallet.coin_name === "PPF"){
+            error_msg.set("Minimum bet amount for PPF is 100")
              is_Looping = false
             clearInterval(yu)
             setTimeout(()=>{
                 error_msg.set('')
             },4000)
         }
-        else if( parseFloat(uiocd) < 0.00050 && $default_Wallet.coin_name === "ETH"){
-            error_msg.set("Minimum bet amount for ETH is 0.00050")
-             is_Looping = false
-            clearInterval(yu)
-            setTimeout(()=>{
-                error_msg.set('')
-            },4000)
-        }
-        else if( parseFloat(uiocd) < 0.00050 && $default_Wallet.coin_name === "BTC"){
-            error_msg.set("Minimum bet amount for BTC is 0.000028")
+        else if( parseFloat($handlediceAutoInput) < 0.20 && $default_Wallet.coin_name === "USDT"){
+            error_msg.set("Minimum bet amount for USDT is 0.20")
              is_Looping = false
             clearInterval(yu)
             setTimeout(()=>{
@@ -230,95 +209,73 @@ const handleRollSubmit = (async()=>{
                 username: $profileStore.username,
                 hidden_from_public: false,
                 profile_img: $profileStore.profile_image,
-                bet_amount:  parseFloat(uiocd),
+                bet_amount:  parseFloat($handlediceAutoInput),
                 prev_bal: parseFloat($default_Wallet.balance),
                 token_img: $default_Wallet.coin_image, 
                 token: $default_Wallet.coin_name ,
-                chance: parseFloat($betPosition).toFixed(2),
+                chance: $rollunder ? parseFloat($betPosition).toFixed(2) : 100 - parseFloat($betPosition).toFixed(2) ,
                 payout: parseFloat($payout),
                 time: new Date(),
-                wining_amount: parseFloat(uiocd) - parseFloat(wining_amount)
+                is_roll_under:$rollunder,
+                wining_amount: parseFloat(wining_amount) - parseFloat($handlediceAutoInput)
             }
             non += 1
-            setTimeout(()=>{
-            handleDicebet(data)
-            },1000)
-    //         await axios.post(`${URL}/api/user/dice-game/bet`, {
-    //             data
-    //         },{
-    //             headers:{
-    //                 Authorization: `Bearer ${$handleAuthToken}`
-    //             }
-    //         }).then(res =>{
-    //             let r = {
-    //                 client_seed: res.data.client_seed,
-    //                 server_seed:res.data.client_seed,
-    //                 hash_seed:res.data.hash,
-    //                 nonce:res.data.nonce + 1,
-    //             }
-    //             dice_history.set(history)
-    //             DiceEncription.set(r)
-    //             HandleDicePoint.set((parseFloat(res.data.point)).toFixed(2))
-    //             isbetLoadingBtn.set(false)
-    //             if(parseFloat($betPosition) > parseFloat($HandleDicePoint)){
-    //                 let wallet = {
-    //                     coin_name: $default_Wallet.coin_name ,
-    //                     coin_image: $default_Wallet.coin_image,
-    //                     balance:  (parseFloat(data.wining_amount) + parseFloat($default_Wallet.balance)).toFixed(4)
-    //                 }
-    //                 default_Wallet.set(wallet)
-    //                 $soundHandler &&  playSound(2)
-    //                 HandleHas_won.set(true)
-    //                 if(onWinEl){
-    //                     let to = ((onWinEl/100) * parseFloat(uiocd)/1)
-    //                     let from = (to + parseFloat(uiocd)).toFixed(4)
-    //                     handlediceAutoInput.set(from)
-    //                 }
-    //                 winning_track += parseFloat(uiocd * $payout) - parseFloat(uiocd)
-    //                 history.push({ ...data,has_won:true, cashout:res.data.point, profit:parseFloat(data.wining_amount), token:$default_Wallet.coin_name})
-    //             }else{
-    //                 let wallet = {
-    //                     coin_name: $default_Wallet.coin_name ,
-    //                     coin_image: $default_Wallet.coin_image,
-    //                     balance: (parseFloat($default_Wallet.balance) - parseFloat(data.bet_amount)).toFixed(4)
-    //                 }
-    //                 default_Wallet.set(wallet)
-    //                 HandleHas_won.set(false)
-    //                 if(onLoseEl){
-    //                     let to = ((onLoseEl/100) * parseFloat(uiocd)/1)
-    //                     let from = (to + parseFloat(uiocd)).toFixed(4)
-    //                     handlediceAutoInput.set(from)
-    //                 }
-    //                 lose_track += parseFloat(uiocd)
-    //                 history.push({...data,has_won:false, cashout:res.data.point, profit:0, token:$default_Wallet.coin_name})
-    //             }
-    //         })
+           const response = await DiceBet(data, $handleAuthToken)
+           if(response.has_won){
+            winning_track.set($winning_track += parseFloat(response.profit))
+                if($handleOnwin){
+                    let to = (($handleOnwin/100) * parseFloat($handlediceAutoInput)/1)
+                    let from = (to + parseFloat($handlediceAutoInput)).toFixed(4)
+                    handlediceAutoInput.set(from)
+                }
+                if($handleOnLose){
+                    handlediceAutoInput.set($Autopre_bal)
+                }
+                $soundManager.Play(winSound, $soundHandler);
+                HandleHas_won.set(true)
+            }
+            else{
+                onLoseEl = onLoseEl += parseFloat(response.bet_amount)
+                if($handleOnLose){
+                    let to = (($handleOnLose / 100) * parseFloat($handlediceAutoInput)/1)
+                    let from = (to + parseFloat($handlediceAutoInput)).toFixed(4)
+                    handlediceAutoInput.set(from)
+                }
+                HandleHas_won.set(false)
+            }
+           dice_history.set([...$dice_history, response])
+       
         }
-     onWin.set(onWinEl)
     }else{
         error_msg.set("You are not Logged in")
         clearInterval(yu)
         is_Looping = false
         setTimeout(()=>{
-            goto("/login")
             error_msg.set("")
         },4000)
     }
-}
-// }else{
-//     error_msg.set('Error in network connection')
-//     is_Looping = false
-//     clearInterval(yu)
-//     setTimeout(()=>{
-//         error_msg.set('')
-//      },4000)
-// }
 })
 
 const handlesjen = ((e)=>{
-    uiocd = (parseFloat($default_Wallet.balance)  * (e / 100 )).toFixed(4)
+    handlediceAutoInput.set((parseFloat($default_Wallet.balance)  * (e / 100 )).toFixed(4))
     walletRange = e
+    if($default_Wallet.coin_name === "USDT"){
+        if($handlediceAutoInput < 0.1){
+            handlediceAutoInput.set((0.1).toFixed(4))
+        }
+        else if($handlediceAutoInput > 2000){
+            handlediceAutoInput.set((2000).toFixed(4))
+        }
+    }else{
+        if($handlediceAutoInput < 100){
+            handlediceAutoInput.set((100).toFixed(4))
+        }
+        else if($handlediceAutoInput > 5000){
+            handlediceAutoInput.set((5000).toFixed(4))
+        }
+    }
 })
+
 
 </script>
 
@@ -356,28 +313,28 @@ const handlesjen = ((e)=>{
                 <div class="label-amount">0 USD</div>
             </div>
             <div class="input-control">
-                <input type="number" bind:value={uiocd}>
+                <input disabled={$Handles_alive} type="number" bind:value={$handlediceAutoInput}>
                 {#if $handleisLoggin}
                    <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
                 {/if}
                 <div class="sc-kDTinF bswIvI button-group">
-                    <button on:click={()=> dive() }>/2</button>
-                    <button on:click={()=> mult() }>x2</button>
+                    <button disabled={$Handles_alive} on:click={()=> dive() }>/2</button>
+                    <button disabled={$Handles_alive} on:click={()=> mult() }>x2</button>
                     {#if is_min_max }
                      <div class="fix-layer" style="opacity: 1; transform: none;">
-                        <button on:click={()=>  handlesjen(0) } style={`${walletRange === 0 ? `color:#ffff;` : ""}`} class="">Min</button>
+                        <button disabled={$Handles_alive} on:click={()=>  handlesjen(0) } style={`${walletRange === 0 ? `color:#ffff;` : ""}`} class="">Min</button>
                         <div class="sc-kLwhqv eOA-dmL slider">
                            <div class="slider-after" style="transform: scaleX(100.001001);"></div>
-                             <input type="range" class="drag-block" on:input={(e)=> handleRangeSTlop(e.target.value)} bind:value={walletRange}>
+                             <input disabled={$Handles_alive} type="range" class="drag-block" on:input={(e)=> handleRangeSTlop(e.target.value)} bind:value={walletRange}>
                            <div class="slider-before" style="transform: scaleX(100.998999);"></div>
                         </div>
-                        <button on:click={()=> handlesjen(100)} style={`${walletRange === 100 ? `color:#ffff;` : ""}`} class="">Max</button>
+                        <button disabled={$Handles_alive} on:click={()=> handlesjen(100)} style={`${walletRange === 100 ? `color:#ffff;` : ""}`} class="">Max</button>
                      </div>
-                {/if}
+                    {/if}
 
-                    <button on:click={handleMinMax} class="sc-cAhXWc cMPLfC">
-                        <Icon src={RiSystemArrowUpSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"  title="min" />
-                        <Icon src={RiSystemArrowDownSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"  title="max" />
+                    <button disabled={$Handles_alive} on:click={handleMinMax} class="sc-cAhXWc cMPLfC">
+                        <Icon src={RiSystemArrowUpSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"   />
+                        <Icon src={RiSystemArrowDownSLine}  size="80"  color="rgba(153, 164, 176, 0.6)"   />
                     </button>
                 </div>
             </div>
@@ -386,11 +343,11 @@ const handlesjen = ((e)=>{
         <div class="sc-ezbkAF hzTJOu input ">
             <div class="input-label">Number of Bets</div>
             <div class="input-control">
-                <input type="number" bind:value={bet_number}>
+                <input type="number" disabled={$Handles_alive} bind:value={bet_number}>
                 <div class={`sc-kDTinF bswIvI button-group`}>
-                    <button on:click={()=> bet_number = 0}>∞</button>
-                    <button on:click={()=> bet_number = 10}>10</button>
-                    <button on:click={()=> bet_number = 100}>100</button>
+                    <button disabled={$Handles_alive} on:click={()=> bet_number = 0}>∞</button>
+                    <button disabled={$Handles_alive} on:click={()=> bet_number = 10}>10</button>
+                    <button disabled={$Handles_alive} on:click={()=> bet_number = 100}>100</button>
                 </div>
             </div>
         </div>
@@ -398,9 +355,9 @@ const handlesjen = ((e)=>{
         <div class="sc-ezbkAF hzTJOu input sc-gqtqkP cTKsPy">
             <div class="input-label">On win</div>
             <div class="input-control">
-                <input type="number" readonly={!on_win} bind:value={onWinEl}>
-                <div class={`sc-cxVPaa ${on_win ? "kvRMBr"  : "eIHoct"}  increase-switch`}>
-                    <button on:click={()=> on_win = !on_win} class="dot-wrap">
+                <input type="number" disabled={$Handles_alive} readonly={!on_win} bind:value={$handleOnwin}>
+                <div class={`sc-cxVPaa ${on_win ? "kvRMBr" : "eIHoct"}  increase-switch`}>
+                    <button disabled={$Handles_alive} on:click={()=> on_win = !on_win} class="dot-wrap">
                         <div  class="dot"></div>
                     </button>
                     <div class="reset text">Reset</div>
@@ -411,10 +368,11 @@ const handlesjen = ((e)=>{
         </div>
 
         <div class="sc-ezbkAF hzTJOu input sc-fvxzrP gOLODp">
-            <div class="input-label">Stop on win<div class="label-amount">0 USD</div>
+            <div class="input-label">
+                Stop on win<div class="label-amount">0 USD</div>
             </div>
             <div class="input-control">
-                <input type="number" bind:value={stopOnwin}>
+                <input type="number" disabled={$Handles_alive} bind:value={$handleStopOnwin}>
             {#if $handleisLoggin}
                 <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
              {/if}
@@ -424,7 +382,7 @@ const handlesjen = ((e)=>{
         <div class="sc-ezbkAF hzTJOu input sc-gqtqkP cTKsPy">
             <div class="input-label">On lose</div>
             <div class="input-control">
-                <input type="number" readonly={!on_lose} bind:value={onLoseEl}>
+                <input type="number" readonly={!on_lose} bind:value={$handleOnLose}>
                 <div class={`sc-cxVPaa ${on_lose ? "kvRMBr"  : "eIHoct"}  increase-switch`}>
                     <button on:click={()=> on_lose = !on_lose}  class="dot-wrap">
                         <div class="dot"></div>
@@ -440,7 +398,7 @@ const handlesjen = ((e)=>{
             <div class="input-label">Stop on lose<div class="label-amount">0 USD</div>
             </div>
             <div class="input-control">
-                <input type="number" bind:value={stopOnlose}>
+                <input type="number" disabled={$Handles_alive} bind:value={$handleStopOnLose}>
                 {#if $handleisLoggin}
                    <img class="coin-icon" alt="" src={$default_Wallet.coin_image}>
                 {/if}

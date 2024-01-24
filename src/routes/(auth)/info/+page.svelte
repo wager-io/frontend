@@ -3,7 +3,7 @@ import { browser } from '$app/environment';
 import { error_msg } from "./store";
 import axios from "axios";
 import { onMount } from "svelte";
-import {  goto } from "$app/navigation";
+import { goto } from "$app/navigation";
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
 import { profileStore } from "$lib/store/profile";
@@ -11,7 +11,6 @@ import { handleAuthToken } from "$lib/store/routes";
 import { handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index"
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
-
 
 let img1 = true
 let img2 = false
@@ -89,7 +88,7 @@ let username = $profileStore.username
 let is_loading = false
 
 const handleSubmit = (async() => {
-    // is_loading = true
+    is_loading = true
     if (!username) {
         error_msg.set("username can't be empty")
         setTimeout(()=>{
@@ -112,7 +111,9 @@ const handleSubmit = (async() => {
                 username: username,
                 vip_level: $profileStore.vip_level
             }
-         await  axios.post(`${URL}/api/profile/update-user`, {data},
+         await  axios.post(`${URL}/api/profile/update-user`, {
+            data
+        },
          {
             headers: {
             "Content-type": "application/json",
@@ -167,12 +168,12 @@ onMount(() => {
             <img alt="logo" class="sc-bOtlzW QccSQ" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
         </div>
         <button on:click={()=> handleClose()} class="sc-ieecCq fLASqZ close-icon dialog-close">
-            <Icon src={IoCloseSharp}  size="18"  color="rgb(255, 255, 255)" className="custom-icon" title="arror" />
+            <Icon src={IoCloseSharp}  size="18"  color="rgb(255, 255, 255)" />
         </button>
         <div class="dialog-body no-style sc-zjkyB ipnwmW" style="z-index: 2; transform: none;">
             <div class="welcome">
                 <div class="msg1">BUILD THE BEST CRYPTO CASINO TOGETHER</div>
-                <img src="https://static.nanogames.io/assets/login_coco.1855b11e.png" alt="">
+                <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704543204/NIKE1_34_1_ji6ln1.png" alt="">
             </div>
             <div class="sc-dkPtRN jScFby scroll-view hide-bar sc-bjztik ceTZhf" style="transform: none;">
                 <div id="regist-info" class="sc-fSDTwv kYCmoV">
@@ -504,8 +505,8 @@ img {
 }
 
 .QccSQ {
-    height: 1.875rem;
-    margin: 1rem 0px;
+    height: 1.7rem;
+    margin: 2rem 10px;
 }
 
 .iajVfs .other-group button {
@@ -544,64 +545,6 @@ img {
 
 /* ============================= mobile ===================================== */
 
-.kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.7);
-    filter: none !important;
-}
-
-.dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    background-color: rgb(23, 24, 27);
-}
-
-.dialog-head.has-close {
-    margin-right: 3.75rem;
-}
-
-.dialog-head {
-    position: relative;
-    z-index: 10;
-    flex: 0 0 auto;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 3.75rem;
-    margin-left: 1.125rem;
-    transition: all 0.5s ease 0s;
-}
-
-.fLASqZ {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    z-index: 11;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 3.75rem;
-    height: 3.75rem;
-    cursor: pointer;
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
-}
 
 .dA-dCPD .welcome .msg1 {
     font-size: 1.5rem;

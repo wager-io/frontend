@@ -1,23 +1,38 @@
 <script>
 import { handleAuthToken } from "$lib/store/routes"
 import { error_msg } from "../../store/index"
+import { onMount } from "svelte";
+import { GenerateSeed } from "../../hook/generateNewSeed"
 export let settin;
+import {DiceEncription} from '$lib/games/ClassicDice/store/index'
 import {ServerURl} from "$lib/backendUrl"
 const URL = ServerURl()
 import { createEventDispatcher } from "svelte";
 const dispatch = createEventDispatcher()
 import axios from "axios";
+import Loader from "../../../../components/loader.svelte";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+$: client = ''
+$: loading = true
+$: server = ''
+$: hash = ''
 function generateString(length) {
     let result = '';
     const charactersLength = characters.length;
     for ( let i = 0; i < length; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return result;
+    client = result;
 }
 
-let client = generateString(10)
+onMount(async()=>{
+    const response = await GenerateSeed()
+    client = response.response.clientSeed
+    server = response.response.serverSeed
+    hash = response.response.hash
+    loading = response.is_loading
+})
+
 
 const handleCancle = (()=>{
     dispatch("close", 9)
@@ -40,7 +55,7 @@ const handleSeedSettings = (async()=>{
     }
     else{
     await axios.post(`${URL}/api/user/dice-game/seed-settings`,{
-        data: client
+        client, server,hash
     },{
     headers: {
         "Content-type": "application/json",
@@ -48,105 +63,99 @@ const handleSeedSettings = (async()=>{
         }
     })
     .then((res)=>{
-        error_msg.set(res.data)
         is_loading = false
+        DiceEncription.set(res.data)
+        error_msg.set("New Seed Updated sucessfully")
         handleCancle()
     })
     .catch((error)=>{
         is_loading = false
     })
 }
-
 setTimeout(()=>{
     error_msg.set("")
 },4000)
 })
 
-
-
 </script>
 
-<div class="dialog-body default-style " style="z-index: 2; transform: none;">
-
-    <div class="sc-dkPtRN jScFby scroll-view sc-hxaKAp iGYNgq dialog-box">
-        <div class="warn">You may use this function to set a new server seed + a new client seed, they can be randomly generated or customized (at least 10 characters), 
-            and the number of bets will be reset to zero.
-        </div>
-        <div class="detailForm">
-            <div class="title">Current seeds</div>
-            <div class="sc-ezbkAF kDuLvp input ">
-                <div class="input-label">Server Seed (hash)</div>
-                <div class="input-control">
-                    <input type="text" readonly value={settin.server_seed}>
-                </div>
+{#if loading}
+    <Loader />
+    {:else}
+    <div class="dialog-body default-style " style="z-index: 2; transform: none;">
+        <div class="sc-dkPtRN jScFby scroll-view sc-hxaKAp iGYNgq dialog-box">
+            <div class="warn">You may use this function to set a new server seed + a new client seed, they can be randomly generated or customized (at least 10 characters), 
+                and the number of bets will be reset to zero.
             </div>
-            <div class="formFlex">
+            <div class="detailForm">
+                <div class="title">Current seeds</div>
                 <div class="sc-ezbkAF kDuLvp input ">
-                    <div class="input-label">Client Seed</div>
+                    <div class="input-label">Server Seed (hash)</div>
                     <div class="input-control">
-                        <input type="text" readonly value={settin.client_seed}>
+                        <input type="text" readonly value={settin.server_seed}>
                     </div>
                 </div>
-                <div class="sc-ezbkAF kDuLvp input ">
-                    <div class="input-label">Nonce</div>
-                    <div class="input-control">
-                        <input type="text" readonly value={settin.game_nonce}>
+                <div class="formFlex">
+                    <div class="sc-ezbkAF kDuLvp input ">
+                        <div class="input-label">Client Seed</div>
+                        <div class="input-control">
+                            <input type="text" readonly value={settin.client_seed}>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="devide"></div>
-        <div class="detailForm">
-            <div class="title">New seeds</div>
-            <div class="sc-ezbkAF kDuLvp input ">
-                <div class="input-label">Server Seed (hash)</div>
-                <div class="input-control">
-                    <input type="text" placeholder="The seed hasn't been revealed yet" readonly value={settin.server_seed}>
-                </div>
-            </div>
-            <div class="formFlex">
-                <div class="sc-ezbkAF kDuLvp input ">
-                    <div class="input-label">Client Seed</div>
-                    <div class="input-control">
-                        <input type="text" maxlength="32" minlength="10" bind:value={client}>
-                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon rotate-icon">
-                            <use xlink:href="#icon_Refresh"></use>
-                        </svg>
-                    </div>
-                </div>
-                <div class="sc-ezbkAF kDuLvp input ">
-                    <div class="input-label">Nonce</div>
-                    <div class="input-control">
-                        <input type="text" readonly value="0">
+                    <div class="sc-ezbkAF kDuLvp input ">
+                        <div class="input-label">Nonce</div>
+                        <div class="input-control">
+                            <input type="text" readonly value={settin.game_nonce}>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="submit">
-            <button disabled={is_loading} on:click={handleSeedSettings} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
-                <div class="button-inner">
-                    {#if is_loading}
-                    <div class="center">
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
-                        <div class="wave"></div>
+            <div class="devide"></div>
+            <div class="detailForm">
+                <div class="title">New seeds</div>
+                <div class="sc-ezbkAF kDuLvp input ">
+                    <div class="input-label">Server Seed (hash)</div>
+                    <div class="input-control">
+                        <input type="text" placeholder="The seed hasn't been revealed yet" readonly value={server}>
                     </div>
-                        {:else}
-                        Use New Seeds
-                    {/if}
-                  
                 </div>
-            </button>
+                <div class="formFlex">
+                    <div class="sc-ezbkAF kDuLvp input ">
+                        <div class="input-label">Client Seed</div>
+                        <div class="input-control">
+                            <input type="text" maxlength="32" minlength="10" bind:value={client}>
+                            <button on:click={()=> generateString(15)}>
+                                <svg  xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon rotate-icon">
+                                    <use xlink:href="#icon_Refresh"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="sc-ezbkAF kDuLvp input ">
+                        <div class="input-label">Nonce</div>
+                        <div class="input-control">
+                            <input type="text" readonly value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="submit">
+                <button disabled={is_loading} on:click={handleSeedSettings} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+                    <div class="button-inner">
+                        {#if is_loading}
+                            <Loader />
+                            {:else}
+                            Use New Seeds
+                        {/if}
+                    </div>
+                </button>
+            </div>
         </div>
     </div>
-</div>
+{/if}
+
+
+
 
 
 

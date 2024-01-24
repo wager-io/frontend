@@ -2,63 +2,98 @@
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
 import {createEventDispatcher } from 'svelte';
+import { error_msg } from "../store/index"
 import axios from 'axios';
-import { browser } from '$app/environment';
-import { ServerURl} from "../../../backendUrl";
+import { GenerateSeed } from "../hook/generateNewSeed"
+import { onMount } from "svelte";
+import { ServerURl} from "$lib/backendUrl";
+import {DiceEncription} from '$lib/games/ClassicDice/store/index'
+import { screen } from "$lib/store/screen";
+$: client = ''
+$: loading = true
+$: server = ''
+$: hash = ''
 const URL = ServerURl()
 const dispatch = createEventDispatcher()
+import { handleAuthToken } from "$lib/store/routes"
+import Loader from '../../../components/loader.svelte';
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+function generateString(length) {
+    let result = '';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    client = result;
+}
 
+
+onMount(async()=>{
+    const response = await GenerateSeed()
+    client = response.response.clientSeed
+    server = response.response.serverSeed
+    hash = response.response.hash
+    loading = response.is_loading
+})
 
 const handleCloseHelp = (() => {
     dispatch("close", 5)
 })
 
-let client = ''
-let server = ''
+let is_loading = false
 const handleSeedSettings = (async()=>{
-    if(!client){
-        console.log("Can't be empty")
-    }else{
-        let data = {
-            client,
-            server
+    const regex = /^[a-zA-Z0-9]+$/;
+    is_loading = true
+    if(!client || client.length < 10){
+        setTimeout(()=>{
+            error_msg.set("Field must have at least 10 characters")
+            is_loading = false
+        },800)
+    }else if(!regex.test(client)){
+        setTimeout(()=>{
+            error_msg.set("Field must have at least 10 characters")
+            is_loading = false
+        },800)
+    }
+    else{
+    await axios.post(`${URL}/api/user/dice-game/seed-settings`,{
+        client, server,hash
+    },{
+    headers: {
+        "Content-type": "application/json",
+        'Authorization': `Bearer ${$handleAuthToken}`
         }
-        await axios.post(`${URL}/api/user/dice-game/seed-settings`,{
-            data
-        })
-        .then((res)=>{
-            console.log(res)
-        })
-        .catch(error =>{
-            console.log(error)
-        })
-    }
-})
-
-let is_mobile = false
-$:{
-    if (browser && window.innerWidth < 650) {
-        is_mobile = true
-    }
-    else {
-        is_mobile = false
-    }
+    })
+    .then((res)=>{
+        error_msg.set("New Seed Updated sucessfully")
+        DiceEncription.set(res.data)
+        is_loading = false
+        handleCloseHelp()
+    })
+    .catch((error)=>{
+        is_loading = false
+    })
 }
-
-
+setTimeout(()=>{
+    error_msg.set("")
+},4000)
+})
 
 </script>
 
 <div class="sc-bkkeKt kBjSXI">
-    <div class="dialog " style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
+    <div class="dialog " style={`${$screen < 650 ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         <div class="dialog-head has-close">
             <div class="dialog-title">Seed Settings</div>
         </div>
 
         <button on:click={()=> handleCloseHelp()}  class="sc-ieecCq fLASqZ close-icon dialog-close">
-            <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="arror" />
+            <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
         </button>
 
+        {#if loading}
+        <Loader />
+        {:else}
         <div class="dialog-body default-style " style="z-index: 2; transform: none;">
             <div class="sc-dkPtRN jScFby scroll-view sc-hxaKAp iGYNgq dialog-box">
                 <div class="warn">You may use this function to set a new server seed + a new client seed, they can be randomly generated or customized (at least 10 characters), 
@@ -69,20 +104,20 @@ $:{
                     <div class="sc-ezbkAF kDuLvp input ">
                         <div class="input-label">Server Seed (hash)</div>
                         <div class="input-control">
-                            <input type="text" readonly="" value="a356ee6b9467299864e7ccf63233740a386556e2aff3cd2caef0d8f394d35ac3">
+                            <input type="text" readonly value={$DiceEncription.server_seed}>
                         </div>
                     </div>
                     <div class="formFlex">
                         <div class="sc-ezbkAF kDuLvp input ">
                             <div class="input-label">Client Seed</div>
                             <div class="input-control">
-                                <input type="text" readonly="" value="H6d3PGnNRBc3">
+                                <input type="text" readonly value={$DiceEncription.client_seed}>
                             </div>
                         </div>
                         <div class="sc-ezbkAF kDuLvp input ">
                             <div class="input-label">Nonce</div>
                             <div class="input-control">
-                                <input type="text" readonly="" value="50">
+                                <input type="text" readonly value={$DiceEncription.nonce}>
                             </div>
                         </div>
                     </div>
@@ -93,34 +128,39 @@ $:{
                     <div class="sc-ezbkAF kDuLvp input ">
                         <div class="input-label">Server Seed (hash)</div>
                         <div class="input-control">
-                            <input type="text" placeholder="The seed hasn't been revealed yet" readonly="" value="381b36a01d9040987744f0889c9636c3b8ec04bdd8e8c52f5a4eea3536c019f6">
+                            <input type="text" placeholder="The seed hasn't been revealed yet" readonly value={server}>
                         </div>
                     </div>
                     <div class="formFlex">
                         <div class="sc-ezbkAF kDuLvp input ">
                             <div class="input-label">Client Seed</div>
                             <div class="input-control">
-                                <input type="text" value="PxFenAFjwPaAfbD6p2x">
-                                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon rotate-icon">
-                                    <use xlink:href="#icon_Refresh"></use>
-                                </svg>
+                                <input type="text" value={client}>
+                                <button on:click={()=>generateString(14)}>
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon rotate-icon">
+                                        <use xlink:href="#icon_Refresh"></use>
+                                    </svg>
+                                </button>
+                               
                             </div>
                         </div>
                         <div class="sc-ezbkAF kDuLvp input ">
                             <div class="input-label">Nonce</div>
                             <div class="input-control">
-                                <input type="text" readonly="" value="0">
+                                <input type="text" readonly value="0">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="submit">
-                    <button on:click={handleSeedSettings} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+                    <button disabled={is_loading} on:click={handleSeedSettings} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
                         <div class="button-inner">Use New Seeds</div>
                     </button>
                 </div>
             </div>
         </div>
+        {/if}
+     
     </div>
 </div>
 

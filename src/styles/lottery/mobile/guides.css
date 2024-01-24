@@ -96,36 +96,6 @@
 
 
 /* ================== dtails guides ==================== */
-.kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.7);
-    filter: none !important;
-}
-.dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    background-color: rgb(23, 24, 27);
-}
-.dialog {
-    width: 100%;
-    height: 100%;
-    left: 0px;
-    top: 0px;
-    margin: 0px;
-    border-radius: 0px;
-}
 .dialog-head {
     position: relative;
     z-index: 10;

@@ -1,15 +1,15 @@
 <script>
-import { dicegameplays } from "../store/index"
+import { dicegameplays} from "../store/index"
 import HistoryDetails from "./historyDetails.svelte";
-
-let newItem;
+import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
+$: newItem = []
  $: {
     // $crash_historyEl.sort((a, b) => b._id - a._id);
     newItem =  [...$dicegameplays].reverse()
 }
 
-let DgII = ''
-let hisQQ = false
+$: DgII = ''
+$: hisQQ = false
 const handleDiceHistoryDetail = ((data)=>{
     if(hisQQ){
         hisQQ = false
@@ -27,27 +27,52 @@ function formatTime(timestamp) {
     const formattedMinutes = minutes.toString().padStart(2, '0');
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
+
+$: newScreen = 0
+  $: {
+    if($is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 240
+    }
+    else if(!$is_open__Appp && $is_open__chat){
+      newScreen = $screen - 432
+    }
+    else if(!$is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 72
+    }
+    else if($is_open__Appp && $is_open__chat){
+      newScreen = $screen - 600
+    }
+}
+
+
 </script>
 
 {#if hisQQ}
     <HistoryDetails on:close={handleDiceHistoryDetail} DgII={DgII}/> 
 {/if}
 
-<div id="main" class="tabs-view" style="transform: none;">
+<div  class="tabs-view" style="transform: none;">
     <div class="sc-eZhRLC iycaRo">
         <table class="sc-gWXbKe iUeetX table is-hover">
             <thead>
                 <tr>
                     <th class="num">Bet ID</th>
                     <th class="user">Player</th>
-                    <th class="time">Time</th>
-                    <th class="bet">Bet</th>
+                    {#if newScreen > 600}
+                        <th class="time">Time</th>
+                    {/if}
+
+                    {#if newScreen > 360}
+                        <th class="bet">Bet</th>
+                    {/if}
+                  
+                  
                     <th class="payout">Payout</th>
                     <th class="profit">Profit</th>
                 </tr>
             </thead>
             <tbody>
-                {#each newItem.slice(0, 15) as dice  }
+                {#each newItem.slice(0, 20) as dice  }
                 <tr  on:click={()=>handleDiceHistoryDetail(dice)}>
                     <td>
                         <button class="hash ellipsis">{dice.bet_id}</button>
@@ -63,7 +88,10 @@ function formatTime(timestamp) {
                             </a>
                         {/if}
                     </td>
+                    {#if newScreen > 600}
                     <td>{formatTime(dice.time)}</td>
+                    {/if}
+                    {#if newScreen > 360}
                     <td class="bet">
                         <div class="sc-Galmp erPQzq coin notranslate monospace">
                             <img class="coin-icon" alt="" src={dice.token_img}>
@@ -73,6 +101,7 @@ function formatTime(timestamp) {
                             </div>
                         </div>
                     </td>
+                    {/if}
                     {#if !dice.has_won}
                     <td class="payout">0.00×</td>
                     {:else}
@@ -97,59 +126,6 @@ function formatTime(timestamp) {
     </div>
 </div>
 
-<div class="mobile">
-    <div class="tabs-view" style="transform: none;">
-        <div class="sc-eZhRLC iycaRo">
-            <table class="sc-gWXbKe iUeetX table is-hover">
-                <thead>
-                    <tr>
-                        <th class="num">Bet ID</th>
-                        <th class="user">Player</th>
-                        <th class="payout">Payout</th>
-                        <th class="profit">Profit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {#each newItem.slice(0, 15) as dice  }
-                    <tr on:click={()=>handleDiceHistoryDetail(dice)}>
-                        <td>
-                            <button class="hash ellipsis">{dice.bet_id}</button>
-                        </td>
-                        <td>
-                            {#if dice.hidden_from_public }
-                            <div class="sc-jUosCB iTDswZ" >
-                                <div class="name">Hidden</div>
-                            </div>
-                            {:else}
-                            <a class="sc-jUosCB iTDswZ user-info " href={`/user/profile/${dice.user_id}`}>
-                                <div class="name">{dice.username}</div>
-                            </a>
-                        {/if}
-                        </td>
-                        {#if !dice.has_won}
-                        <td class="payout">0.00×</td>
-                        {:else}
-                        <td class="payout">{(parseFloat(dice.payout)).toFixed(2)}×</td>
-                        {/if}
-                        <td class={`profitline ${dice.has_won ? "is-win": "is-lose"} `}>
-                            <div class="sc-Galmp erPQzq coin notranslate monospace has-sign">
-                                <img class="coin-icon" alt=""  src={dice.token_img}>
-                            <div class="amount">
-                                {#if !dice.has_won}
-                                <span class="amount-str">{(parseFloat(dice.bet_amount)).toFixed(6)}<span class="suffix">00</span></span>
-                                {:else}
-                                <span class="amount-str">+{(parseFloat(dice.profit)).toFixed(6)}<span class="suffix">00</span></span>
-                                {/if}
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                    {/each}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 <style>
 .tabs-view {

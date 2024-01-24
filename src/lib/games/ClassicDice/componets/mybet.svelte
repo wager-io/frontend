@@ -1,15 +1,15 @@
 <script>
 import { profileStore } from "$lib/store/profile"
-import { dicegameplays } from "../../ClassicDice/store/index"
+import { dice_history } from "../../ClassicDice/store/index"
 import HistoryDetails from "./historyDetails.svelte";
-let newItem;
-
+import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
+$: newItem = []
 $: {
-    newItem =  [...$dicegameplays].reverse()
+    newItem =  [...$dice_history].reverse()
 }
 
-let DgII = ''
-let hisQQ = false
+$: DgII = ''
+$: hisQQ = false
 const handleDiceHistoryDetail = ((data)=>{
     if(hisQQ){
         hisQQ = false
@@ -28,8 +28,24 @@ function formatTime(timestamp) {
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
 
-</script>
+$: newScreen = 0
+  $: {
+    if($is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 240
+    }
+    else if(!$is_open__Appp && $is_open__chat){
+      newScreen = $screen - 432
+    }
+    else if(!$is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 72
+    }
+    else if($is_open__Appp && $is_open__chat){
+      newScreen = $screen - 600
+    }
+}
 
+
+</script>
 
 {#if hisQQ}
     <HistoryDetails on:close={handleDiceHistoryDetail} DgII={DgII}/> 
@@ -42,8 +58,13 @@ function formatTime(timestamp) {
             <thead>
                 <tr>
                     <th class="num">Bet ID</th>
-                    <th class="time">Time</th>
+                    {#if newScreen > 600}
+                        <th class="time">Time</th>
+                    {/if}
+                    {#if newScreen > 400}
                     <th class="bet">Bet</th>
+                    {/if}
+               
                     <th class="payout">Payout</th>
                     <th class="profit">Profit</th>
                 </tr>
@@ -55,18 +76,23 @@ function formatTime(timestamp) {
                     <td>
                         <button  class="hash ellipsis">{dice.bet_id}</button>
                     </td>
+                    {#if newScreen > 600}
                     <td>{formatTime(dice.time)}</td>
-                    <td class="bet">
-                        <div class="sc-Galmp erPQzq coin notranslate monospace">
-                            <img class="coin-icon" alt="" src={dice.token_img}>
-                            <div class="amount">
-                                <span class="amount-str">{(parseFloat(dice.bet_amount)).toFixed(4)}<span class="suffix">00</span>
-                                </span>
+                    {/if}
+                    {#if newScreen > 400}
+                        <td class="bet">
+                            <div class="sc-Galmp erPQzq coin notranslate monospace">
+                                <img class="coin-icon" alt="" src={dice.token_img}>
+                                <div class="amount">
+                                    <span class="amount-str">{(parseFloat(dice.bet_amount)).toFixed(4)}<span class="suffix">00</span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>
+                    {/if}
+               
                     {#if dice.has_won}
-                    <td class="payout">{dice.payout}×</td>
+                    <td class="payout">{(parseFloat(dice.payout)).toFixed(2)}×</td>
                     {:else}
                     <td class="payout">0.00×</td>
                     {/if}
@@ -89,52 +115,6 @@ function formatTime(timestamp) {
                 {/each}
             </tbody>
         </table>
-    </div>
-</div>
-
-<div class="mobile">
-    <div class="tabs-view" style="transform: none;">
-        <div class="sc-eZhRLC iycaRo">
-            <table class="sc-gWXbKe iUeetX table is-hover">
-                <thead>
-                    <tr>
-                        <th class="num">Bet ID</th>
-                        <th class="payout">Payout</th>
-                        <th class="profit">Profit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {#each newItem.slice(0, 15) as dice }
-                    {#if $profileStore.user_id === dice.user_id}
-                    <tr on:click={()=> handleDiceHistoryDetail(dice)}>
-                        <td>
-                            <button  class="hash ellipsis">{dice.bet_id}</button>
-                        </td>
-                        {#if dice.has_won}
-                        <td class="payout">{dice.payout}×</td>
-                        {:else}
-                        <td class="payout">0.00×</td>
-                        {/if}
-                        <td class={`profitline ${dice.has_won ? "is-win" : "is-lose" } `}>
-                            <div class="sc-Galmp erPQzq coin notranslate monospace has-sign">
-                                <img class="coin-icon" alt="" src={dice.token_img}>
-                                <div class="amount">
-                                    {#if dice.has_won}
-                                    <span class="amount-str">+{(parseFloat(dice.profit)).toFixed(6)}<span class="suffix">00</span>
-                                    </span>
-                                    {:else}
-                                    <span class="amount-str">{(parseFloat(dice.bet_amount)).toFixed(6)}<span class="suffix">00</span>
-                                    </span>
-                                    {/if}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {/if}
-                    {/each}
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 

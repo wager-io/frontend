@@ -9,6 +9,7 @@ import { getFirestore } from "firebase/firestore";
 import { useRegister } from "./createUser";
 import { fbUseLogin } from "./fbSignup";
 import {handleisLoggin, profileStore} from "../store/profile"
+import { firebaseConfiguration } from "./firebaseConfig";
 import { error_msg, is_loading} from "../../lib/nestedpages/auth/login/store"
 import {  error_msgS, is_loadingS } from "$lib/nestedpages/auth/signup/store"
 const { register } = useRegister()
@@ -17,17 +18,8 @@ const { login } = useLogin()
 const { fblogin } = fbUseLogin()
 
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider,
-    signInWithEmailAndPassword, signOut } from "firebase/auth";
-export const firebaseConfig = {
-    apiKey: "AIzaSyDzTvAEBt59YRXXHcddEN-jPCpYL17zYRQ",
-    authDomain: "dotplayplay-1692584380329.firebaseapp.com",
-    projectId: "dotplayplay-1692584380329",
-    storageBucket: "dotplayplay-1692584380329.appspot.com",
-    messagingSenderId: "934101502841",
-    appId: "1:934101502841:web:7c618c3beffda794a3bda8"
-};
-
-
+signInWithEmailAndPassword, signOut } from "firebase/auth";
+const firebaseConfig = firebaseConfiguration()
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
@@ -47,7 +39,6 @@ export const handleSignIn = (async (email, password, reff)=>{
         is_loadingS.set(false)
     })
  })
-
 
 
  export const handleLogin = (async (email, password)=>{

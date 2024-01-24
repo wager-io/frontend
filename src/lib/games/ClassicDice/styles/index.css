@@ -14,6 +14,10 @@
     padding-left: 330px;
     min-height: 47.5rem;
 }
+.lmWKWf.game-style1 .game-main {
+    padding-left: 0px;
+    min-height: 47.5rem;
+}
 .lmWKWf.game-style0 .game-main, .lmWKWf.game-style1 .game-main, .lmWKWf.game-style-iframe .game-main {
     display: flex;
     flex-direction: column;
@@ -34,6 +38,16 @@
     display: flex;
     flex-direction: column;
     padding: 0.625rem;
+    border-right: 1px solid rgba(49, 52, 60, 0.5);
+}
+.cYiOHZ.style1 {
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.825rem;
     border-right: 1px solid rgba(49, 52, 60, 0.5);
 }
 .cYiOHZ {
