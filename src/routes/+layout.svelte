@@ -32,8 +32,6 @@
     import { handleisLoggin, handleisLoading } from "$lib/store/profile"
     import "../styles/errors/error.css";
     import { onMount } from "svelte";
-    import { default_Wallet } from "../lib/store/coins"
-    import { handle_IsRedwinners} from "../lib/crashgame/store"
     import Closesidebar from "$lib/closesidebar.svelte";
     import Loader from "$lib/components/loader.svelte";
     let isOpenSide = true
@@ -44,19 +42,7 @@
     onMount(async()=>{
         await handleprofile($handleAuthToken)
     })
-    
-    $:{
-        for(let i = 0; i < $handle_IsRedwinners.length; i++){
-            let wllet = {
-                coin_name: $handle_IsRedwinners[i]._doc.token,
-                coin_image:  $handle_IsRedwinners[i]._doc.token_img,
-                balance:  $handle_IsRedwinners[i].update_bal
-            }
-            if($profileStore.user_id === $handle_IsRedwinners[i]._doc.user_id){
-                default_Wallet.set(wllet)
-            }
-        }
-    } 
+
     
     
     $:{
