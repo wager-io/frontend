@@ -19,7 +19,6 @@
     import { goto } from "$app/navigation";
     import Coins from "./profilecomponent/main/coins.svelte";
     import Navprofile from "./profilecomponent/main/navprofile.svelte";
-      import Layout from "./deposit/layout.svelte";
     $: browser && localStorage.setItem("preload", JSON.stringify("is_active"));
     const dispatch = createEventDispatcher();
     const handleChat = (e) => {
@@ -63,9 +62,9 @@
     $: profileNAV = false
     $: deposit = false
   
-  </script>
-  
-  
+</script>
+
+
   <div id="main-screen" class="header-wrap">
     <div class="header">
       <div class="sc-hGnimi ftyLxH left">
@@ -107,7 +106,7 @@
             </button>
           <button id="chat" class="sc-eicpiI PGOpB">
             <button on:click={handleChat} class={`chat-btn ${$is_open__chat && "active"}`}>
-              <Icon src={BsDroplet} size="29" color={"rgba(153, 164, 176, 0.8)"} className="custom-icon" />
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Chat"></use></svg>
               <div class="sc-fotOHu gGSOuF badge ">26</div>
             </button>
           </button>
@@ -132,7 +131,7 @@
                 <Coins on:coinDefault={()=> coinsEL =! coinsEL} />
               {/if}
              
-              <button on:click={()=> deposit = true} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
+              <button on:click={()=> dispatch("close")} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
                 <div class="button-inner">
                   <Icon src={IoWallet} size="18" color="#ffff" className="custom-icon" />
                   <span>Wallet</span>
@@ -164,9 +163,9 @@
           </button> -->
           <button id="chat" class="sc-eicpiI PGOpB">
             <button on:click={handleChat} class="chat-btn ">
-              <Icon src={BsDroplet} size="20" color={"rgba(153, 164, 176, 0.8)"} className="custom-icon" />
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Chat"></use></svg>
               {#if $showChatCounter && $chatCounter}
-                <div class="sc-fotOHu gGSOuF badge">{$chatCounter}</div>
+                  <div class="sc-fotOHu gGSOuF badge">{$chatCounter}</div>
               {/if}
             </button>
           </button>
@@ -175,18 +174,13 @@
     </div>
   </div>
   
-  {#if deposit}
-    <Layout on:close={()=> deposit = false}/>
-  {/if}
-  
-  
+
     <div id="mobile-screen" class="sc-hJhJFJ jVgBRe" style="transform: translate3d(0px, 0%, 0px);">
       <div class="login-top top">
         <div class="logo-wrap">
-          <img alt="logo" style="border-radius: 12px; width:33px"
+        <img alt="logo" style="border-radius: 12px; width:33px"
           class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png"
-          />
+            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" />
         </div>
         <button on:click={handleMenu} class="sc-bQtKYq cUTdQJ">
           <span class="open-wrap">
@@ -215,7 +209,7 @@
                     </div>
                   </div>
                 </button>
-                <button on:click={()=> deposit = true} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
+                <button on:click={()=> dispatch("close")} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
                   <div class="button-inner">
                     <Icon src={IoWallet} size="18" color="#ffff" className="custom-icon" />
                     <span>Deposit</span>
@@ -238,21 +232,15 @@
                   {#if profileNAV}
                     <Navprofile />
                   {/if}
-                  
                 </div>
                 {/if}
           </div>
-       
-     
-     
-  
-          
         </div>
         <div class="bottom">
             <div class="left"></div>
             <div class="right">
               <button on:click={handleChat} id="chat" class="sc-eicpiI PGOpB chat-btn">
-                <Icon src={BsDroplet} size="20" color={"rgba(153, 164, 176, 0.8)"} className="custom-icon" />
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Chat"></use></svg>
                 {#if $showChatCounter && $chatCounter}
                   <div class="sc-fotOHu gGSOuF badge">{$chatCounter}</div>
                 {/if}
@@ -260,7 +248,7 @@
             </div>
         </div>
     </div>
-  
+
   <style>
   .ftyLxH .big-enter {
       margin-left: 0%;

@@ -34,6 +34,7 @@
     import { onMount } from "svelte";
     import Closesidebar from "$lib/closesidebar.svelte";
     import Loader from "$lib/components/loader.svelte";
+    import Layout from "../lib/deposit/layout.svelte";
     let isOpenSide = true
     let isChatRoom = 0
     $: isMenu = false
@@ -146,11 +147,15 @@
     //         // sideDetection = 76
     //     }
     // })
-    
+    $: is_deposit = false
     
     </script>
     
     <div data-theme={$theme} class="app">
+        {#if is_deposit}
+            <Layout on:close={()=> is_deposit = false} />
+        {/if}
+
         {#if $profileStore && $profileStore.born === '' && $handleNestedRoute !== "/login/info" }
             <ProfileAuth />
         {/if}
@@ -176,7 +181,7 @@
         {#if $app_Loading}
         <div class="preloading">
             <div class="gyuys">
-                <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698011384/type_1_w_hqvuex.png">
+                <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1706191229/photo_2024-01-25_07-59-49_tyeeu0.jpg">
             </div>
         </div>
         {/if}
@@ -190,7 +195,7 @@
     
         {#if !$app_Loading}
         <div id="header" class={`sc-gVkuDy gAvMHL ${isOpenSide ? `side-unfold ${isChatRoom ? "right-chat" : ""}` : `side-fold ${isChatRoom ? "right-chat" : ""}`} `}>
-            <Navbar on:handleChatRoom={handleChatroom} on:handleMenuMobile={()=> isMenu = true }/>
+            <Navbar on:close={()=> is_deposit = true} on:handleChatRoom={handleChatroom}  on:handleMenuMobile={()=> isMenu = true }/>
         </div>
         {/if}
     
@@ -265,7 +270,7 @@
         align-items: center;
         top: 30%;
         align-content: center;
-        width: 150px;
+        width: 170px;
         border-radius: 50%;
         animation: move 10s infinite;
         opacity: 0.8;

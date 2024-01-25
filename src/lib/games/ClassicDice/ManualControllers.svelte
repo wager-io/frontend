@@ -15,7 +15,7 @@ import { DiceBet } from "../ClassicDice/hook/manualEngine";
 import { DiceEncription } from "$lib/games/ClassicDice/store/index";
 import { soundHandler } from "$lib/games/ClassicDice/store/index";
 
-$: default_coins = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png"
+$: default_coins = "/coin/BTC.black.png"
 $: bet_amount = 0
 
 let max_profit_tips = false;
@@ -91,7 +91,8 @@ const dive = (sign) => {
   if ($default_Wallet.coin_name === "ETH" && bet_amount < 0.4) {
     bet_amount = (0.4).toFixed(7);
   }
-  };
+  
+};
 
 
   $: non = 0;

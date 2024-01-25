@@ -55,13 +55,13 @@
                         >
                         <swiper-slide class="swiper-slide swiper-slide-duplicate">
                             <div class="sc-kTqLtj dnfJpJ">
-                                <a href="/" class="sc-cfJLRR joQyOD">
+                                <a href="/crash" class="sc-cfJLRR joQyOD">
                                     <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704531967/image_14_bebai3.png" alt="">
                                 </a>
-                                <a href="/" class="sc-cfJLRR ktmMpR">
+                                <a href="/classic-dice" class="sc-cfJLRR ktmMpR">
                                     <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704532275/image_15_wsz8o2.png" alt="">
                                 </a>
-                                <a href="/" class="sc-cfJLRR ktmMpR">
+                                <a href="/hilo" class="sc-cfJLRR ktmMpR">
                                     <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704532534/image_16_l37zat.png" alt="">
                                 </a>
                             </div>
@@ -71,10 +71,10 @@
                                 <a gridnum="2" href="/lottery" class="sc-cfJLRR joQyOD">
                                     <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704532668/image_14_1_hljqqi.png" alt="">
                                 </a>
-                                <a gridnum="1" href="/lottery" class="sc-cfJLRR ktmMpR">
+                                <a gridnum="1" href="/classic-dice" class="sc-cfJLRR ktmMpR">
                                     <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704532716/image_15_1_bj6jsh.png" alt="">
                                 </a>
-                                <a gridnum="1" href="/lottery" class="sc-cfJLRR ktmMpR">
+                                <a gridnum="1" href="/hilo" class="sc-cfJLRR ktmMpR">
                                     <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704532763/image_16_1_ggkc88.png" alt="">
                                 </a>
                             </div>
@@ -108,28 +108,28 @@
                         >
                         <swiper-slide class="swiper-slide swiper-slide-duplicate">
                             <div class="sc-haTkiu dxHxHL">
-                                <a href="/" class="sc-jCHUfY eGrXvR">
+                                <a href="/crash" class="sc-jCHUfY eGrXvR">
                                     <img src="	https://img2.nanogames.io/banner/af/c7/94/164300069949835.png" alt="">
                                 </a>
                             </div>
                         </swiper-slide>
                         <swiper-slide class="swiper-slide swiper-slide-duplicate">
                             <div class="image-content">
-                                <a href="/" class="sc-jCHUfY eGrXvR">
+                                <a href="/classic-dice" class="sc-jCHUfY eGrXvR">
                                     <img src="https://img2.nanogames.io/banner/cf/56/a5/164300091137615.png" alt="">
                                 </a>
                             </div>
                         </swiper-slide>
                         <swiper-slide class="swiper-slide swiper-slide-duplicate">
                             <div class="image-content">
-                                <a href="/" class="sc-jCHUfY eGrXvR">
+                                <a href="/hilo" class="sc-jCHUfY eGrXvR">
                                     <img src="https://img2.nanogames.io/banner/58/3b/b1/164300088905192.png" alt="">
                                 </a>
                             </div>
                         </swiper-slide>
                         <swiper-slide class="swiper-slide swiper-slide-duplicate">
                             <div class="image-content">
-                                <a href="/" class="sc-jCHUfY eGrXvR">
+                                <a href="/lottery" class="sc-jCHUfY eGrXvR">
                                     <img src="https://img2.nanogames.io/banner/b7/6d/13/164300094200682.png" alt="">
                                 </a>
                             </div>

@@ -8,6 +8,7 @@ import { is_loading, deposit_info } from "$lib/store/deposit"
 import { handleAuthToken } from "$lib/store/routes";
 import { ServerURl } from "$lib/backendUrl"
 import { coin_list } from "$lib/store/coins";
+    import Loader from '../components/loader.svelte';
 const url = ServerURl()
 
 let active_coin = ""
@@ -230,7 +231,6 @@ setInterval(()=>{
             </div>
             {:else}
             <div class="sbz45td">
-                
                 <div class="qr-wrap">
                     <div class="qz3bl7d">
                         <img src="https://bc.game/api/game/support/qrcode/320/?text=0x8d3f78BDAd3F1eaa4e5B02E277D24a72C932505a" alt="qr.png"></div>
@@ -257,26 +257,15 @@ setInterval(()=>{
             </div>
              <div class="d5oeih5">
                 <p>
-                    <span class="cl-primary">NOTICE:</span> Send only USDT to this deposit address. Coins will be deposited automatically after 6 network confirmations. Smart contract addresses are not supported(Contact us).</p>
+                    <span class="cl-primary">NOTICE:</span> Send only {`${active_coin.coin_name}`} to this deposit address. Coins will be deposited automatically after 6 network confirmations. Smart contract addresses are not supported(Contact us).</p>
                 </div>
             {/if}
         </div>
         </div>
         {:else}
-        <div style="height: 100px;">
-            <div class="center" style="height: 300px;">
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-            </div>
+        <div style="height: 300px;">
+            <Loader />
         </div>
-
         {/if}
        
 

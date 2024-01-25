@@ -72,13 +72,12 @@
       </div>
       <button
         on:click={handleClose}
-        class="sc-ieecCq fLASqZ close-icon dialog-close"
-        ><svg
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          class="sc-gsDKAQ hxODWG icon"
-          ><use xlink:href="#icon_Close"></use></svg
-        ></button
-      >
+        class="sc-ieecCq fLASqZ close-icon dialog-close">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+          class="sc-gsDKAQ hxODWG icon">
+          <use xlink:href="#icon_Close"></use>
+        </svg>
+          </button>
       {#if currentScreen === "All Players"}
         <div
           in:fly={{ x: -80, duration: 150, easing: cubicOut }}

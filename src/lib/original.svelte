@@ -15,14 +15,14 @@
         {
           id: 1,
           name: "Crash",
-          icon: IoRocket,
+          icon: `#icon_Crash`,
           route: "crash",
           isAtive: $routes.route === "/(games)/crash",
         },
         {
           id: 2,
           name: "Classic Dice",
-          icon: BsDice5,
+          icon: `#icon_ClassicDice`,
           route: "classic-dice",
           isAtive: $routes.route === "/(games)/classic-dice",
         },
@@ -43,7 +43,7 @@
         {
           id: 5,
           name: "HiLo",
-          icon: IoDice,
+          icon: `#icon_Plinko`,
           route: "hilo",
           isAtive: $routes.route === "/(games)/hilo",
         },
@@ -57,7 +57,7 @@
         {
           id: 7,
           name: "Mines",
-          icon: BiBomb,
+          icon: `#icon_Mines`,
           route: "mines",
           isAtive: $routes.route === "/(games)/mines",
         },
@@ -87,7 +87,7 @@
               : "original-content"}
           >
             <div class="icon">
-              <Icon src={game.icon} size="22"/>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href={game.icon}></use></svg>
             </div>
             <div class="name">
               <p>{game.name}</p>
@@ -122,14 +122,9 @@
   
     .original-content .icon,
     .IsActive-original-content .icon {
-      font-size: 17px;
-      padding: 0 10px;
-      fill: rgba(153, 164, 176, 0.8);
-    }
-  
-    .original-content .name,
-    .IsActive-original-content .name {
-      padding: 2px;
+    font-size: 24px;
+    padding: 5px 1px;
+    fill: rgba(153, 164, 176, 0.8);
     }
   
     .orginal-game-routes-container .IsActive-original-content {
@@ -148,7 +143,7 @@
     .orginal-game-routes-container .original-content {
       display: flex;
       gap: 5px;
-      padding: 6px 0;
+      padding: 2px 0;
       width: 90%;
       border-radius: 30px;
       color: rgba(153, 164, 176, 0.8);
