@@ -189,7 +189,7 @@
           <button
           on:click={() => {
             window.open(
-              `${VerifyURl()}/crash?hash=${details.gameHash}`,
+              `${VerifyURl()}/verify/crash?hash=${details.gameHash}`,
               "_blank"
             );
           }}

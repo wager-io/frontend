@@ -317,7 +317,7 @@
                 ><div class="flex-center">
                   <input type="text" readonly="" value={game.hash} /><a
                     target="_blank"
-                    href="{VerifyURl()}/crash?hash={game.hash}"
+                    href="{VerifyURl()}/verify/crash?hash={game.hash}"
                     >Verify</a
                   >
                 </div></td

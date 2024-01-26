@@ -40,6 +40,13 @@ const handleprofile = async (auth) => {
                   }
                });
             }
+            else{
+              handleisLoggin.set(false)
+              profileStore.set({})
+              window.location.href = ("")
+              localStorage.removeItem("user");
+              localStorage.removeItem("user_bet_amount");
+            }
     }else{
         app_Loading.set(false)
     }
