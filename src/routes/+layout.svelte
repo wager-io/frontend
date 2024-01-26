@@ -41,7 +41,9 @@
     let sideDetection = 0
     
     onMount(async()=>{
+        console.log($handleAuthToken)
         await handleprofile($handleAuthToken)
+
     })
 
     
