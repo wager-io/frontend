@@ -236,7 +236,7 @@ const handleSeedMedal = ((event)=>{
                         </button>
                     {:else}
                         <button  class="verify-wrap">
-                            <a href={`${URl}/classic-dice/?s=${deatls.server_seed}&c=${deatls.client_seed}&n=${deatls.game_nonce}`} target="_blank"> 
+                            <a href={`${URl}/verify/classic-dice/?s=${deatls.server_seed}&c=${deatls.client_seed}&n=${deatls.game_nonce}`} target="_blank"> 
                                 <button  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal verify-btn">
                                     <div class="button-inner">Verify</div>
                                 </button>
