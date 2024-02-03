@@ -607,29 +607,12 @@
     position: relative;
     z-index: 2;
   }
-  @media screen and (max-width: 621px) {
-    .fFDbEu .hilo-graph-wrap {
-      width: 100% !important;
-      padding: 0px 1.125rem 1.875rem !important;
-      margin-top: 1.25rem !important;
-    }
-  }
   .fFDbEu .top-box {
     display: flex;
     align-items: flex-start;
     -webkit-box-pack: justify;
     justify-content: space-between;
     margin-bottom: 2.125rem;
-  }
-
-  @media screen and (max-width: 621px) {
-    .fFDbEu .lh-box {
-      width: 6.125rem !important;
-      height: 10.4375rem !important;
-      border-radius: 0.21875rem !important;
-      border-width: 0.08125rem !important;
-      box-shadow: rgb(23, 24, 27) 0px -1.25rem 0px 0px inset !important;
-    }
   }
 
   .fFDbEu .lh-box {
@@ -643,13 +626,6 @@
   }
   .fFDbEu .higher .lottie {
     left: 48%;
-  }
-  @media screen and (max-width: 621px) {
-    .fFDbEu .lottie {
-      width: 21.975rem !important;
-      height: 23.025rem !important;
-      bottom: 1.5rem !important;
-    }
   }
   .fFDbEu .lottie {
     position: absolute;
@@ -673,23 +649,52 @@
     color: rgb(245, 246, 247);
   }
 
-  @media screen and (max-width: 621px) {
+  @media screen and (max-width: 650px) {
     .fFDbEu .cards-box {
       padding-top: 0.625rem !important;
     }
+    .fFDbEu .cards {
+      width: 5.625rem !important;
+      height: 8.125rem !important;
+    }
+
+    .fFDbEu .skip-btn {
+      width: 1.5rem !important;
+      height: 1.5rem !important;
+      border-width: 1px !important;
+      right: 50% !important;
+      transform: translateX(3.625rem) !important;
+    }
+    .fFDbEu .cards-box .tips {
+      zoom: 0.6667 !important;
+      white-space: nowrap !important;
+    }
+    .fFDbEu .lottie {
+      width: 21.975rem !important;
+      height: 23.025rem !important;
+      bottom: 1.5rem !important;
+    }
+    .fFDbEu .lh-box {
+      width: 6.125rem !important;
+      height: 10.4375rem !important;
+      border-radius: 0.21875rem !important;
+      border-width: 0.08125rem !important;
+      box-shadow: rgb(23, 24, 27) 0px -1.25rem 0px 0px inset !important;
+    }
+    .fFDbEu .hilo-graph-wrap {
+      width: 100% !important;
+      padding: 0px 1.125rem 1.875rem !important;
+      margin-top: 1.25rem !important;
+    }
   }
+
+
   .fFDbEu .cards-box {
     position: relative;
     z-index: 2;
     padding-top: 1.25rem;
   }
 
-  @media screen and (max-width: 621px) {
-    .fFDbEu .cards {
-      width: 5.625rem !important;
-      height: 8.125rem !important;
-    }
-  }
 
   .fFDbEu .cards {
     position: relative;
@@ -827,19 +832,7 @@
     -webkit-box-pack: center;
     justify-content: center;
   }
-  @media screen and (max-width: 621px) {
-    .fFDbEu .skip-btn {
-      width: 1.5rem !important;
-      height: 1.5rem !important;
-      border-width: 1px !important;
-      right: 50% !important;
-      transform: translateX(3.625rem) !important;
-    }
-    .fFDbEu .cards-box .tips {
-      zoom: 0.6667 !important;
-      white-space: nowrap !important;
-    }
-  }
+
   .fFDbEu .skip-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
