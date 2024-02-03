@@ -37,6 +37,7 @@ onMount(async () => {
       const gameInstance = new CrashGame();
       await gameInstance.initialize();
       crashGame.set(gameInstance);
+      console.log(gameInstance)
       gameInit = true;
     } catch (error) {
       console.log("Error init game ", error);

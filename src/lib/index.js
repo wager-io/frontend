@@ -1,5 +1,4 @@
-import { browser } from '$app/environment'
-import { profileStore, handleisLoading, handleisLoggin, app_Loading } from "$lib/store/profile";
+import { profileStore, handleisLoggin, app_Loading } from "$lib/store/profile";
 import { default_Wallet, coin_list } from "../lib/store/coins"
 import { vipProfiile } from "$lib/store/profile";
 import { ServerURl } from "$lib/backendUrl"
@@ -15,12 +14,10 @@ const handleprofile = async (auth) => {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${auth}`
                 }
-            }
-            );
+            });
             const json = await response.json();
             if(!response.ok){
-                app_Loading.set(false)
-            (json)
+            app_Loading.set(false)
             handleisLoggin.set(false)
             profileStore.set({})
             window.location.href = ("")

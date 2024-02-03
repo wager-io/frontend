@@ -80,7 +80,7 @@
       xBet = game.xbet;
       autoBet = xBet.autoBet;
       currentMaxRate = game.maxRate;
-      // currentAmount = game.amount.toFixed(7);
+      currentAmount = game.amount.toFixed(7);
       currentXAmount = xBet.amount.toFixed(7);
       autoBetInfo = {
         numberOfBets: autoBet.times,
@@ -102,7 +102,7 @@
         scriptList = game.script.scriptList;
         scriptLogs = game.script.logs;
         scriptConfig = game.script.config;
-        // currentAmount = game.amount.toFixed(7);
+        currentAmount = game.amount.toFixed(7);
         currentXAmount = xBet.amount.toFixed(7);
         coinImage = WalletManager.getInstance().current.currencyImage;
         coinName = WalletManager.getInstance().current.currencyName;

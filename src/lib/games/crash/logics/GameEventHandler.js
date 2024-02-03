@@ -367,7 +367,7 @@ const GameEventHandler = class extends EventEmitter {
       //   throw new Error();
       // }
       this.settings.ignoreMaxProfit = true; // ignore;
-    }
+    } 
   }
 
   // Max profit notify

@@ -1,11 +1,4 @@
-import {
-  makeObservable,
-  observable,
-  computed,
-  action,
-  runInAction,
-  reaction,
-} from "mobx";
+import { makeObservable, observable, computed, action, runInAction,reaction } from "mobx";
 import CryptoJS from "crypto-js";
 import BaseGame from "./BaseGame";
 import CrashGameGraph from "./CrashGameGraph";
