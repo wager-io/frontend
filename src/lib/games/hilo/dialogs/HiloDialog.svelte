@@ -23,35 +23,19 @@
       style={`${$screen < 650 ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}
     >
       {#if launchConf.tab === 1 && currentTab !== 1}
-        <button
-          on:click={() => (currentTab = 1)}
-          class="dialog-back"
-          style="opacity: 1; transform: none;"
-          ><svg
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            class="sc-gsDKAQ hxODWG icon"
-            ><use xlink:href="#icon_Arrow"></use></svg
-          ></button
-        >
+        <button on:click={() => (currentTab = 1)}  class="dialog-back" style="opacity: 1; transform: none;">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+            class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Arrow"></use>
+          </svg>
+          </button>
       {/if}
-      <div
-        class="dialog-head has-close {launchConf.tab === 1 && currentTab !== 1
-          ? 'has-back'
-          : ''}"
-      >
+      <div class="dialog-head has-close {launchConf.tab === 1 && currentTab !== 1  ? 'has-back' : ''}">
         <div class="dialog-title">
-          {currentTab === 1
-            ? "Details"
-            : currentTab === 2
-              ? "Seed Settings"
-              : "Fairness"}
+          {currentTab === 1 ? "Details" : currentTab === 2 ? "Seed Settings"  : "Fairness"}
         </div>
       </div>
-      <button
-        on:click={() => dispatch("close")}
-        class="sc-ieecCq fLASqZ close-icon dialog-close"
-        ><svg
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+      <button on:click={() => dispatch("close")} class="sc-ieecCq fLASqZ close-icon dialog-close">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink"
           class="sc-gsDKAQ hxODWG icon"
           ><use xlink:href="#icon_Close"></use></svg
         ></button
@@ -60,14 +44,8 @@
         <div
           in:fly={{ x: -80, duration: 150, easing: cubicOut }}
           out:fly={{ x: -80, duration: 150, easing: cubicOut }}
-          class="dialog-body default-style"
-          style="z-index: 2; transform: none;"
-        >
-          <GameDetails
-            {betID}
-            on:setup-seeds={() => (currentTab = 2)}
-            on:verify={() => (currentTab = 3)}
-          />
+          class="dialog-body default-style"  style="z-index: 2; transform: none;">
+          <GameDetails  {betID}  on:setup-seeds={() => (currentTab = 2)} on:verify={() => (currentTab = 3)} />
         </div>
       {:else if currentTab === 2}
         <div

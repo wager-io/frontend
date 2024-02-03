@@ -69,21 +69,16 @@
         >
       </div>
       <div class="rt_info">
-        <img
-          alt=""
+        <img alt=""
           class="avatar avatar"
-          src={gameDetails.betLog.user.image ||
-            "/assets/hilo/avatar.a1ff78fe.png"}
-        />
+          src={gameDetails.betLog.user.image || "/assets/hilo/avatar.a1ff78fe.png"}/>
         <div class="name">
           {#if gameDetails.betLog.user.hidden}
-            <span class="hidden-name"
-              ><svg
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                class="sc-gsDKAQ hxODWG icon"
-                ><use xlink:href="#icon_Hidden"></use></svg
-              >Hidden</span
-            >
+            <span class="hidden-name">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                class="sc-gsDKAQ hxODWG icon">
+                <use xlink:href="#icon_Hidden"></use>
+              </svg>Hidden</span>
           {:else}
             {gameDetails.betLog.user.username}
           {/if}
@@ -94,18 +89,14 @@
         </div>
       </div>
       <div class="rt_time">
-        {new Date(gameDetails.betLog.time).toLocaleDateString()}, {new Date(
-          gameDetails.betLog.time
-        ).toLocaleTimeString()}
+        {new Date(gameDetails.betLog.time).toLocaleDateString()}, {new Date(gameDetails.betLog.time).toLocaleTimeString()}
       </div>
       <div class="rt_items">
         <div class="item-wrap">
           <div class="label flex-center">
-            <svg
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              class="sc-gsDKAQ hxODWG icon amount"
-              ><use xlink:href="#icon_Amount"></use></svg
-            >Amount
+            <svg  xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon amount">
+              <use xlink:href="#icon_Amount"></use>
+            </svg>Amount
           </div>
           <div class="number flex-center">
             <img alt="" class="coin-icon" src={gameDetails.betLog.token_img} />
@@ -126,20 +117,13 @@
         </div>
         <div class="item-wrap">
           <div class="label flex-center">
-            <svg
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              class="sc-gsDKAQ hxODWG icon profit"
-              ><use xlink:href="#icon_Profit"></use></svg
-            >Profit
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+              class="sc-gsDKAQ hxODWG icon profit">
+              <use xlink:href="#icon_Profit"></use></svg>Profit
           </div>
           <div class="number flex-center">
-            <img
-              alt=""
-              class="coin-icon"
-              src={gameDetails.betLog.token_img}
-            />{gameDetails.betLog.won
-              ? ""
-              : "-"}{gameDetails.betLog.profit.toFixed(2)}
+            <img alt="" class="coin-icon" src={gameDetails.betLog.token_img} />
+              {gameDetails.betLog.won ? "" : "-"}{gameDetails.betLog.profit.toFixed(2)}
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { is_loading, deposit_info } from "$lib/store/deposit"
 import { handleAuthToken } from "$lib/store/routes";
 import { ServerURl } from "$lib/backendUrl"
 import { coin_list } from "$lib/store/coins";
-    import Loader from '../components/loader.svelte';
+import Loader from '../components/loader.svelte';
 const url = ServerURl()
 
 let active_coin = ""
@@ -63,6 +63,7 @@ let ispo_loading = false
     .catch((err)=>{
         is_loading.set(false)
         ispo_loading = false
+        console.log(err)
     })
 })
 let amount = 10

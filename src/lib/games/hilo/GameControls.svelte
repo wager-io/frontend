@@ -18,33 +18,22 @@
   $: isFocused = false;
   $: sliderOpened = false;
 
-  $: bet_amount = 100;
+  $: bet_amount = 0.00234;
   $: usd = 0;
-  $: betRange = { min: 100, max: 5000 };
+  $: betRange = { min: 10, max: 5000 };
   $: slider = null;
 
-  $: coin_image =
-    $hilo_game?.token_img ||
-    $default_Wallet.coin_image ||
-    "/coin/BTC.black.png";
+  $: coin_image = $hilo_game?.token_img || $default_Wallet.coin_image || "/coin/BTC.black.png";
   $: isLoading = $processingRequest || !$hilo_game;
   $: currentRound = null;
   $: canGoNext = !isLoading && !!$hilo_game?.bet_id && !$hilo_game?.has_ended;
-  $: canSkip =
-    !isLoading &&
-    !!$hilo_game?.bet_id &&
-    !$hilo_game?.round <= 51 &&
-    !$hilo_game?.has_ended;
+  $: canSkip = !isLoading &&  !!$hilo_game?.bet_id && !$hilo_game?.round <= 51 && !$hilo_game?.has_ended;
 
-  $: canBet =
-    !!bet_amount &&
-    $default_Wallet.balance >= bet_amount &&
-    (!$hilo_game?.bet_id || $hilo_game?.has_ended || $hilo_game?.new_game);
-  $: canCashOut =
-    !!$hilo_game?.bet_id && !$hilo_game?.has_ended && !!$hilo_game?.profit;
+  $: canBet = !!bet_amount && $default_Wallet.balance >= bet_amount && (!$hilo_game?.bet_id || $hilo_game?.has_ended || $hilo_game?.new_game);
+  $: canCashOut = !!$hilo_game?.bet_id && !$hilo_game?.has_ended && !!$hilo_game?.profit;
 
   const updateUSD = () => {
-    if ($default_Wallet.coin_name === "PPF") {
+    if ($default_Wallet.coin_name === "WGF") {
       usd = 0;
       return;
     }
@@ -55,8 +44,8 @@
   };
   default_Wallet.subscribe((v) => {
     if (!$hilo_game?.bet_id) {
-      const rate = v.coin_name === "PPL" ? 0.1 : 1;
-      if (v.coin_name !== "PPF") {
+      const rate = v.coin_name === "WGD" ? 0.1 : 1;
+      if (v.coin_name !== "WGF") {
         betRange = {
           min: 0.0001 / rate,
           max: 140 / rate,
@@ -149,10 +138,7 @@
   $: isGrabbing = false;
   $: sliderPercentage = 0;
 
-  $: inputDisabled =
-    !$handleisLoggin ||
-    (!!$hilo_game && $hilo_game.bet_id && !$hilo_game.has_ended) ||
-    $default_Wallet.coin_name === "PPL";
+  $: inputDisabled = !$handleisLoggin || (!!$hilo_game && $hilo_game.bet_id && !$hilo_game.has_ended) || $default_Wallet.coin_name === "WGD";
 
   const handleSliderMove = (e) => {
     if (isGrabbing) {
