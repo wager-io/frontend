@@ -94,6 +94,7 @@ let is_olii = false
             is_olii = true
             if(res.data.message !== "success"){
                 err_msg = res.data.message
+                is_olii = false
             }else{
                 handleFetchPendingOrder()
             }
@@ -145,6 +146,26 @@ setInterval(()=>{
 }, 1000)
 }
 
+const handleDepositRefresh = (async()=>{
+    ispo_loading = true
+    await axios.post(`${url}/api/deposit/confirmDeposit`, {
+        data: 1
+    },{
+        headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${$handleAuthToken}`
+        }
+    })
+    .then((res)=>{
+        console.log(res)
+        ispo_loading = false
+        handleFetchPendingOrder()
+    })
+    .catch((err)=>{
+        ispo_loading = false
+        console.log(err)
+    })
+})
 
 </script>
 
@@ -232,6 +253,7 @@ setInterval(()=>{
             </div>
             {:else}
             <div class="sbz45td">
+                <button on:click={()=> handleDepositRefresh()} class="refresh-btn">Refresh</button>
                 <div class="qr-wrap">
                     <div class="qz3bl7d">
                         <img src="https://bc.game/api/game/support/qrcode/320/?text=0x8d3f78BDAd3F1eaa4e5B02E277D24a72C932505a" alt="qr.png"></div>
@@ -279,6 +301,16 @@ setInterval(()=>{
 }
 .tisks-btn{
     margin-top: 30px;
+}
+.refresh-btn{
+    background: rgb(157, 170, 10);
+    border-radius: 4px;
+    color: #fff;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 2%;
+    right: 4%;
 }
 
 .kDuLvp .input-control{
@@ -500,6 +532,40 @@ setInterval(()=>{
     color: #fff;
 }
 .sbz45td {
+    position: relative;
+    margin-top: 0.375rem;
+    background-color: rgba(23,24,27,.5);
+    border-radius: 30px;
+    padding: 1.125rem 0.875rem;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.qz3bl7d {
+    padding: 0.125rem;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #2d3035;
+    -webkit-animation: placeholderShimmer-qz3bl7d 1.5s linear infinite;
+    animation: placeholderShimmer-qz3bl7d 1.5s linear infinite;
+}
+.address-info {
+    -webkit-flex: auto;
+    -ms-flex: auto;
+    flex: auto;
+}
+@media only screen and (min-width: 650px){
+ .address-info {
+    width: 1px;
+}
+ .sbz45td {
+    position: relative;
     margin-top: 0.375rem;
     background-color: rgba(23,24,27,.5);
     border-radius: 30px;
@@ -517,9 +583,6 @@ setInterval(()=>{
     -ms-flex-pack: center;
     justify-content: center;
 }
-.sbz45td .qr-wrap {
-    margin-right: 1rem;
-}
 .qz3bl7d {
     width: 9.25rem;
     height: 9.25rem;
@@ -530,12 +593,12 @@ setInterval(()=>{
     -webkit-animation: placeholderShimmer-qz3bl7d 1.5s linear infinite;
     animation: placeholderShimmer-qz3bl7d 1.5s linear infinite;
 }
-.address-info {
-    width: 1px;
-    -webkit-flex: auto;
-    -ms-flex: auto;
-    flex: auto;
 }
+.sbz45td .qr-wrap {
+    margin-right: 1rem;
+}
+
+
 .address-info .cont {
     background: #1E2024;
     display: -webkit-box;

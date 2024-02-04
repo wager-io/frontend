@@ -142,6 +142,11 @@ const handleCancel = (()=>{
     height: 1px;
     padding-top: 1rem;
 }
+@media only screen and (min-width:650px){
+    .su96gxq.ui-dialog>.ui-tabs .tabs-view {
+        width: 470px;
+    }
+}
 .tabs-circle .tabs-view {
     position: relative;
 }

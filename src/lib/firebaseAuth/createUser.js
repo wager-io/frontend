@@ -1,6 +1,6 @@
 import { handleAuthToken } from "$lib/store/routes"
 import { profileStore } from "$lib/store/profile"
-import { default_Wallet } from "$lib/store/coins"
+import { default_Wallet, coin_list } from "$lib/store/coins"
 import {  goto } from "$app/navigation";
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
@@ -28,6 +28,7 @@ export const useRegister = () => {
       }
       if (response.ok) {
         let hisex = json.wallet
+        coin_list.set(hisex)
         hisex.forEach(element => {
           if(element.is_active){
             default_Wallet.set(element)
