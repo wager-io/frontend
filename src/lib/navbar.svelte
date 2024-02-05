@@ -421,7 +421,7 @@
     .jVgBRe .login-top .header-login button {
       height: 2.5rem;
       text-align: center;
-      margin-left: 13px;
+      /* margin-left: 13px; */
       color: #ffff;
       font-weight: bold;
   }

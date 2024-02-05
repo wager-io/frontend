@@ -12,7 +12,8 @@
     </h2>
     <div class="help-content">
         <p>The integrity check value is key to verifying whether there is any official manipulation;
-            The test algorithm is provided as follows.</p><p>Example: 6b5124897c3c48d0e46cc9249f08c7e560792459f1bad1171224643b5d2be231</p>
+            The test algorithm is provided as follows.</p>
+            <p>Example: 6b5124897c3c48d0e46cc9249f08c7e560792459f1bad1171224643b5d2be231</p>
         <ol>
             <li>Take a random value in the 2^52 range, namely 16^13, i.e. a 13-bit hexadecimal number
                 (because the hash value is hexadecimal, 2^52 === 16^13)6b5124897c3c4 (0x6b5124897c3c4 equals 1887939992208324 in the decimal
@@ -43,9 +44,11 @@
         <p>When the 13-bit hash value is f000000000000 = 15.84, ff00000000000 = 253.44, fff000000</p>
     </div>
 </div>
+<button class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal">
+    <div class="button-inner">Validate</div>
+</button>
 
 <style>
-    p{
-	    margin: 0.8em 0;
-    }
+
+
 </style>

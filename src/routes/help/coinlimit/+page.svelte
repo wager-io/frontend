@@ -1,4 +1,10 @@
 <script>
+let limits = [
+    {coin_name:"BTC", limits: "0.000000001"},
+    {coin_name:"ETH", limits: "0.000000001"},
+    {coin_name:"WGD", limits: "0.000000001"},
+    {coin_name:"WGF", limits: "0.000000001"},
+]
 
 </script>
 
@@ -22,53 +28,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><span>BTC</span></td><td><span>0.000000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>NANO</span></td>
-                    <td><span>0.000000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>NND</span></td>
-                    <td><span>0.000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>ETH</span></td>
-                    <td><span>0.000000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>USDT</span></td>
-                    <td><span>0.000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>TRX</span></td>
-                    <td><span>0.000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>DOGE</span></td>
-                    <td><span>0.00000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>LTC</span></td>
-                    <td><span>0.00000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>BNB</span></td>
-                    <td><span>0.000000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>NNL</span></td>
-                    <td><span>0.000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>BANANO</span></td>
-                    <td><span>0.000000001</span></td>
-                </tr>
-                <tr>
-                    <td><span>CUB</span></td>
-                    <td><span>0.000000001</span></td>
-                </tr>
+                {#each limits as limit }
+                    <tr>
+                        <td><span>{limit.coin_name}</span></td>
+                        <td><span>{limit.limits}</span></td>
+                    </tr>
+                {/each}
+         
             </tbody>
         </table>
     </div>

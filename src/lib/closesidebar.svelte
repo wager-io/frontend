@@ -48,11 +48,6 @@ const openOriginal = ((e) => {
              <Original styls={styls} />
             {/if}
         </button>
-        <button disabled={true} on:click={()=> goto("/bonus")} class={`sc-iNGGcK knLCVT menu-item ${routes.route === "/bonus" ? "select" : ""}`}>
-            <div class="menu-mobile">
-                <Icon src={AiFillGift}  size="25"  color="rgb(67, 179, 9)" className="custom-icon" title="arror" />
-            </div>
-        </button>
         <button disabled={true} on:click={()=> goto("/promotion")} class={`sc-iNGGcK knLCVT menu-item ${routes.route === "/promotion" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <img alt="menu-icon" src="https://static.nanogames.io/assets/promotion.316446ec.png">

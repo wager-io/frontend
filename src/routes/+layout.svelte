@@ -161,7 +161,7 @@ $: is_deposit = false
 {#if $app_Loading}
 <div class="preloading">
     <div class="gyuys">
-        <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1706191229/photo_2024-01-25_07-59-49_tyeeu0.jpg">
+        <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
     </div>
 </div>
 {/if}
@@ -249,21 +249,20 @@ $: is_deposit = false
     position: absolute;
     display: flex;
     align-items: center;
-    top: 30%;
+    top: 35%;
     align-content: center;
     width: 170px;
-    border-radius: 50%;
     animation: move 10s infinite;
     opacity: 0.8;
 }
 
 @keyframes move{
     10%{
-        top: 10%;
+        width: 10%;
         transition: all 4.5s ease;
     }
     100%{
-        top: 55%;
+        width: 20%;
         transition: all 4.5s ease;
     }
 }

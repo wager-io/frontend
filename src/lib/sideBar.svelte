@@ -1,8 +1,6 @@
 <script>
 export let routes
-import {
-    goto
-} from "$app/navigation"
+import { goto } from "$app/navigation"
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import FaSolidHeadphones from "svelte-icons-pack/fa/FaSolidHeadphones";
 import Original from "./original.svelte";

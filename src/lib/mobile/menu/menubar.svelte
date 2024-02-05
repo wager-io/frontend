@@ -53,7 +53,7 @@ const handleNavigation = ((e) => {
 
         <button class="nav-item" on:click={handleOriginals}>
                 <img alt="menu-icon" src="https://static.nanogames.io/assets/originalcasino.bb7966a7.png">
-                <div class="nav-right">NG Originals</div>
+                <div class="nav-right">Wager Originals</div>
                 <Icon src={RiSystemArrowRightSLine} color="rgba(153, 164, 176, 0.6)" size="27" className="sc-gsDKAQ hxODWG icon open-icon open" title="Custom icon params" />
         </button>
 

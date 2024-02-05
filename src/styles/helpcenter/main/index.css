@@ -25,19 +25,7 @@
     right: 0px;
     top: 0.25rem;
 }
-.fLASqZ {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    z-index: 11;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 3.75rem;
-    height: 3.75rem;
-}
+
 .hJFGXE {
     width: 96%;
     margin: 0px auto;
@@ -79,12 +67,12 @@
 }
 .hJFGXE .content-area .right-info {
     flex: 5 1 0%;
-    margin-left: 0.25rem;
     background-color: rgb(49, 52, 60);
     border-radius: 1.25rem;
     min-height: 47.5rem;
-    padding: 1.5rem 1.875rem;
+
 }
+
 .hJFGXE .content-area .right-info > div {
     height: 100%;
 }
@@ -118,6 +106,7 @@
 }
 .fSBjam .select .select-trigger {
     border-radius: 1.5rem;
+    width: 100%;
     margin-bottom: 0.75rem;
     background: rgba(36, 38, 43, 0.5);
 }
@@ -191,27 +180,7 @@
     border-radius: 1.5rem;
     margin: 1.25rem auto 4rem;
 }
-.eWZHfu.button {
-    color: rgb(245, 246, 247);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(88, 26, 196);
-    background-image: conic-gradient(from 1turn, rgb(88, 26, 196), rgb(119, 60, 253));
-}
-.cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-.cBmlor {
-    display: block;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-}
+
 .iUeetX {
     width: 100%;
     table-layout: fixed;
@@ -256,4 +225,42 @@
     overflow: hidden;
     text-align: center;
     padding: 0.875rem 0.75rem;
+}
+
+.help-content p {
+    margin: 0.75rem 0px;
+    word-break: break-word;
+}
+
+.jQVFAL {
+    border-radius: 1.25rem;
+    color: rgb(245, 246, 247);
+    background-color: rgba(45, 48, 53, 0.5);
+    border: 1px solid rgb(45, 48, 53);
+}
+.jQVFAL pre {
+    margin: 0px;
+    padding: 0px;
+    width: 95%;
+    overflow-x: auto;
+    font-size: 12px;
+    overflow-x: scroll;
+}
+
+@media only screen and (max-width:650px) {
+    .hJFGXE .content-area .right-info {
+        padding: .5rem .375rem;
+    }
+    .jQVFAL {
+        padding: .5rem;
+    }
+}
+@media only screen and (min-width:650px) {
+    .hJFGXE .content-area .right-info {
+        margin-left: 0.25rem;
+        padding: 1.5rem 1.875rem;
+    }
+    .jQVFAL {
+        padding: 1.25rem;
+    }
 }

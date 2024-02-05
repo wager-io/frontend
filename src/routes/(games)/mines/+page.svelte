@@ -28,6 +28,7 @@ DicegameSocket()
 import { ServerURl } from "$lib/backendUrl";
 import Mobile from "./mobile.svelte";
 import Mybet from "$lib/games/mines/componets/mybet.svelte";
+    import Loader from "../../../lib/components/loader.svelte";
 const URl = ServerURl()
 let is_loading = false
 const handleMinesGameEncrypt = (async()=>{
@@ -213,9 +214,7 @@ const handleSoundState = (()=>{
 
 {:else}
     <div class="uytutfyh">
-        <div class="tdthuy">
-            <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704517117/logoshort_dey3mt.png" alt="">
-        </div>
+        <Loader />
     </div>
 {/if}
     
@@ -239,14 +238,6 @@ const handleSoundState = (()=>{
     justify-content: center;
     align-content: center;
     height: 500px;
-}
-.tdthuy img{
-    width: 120px;
-    background-color: rgba(51, 57, 57, 0.502);
-    padding: 20px;
-    opacity: 0.6;
-    border-radius: 50%;
-    animation: monyy 3s infinite;
 }
 
 @keyframes monyy{

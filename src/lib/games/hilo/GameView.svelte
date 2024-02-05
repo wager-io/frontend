@@ -186,15 +186,9 @@
                 <div
                   class="sc-eZKLwX kkALZz card {!!currentRound?.card &&
                   currentRound?.round &&
-                  $hilo_game.has_ended &&
-                  !$hilo_game.won
-                    ? 'bust'
-                    : ''} {cardNumber ? 'active' : ''} card1-ref"
-                >
+                  $hilo_game.has_ended && !$hilo_game.won ? 'bust' : ''} {cardNumber ? 'active' : ''} card1-ref">
                   <div class="card-back"></div>
-                  <div
-                    class="card-front {currentRound?.redCard ? 'card-red' : ''}"
-                  >
+                  <div  class="card-front {currentRound?.redCard ? 'card-red' : ''}" >
                     <div class="point">
                       <Point cardNumber={currentRound?.card || 0} />
                     </div>

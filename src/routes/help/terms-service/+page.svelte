@@ -6,18 +6,18 @@
    <h2>Terms of Service</h2>
    <p>
      This end user agreement (the "Agreement") should be read by you (the "User"
-     or "you") in its entirety prior to your use of NANOGAMES.IO’s service or
+     or "you") in its entirety prior to your use of WAGER.SERVICES’s service or
      products. Please note that the Agreement constitutes a legally binding
-     agreement between you and NANOGAMES.IO (referred to herein as "NANOGAMES.IO", "us" or
+     agreement between you and WAGER.SERVICES (referred to herein as "WAGER.SERVICES", "us" or
      "we") which owns and operates the Internet site found and games described at
-     NANOGAMES.IO (the "Service"). By clicking the "I Agree" button if and where
+     WAGER.SERVICES (the "Service"). By clicking the "I Agree" button if and where
      provided and/or using the Service, you consent to the terms and conditions
      set forth in this Agreement.
    </p>
  
    <h2>1. Grant of License</h2>
    <p>
-     1.1. Subject to the terms and conditions contained herein, NANOGAMES.IO grants
+     1.1. Subject to the terms and conditions contained herein, WAGER.SERVICES grants
      the User a non-exclusive, personal, non-transferable right to use the
      Service on your personal computer or other device that accesses the Internet
      in order to access the games ava
@@ -26,60 +26,60 @@
      1.2. The Service is not for use by (i) individuals under 18 years of age,
      (ii) individuals under the legal age of majority in their jurisdiction and
      (iii) individuals accessing the Service from jurisdictions from which it is
-     illegal to do so. NANOGAMES.IO is not able to verify the legality of the Service
+     illegal to do so. WAGER.SERVICES is not able to verify the legality of the Service
      in each jurisdiction and it is the User’s responsibility to ensure that
      their use of the Service is lawful.
    </p>
    <p>
-     1.3. NANOGAMES.IO and its licensors are the sole holders of all rights in and to
+     1.3. WAGER.SERVICES and its licensors are the sole holders of all rights in and to
      the Service and code, structure and organization, including copyright, trade
      secrets, intellectual property and other rights. You may not, within the
      limits prescribed by applicable laws: (a) copy, distribute, publish, reverse
      engineer, decompile, disassemble, modify, or translate the website; or (b)
      use the Service in a manner prohibited by applicable laws or regulations
-     (each of the above is an "Unauthorized Use"). NANOGAMES.IO reserves any and all
+     (each of the above is an "Unauthorized Use"). WAGER.SERVICES reserves any and all
      rights implied or otherwise, which are not expressly granted to the User
      hereunder and retain all rights, title and interest in and to the Service.
      You agree that you will be solely liable for any damage, costs or expenses
      arising out of or in connection with the commission by you of any
-     Unauthorized Use. You shall notify NANOGAMES.IO immediately upon becoming aware
+     Unauthorized Use. You shall notify WAGER.SERVICES immediately upon becoming aware
      of the commission by any person of any Unauthorized Use and shall provide
-     NANOGAMES.IO with reasonable assistance with any investigations it conducts in
+     WAGER.SERVICES with reasonable assistance with any investigations it conducts in
      light of the information provided by you in this respect.
    </p>
    <p>
-     1.4. The term "NANOGAMES.IO", its domain names and any other trade marks, or
-     service marks used by NANOGAMES.IO as part of the Service (the "Trade Marks"),
-     are solely owned by NANOGAMES.IO In addition, all content on the website,
+     1.4. The term "WAGER.SERVICES", its domain names and any other trade marks, or
+     service marks used by WAGER.SERVICES as part of the Service (the "Trade Marks"),
+     are solely owned by WAGER.SERVICES In addition, all content on the website,
      including, but not limited to, the images, pictures, graphics, photographs,
      animations, videos, music, audio and text (the "Site Content") belongs to
-     NANOGAMES.IO and is protected by copyright and/or other intellectual property or
+     WAGER.SERVICES and is protected by copyright and/or other intellectual property or
      other rights. You hereby acknowledge that by using the Service, you obtain
      no rights in the Site Content and/or the Trade Marks, or any part thereof.
      Under no circumstances may you use the Site Content and/or the Trade Marks
-     without NANOGAMES.IO’s prior written consent. Additionally, you agree not to do
+     without WAGER.SERVICES’s prior written consent. Additionally, you agree not to do
      anything that will harm or potentially harm the rights, including the
-     intellectual property rights of NANOGAMES.IO
+     intellectual property rights of WAGER.SERVICES
    </p>
  
    <h2>2. No Warranties</h2>
    <p>
-     2.1. NANOGAMES.IO disclaims any and all warranties, expressed or implied, in
+     2.1. WAGER.SERVICES disclaims any and all warranties, expressed or implied, in
      connection with the service which is provided to you "as is" and we provide
      you with no warranty or representation whatsoever regarding its quality,
      fitness for purpose, completeness or accuracy.
    </p>
    <p>
-     2.2. Regardless of NANOGAMES.IO’s efforts, NANOGAMES.IO makes no warranty that the
+     2.2. Regardless of WAGER.SERVICES’s efforts, WAGER.SERVICES makes no warranty that the
      service will be uninterrupted, timely or error-free, or that defects will be
      corrected.
    </p>
  
    <h2>3. Authority/Terms of Service</h2>
    <p>
-     You agree to the game rules described on the NANOGAMES.IO website. NANOGAMES.IO
+     You agree to the game rules described on the WAGER.SERVICES website. WAGER.SERVICES
      retains authority over the issuing, maintenance, and closing of the Service.
-     The decision of NANOGAMES.IO’s management, concerning any use of the Service, or
+     The decision of WAGER.SERVICES’s management, concerning any use of the Service, or
      dispute resolution, is final and shall not be open to review or appeal.
    </p>
  
@@ -101,14 +101,14 @@
        of any other person.
      </li>
      <li>
-       4.1.4. All information that You provide to NANOGAMES.IO during the term of
+       4.1.4. All information that You provide to WAGER.SERVICES during the term of
        validity of this agreement is true, complete, and correct, and that You
-       shall immediately notify NANOGAMES.IO of any change of such information.
+       shall immediately notify WAGER.SERVICES of any change of such information.
      </li>
      <li>
        4.1.5. You are solely responsible for reporting and accounting for any
        taxes applicable to You under relevant laws for any winnings that You
-       receive from NANOGAMES.IO.
+       receive from WAGER.SERVICES.
      </li>
      <li>
        4.1.6. You understand that by participating in the Games you take the risk
@@ -119,7 +119,7 @@
        other unlawful activity in relation to Your or third parties’
        participation in any of the Games and shall not use any software- assisted
        methods or techniques or hardware devices for Your participation in any of
-       the Games. NANOGAMES.IO hereby reserves the right to invalidate any wager in
+       the Games. WAGER.SERVICES hereby reserves the right to invalidate any wager in
        the event of such behaviour.
      </li>
      <li>
@@ -146,22 +146,22 @@
    </p>
    <p>
      4.4. Some circumstances may arise where a wager is confirmed, or a payment
-     is performed by us in error. In all these cases NANOGAMES.IO reserves the right
+     is performed by us in error. In all these cases WAGER.SERVICES reserves the right
      to cancel all the wagers accepted containing such an error.
    </p>
    <p>
      4.5. Should the user become aware of possible errors or incompleteness in
      the software, he/she agrees to refrain from taking advantage of them.
      Moreover, the user agrees to report any error or incompleteness immediately
-     to NANOGAMES.IO Should the user fail to fulfil the obligations stated in this
-     clause, NANOGAMES.IO has a right to full compensation for all costs related to
+     to WAGER.SERVICES Should the user fail to fulfil the obligations stated in this
+     clause, WAGER.SERVICES has a right to full compensation for all costs related to
      the error or incompleteness, including any costs incurred in association
      with the respective error/incompleteness and the failed notification by the
      user.
    </p>
    <p>
      4.6. In the event a game is started but miscarried because of a failure of
-     the system, NANOGAMES.IO shall refund the amount wagered in the game to the User
+     the system, WAGER.SERVICES shall refund the amount wagered in the game to the User
      by crediting it to the User’s Account or, if the account no longer exists,
      by paying it to the User in an approved manner; and if the User has an
      accrued credit at the time the game miscarried, credit to the User’s Account
@@ -169,15 +169,15 @@
      to the User in an approved manner.
    </p>
    <p>
-     4.7. NANOGAMES.IO reserves the right to reject or limit wagers. The user is not
+     4.7. WAGER.SERVICES reserves the right to reject or limit wagers. The user is not
      permitted to wager an amount exceeding his/her personal account. Wins are
      credited to the personal account of the user.
    </p>
    <p>
-     4.8. NANOGAMES.IO reserves the right to retain payments, if suspicion or evidence
+     4.8. WAGER.SERVICES reserves the right to retain payments, if suspicion or evidence
      exists of manipulation of the casino system. Criminal charges will be
      brought against any user or any other person(s), who has/have manipulated
-     the casino system or attempted to do so. NANOGAMES.IO reserves the right to
+     the casino system or attempted to do so. WAGER.SERVICES reserves the right to
      terminate and/or, change any games or events being offered on the Website.
    </p>
    <p>
@@ -185,8 +185,8 @@
      or fraudulent transactions.
    </p>
    <p>
-     4.10. NANOGAMES.IO reserves the right to declare a wager void partially or in
-     full if NANOGAMES.IO, at its own discretion, would deem it obvious that any of
+     4.10. WAGER.SERVICES reserves the right to declare a wager void partially or in
+     full if WAGER.SERVICES, at its own discretion, would deem it obvious that any of
      the following circumstances have occurred:
    </p>
    <ul>
@@ -196,7 +196,7 @@
      </li>
      <li>
        4.10.2. You and or people associated with you are directly or indirectly
-       avoiding the rules of NANOGAMES.IO
+       avoiding the rules of WAGER.SERVICES
      </li>
      <li>
        4.10.3. The result of an event has been directly or indirectly affected by
@@ -214,13 +214,13 @@
      </li>
      <li>
        4.10.6. If a player's deposit fee is too low and is flagged by blockchain
-       or similar site as “not enough fee to relay” NANOGAMES.IO reserve the right to
-       confiscate the winnings if NANOGAMES.IO at their own discretion deem the
+       or similar site as “not enough fee to relay” WAGER.SERVICES reserve the right to
+       confiscate the winnings if WAGER.SERVICES at their own discretion deem the
        transaction and behavior of the player to be fraudulent in nature.
      </li>
    </ul>
    <p>
-     4.11. You will inform NANOGAMES.IO immediately if you enter into a self-exclusion
+     4.11. You will inform WAGER.SERVICES immediately if you enter into a self-exclusion
      agreement with any gambling provider.
    </p>
  
@@ -241,15 +241,15 @@
      circumvent the restrictions on play by any persons located in a Prohibited
      Jurisdiction or Restricted Jurisdiction, is a breach of this Agreement. An
      attempt at circumvention includes, but is not limited to, manipulating the
-     information used by NANOGAMES.IO to identify your location and providing NANOGAMES.IO
+     information used by WAGER.SERVICES to identify your location and providing WAGER.SERVICES
      with false or misleading information regarding your location or place of
      residence.
    </p>
  
    <h2>6. Know your Customer (“KYC”)</h2>
    <p>
-     NANOGAMES.IO reserves the right, at any time, to ask for any KYC documentation it
-     deems necessary to determine the identity and location of a User. NANOGAMES.IO
+     WAGER.SERVICES reserves the right, at any time, to ask for any KYC documentation it
+     deems necessary to determine the identity and location of a User. WAGER.SERVICES
      reserves the right to restrict service and payment until identity is
      sufficiently determined.
    </p>
@@ -257,13 +257,13 @@
    <h2>7. Breach</h2>
    <p>
      7.1. Without prejudice to any other rights, if a User breaches in whole or
-     in part any provision contained herein, NANOGAMES.IO reserves the right to take
+     in part any provision contained herein, WAGER.SERVICES reserves the right to take
      such action as it sees fit, including terminating this Agreement or any
      other agreement in place with the User and/or taking legal action against
      such User.
    </p>
    <p>
-     7.2. You agree to fully indemnify, defend and hold harmless NANOGAMES.IO and its
+     7.2. You agree to fully indemnify, defend and hold harmless WAGER.SERVICES and its
      shareholders, directors, agents and employees from and against all claims,
      demands, liabilities, damages, losses, costs and expenses, including legal
      fees and any other charges whatsoever, howsoever caused, that may arise as a
@@ -274,29 +274,29 @@
  
    <h2>8. Limitations and Liability</h2>
    <p>
-     8.1. Under no circumstances, including negligence, shall NANOGAMES.IO be liable
+     8.1. Under no circumstances, including negligence, shall WAGER.SERVICES be liable
      for any special, incidental, direct, indirect or consequential damages
      whatsoever (including, without limitation, damages for loss of business
      profits, business interruption, loss of business information, or any other
      pecuniary loss) arising out of the use (or misuse) of the Service even if
-     NANOGAMES.IO had prior knowledge of the possibility of such damages.
+     WAGER.SERVICES had prior knowledge of the possibility of such damages.
    </p>
    <p>
-     8.2. Nothing in this Agreement shall exclude or limit NANOGAMES.IO’s liability
+     8.2. Nothing in this Agreement shall exclude or limit WAGER.SERVICES’s liability
      for death or personal injury resulting from its negligence.
    </p>
  
    <h2>9. Disputes</h2>
    <p>
-     If a User wishes to make a complaint, please contact NANOGAMES.IO’s customer
-     service team at support@nanogames.io. Should any dispute not be resolved to your
+     If a User wishes to make a complaint, please contact WAGER.SERVICES’s customer
+     service team at support@WAGER.SERVICES. Should any dispute not be resolved to your
      satisfaction you may pursue remedies in the governing law jurisdiction set
      forth below.
    </p>
  
    <h2>10. Amendment</h2>
    <p>
-     NANOGAMES.IO reserves the right to update or modify this Agreement or any part
+     WAGER.SERVICES reserves the right to update or modify this Agreement or any part
      thereof at any time or otherwise change the Service without notice and you
      will be bound by such amended Agreement upon posting. Therefore, we
      encourage you to check the terms and conditions contained in the version of
@@ -314,7 +314,7 @@
      waive any right that it may have to object to an action being brought in
      those courts, or to claim that the action has been brought in an
      inconvenient forum, or that those courts do not have jurisdiction. Nothing
-     in this clause shall limit the right of NANOGAMES.IO to take proceedings against
+     in this clause shall limit the right of WAGER.SERVICES to take proceedings against
      you in any other court of competent jurisdiction, nor shall the taking of
      proceedings in any one or more jurisdictions preclude the taking of
      proceedings in any other jurisdictions, whether concurrently or not, to the
@@ -332,7 +332,7 @@
  
    <h2>13. Assignment</h2>
    <p>
-     NANOGAMES.IO reserves the right to assign this agreement, in whole or in part, at
+     WAGER.SERVICES reserves the right to assign this agreement, in whole or in part, at
      any time without notice. The User may not assign any of his/her rights or
      obligations under this Agreement.
    </p>
@@ -342,8 +342,8 @@
      Should the Casino become aware of any user who has accepted the bonus or a
      promotion with sole purpose of creating a positive expected value on bonus
      return by using known practices aimed at securing a cash out of said bonus
-     or at any way try to take advantage of bonuses received by NANOGAMES.IO, then
-     NANOGAMES.IO will enforce immediate confiscation of winnings and closure of the
+     or at any way try to take advantage of bonuses received by WAGER.SERVICES, then
+     WAGER.SERVICES will enforce immediate confiscation of winnings and closure of the
      account with the right to withhold any further withdrawals. An example of
      advantage play would be delaying any game round in any game, including free
      spins features and bonus features, to a later time when you have no more

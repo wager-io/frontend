@@ -196,7 +196,7 @@ $: newScreen = 0
 {:else}
 <div class="uytutfyh">
     <div class="tdthuy">
-        <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1697848286/dpp-favicon-logo_j53rwc.jpg" alt="">
+        <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" alt="">
     </div>
 </div>
 {/if}
@@ -219,10 +219,8 @@ $: newScreen = 0
 }
 .tdthuy img{
     width: 120px;
-    background-color: rgba(51, 57, 57, 0.502);
     padding: 20px;
     opacity: 0.6;
-    border-radius: 50%;
     animation: monyy 3s infinite;
 }
 
