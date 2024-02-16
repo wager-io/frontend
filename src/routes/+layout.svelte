@@ -3,13 +3,14 @@
 export let data;
 import { routes } from "$lib/store/routes"
 import { handleAuthToken } from "$lib/store/routes"
+import { currencyRates } from "$lib/store/currency"
 import { browser } from '$app/environment';
 $: routes.set(data)
 import "../styles/global.css"
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import HiSolidMenu from "svelte-icons-pack/hi/HiSolidMenu";
 import { UserProfileEl } from "$lib/index";
-const { handleprofile } = UserProfileEl()
+const { handleprofile ,getExchangeEth, getExchangeBTC} = UserProfileEl()
 import { theme } from "$lib/store/_theme";
 import {showChatCounter, chatCounter} from "$lib/store/chat-counter"
 
@@ -34,7 +35,10 @@ import "../styles/errors/error.css";
 import { onMount } from "svelte";
 import Closesidebar from "$lib/closesidebar.svelte";
 import Loader from "$lib/components/loader.svelte";
-import Layout from "../lib/deposit/layout.svelte";
+import LayoutEl from "$lib/wallet/layout.svelte"
+// import Layout from "../lib/deposit/layout.svelte";
+
+
 let isOpenSide = true
 let isChatRoom = 0
 $: isMenu = false
@@ -42,6 +46,9 @@ let sideDetection = 0
 
 onMount(async()=>{
     await handleprofile($handleAuthToken)
+  let eth = await getExchangeEth()
+   let btc = await getExchangeBTC()
+   currencyRates.set({eth, btc})
 })
     
 $:{
@@ -133,7 +140,7 @@ $: is_deposit = false
 
 <div data-theme={$theme} class="app">
 {#if is_deposit}
-    <Layout on:close={()=> is_deposit = false} />
+    <LayoutEl on:close={()=> is_deposit = false} />
 {/if}
 
 {#if $profileStore && $profileStore.born === '' && $handleNestedRoute !== "/login/info" }

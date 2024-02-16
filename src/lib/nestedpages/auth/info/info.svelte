@@ -386,13 +386,6 @@ img {
     padding: 0px;
 }
 
-.dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-}
-
 .ipnwmW .welcome {
     height: 11.875rem;
     position: absolute;
@@ -401,10 +394,6 @@ img {
     right: 0.3125rem;
     z-index: 1;
     color: rgb(245, 246, 247);
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
 }
 
 .ipnwmW .welcome .msg1 {
@@ -422,9 +411,6 @@ img {
     top: -1.875rem;
 }
 
-.dialog-body>div {
-    flex: 1 1 0%;
-}
 
 .iajVfs .box-title {
     text-align: center;
@@ -468,10 +454,6 @@ img {
     justify-content: center;
     overflow: hidden;
     position: relative;
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
 }
 
 .ceTZhf {
@@ -587,9 +569,6 @@ img {
     cursor: pointer;
 }
 
-.dialog-body>div {
-    flex: 1 1 0%;
-}
 
 .dA-dCPD .welcome .msg1 {
     font-size: 1.5rem;
@@ -604,10 +583,6 @@ img {
     position: absolute;
     right: 0px;
     top: -1.875rem;
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
 }
 
 @media screen and (max-width: 621px) {

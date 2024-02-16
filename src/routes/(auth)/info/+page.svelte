@@ -380,31 +380,11 @@ img {
     overflow: clip;
 }
 
-.fLASqZ {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    z-index: 11;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 3.75rem;
-    height: 3.75rem;
-    cursor: pointer;
-}
 
 .ipnwmW.dialog-body {
     padding: 0px;
 }
 
-.dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-}
 
 .ipnwmW .welcome {
     height: 11.875rem;
@@ -414,10 +394,6 @@ img {
     right: 0.3125rem;
     z-index: 1;
     color: rgb(245, 246, 247);
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
 }
 
 .ipnwmW .welcome .msg1 {
@@ -433,10 +409,6 @@ img {
     position: absolute;
     right: 0px;
     top: -1.875rem;
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
 }
 
 .iajVfs .box-title {
@@ -483,9 +455,6 @@ img {
     position: relative;
 }
 
-.dialog-body>div {
-    flex: 1 1 0%;
-}
 
 .ceTZhf {
     position: absolute;
@@ -559,10 +528,6 @@ img {
     position: absolute;
     right: 0px;
     top: -1.875rem;
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
 }
 
 @media screen and (max-width: 621px) {

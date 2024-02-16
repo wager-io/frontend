@@ -15,11 +15,7 @@
   const { getCardSuite, suites } = useDeck();
   const { removeTrailingZeros, getSuffix } = useFormatter();
   const { recordGame } = useLiveStats(liveStats, "HILO_LIVE_STATS");
-  import { soundManager,hilo_game,
-    processingRequest,
-    userBets,
-  } from "$lib/games/hilo/store";
-
+  import { soundManager,hilo_game, processingRequest, userBets } from "$lib/games/hilo/store";
   const dispatch = createEventDispatcher();
 
   $: HIAnimContainer = null;

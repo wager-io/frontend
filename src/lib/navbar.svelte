@@ -2,7 +2,6 @@
     import "../styles/navbar/mobileNavbar.css";
     import AiOutlineSearch from "svelte-icons-pack/ai/AiOutlineSearch";
     import IoWallet from "svelte-icons-pack/io/IoWallet";
-    import BsDroplet from "svelte-icons-pack/bs/BsDroplet";
     import AiOutlineMenuUnfold from "svelte-icons-pack/ai/AiOutlineMenuUnfold";
     import "../styles/navbar/navbar.css";
     import FiMenu from "svelte-icons-pack/fi/FiMenu";

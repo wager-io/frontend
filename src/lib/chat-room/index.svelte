@@ -1988,16 +1988,7 @@
     background: var(--affiliate-bg);
   }
 
-  .dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-  }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
 
   .hHMWvP {
     width: 100%;

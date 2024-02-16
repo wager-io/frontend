@@ -128,8 +128,8 @@ function handleCopyCode() {
         address_msg = 'Copied'
     setTimeout(()=>{
         address_msg = ("")
-},4000)
-})
+    },4000)
+    })
 }
 
 let hours

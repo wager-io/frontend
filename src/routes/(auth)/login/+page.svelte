@@ -320,12 +320,6 @@
     padding: 0px;
   }
 
-  .dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-  }
 
   .ipnwmW .welcome {
     height: 11.875rem;
@@ -337,9 +331,6 @@
     color: rgb(245, 246, 247);
   }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
 
   .ipnwmW .welcome .msg1 {
     font-size: 1.5rem;
@@ -356,9 +347,6 @@
     top: -1.875rem;
   }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
 
   .ipnwmW #login {
     padding-top: 0px;
@@ -443,9 +431,6 @@
     position: relative;
   }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
 
   .ceTZhf {
     position: absolute;
@@ -633,9 +618,6 @@
     cursor: pointer;
   }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
   .dA-dCPD .welcome .msg1 {
     font-size: 1.5rem;
     font-weight: bold;
@@ -648,9 +630,6 @@
     position: absolute;
     right: 0px;
     top: -1.875rem;
-  }
-  .dialog-body > div {
-    flex: 1 1 0%;
   }
 
   .kDuLvp .input-label {

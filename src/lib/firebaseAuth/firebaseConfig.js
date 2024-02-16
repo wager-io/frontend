@@ -1,12 +1,12 @@
 
 export const firebaseConfiguration = (()=>{
      const firebaseConfi = {
-        apiKey: "AIzaSyDzTvAEBt59YRXXHcddEN-jPCpYL17zYRQ",
-        authDomain: "dotplayplay-1692584380329.firebaseapp.com",
-        projectId: "dotplayplay-1692584380329",
-        storageBucket: "dotplayplay-1692584380329.appspot.com",
-        messagingSenderId: "934101502841",
-        appId: "1:934101502841:web:7c618c3beffda794a3bda8"
+        apiKey: "AIzaSyCBdS_oGeNWBPqwq0orDC-QamTvt-IDmXE",
+        authDomain: "wager-d268d.firebaseapp.com",
+        projectId: "wager-d268d",
+        storageBucket: "wager-d268d.appspot.com",
+        messagingSenderId: "237092725037",
+        appId: "1:237092725037:web:29353f4e2c2ca7958c73a4"
     };
     return firebaseConfi
 })

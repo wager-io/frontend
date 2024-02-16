@@ -26,12 +26,7 @@
     width: 3.75rem;
     height: 3.75rem;
 }
-.dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-}
+
 .no-style {
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);
@@ -40,16 +35,7 @@
     padding: 0.875rem;
     background: rgb(23, 24, 27);
 }
-.dialog-body > div {
-    flex: 1 1 0%;
-}
-.jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-}
+
 .jXCVwe {
     position: relative;
     margin-top: 0.75rem;

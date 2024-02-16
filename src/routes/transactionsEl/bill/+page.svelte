@@ -1,34 +1,4 @@
 <script>
-import { onMount } from "svelte";
-import { UserProfileEl} from "$lib/index"
-import { handleAuthToken } from "$lib/store/routes";
-const { handleAdminTransaction } = UserProfileEl()
-import Loader from "$lib/components/loader.svelte";
-$: is_active = "all"
-let seaser = []
-$: Bils = []
-$: loading = false
-// onMount(async()=>{
-//     const { responcse, is_loading} = await handleAdminTransaction($handleAuthToken, "bill")
-//     loading = is_loading
-//     Bils = responcse
-// })
-
-
-const handleOption = (async(event)=>{
-    loading = true
-    is_active = event
-    if(event === "all" || event === "game"){
-        const { responcse, is_loading} = await handleAdminTransaction(seaser[0], "bill")
-        loading = is_loading
-        Bils = responcse
-    }else{
-        Bils = []
-        setTimeout(()=>{
-            loading = false
-        },3000)
-    }
-})
 
 </script>
 
@@ -46,21 +16,23 @@ const handleOption = (async(event)=>{
                 </svg>
             </label>
         </div>
-        <button on:click={()=> handleOption("all")}  class="sc-jTycuM rTttx {is_active === "all" ? "active" : ""}">
+        <div class="sc-jTycuM rTttx active">
             <div>All</div>
-        </button>
-        <button on:click={()=> handleOption("game")}  class="sc-jTycuM rTttx {is_active === "game" ? "active" : ""}">
+        </div>
+        <div class="sc-jTycuM rTttx">
             <div>Game</div>
-        </button>
-        <button on:click={()=> handleOption("bonus")}  class="sc-jTycuM rTttx {is_active === "bonus" ? "active" : ""}">
+        </div>
+        <div class="sc-jTycuM rTttx">
             <div>Bonus</div>
-        </button>
-        <button on:click={()=> handleOption("affiliate")} class="sc-jTycuM rTttx {is_active === "affiliate" ? "active" : ""}">
+        </div>
+        <div class="sc-jTycuM rTttx">
             <div>Affiliate</div>
-        </button>
-        <button on:click={()=> handleOption("swap")} class="sc-jTycuM rTttx {is_active === "swap" ? "active" : ""}">
+        </div><div class="sc-jTycuM rTttx">
+            <div>Vault</div>
+        </div>
+        <div class="sc-jTycuM rTttx">
             <div>Swap</div>
-        </button>
+        </div>
     </div>
 
     <div class="sc-dkPtRN jScFby scroll-view sc-lnDqNf eiFYvl">
@@ -74,50 +46,36 @@ const handleOption = (async(event)=>{
                     </tr>
                 </thead>
                 <tbody>
-                    {#if loading}
-                        <div style="height: 200px; margin:70px">
-                            <Loader />
-                        </div>
-                    {:else if Bils.length > 0 }
-                    {#each Bils as bill }
-                        <tr class="">
-                            <td style="cursor: auto;">
-                                <div class="type">
-                                    <span>{bill.transaction_type}-</span>Win</div>
-                                    <div>{bill.bill_id}</div>
-                                    <div class="time">{new Date(bill.datetime).toLocaleDateString()}, {new Date(bill.datetime).toLocaleTimeString()}</div>
-                                </td>
-                                <td class="sc-jEieoE {bill.status ? "gofQfP" : "fWMzRD"} success" style="text-align: left;">
-                                    <div class="sc-Galmp erPQzq coin notranslate">
-                                        <img class="coin-icon" alt="" src={bill.token_img}>
-                                        <div class="amount">
-                                            <span class="amount-str">{(parseFloat(bill.trx_amount)).toFixed(7)}<span class="suffix">00</span>
-                                        </span>
-                                    </div>
-                                </div>
+                    <tr class="">
+                        <td style="cursor: auto;">
+                            <div class="type">
+                                <span>Crash-</span>Win</div>
+                                <div>5683604</div>
+                                <div class="time">9/28/2023, 6:22:57 PM</div>
                             </td>
-                            <td class="sc-jSYIrd jbPgYE">
+                            <td class="sc-jEieoE gofQfP success" style="text-align: left;">
                                 <div class="sc-Galmp erPQzq coin notranslate">
-                                    <img class="coin-icon" alt="" src={bill.token_img}>
+                                    <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
                                     <div class="amount">
-                                        <span class="amount-str">{(parseFloat(bill.balance)).toFixed(7)}</span>
-                                    </div>
+                                        <span class="amount-str">1.06<span class="suffix">000000</span>
+                                    </span>
                                 </div>
-                            </td>
-                        </tr>
-                    {/each}
-                    {:else}
-                    <div class="sc-lhMiDA">
-                        <div class="sc-eCImPb cuPxwd empty full-abs" style="width: 500px;">
-                            <img alt="" src="https://static.nanogames.io/assets/empty.acd1f5fe.png">
-                            <div class="msg">No data! </div>
-                        </div>
-                     </div>
-                    {/if}
+                            </div>
+                        </td>
+                        <td class="sc-jSYIrd jbPgYE">
+                            <div class="sc-Galmp erPQzq coin notranslate">
+                                <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
+                                <div class="amount">
+                                    <span class="amount-str">96310.2009</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
 </div>
 
 <style>
@@ -128,12 +86,6 @@ const handleOption = (async(event)=>{
     justify-content: space-between;
     height: 0px;
     flex-wrap: nowrap;
-}
-.gofQfP {
-    color: rgb(93, 160, 0) !important;
-}
-.fWMzRD {
-    color: rgb(237, 99, 0) !important;
 }
 .fcKPxc {
     background-color: rgb(26, 27, 30);
@@ -149,15 +101,6 @@ const handleOption = (async(event)=>{
     -webkit-box-pack: justify;
     justify-content: space-between;
     flex: 0 1 0%;
-}
-.table .sc-Galmp {
-    font-family: Monmono;
-}
-.jbPgYE .amount {
-    color: rgb(255, 255, 255);
-}
-.erPQzq .suffix {
-    opacity: 0.5;
 }
 .kZcuHK .data-search-wrap {
     height: 2.5rem;
@@ -227,11 +170,9 @@ color: aliceblue;
     border-top-left-radius: 1.25rem;
     border-top-right-radius: 1.25rem;
     position: relative;
-    overflow: scroll;
     background-color: rgb(23, 24, 27);
-    height: 420px;
-    /* min-height: 100%; */
-    /* height: 100px; */
+    min-height: 100%;
+    overflow: hidden;
 }
 .hQylKr {
     position: relative;
@@ -266,12 +207,6 @@ color: aliceblue;
     text-align: left;
 }
 .cdiSjJ thead td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.cdiSjJ .time {
-    opacity: 0.5;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

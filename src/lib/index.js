@@ -1,10 +1,12 @@
 import { profileStore, handleisLoggin, app_Loading } from "$lib/store/profile";
+import axios from "axios"
 import { default_Wallet, coin_list } from "../lib/store/coins"
 import { vipProfiile } from "$lib/store/profile";
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
 
 export  const UserProfileEl = (auth) => {
+
 const handleprofile = async (auth) => {
     app_Loading.set(true)
     if(auth){
@@ -51,8 +53,7 @@ const handleprofile = async (auth) => {
 
 
 const handleWGDwallet = async () => {
-    const response =
-      (await fetch(`${URL}/api/wallet/wgd-wallet`, {
+    const response = (await fetch(`${URL}/api/wallet/wgd-wallet`, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -92,6 +93,7 @@ const handleWGDwallet = async () => {
       return json[0];
     }
   };
+
   const handleBTCwallet = async () => {
     const response = await fetch(`${URL}/api/wallet/btc-wallet`, {
       method: "GET",
@@ -106,11 +108,65 @@ const handleWGDwallet = async () => {
     }
   };
 
+ async function getExchangeEth(data) {
+    try {
+      const response = await axios.get('https://api.coingecko.com/api/v3/simple/price', {
+        params: {
+          ids: "ethereum",
+          vs_currencies: 'usd',
+        },
+      });
+      return response.data.ethereum.usd;
+    } catch (error) {
+      console.error('Error fetching exchange rate:', error.message);
+      return null;
+    }
+  }
+
+  async function getExchangeBTC(data) {
+    try {
+      const response = await axios.get('https://api.coingecko.com/api/v3/simple/price', {
+        params: {
+          ids: "bitcoin",
+          vs_currencies: 'usd',
+        },
+      });
+      return response.data.bitcoin.usd;
+    } catch (error) {
+      console.error('Error fetching exchange rate:', error.message);
+      return null;
+    }
+  }
+
+  const handleAdminTransaction = (async(auth, route)=>{
+    let responcse = ""
+    let is_loading = true
+    if(auth){
+        await axios.get(`${URL}/admin/transaction/${route}`,{
+            user
+        })
+        .then((response)=>{
+            responcse = response.data
+            is_loading = false
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }else{
+        responcse = "No user"
+    }
+    return {responcse, is_loading}
+  })
+
   return {
     handleprofile,
     handleBTCwallet,
     handleWGFwallet,
     handleETHwallet,
     handleWGDwallet,
+    getExchangeEth,
+    getExchangeBTC,
+    handleAdminTransaction
   };
 };
+

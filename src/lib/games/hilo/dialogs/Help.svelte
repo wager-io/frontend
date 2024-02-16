@@ -218,28 +218,12 @@
     background-color: rgb(23, 24, 27);
   }
 
-  .dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-  }
   .default-style > div {
     border-radius: 20px;
     background-color: rgb(30, 32, 36);
     padding: 1.25rem 1.25rem 0px;
   }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
-  .jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-  }
   .cTaiTH .help-list > div {
     background-color: rgb(23, 24, 27);
     border-radius: 1.25rem;

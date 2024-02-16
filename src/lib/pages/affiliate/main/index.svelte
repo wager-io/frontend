@@ -749,11 +749,4 @@ const handleCreateReferral = (async()=>{
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);
 }
-.dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-}
-
 </style>

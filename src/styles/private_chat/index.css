@@ -27,12 +27,6 @@
     margin-right: 0.3125rem;
 }
 
-.dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-}
 .hriBCN {
     background-color: rgb(23, 24, 27);
 }
@@ -367,18 +361,14 @@
     background-color: rgba(45, 48, 53, 0.45);
     font-weight: bold;
 }
-.dialog-body > div {
-    flex: 1 1 0%;
-}
+
 .pIGWn {
     display: flex;
     flex-direction: column;
     height: 100%;
     position: relative;
 }
-.dialog-body > div {
-    flex: 1 1 0%;
-}
+
 .pIGWn .header {
     background-color: rgb(30, 32, 36);
 }

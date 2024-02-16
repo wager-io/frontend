@@ -1,16 +1,28 @@
 <script>
 import RiSystemSearchLine from "svelte-icons-pack/ri/RiSystemSearchLine";
 import Icon from 'svelte-icons-pack/Icon.svelte';
-import { createEventDispatcher } from 'svelte'
+import { createEventDispatcher } from 'svelte';
+import { UserProfileEl } from "$lib/index"
+import { handleAuthToken } from "$lib/store/routes";
+const { handleWGDwallet, handleETHwallet, handleWGFwallet, handleBTCwallet } = UserProfileEl($handleAuthToken)
+import { onMount } from "svelte";
 const dispatch = createEventDispatcher()
 import { updateCoins } from "./updateCoin"
 const { useCoinUpdate } = updateCoins()
 import { default_Wallet, coin_list } from "$lib/store/coins";
-import { browser } from '$app/environment'
-let show_currencyName
+import { browser } from '$app/environment';
+let show_currencyName;
 $:{
     show_currencyName = browser && JSON.parse(localStorage.getItem('show-full-curency'))
 }
+
+onMount(async()=>{
+    const btc = await handleBTCwallet()
+    const eth = await handleETHwallet()
+    const wgf = await handleWGFwallet()
+    const wgd = await handleWGDwallet()
+    coin_list.set([btc,wgf,eth, wgd])
+})
 
 const handleSelectCoin = ((e) => {
     dispatch(`coinDefault`, e)

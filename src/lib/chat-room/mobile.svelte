@@ -1833,18 +1833,6 @@
     padding-top: 3.75rem;
     background: var(--affiliate-bg);
   }
-
-  .dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-  }
-
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
-
   .hHMWvP {
     width: 100%;
     height: 100%;

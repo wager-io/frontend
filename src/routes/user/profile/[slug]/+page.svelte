@@ -18,13 +18,8 @@ import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
 import axios from 'axios';
 import { onMount } from 'svelte';
-import {
-    users_profile, profileStore
-} from "$lib/store/profile"
-
-import {
-    page
-} from '$app/stores'
+import { users_profile, profileStore } from "$lib/store/profile"
+import { page } from '$app/stores'
 import { userStatistics } from "$lib/store/statistic"
 import UserProfile from '$lib/user-profile/user-profile.svelte';
 import Statistics from '$lib/user-profile/statistics.svelte';

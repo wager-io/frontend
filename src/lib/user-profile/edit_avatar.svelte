@@ -61,27 +61,8 @@ const handleDefaultImaage = ((e)=>{
     background-color: rgb(23, 24, 27);
 }
 
-.dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-}
-
-.dialog-body>div {
-    flex: 1 1 0%;
-}
-
 .reactEasyCrop_Image {
     will-change: transform;
-}
-
-.jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
 }
 
 

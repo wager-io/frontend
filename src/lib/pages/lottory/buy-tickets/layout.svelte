@@ -390,29 +390,12 @@
     background: var(--affiliate-bg);
   }
 
-  .dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-  }
-
   .default-style > div {
     border-radius: 20px;
     background-color: var(--card-bg-5);
     padding: 1.25rem 1.25rem 0px;
   }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
-  .jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-  }
 
   .jybDrO .warn {
     border: 1px solid rgb(67, 179, 9);

@@ -177,9 +177,6 @@ setTimeout(()=>{
        background-color: rgb(30, 32, 36);
        padding: 1.25rem 1.25rem 0px;
    }
-   .dialog-body > div {
-       flex: 1 1 0%;
-   }
    .dialog-box {
        color: rgba(153, 164, 176, 0.6);
        background-color: rgb(30, 32, 36);
@@ -187,13 +184,7 @@ setTimeout(()=>{
        border-top-right-radius: 2.5rem;
        padding: 1.75rem 1.125rem;
    }
-   .jScFby {
-       box-sizing: border-box;
-       height: 100%;
-       overflow-y: auto;
-       touch-action: pan-y;
-       overscroll-behavior: contain;
-   }
+
    .iGYNgq .warn {
        border: 1px solid rgb(67, 179, 9);
        background: rgba(93, 160, 0, 0.1);

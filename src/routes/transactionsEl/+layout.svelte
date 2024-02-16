@@ -1,50 +1,37 @@
 <script>
-import { routes } from "$lib/store/routes";
-import { goto } from "$app/navigation";
-import { page } from "$app/stores";
-import Currency from "./currency.svelte";
-import { screen } from "$lib/store/screen";
-let urlString =  ($page.url.href);
-let paramString = urlString.split('?')[1];
-let queryString = new URLSearchParams(paramString);
-$: correnncies = false
-let route = $routes.route
-let coins = [
-    {coin_name: "All", coin_img: "All currencies", active: true},
-    {coin_name: "btc", coin_img: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400", active: false},
-    {coin_name: "eth", coin_img: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1696501628", active: false},
-    {coin_name: "wgf", coin_img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1698010748/wft_z3ouah.png", active: false},
-    {coin_name: "wgd", coin_img: "https://res.cloudinary.com/dxwhz3r81/image/upload/v1698011384/type_1_w_hqvuex.png", active: false}
-]
+import {
+    routes
+} from "$lib/store/routes"
+import {
+    goto
+} from "$app/navigation"
 
-let seaser = []
-for (let pair of queryString.entries()) {
-    seaser.push(pair[1])
-}
 
-let active_coin = ""
-let active_coinName = seaser[1]
-let active_user_id = seaser[0]
-
-coins.forEach(element => {
-    if(element.active){
-        active_coin = element
-    }
-});
-
-const handleOption = ((event)=>{
-    active_coin = event.detail
+let correnncies = false
+const handleCurrencySellect = ((event)=>{
+   if(event === 1){
+      correnncies = true
+   }else{
+      correnncies = false
+   }
 })
 
 </script>
 
 <div class="sc-bkkeKt kBjSXI" style="opacity: 1;">
-    <div class="dialog " style="{$screen >  650 ? "opacity: 1; width: 782px; height: 631px; margin-top: -315.5px; margin-left: -391px; transform: scale(1) translateZ(0px)" : "transform: scale(1) translateZ(0px)"};">
+    <div class="dialog " style="opacity: 1; width: 782px; height: 631px; margin-top: -315.5px; margin-left: -391px; transform: scale(1) translateZ(0px);">
+
+        <button class="dialog-back" style="opacity: 1; transform: none;">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                <use xlink:href="#icon_Arrow"></use>
+            </svg>
+        </button>
+
         <div class="dialog-head has-back has-close">
             <div class="dialog-title">Transactions</div>
         </div>
 
-        <button on:click={()=> goto("/")} class="sc-ieecCq fLASqZ close-icon dialog-close">
+        <button class="sc-ieecCq fLASqZ close-icon dialog-close">
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                 <use xlink:href="#icon_Close"></use>
             </svg>
@@ -53,46 +40,64 @@ const handleOption = ((event)=>{
         <div class="dialog-body no-style " style="z-index: 2; transform: none;">
             <div class="sc-cxpSdN kQfmQV tabs sc-eQxpLG cpezgQ" id="transactions">
                 <div class="tabs-navs">
-                    <button on:click={(()=> goto(`/transactions/deposit`))} class={`tabs-nav ${$routes.route === "/transactions/deposit" ? "is-active" : ""} `}>Deposit</button>
-                    <button on:click={(()=> goto(`/transactions/withdraw`))} class={`tabs-nav ${$routes.route === "/transactions/withdraw" ? "is-active" : ""} `}>Withdraw</button>
-                    <button on:click={(()=> goto(`/transactions/bill`))} class={`tabs-nav ${$routes.route === "/transactions/bill" ? "is-active" : ""} `}>Bill</button>
-                {#if  $routes.route === "/transactions/deposit"}
+                    <button on:click={(()=> goto("/transactions/deposit"))} class={`tabs-nav ${$routes.route === "/transactions/deposit" ? "is-active" : ""} `}>Deposit</button>
+                    <button on:click={(()=> goto("/transactions/withdraw"))} class={`tabs-nav ${$routes.route === "/transactions/withdraw" ? "is-active" : ""} `}>Withdraw</button>
+                    <button on:click={(()=> goto("/transactions/bill"))} class={`tabs-nav ${$routes.route === "/transactions/bill" ? "is-active" : ""} `}>Bill</button>
+                    {#if  $routes.route === "/transactions/deposit"}
                     <div class="bg" style={"left: 0%; right: 65%;"}></div>
-                {:else if  $routes.route === "/transactions/withdraw"}
+                    {:else if  $routes.route === "/transactions/withdraw"}
                     <div class="bg" style={"left: 33%; right: 32%;"}></div>
-                {:else if  $routes.route === "/transactions/bill"}
+                    {:else if  $routes.route === "/transactions/bill"}
                     <div class="bg" style={"left: 65%; right: 0%;"}></div>
-                {/if}
+                    {/if}
                 </div>
                 <div class="tabs-view">
                     <slot></slot>
                     <div class="sc-feYDSs XkKRx table-bot-page">
-                        <button on:mouseenter={()=> correnncies = true } on:mouseleave={()=> correnncies = false} class="sc-jJoQJp gOHquD select  sc-eMHfQD hDizvn clvyMv">
+                        <button on:mouseenter={()=>handleCurrencySellect(1)} on:mouseleave={()=>handleCurrencySellect(19)} class="sc-jJoQJp gOHquD select  sc-eMHfQD hDizvn clvyMv">
                             <div class="select-trigger">
-                                {#if active_coin.coin_name === "All"}
-                                    <div class="currency-label">
-                                        <div class="coin-icon coin-div">
-                                            <span>{active_coin.coin_name}</span>
-                                        </div>
-                                    {active_coin.coin_img}
-                                    </div>
-                                    {:else}
-                                    <div class="currency-label" style="text-transform: uppercase;">
-                                        <img class="coin-icon" alt="" src={active_coin.coin_img}>
-                                        {active_coin.coin_name}
-                                     </div>
-                                {/if}
+                                <div class="currency-label">
+                                    <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
+                                    CUB
+                                 </div>
                                 <div class="arrow top">
                                     <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                                         <use xlink:href="#icon_Arrow"></use>
                                     </svg>
                                 </div>
                               </div>
-
                             {#if correnncies}
-                              <Currency  on:close={handleOption}/>
-                            {/if}
-
+                            <div class="sc-hiCibw iVwWcQ select-options-wrap" style="opacity: 1; bottom: 100%; transform: none;">
+                                <div class="sc-dkPtRN jScFby scroll-view select-options len-13">
+                                    <div class="select-option active">
+                                        <div class="currency-label">
+                                            <div class="coin-icon coin-div">
+                                                <span>All</span>
+                                            </div>
+                                            All currencies
+                                        </div>
+                                    </div>
+                                    <div class="select-option ">
+                                       <div class="currency-label">
+                                          <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
+                                           PPF
+                                       </div>
+                                   </div>
+                                   <div class="select-option ">
+                                    <div class="currency-label">
+                                       <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
+                                        USDT
+                                    </div>
+                                </div>
+                                <div class="select-option ">
+                                 <div class="currency-label">
+                                    <img class="coin-icon" alt="" src="https://www.linkpicture.com/q/dpp_logo.png">
+                                     PPD
+                                 </div>
+                             </div>
+                                </div>
+                            </div>
+                        {/if}
                         </button>
 
                         <div class="sc-cCcXHH dXTFyi pagination ">
@@ -124,56 +129,21 @@ const handleOption = ((event)=>{
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
 <style>
-.kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.7);
-    filter: none !important;
-
-}
-
-.dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    background-color: rgb(23, 24, 27);
-}
-
-.dialog-back {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 11;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 3.75rem;
-    height: 3.75rem;
-}
 
 .dialog-head.has-close {
     margin-right: 3.75rem;
+}
+
+.dialog-back svg {
+    transform: rotate(180deg);
+    width: 16px;
+    height: 16px;
 }
 
 .dialog-head.has-back {
@@ -203,27 +173,12 @@ const handleOption = ((event)=>{
     color: rgb(245, 246, 247);
 }
 
-.fLASqZ {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    z-index: 11;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 3.75rem;
-    height: 3.75rem;
-}
-.fLASqZ:hover svg {
-    transform: rotate(-90deg);
-    fill: rgb(245, 246, 247);
-}
+
 .no-style {
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);
 }
+
 
 .cpezgQ {
     flex: 1 1 auto;
@@ -341,17 +296,6 @@ const handleOption = ((event)=>{
     -webkit-box-pack: center;
     justify-content: center;
 }
- .coin-div {
-    background-color: rgb(67, 179, 9);
-    border-radius: 0.625rem;
-    color: rgb(255, 255, 255);
-    font-size: 0.75rem;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-}
 
 .gOHquD .select-trigger .arrow {
     width: 2.5rem;
@@ -365,10 +309,7 @@ const handleOption = ((event)=>{
     right: 0px;
     top: 0px;
 }
-.currency-label img{
-    border-radius: 50%;
-    margin-right: 5px;
-}
+
 .hDizvn .coin-icon {
     width: 1.25rem;
     height: 1.25rem;
@@ -489,6 +430,50 @@ const handleOption = ((event)=>{
     position: relative;
 }
 
+.iVwWcQ {
+    position: absolute;
+    padding: 0.3125rem 0px;
+    width: 100%;
+    left: 0px;
+    z-index: 2;
+}
+
+.iVwWcQ .select-options {
+    border-radius: 1.25rem;
+    padding: 0.125rem 0.375rem;
+    background-color: rgb(23, 24, 27);
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 8px 0px;
+    height: auto;
+    max-height: 16.25rem;
+}
+
+.jScFby {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+}
+
+.iVwWcQ .select-options:not(.len-1)>.active {
+    border-color: rgba(91, 174, 28, 0.4);
+}
+
+.iVwWcQ .select-option {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    padding: 0px 0.625rem;
+    font-size: 0.875rem;
+    height: 2rem;
+    margin: 0.25rem 0px;
+    border: 1px solid transparent;
+    border-radius: 1.0625rem;
+    cursor: pointer;
+    color: rgba(153, 164, 176, 0.6);
+    white-space: nowrap;
+}
 
 .clvyMv .currency-label {
     display: flex;
@@ -498,33 +483,24 @@ const handleOption = ((event)=>{
     justify-content: center;
 }
 
-
-.clvyMv .coin-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.3125rem;
+.iVwWcQ .select-options:not(.len-1)>.active::after {
+    content: "";
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.625rem;
+    background-color: rgb(67, 179, 9);
+    box-shadow: rgba(91, 174, 28, 0.15) 0px 0px 0px 0.3125rem;
 }
 
-
-.clvyMv .currency-label {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-}
-
-
-
-.clvyMv .coin-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.3125rem;
-}
-
-
-
-.clvyMv .currency-label {
+.clvyMv .coin-div {
+    background-color: rgb(67, 179, 9);
+    border-radius: 0.625rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.75rem;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
@@ -536,6 +512,96 @@ const handleOption = ((event)=>{
     width: 1.25rem;
     height: 1.25rem;
     margin-right: 0.3125rem;
+}
+
+.clvyMv .coin-div span {
+    transform: scale(0.8);
+}
+
+
+.iVwWcQ .select-options {
+    border-radius: 1.25rem;
+    padding: 0.125rem 0.375rem;
+    background-color: rgb(23, 24, 27);
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 8px 0px;
+    height: auto;
+    max-height: 16.25rem;
+}
+.iVwWcQ .select-option:hover {
+    background-color: rgb(88, 90, 97);
+    color: aliceblue;
+}
+
+.clvyMv .currency-label {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.clvyMv .coin-div {
+    background-color: rgb(67, 179, 9);
+    border-radius: 0.625rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.75rem;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.clvyMv .coin-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.3125rem;
+}
+
+.iVwWcQ .select-option {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    padding: 0px 0.625rem;
+    font-size: 0.875rem;
+    height: 2rem;
+    margin: 0.25rem 0px;
+    border: 1px solid transparent;
+    border-radius: 1.0625rem;
+    cursor: pointer;
+    color: rgba(153, 164, 176, 0.6);
+    white-space: nowrap;
+}
+
+.clvyMv .currency-label {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.clvyMv .coin-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.3125rem;
+}
+
+.iVwWcQ .select-option {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    padding: 0px 0.625rem;
+    font-size: 0.875rem;
+    height: 2rem;
+    margin: 0.25rem 0px;
+    border: 1px solid transparent;
+    border-radius: 1.0625rem;
+    cursor: pointer;
+    color: rgba(153, 164, 176, 0.6);
+    white-space: nowrap;
 }
 
 .clvyMv .currency-label {

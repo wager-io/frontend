@@ -325,12 +325,6 @@
     padding: 0px;
   }
 
-  .dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-  }
 
   .ipnwmW .welcome {
     height: 11.875rem;
@@ -342,9 +336,6 @@
     color: rgb(245, 246, 247);
   }
 
-  .dialog-body > div {
-    flex: 1 1 0%;
-  }
 
   .ipnwmW .welcome .msg1 {
     font-size: 1.5rem;

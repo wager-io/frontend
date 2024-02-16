@@ -10,24 +10,24 @@
     import Latestbet from '$lib/homecomponents/latestbet.svelte';
     import Homeanimaton from "../lib/homecomponents/homeanimaton.svelte";
     import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
-    import {  onMount } from "svelte";
+    // import {  onMount } from "svelte";
     import { browser } from '$app/environment'
-    import { db} from "$lib/firebaseAuth/index"
-    import { doc, getDoc } from "firebase/firestore";
+    // import { db} from "$lib/firebaseAuth/index"
+    // import { doc, getDoc } from "firebase/firestore";
         
-    const id = browser && JSON.parse(localStorage.getItem('user'))
-    let profile
-    $:{
-        id &&  onMount(async()=>{
-            const docRef = doc(db, "profile", id.email);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                profile = docSnap.data()
-            } else {
-                console.log("No such document!");
-            }
-        })
-    }
+    // const id = browser && JSON.parse(localStorage.getItem('user'))
+    // let profile
+    // $:{
+    //     id &&  onMount(async()=>{
+    //         const docRef = doc(db, "profile", id.email);
+    //         const docSnap = await getDoc(docRef);
+    //         if (docSnap.exists()) {
+    //             profile = docSnap.data()
+    //         } else {
+    //             console.log("No such document!");
+    //         }
+    //     })
+    // }
     
     $: $screen
     $: $is_open__Appp
@@ -36,9 +36,9 @@
     </script>
         
     
-    {#if profile && profile.born === ''}
+    <!-- {#if profile && profile.born === ''}
         <ProfileAuth />
-    {/if}
+    {/if} -->
     
     <div id="main-screen" class="sc-jwQYvw eRdxAb" style={`padding-left:${$is_open__Appp ? 240 : 72}px; padding-right:${$is_open__chat ? 360 : 0}px`}>
         <div class="sc-bLdqUH bPsBUR banner">

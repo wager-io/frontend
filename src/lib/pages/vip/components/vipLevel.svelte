@@ -242,15 +242,7 @@ const handleCancel = ()=>{
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);
 }
-.dialog-body {
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    overflow: hidden;
-}
-.dialog-body > div {
-    flex: 1 1 0%;
-}
+
 .eElGOL .vip-level-banner {
     position: relative;
     height: 9.375rem;
