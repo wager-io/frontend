@@ -142,13 +142,8 @@
     height: 1%;
     flex: 1 1 0%;
 }
-.jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-}
+
+
 .hsTOaJ {
     position: relative;
     display: flex;

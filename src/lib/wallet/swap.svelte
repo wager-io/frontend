@@ -99,14 +99,21 @@ $coin_list.forEach(element => {
 <style>
 .geJgoF {
     flex: 1 1 auto;
-    padding: 0.625rem 0.625rem 1.875rem;
     position: relative;
 }
 .fxFgHv {
     border-radius: 1.25rem;
     background-color: rgb(30, 32, 36);
     position: relative;
-    padding: 0.625rem;
+}
+
+@media only screen and (min-width: 650px){
+    .geJgoF {
+        padding: 0.625rem 0.625rem 1.875rem;
+    }
+    .fxFgHv {
+        padding: 0.625rem;
+    }
 }
 /* .geJgoF .tabs-navs {
     width: 17.5rem;
@@ -123,11 +130,6 @@ $coin_list.forEach(element => {
 } */
 .kLHhQw #swap {
     padding: 0px;
-}
-.geJgoF {
-    flex: 1 1 auto;
-    padding: 0.625rem 0.625rem 1.875rem;
-    position: relative;
 }
 .eZLJPD {
     position: relative;

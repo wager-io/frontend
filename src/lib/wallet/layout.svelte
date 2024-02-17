@@ -93,9 +93,7 @@ const handleCoinSelect = ((event)=>{
 </div>
 
 <style>
-.dialog-head.has-back {
-    margin-left: 3.125rem;
-}
+
 .fktpVO {
     display: flex;
 }
@@ -121,7 +119,9 @@ const handleCoinSelect = ((event)=>{
     position: relative;
     color: rgba(153, 164, 176, 0.6);
 }
-
+.eeygvl .icon {
+   fill: rgba(153, 164, 176, 0.8);
+}
 
  @media only screen and (max-width: 650px){
    .eeygvl {
@@ -130,11 +130,14 @@ const handleCoinSelect = ((event)=>{
       justify-content: space-between;
       background-color: rgb(30, 32, 36);
       border-radius: 1.25rem;
-      margin: 0.25rem 0.625rem 0.625rem;
       order: 1;
       flex: 0 0 auto;
-      font-size: 12px;
+      font-size: 11px;
    }
+   .eeygvl .title {
+      font-size: 11px;
+    margin-top: 0.3125rem;
+}
  }
 
  @media only screen and (min-width: 650px){
@@ -149,6 +152,14 @@ const handleCoinSelect = ((event)=>{
       flex: 0 0 auto;
       font-size: 12px;
    }
+   .eeygvl .icon {
+      width: 1.375rem;
+      height: 1.375rem;
+      margin-top: 0.625rem;
+   }
+   .eeygvl .title {
+    margin-top: 0.3125rem;
+}
  }
 
 .eeygvl .tab:hover {
@@ -173,30 +184,23 @@ const handleCoinSelect = ((event)=>{
 
 @media only screen and (max-width: 370px){
    .eeygvl .tab {
-    position: relative;
-    z-index: 2;
-    height: 4rem;
-    width: 4rem;
-    padding: 0.625rem 0px;
-    text-align: center;
-    cursor: pointer;
-    line-height: 1;
-    border-radius: 1.25rem;
+      position: relative;
+      z-index: 2;
+      height: 4rem;
+      width: 4rem;
+      padding: 0.625rem 0px;
+      text-align: center;
+      cursor: pointer;
+      line-height: 1;
+      border-radius: 1.25rem;
+   }
 }
- }
 
 .eeygvl .tab.active .icon {
     fill: rgb(255, 255, 255);
 }
-.eeygvl .icon {
-    width: 1.375rem;
-    height: 1.375rem;
-    fill: rgba(153, 164, 176, 0.8);
-    margin-top: 0.625rem;
-}
-.eeygvl .title {
-    margin-top: 0.3125rem;
-}
+
+
 .dialog-back {
     position: absolute;
     left: 0px;

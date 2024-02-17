@@ -133,30 +133,6 @@ const handleOption = ((event)=>{
 </div>
 
 <style>
-.kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.7);
-    filter: none !important;
-
-}
-
-.dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    background-color: rgb(23, 24, 27);
-}
 
 .dialog-back {
     position: absolute;
@@ -172,25 +148,6 @@ const handleOption = ((event)=>{
     height: 3.75rem;
 }
 
-.dialog-head.has-close {
-    margin-right: 3.75rem;
-}
-
-.dialog-head.has-back {
-    margin-left: 3.125rem;
-}
-
-.dialog-head {
-    position: relative;
-    z-index: 10;
-    flex: 0 0 auto;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 3.75rem;
-    margin-left: 1.125rem;
-    transition: all 0.5s ease 0s;
-}
 
 .dialog-head .dialog-title {
     font-size: 1rem;
@@ -203,23 +160,6 @@ const handleOption = ((event)=>{
     color: rgb(245, 246, 247);
 }
 
-.fLASqZ {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    z-index: 11;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 3.75rem;
-    height: 3.75rem;
-}
-.fLASqZ:hover svg {
-    transform: rotate(-90deg);
-    fill: rgb(245, 246, 247);
-}
 .no-style {
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);

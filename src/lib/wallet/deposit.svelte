@@ -331,21 +331,29 @@ function handleCopyCode(event) {
     line-height: 1.875rem;
 }
 
+.wvKye .wrap {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.evIEvq .currency {
+    flex: 0 1 auto;
+    margin-left: 0.9375rem;
+    font-size: 1.125rem;
+    font-weight: 800;
+}
 @media only screen and (min-width: 650px){
     .wvKye .wrap {
         padding-right: 1.25rem;
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
+    }
+    .evIEvq .currency {
+        margin-right: 100px;
     }
 }
 
 @media only screen and (max-width: 650px){
-    .wvKye .wrap {
-        padding-right: .25rem;
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
+    .evIEvq .currency {
+        margin-right: 10px;
     }
 }
 
@@ -360,14 +368,7 @@ function handleCopyCode(event) {
     color: rgb(245, 246, 247);
     font-size: 1.125rem;
 }
-.evIEvq .currency {
-    flex: 0 1 auto;
-    margin-left: 0.9375rem;
-    font-size: 1.125rem;
-    font-weight: 800;
-    margin-right: 100px;
-    padding-left: px;
-}
+
 .wvKye svg {
     margin-top: 0.1875rem;
 }

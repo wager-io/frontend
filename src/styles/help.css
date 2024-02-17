@@ -120,13 +120,6 @@
     color: rgba(153, 164, 176, 0.8);
     padding-bottom: 1.5rem !important;
 }
-.jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-}
 
 .fysqIX .item {
     margin-bottom: 2.75rem;

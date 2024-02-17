@@ -760,14 +760,6 @@
       margin-left: 0.625rem;
     }
 
-    .jScFby {
-      box-sizing: border-box;
-      /* height: 100%; */
-      overflow-y: auto;
-      touch-action: pan-y;
-      overscroll-behavior: contain;
-    }
-
     *,
     *:before,
     *:after {

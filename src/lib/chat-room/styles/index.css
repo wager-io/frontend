@@ -198,13 +198,7 @@
     flex-direction: column;
     background: var(--card-bg-5);
 }
-.jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-}
+
 .fuYrTE {
     height: 0px;
     flex: 1 1 auto;
