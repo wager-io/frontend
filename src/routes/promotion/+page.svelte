@@ -123,15 +123,6 @@ import { handleisLoggin } from "$lib/store/profile";
 </div>
 
 <style>
-.cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-}
 
 .cbjyVS {
     min-width: 48rem;
@@ -503,15 +494,6 @@ import { handleisLoggin } from "$lib/store/profile";
     position: relative;
 }
 
-.cBmlor>.button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
 
 .gFnRlT .right .stage__arrow {
     position: absolute;
@@ -672,13 +654,6 @@ import { handleisLoggin } from "$lib/store/profile";
     align-items: center;
     cursor: pointer;
 }
-
-
-.cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-}
-
 .p-small .sc-bOtlzW .button {
     width: 12.75rem;
     margin: 0px auto;

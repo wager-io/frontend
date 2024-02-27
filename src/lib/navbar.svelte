@@ -9,36 +9,22 @@
     import Icon from "svelte-icons-pack/Icon.svelte";
     import { browser } from "$app/environment";
     import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
-    import { current_route, routes } from "./store/routes";
+    import { url } from "./store/routes";
     import { default_Wallet } from "$lib/store/coins"
     import { profileStore, handleisLoggin } from "$lib/store/profile";
     import { createEventDispatcher } from "svelte";
-    import { handleNestedRoute } from "$lib/store/nested_routes";
     import {chatCounter, showChatCounter} from "$lib/store/chat-counter"
     import { goto } from "$app/navigation";
     import Coins from "./profilecomponent/main/coins.svelte";
     import Navprofile from "./profilecomponent/main/navprofile.svelte";
     $: browser && localStorage.setItem("preload", JSON.stringify("is_active"));
     const dispatch = createEventDispatcher();
+
     const handleChat = (e) => {
       dispatch("handleChatRoom", e);
     };
     const handleMenu = () => {
       dispatch("handleMenuMobile");
-    };
-  
-    let is_login = false;
-    const handleLogin = () => {
-      const currentPath = browser && window.location.pathname;
-      if (currentPath === "/login") {
-        browser && window.history.replaceState(null, "", $routes.route);
-        handleNestedRoute.set("");
-      } else {
-        current_route.set(currentPath);
-        handleNestedRoute.set("/login");
-        is_login = true;
-        browser && window.history.replaceState(null, "login", "/login");
-      }
     };
   
     $: newScreen = 0
@@ -99,8 +85,8 @@
         </div>
         {#if !$handleisLoggin}
         <div class="login-in">
-            <button on:click={()=> goto("/login")}>Sign in</button>
-            <button on:click={()=> goto("/register")} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)}>Sign in</button>
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
               <div class="button-inner">Sign up</div>
             </button>
           <button id="chat" class="sc-eicpiI PGOpB">
@@ -129,7 +115,6 @@
               {#if coinsEL}
                 <Coins on:coinDefault={()=> coinsEL =! coinsEL} />
               {/if}
-             
               <button on:click={()=> dispatch("close")} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
                 <div class="button-inner">
                   <Icon src={IoWallet} size="18" color="#ffff" className="custom-icon" />
@@ -140,7 +125,7 @@
           </div>
           <div class="sc-gnnDb fWkueO">
             <div class="user-wrap">
-              <a href={`/user/profile/${$profileStore.user_id && $profileStore.user_id}`}>
+              <a href={`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id && $profileStore.user_id}`}>
                 <img class="avatar " alt="" src={$profileStore.profile_image && $profileStore.profile_image}>
               </a>
               <button on:mouseenter={()=> profileNAV = true} on:mouseleave={()=> profileNAV = false} class="svg">

@@ -678,10 +678,7 @@ const handleCashout = (async()=>{
 .select-trigger {
     font-weight: bold;
 }
-.cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-      opacity: 0.5;
-      cursor: default;
-  }
+
 .gOHquD .select-trigger {
     position: relative;
     display: flex;

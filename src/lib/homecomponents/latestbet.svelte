@@ -1,8 +1,12 @@
+<script>
+$: tab = 1
+</script>
+
 <div class="sc-gsFzgR ecYYiT">
     <div class="sc-cxpSdN kQfmQV tabs sc-cAhXWc fufAIq">
         <div class="tabs-navs">
-            <button class="tabs-nav is-active">Latest bets</button>
-            <button class="tabs-nav">Contest</button>
+            <button on:click={()=> tab = 1} class="tabs-nav {tab === 1 ? "is-active" : ""}">Latest bets</button>
+            <button on:click={()=> tab = 2} class="tabs-nav {tab === 2 ? "is-active" : ""}">Latest winners</button>
             <div class="bg" style="left: 0%; right: 50%;"></div>
         </div>
         <div class="tabs-view" style="transform: none;">
@@ -10,7 +14,11 @@
                 <table class="sc-gWXbKe iUeetX table is-hover">
                     <thead>
                         <tr>
-                            <th>Game</th><th>Player</th><th>Bet ID</th><th>Payout</th><th class="m-width">Profit</th>
+                            <th>Game</th>
+                            <th>Player</th>
+                            <th>Bet ID</th>
+                            <th>Payout</th>
+                            <th class="m-width">Profit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,7 +57,7 @@
     font-size: 0.875rem;
     margin-left: 0.625rem;
     margin-bottom: 0.75rem;
-    max-width: 12.5rem;
+    max-width: 15.5rem;
 }
 .kQfmQV .tabs-navs {
     display: flex;
@@ -77,18 +85,7 @@
     width: 100%;
     z-index: 1;
 }
-.kQfmQV .tabs-navs .bg {
-    border-radius: 1.125rem;
-    background-image: linear-gradient(to left, rgb(85, 89, 102), rgb(85, 89, 102), rgb(88, 174, 20));
-    opacity: 0.4;
-    height: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    transition: right 0.2s ease-out 0s, left 0.3s ease-out 0s;
-    transform: translateZ(0px);
-    box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 0.3125rem;
-}
+
 .fufAIq .tabs-view {
     border-radius: 1.25rem;
 }

@@ -61,24 +61,24 @@
     -webkit-box-align: center;
     align-items: center;
     font-size: 0.875rem;
-
 }
 .knLCVT.select .menu-pc {
     font-weight: bold;
-    background-color: var(--btn-color);
+    border: 0.6px solid var(--btn-color);
     background-image: var(--btn-image);
     color: rgb(245, 246, 247);
 }
 .knLCVT .menu-pc {
     width: auto;
     height: 2.5rem;
-    border-radius: 0px 1.25rem 1.25rem 0px;
+    border-radius: 1.25rem;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
     padding-left: 1rem;
     margin-bottom: 0.5rem;
     padding-right: 1.5rem;
+    margin-left: 10px;
 }
 .knLCVT .menu-pc:hover{
     transition: all 0.2s ease-in-out;
@@ -94,6 +94,7 @@
     height: 2.5rem;
 }
 .knLCVT .menu-pc span {
+    margin-left: 10px;
     white-space: nowrap;
 }
 .knLCVT .right {

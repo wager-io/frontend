@@ -211,15 +211,6 @@ const handleDefaultImaage = ((e)=>{
     background-image: conic-gradient(from 1turn, rgb(67, 179, 9), rgb(93, 219, 28));
 }
 
-.cBmlor>.button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
 .iYpTcp button.is-active {
     border-color: rgb(67, 179, 9);
 }

@@ -317,24 +317,6 @@
     background-color: rgba(45, 48, 53, 0.8);
   }
 
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
   .gOHquD {
     position: relative;
     height: 2.5rem;
@@ -474,10 +456,6 @@ color: var(--text-6);    white-space: nowrap;
     right: 0px;
     top: 0px;
   }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
 
   .dTcUpI .gameno-control .button {
     width: 1.5rem;
@@ -486,53 +464,11 @@ color: var(--text-6);    white-space: nowrap;
     background-color: rgba(45, 48, 53, 0.8);
   }
 
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
-
   .dTcUpI .gameno-control .button {
     width: 1.5rem;
     height: 1.5rem;
     margin: 0px 0.3125rem;
     background-color: rgba(45, 48, 53, 0.8);
-  }
-
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
   .dTcUpI .gameno-control .time {
     margin-left: 2.25rem;

@@ -81,69 +81,6 @@
     justify-content: space-between;
     padding: 1.5rem 1.875rem;
   }
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
-
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
   .iUeetX {
     width: 100%;
     table-layout: fixed;

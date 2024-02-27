@@ -248,15 +248,7 @@
     height: 2.5rem;
     margin-top: 0.125rem;
 }
-.cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
+
 .ljcTaJ .twofa-alert {
     font-size: 0.75rem;
     line-height: 1.25rem;

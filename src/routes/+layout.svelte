@@ -1,11 +1,38 @@
 <script>
 /** @type {import('./$types').PageLoad} */
 export let data;
-import { routes } from "$lib/store/routes"
-import { handleAuthToken } from "$lib/store/routes"
-import { currencyRates } from "$lib/store/currency"
+import { routes, url } from "$lib/store/routes";
+import { handleAuthToken } from "$lib/store/routes";
+import { goto } from "$app/navigation";
+import { currencyRates } from "$lib/store/currency";
 import { browser } from '$app/environment';
+import { page } from '$app/stores';
 $: routes.set(data)
+$: url.set($page.url.pathname)
+
+$: urlString =  ($page.url.href);
+$: paramString = urlString.split('?')[1];
+$: queryString = new URLSearchParams(paramString);
+$: seaser = []
+$: tab = ""
+$:{
+    seaser = []
+    if(paramString){
+        for (let pair of queryString.entries()) {
+            seaser.push(pair[1])
+        }
+    }
+    tab = seaser[0]
+}
+
+$: console.log(seaser)
+
+$: {
+    if($handleAuthToken && tab === "register" && tab === "login"){
+        goto($url)
+    }
+}
+
 import "../styles/global.css"
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import HiSolidMenu from "svelte-icons-pack/hi/HiSolidMenu";
@@ -36,8 +63,11 @@ import { onMount } from "svelte";
 import Closesidebar from "$lib/closesidebar.svelte";
 import Loader from "$lib/components/loader.svelte";
 import LayoutEl from "$lib/wallet/layout.svelte"
+import Login from "$lib/modals/auth/login/login.svelte";
+import Register from "$lib/modals/auth/register/register.svelte";
+import Profile from "../lib/modals/profile/profile.svelte";
 // import Layout from "../lib/deposit/layout.svelte";
-
+$: is_login = false
 
 let isOpenSide = true
 let isChatRoom = 0
@@ -134,11 +164,24 @@ const handleChatroom = ((e) => {
         }
     }
 })
+
 $: is_deposit = false
-    
 </script>
 
 <div data-theme={$theme} class="app">
+
+{#if paramString && tab === "login"}
+    <Login/>
+{/if}
+
+{#if paramString && tab === "register"}
+    <Register />
+{/if}
+
+{#if paramString && tab === "profile"}
+    <Profile user={seaser[1]}/>
+{/if}
+
 {#if is_deposit}
     <LayoutEl on:close={()=> is_deposit = false} />
 {/if}
@@ -182,7 +225,7 @@ $: is_deposit = false
     
 {#if !$app_Loading}
 <div id="header" class={`sc-gVkuDy gAvMHL ${isOpenSide ? `side-unfold ${isChatRoom ? "right-chat" : ""}` : `side-fold ${isChatRoom ? "right-chat" : ""}`} `}>
-    <Navbar on:close={()=> is_deposit = true} on:handleChatRoom={handleChatroom}  on:handleMenuMobile={()=> isMenu = true }/>
+    <Navbar on:close={()=> is_deposit = true} on:handleChatRoom={handleChatroom} on:login={()=> is_login = true}  on:handleMenuMobile={()=> isMenu = true }/>
 </div>
 {/if}
 

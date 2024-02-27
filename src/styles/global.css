@@ -17,6 +17,17 @@
   );
 }
 
+.blefOg.button {
+  color: var(--text-5);
+  box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
+  background-color: rgb(98, 64, 177);
+  background-image: conic-gradient(
+    from 1turn,
+    #9900CC,
+    rgb(98, 64, 177)
+  );
+}
+
 .eWZHfu.button {
   color: rgb(245, 246, 247);
   box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
@@ -47,10 +58,28 @@
     transform: rotate(-90deg);
     fill: rgb(245, 246, 247);
 }
+
 .fLASqZ svg {
   transition: transform 0.5s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
   cursor: pointer;
   font-size: 0.75rem;
+}
+
+.kQfmQV .tabs-navs .bg {
+  border-radius: 1.125rem;
+  background-image: conic-gradient(
+    from 1turn,
+    #9900CC,
+    rgb(98, 64, 177)
+  );
+  opacity: 0.4;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transition: right 0.2s ease-out 0s, left 0.3s ease-out 0s;
+  transform: translateZ(0px);
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 0.3125rem;
 }
 
 .dialog {
@@ -137,13 +166,26 @@
 .cBmlor {
     display: block;
     width: 100%;
-    border-radius: 6.25rem;
+    border-radius: .5rem;
     height: 3rem;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
   }
 
+  .cBmlor > .button-inner {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+  .cBmlor.button-big {
+    height: 3.625rem;
+  }
 .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
 opacity: 0.5;
 cursor: default;
@@ -194,7 +236,7 @@ cursor: default;
     transform: rotate(60deg);
 }
 .ipnwmW {
-    background-color: var(--primary-color);
+  background: linear-gradient(134.13deg, rgba(127, 30, 191, 0.994683) 19.5%, rgba(191, 30, 175, 0.537129) 45.07%);
 }
 
 .kQfmQV .tabs-nav:hover {

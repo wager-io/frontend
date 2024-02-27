@@ -865,10 +865,6 @@
     align-items: center;
     margin-top: 1.25rem;
   }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
 
   .ggpSWG.hilo-guess-btn {
     display: flex;
@@ -886,25 +882,6 @@
   .ggpSWG {
     flex: 0 0 49%;
     font-size: 0.75rem;
-  }
-
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
   .ggpSWG .hi {
     fill: rgb(248, 217, 39);

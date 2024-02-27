@@ -27,10 +27,12 @@
   import { handleCountdown } from "../../lib/games/ClassicDice/socket/index";
   const { handleChattingMessages } = handleCountdown();
   import { coin_list, default_Wallet } from "$lib/store/coins";
-  import { error_msg } from "$lib/nestedpages/auth/login/store";
+
   import { chats } from "$lib/chat-room/store/index";
   import { ServerURl } from "../backendUrl";
   import Mobile from "./mobile.svelte";
+
+  $: error_msg = ""
 
   let element;
   let newMessages = "";
@@ -85,11 +87,11 @@
         id,
       });
       updateWallet();
-      error_msg.set("Coin grabbed");
+        error_msg  = "Coin grabbed"
     } else {
-      error_msg.set("Vip level 7 can grab coin drops");
+        error_msg  = "Vip level 7 can grab coin drops"
       setTimeout(() => {
-        error_msg.set("");
+          error_msg  = ""
       }, 3000);
     }
   };
@@ -319,10 +321,10 @@
 <div id="mobile-screen">
   <div class="sc-bkkeKt kBjSXI" style="background-color: transparent;">
     <div class="dialog sc-dkqQuH ikQOCU">
-        {#if $error_msg}
+        {#if error_msg}
         <div class="error-message">
           <div class="hTTvsjh">
-            <div>{$error_msg}</div>
+            <div>{error_msg}</div>
           </div>
         </div>
       {/if}

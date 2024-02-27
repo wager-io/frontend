@@ -7,6 +7,6 @@ const id = browser && JSON.parse(localStorage.getItem('user'))
 const preloaed = browser && JSON.parse(localStorage.getItem('preload'))
 /** @type {import('./$types').PageLoad} */
 
-export function load({ route, fetch }) {
+export async function load({ route }) {
   return {route : route.id, token: id , preloaed}
 }

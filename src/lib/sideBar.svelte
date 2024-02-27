@@ -3,6 +3,14 @@ export let routes
 import { goto } from "$app/navigation"
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import FaSolidHeadphones from "svelte-icons-pack/fa/FaSolidHeadphones";
+import AiOutlineHome from "svelte-icons-pack/ai/AiOutlineHome";
+import AiOutlineAliwangwang from "svelte-icons-pack/ai/AiOutlineAliwangwang";
+import FaSolidDice from "svelte-icons-pack/fa/FaSolidDice";
+import AiOutlineCrown from "svelte-icons-pack/ai/AiOutlineCrown";
+import VscLaw from "svelte-icons-pack/vsc/VscLaw";
+import FaSolidStarHalfAlt from "svelte-icons-pack/fa/FaSolidStarHalfAlt";
+import BiTimeFive from "svelte-icons-pack/bi/BiTimeFive";
+
 import Original from "./original.svelte";
 import '../styles/sidebar/sidebar.css'
 import '../styles/sidebar/sidebarmobile.css'
@@ -27,6 +35,7 @@ const handeTheme = ((e) => {
 })
 </script>
 
+
 <div id="main" class="sc-jHkVzv eTxQfM unfold">
     <div class="large-sidebar hidden-scroll-y">
         <div class="sc-uojGG hksQGj">
@@ -35,13 +44,14 @@ const handeTheme = ((e) => {
         </div>
         <button on:click={()=> goto("/")} class={`sc-iNGGcK knLCVT menu-item ${routes.route === "/" ? "select" : ""}`}>
             <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/home.e1cf89b4.png"><span>Home</span>
+                <Icon src={AiOutlineHome}  size="18"  color="rgba(153, 164, 176, 0.8)" />
+                <span>Home</span>
             </div>
         </button>
         <button on:mouseenter={()=> openOriginal(1)} on:mouseleave={()=> openOriginal(0)} class={`sc-iNGGcK sc-eJwWfJ knLCVT beCBEn menu-item ${ routes.route === "/(games)/crash" ||  routes.route === "/(games)/mines" ||
             routes.route === "/(games)/classic-dice" || routes.route === "/(games)/plinko"|| routes.route === "/(games)/tower" || routes.route === "/(games)/hilo" || routes.route === "/(games)/diamonds"  ? "select" : ""}`}>
             <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/originalcasino.bb7966a7.png">
+                <Icon src={FaSolidDice}  size="18"  color="rgba(153, 164, 176, 0.8)" />
                 <span>Wager Originals</span>
             </div>
             <svg class="sc-gsDKAQ hxODWG icon right" fill="none" viewBox="0 0 24 24" height="15" width="15" xmlns="http://www.w3.org/2000/svg">
@@ -53,36 +63,35 @@ const handeTheme = ((e) => {
         </button>
         <button  on:click={()=> goto("/lottery")}  class={`sc-iNGGcK knLCVT menu-item ${ routes.route === "/lottery" ? "select" : ""} `}>
             <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/lottery.bc95b607.png">
+                <Icon src={AiOutlineAliwangwang}  size="18"  color="rgba(153, 164, 176, 0.8)" />
                 <span>Lottery</span>
             </div>
         </button>
         <button  on:click={()=> goto("/vip-games")} class={`sc-iNGGcK knLCVT menu-item special-nav vip ${  routes.route === "/vip-games" ? "select" : ""}`} >
             <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/vipclub.3b37e72c.png">
+                <Icon src={AiOutlineCrown}  size="18"  color="rgba(153, 164, 176, 0.8)" />
                 <span>VIP Club</span>
             </div>
         </button>
         <button on:click={()=> goto("/help/provably-fair")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route === `/help/agreement` || routes.route === `/help/provably-fair` ||
             routes.route === `/help/coinlimit` || routes.route === `/help/contactus` || routes.route === `/help/fee`  || routes.route === `/help/googlecheck`  || routes.route === `/help/faq`  || routes.route === `/help/passcurrency` ||
             routes.route === `/help/privacy` || routes.route === `/help/reglog` || routes.route === `/help/swappolicy` || routes.route === `/help/terms-service`
-            ? "select" : ""}`}>
+            ? "select" : ""}`} >
             <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/fairness.12d49bfb.png">
+                <Icon src={VscLaw}  size="18"  color="rgba(153, 164, 176, 0.8)" />
                 <span>Provably Fair</span>
             </div>
         </button>
         <div class="sc-eGPXGI kCbnNh"></div>
-
         <button on:click={()=> goto("/favourite")}  class={`sc-iNGGcK knLCVT menu-item ${ routes.route === "/favourite" ? "select" : ""}`}>
             <div class="menu-pc">
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/myfavorite.466f0741.png">
+                <Icon src={FaSolidStarHalfAlt}  size="18"  color="rgba(153, 164, 176, 0.8)" />
                 <span>Favorite Games</span>
             </div>
         </button>
         <button on:click={()=> goto("/recent-play")} class={`sc-iNGGcK knLCVT menu-item  ${routes.route === "/recent-play" ? "select" : ""}`}>
             <div class="menu-pc">
-                <img alt="menu-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAARVBMVEUAAACNI+aTK++NJOWNI+eMI+aNJOaNJOacLOqOJ+uOJeeNJOaNJOWNJOaOI+aNJeeOJOaPJOePJ+WNJOiSJO2NI+aMI+Uq+huBAAAAFnRSTlMA2Q/5aee/uQsmUfPFopB9XEA7OBzSytsOlAAAASJJREFUWMPtlsmuwjAMRZM6Ywc6APf/P/XBAtynQOV4AQtytpGOZMe5sWk0Go2Gjm6Zgh0GG6alM3r6QHhCoVdqthGg6NacUl5dJGDcNJ4T4F23q9J54FTfnAiak/lHmgmxq/RY+LMpOHvYOlPE9WJecLki1vXHs8feYJOv6dMG2tWFG7vqCPK7GzGbdyIzYxTPIXx6L0oe0skMcKYQMQ5BePVEXSEqzgUsiOZIZCIWkWiCOxY5TMIWrceiVdgki1yI8p1HZzKsSDQgFaI7z4oThk+KuLRSxKWpmm0f9Nxs1fUzfP2qgWR4IMVPRHlePtrjyoIiRhhFjHCwMZpg46hlVFHL4c8owl/xHWk/yE9/2folQr/W6Bet769+jUaj8dP8AetcFXVRAZgCAAAAAElFTkSuQmCC">
+                <Icon src={BiTimeFive}  size="23"  color="rgba(153, 164, 176, 0.8)" />
                 <span>Recent Play</span>
             </div>
         </button>
@@ -110,7 +119,6 @@ const handeTheme = ((e) => {
                     <p>Currently</p>
                 </div>
             </div> -->
-
             <div class="border_bottom">
                 <div class="live">
                     <div class="support-icon">

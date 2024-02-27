@@ -92,15 +92,7 @@
     background-color: rgb(241, 149, 17);
     background-image: conic-gradient(from 1turn, rgb(241, 149, 17), rgb(246, 199, 34));
 }
-.cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
+
 .emJdUB .wrap .cont .next-time .txt {
     color: rgb(255, 191, 57);
     height: 1.25rem;
@@ -262,19 +254,6 @@
     height: 2.5rem;
 }
 
-.cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-}
-.cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
 .jmLDmK .gameno-control .time {
     margin-left: 2.05rem;
     white-space: nowrap;

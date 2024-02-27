@@ -556,24 +556,6 @@
     background: var(--card-bg-2 );
     margin-left: 1px;
   }
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
   .bswIvI > button:last-child {
     padding-right: 0.125rem;
     border-top-right-radius: 1.125rem;
@@ -672,10 +654,6 @@
     line-height: 1.125rem;
     opacity: 0;
   }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
 
   .jybDrO .layout .error-txt {
     margin: 0.625rem 0px 0px 2rem;
@@ -691,34 +669,6 @@
   .jybDrO .submit-btn {
     width: 17.75rem;
     margin: 1.125rem auto 2.5rem;
-  }
-  .fnKcEH.button {
-    color: var(--text-5);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(67, 179, 9);
-    background-image: conic-gradient(
-      from 1turn,
-      rgb(67, 179, 9),
-      rgb(93, 219, 28)
-    );
-  }
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
   .gwUFaO .select-box {
     margin-top: 1.125rem;
@@ -775,15 +725,6 @@
     margin: 0.25rem 0.1875rem;
   }
 
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
   .gwUFaO .select-box .button.active {
     color: rgb(0, 0, 0);
     background: url(https://static.nanogames.io/assets/ball.161fa8af.png) 0% 0% /
@@ -792,15 +733,6 @@
   .gwUFaO .select-box .button:hover {
     color: rgb(255, 255, 255);
     background-color: rgba(110, 120, 131, 0.5);
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
   .gwUFaO .select-box .jackpot {
     margin-top: 0.6875rem;
@@ -830,42 +762,10 @@
     line-height: 1.125rem;
     opacity: 0;
   }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
 
   .jybDrO .submit-btn {
     width: 17.75rem;
     margin: 1.125rem auto 2.5rem;
-  }
-  .fnKcEH.button {
-    color: var(--text-5);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(67, 179, 9);
-    background-image: conic-gradient(
-      from 1turn,
-      rgb(67, 179, 9),
-      rgb(93, 219, 28)
-    );
-  }
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
   .kyAFkr .input-tickets .fix-layer {
     position: absolute;

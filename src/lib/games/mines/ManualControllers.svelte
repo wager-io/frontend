@@ -697,10 +697,6 @@ const handlesjen = (e) => {
     border-radius: 1.5rem;
     padding: 0px 1.375rem;
 }
-.cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-}
 .ewilmB {
     flex: 1 1 0%;
     height: 100%;

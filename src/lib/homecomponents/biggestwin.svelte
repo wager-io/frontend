@@ -1,5 +1,6 @@
 <script>
-
+  import { goto } from "$app/navigation";
+  
 </script>
 
 <div id="home-bigwin" class="sc-leSONj eFUdWS">
@@ -8,11 +9,11 @@
         <div class="sc-lheXJl flAnOy">
             <div class="info">
                 <div class="tit">WINNER WINNER<br>CHICKEN DINNER</div>
-                <button class="sc-iqseJM sc-hBUSln cBmlor blefOg button button-normal">
+                <button  class="sc-iqseJM sc-hBUSln cBmlor blefOg button button-normal">
                     <div class="button-inner">Play Now</div>
                 </button>
             </div>
-            <img class="bg" alt="bg" src="https://static.nanogames.io/assets/biggest.f6e07fab.png">
+            <img class="bg" alt="bg" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1709038362/NIKE1_33_1_acpj4o.png">
         </div>
         <div class="sc-hWBuOZ civZmU sc-hoHwyw llygwG">
             <img class="winner-img" src="https://static.nanogames.io/assets/topwin.a65b35ca.png" alt="">
@@ -136,21 +137,8 @@
     margin-top: 3.125rem;
     width: 10.125rem;
 }
-.cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-.blefOg.button {
-    color: rgb(245, 246, 247);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(241, 149, 17);
-    background-image: conic-gradient(from 1turn, rgb(241, 149, 17), rgb(246, 199, 34));
-}
+
+
 .flAnOy .bg {
     position: absolute;
     z-index: 0;
@@ -196,12 +184,12 @@
     text-align: center;
 }
 @media screen and (max-width: 1400px){
-   .llygwG .user-number {
-      width: 50%;
-   }
-   .llygwG .top-winner {
-      display: none;
-   }
+.llygwG .user-number {
+    width: 50%;
+}
+.llygwG .top-winner {
+    display: none;
+}
 }
 .llygwG .user-number {
     width: 50%;

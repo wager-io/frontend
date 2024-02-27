@@ -1495,27 +1495,10 @@
     margin: 3.5rem auto;
   }
 
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
   .fOeGco .button-inner {
     flex-direction: column;
   }
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
+
   @media screen and (min-width: 621px) {
     .script-list {
       display: flex;
@@ -1619,11 +1602,6 @@
   .gkwtXR .tip-help {
     color: rgb(67, 179, 9);
     cursor: pointer;
-  }
-
-
-  .cBmlor.button-big {
-    height: 3.625rem;
   }
 
   .qPdve {
@@ -2023,13 +2001,7 @@
     transition: all 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
     background-color: rgb(67, 179, 9);
   }
-  .cBmlor:disabled.sc-iqseJM:not(.is-loading) {
-    opacity: 0.5;
-    cursor: default;
-  }
-  .cBmlor:active.sc-iqseJM:not(:disabled) {
-    transform: scale(0.95);
-  }
+ 
   .dqoGMw .bet-button .button-inner,
   .ifiUVY .bet-button .button-inner {
     flex-direction: column;

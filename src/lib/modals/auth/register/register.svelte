@@ -1,98 +1,116 @@
 <script>
   import { goto } from "$app/navigation";
+  import { handleAuthToken } from "$lib/store/routes"
+  import { default_Wallet, coin_list } from "$lib/store/coins"
+  import { profileStore } from "$lib/store/profile"
   import Icon from "svelte-icons-pack/Icon.svelte";
   import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
-  import RiSystemArrowDropDownLine from "svelte-icons-pack/ri/RiSystemArrowDropDownLine";
   import AiOutlineCheck from "svelte-icons-pack/ai/AiOutlineCheck";
   import RiSystemArrowDropLeftLine from "svelte-icons-pack/ri/RiSystemArrowDropLeftLine";
   import { handleSignIn } from "$lib/firebaseAuth/index";
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
-  import {
-    handleGoogleAuth,
-    handleFacebookAuth,
-  } from "$lib/firebaseAuth/index";
-  import { createEventDispatcher } from "svelte";
-  import { error_msgS, is_loadingS } from "$lib/nestedpages/auth/signup/store";
-  import { isLightMode } from "../../../lib/store/theme";
-  import { screen } from "$lib/store/screen"
-  
-  const dispatch = createEventDispatcher();
-  let isREf = false;
+  import { url } from "$lib/store/routes";
+  import {handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index";
+  import { isLightMode } from "$lib/store/theme";
+  import { screen } from "$lib/store/screen";
+
   let email = "";
   let password = "";
+  let username = ""
   let referral_code = "";
   let aggreement = false;
+  $: is_loading = false
+  $: error = false
 
-  const handleAgreement = () => {
-    if (aggreement) {
-      aggreement = false;
-    } else {
-      aggreement = true;
+const handleAgreement = () => {
+  if (aggreement) {
+    aggreement = false;
+  } else {
+    aggreement = true;
+  }
+};
+
+const handleSubmit = async() => {
+  is_loading = true
+  let responses = await handleSignIn(email, password, username, referral_code);
+  if(responses){
+    is_loading = responses.loading
+    error = responses.error
+    setTimeout(()=>{
+      error = ""
+    },4000)
+    if(responses.responses.response_data){
+      error = responses.responses.error
+      let res = responses.responses.response_data
+      localStorage.setItem("user", JSON.stringify(res.Token));
+      handleAuthToken.set(res.Token)
+      let hisex = res.wallet
+      coin_list.set(hisex)
+      hisex.forEach(element => {
+        if(element.is_active){
+          default_Wallet.set(element)
+        }
+     });
+     profileStore.set(res.result)
+     goto($url)
     }
-  };
+  }
+}
+  
+let is_mobile = false;
+onMount(() => {
+  if (browser && window.innerWidth < 650) {
+    is_mobile = true;
+  } else {
+    is_mobile = false;
+  }
+});
 
-  const googleAuth = () => {
-    handleGoogleAuth();
-  };
+const handleLoginWithGoogle = (async()=>{
+  is_loading = true
+  const respo = await handleGoogleAuth()
+  is_loading = respo.loading
+  error = respo.error
+  setTimeout(()=>{
+    error = ""
+  },4000)
+  if(respo.responses){
+    error = respo.responses.error
+    let respos = respo.responses.response_data
+    localStorage.setItem("user", JSON.stringify(respos.Token));
+    handleAuthToken.set(respos.Token)
+    profileStore.set(respos.result)
+    let hisex = respos.wallet
+      coin_list.set(hisex)
+      hisex.forEach(element => {
+        if(element.is_active){
+          default_Wallet.set(element)
+        }
+     });
+     goto($url)
+  }
+})
 
-  const handleFacebookAuthi = () => {
-    handleFacebookAuth();
-  };
-
-  const handleSubmit = () => {
-    if (!email) {
-      error_msgS.set("email field can't be empty");
-      setInterval(() => {
-        error_msgS.set("");
-      }, 4000);
-    } else if (!password) {
-      error_msgS.set("Password is required");
-      setInterval(() => {
-        error_msgS.set("");
-      }, 4000);
-    } else {
-      handleSignIn(email, password, referral_code);
-    }
-  };
-
-  const handleCancel = () => {
-    // dispatch("close", 3)
-    goto("/");
-  };
-
-  let is_mobile = false;
-  onMount(() => {
-    if (browser && window.innerWidth < 650) {
-      is_mobile = true;
-    } else {
-      is_mobile = false;
-    }
-  });
 </script>
 
 <div class="sc-bkkeKt kBjSXI">
-  {#if $error_msgS}
-    <div class="error-message">
-      <div class="hTTvsjh">
-        <div>{$error_msgS}</div>
-      </div>
+{#if error}
+  <div class="error-message">
+    <div class="hTTvsjh">
+      <div>{error}</div>
     </div>
-  {/if}
+  </div>
+{/if}
 
-  <div class="dialog" style={`${
-        $screen < 650
-        ? "transform: scale(1) translateZ(5px);"
-        : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"
-    }  `}
-  >
+<div class="dialog" style={`${$screen < 650 ? "transform: scale(1) translateZ(5px);"
+        : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
     <div class="dialog-head has-close">
       <img alt="logo" class="sc-bOtlzW QccSQ"
-        src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png"
-      />
+        src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" />
     </div>
     <button
-      on:click={() => handleCancel()}
+      on:click={() => goto($url)}
       class="sc-ieecCq fLASqZ close-icon dialog-close" >
       <Icon
         src={IoCloseSharp}
@@ -122,55 +140,35 @@
             <div class="sc-ezbkAF kDuLvp input">
               <div class="input-label">Email Address</div>
               <div class={$isLightMode ? "light-input-control input-control": "input-control"}>
-                <input
-                  type="text"
-                  bind:value={email}
-                  autocomplete="off"
-                  placeholder="Registered Email Address."
-                />
+                <input type="text" bind:value={email} autocomplete="off" placeholder="Registered Email Address." />
+              </div>
+            </div>
+            <div class="sc-ezbkAF kDuLvp input">
+              <div class="input-label">Username</div>
+              <div class={$isLightMode ? "light-input-control input-control": "input-control"}>
+                <input type="text" bind:value={username} autocomplete="off" placeholder="Create Username" />
               </div>
             </div>
             <div class="sc-ezbkAF kDuLvp input">
               <div class="input-label">Login Password</div>
               <div class={$isLightMode ? "light-input-control input-control": "input-control"}>
-                <input
-                  type="password"
-                  autocomplete="off"
-                  placeholder="Login Password"
-                  bind:value={password}
-                />
+                <input type="password" autocomplete="off" placeholder="Login Password"  bind:value={password} />
               </div>
             </div>
             <!-- {#if  isREf} -->
             <div class="sc-ezbkAF kDuLvp input">
               <div class="input-label">Referral/Promo Code (Optional)</div>
               <div class={$isLightMode ? "light-input-control input-control": "input-control"}>
-                <input
-                  type="text"
-                  bind:value={referral_code}
-                  autocomplete="off"
-                  placeholder="Referral/Promo Code"
-                />
+                <input  type="text"  bind:value={referral_code}  autocomplete="off"placeholder="Referral/Promo Code" />
               </div>
             </div>
           </div>
           <hr />
           <div class="box">
             <div class="argument-check">
-              <button
-                on:click={handleAgreement}
-                class="sc-iJKOTD kdCtGQ checkbox"
-              >
+              <button on:click={handleAgreement} class="sc-iJKOTD kdCtGQ checkbox" >
                 {#if aggreement}
-                  <Icon
-                    src={AiOutlineCheck}
-                    size="16"
-                    color="rgb(67, 179, 9)"
-                    className="dot"
-                    title="arror"
-                  />
-                {:else}
-                  ""
+                  <Icon src={AiOutlineCheck} size="16"color="rgb(67, 179, 9)"className="dot"  title="arror"/>
                 {/if}
               </button>
               <div class="label">
@@ -181,28 +179,18 @@
             </div>
             <div class="buttons">
               <button
-                on:click={() => goto("/login")}
+                on:click={() => goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)}
                 class="sc-iqseJM sc-crHmcD cBmlor gEBngo button button-big signin"
               >
                 <div class="button-inner">
-                  <Icon
-                    src={RiSystemArrowDropLeftLine}
-                    size="25"
-                    color="rgb(255, 255, 255)"
-                    className="custom-icon"
-                    title="arror"
-                  />
+                  <Icon src={RiSystemArrowDropLeftLine} size="25"  color="rgb(255, 255, 255)"className="custom-icon"  title="arror" />
                   <span>Sign in</span>
                 </div>
               </button>
-              <button
-                disabled={!aggreement}
-                on:click={handleSubmit}
-                type="submit"
-                class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big"
-              >
+              <button disabled={!aggreement || !email || !password || !username || is_loading}  
+              on:click={handleSubmit} type="submit"  class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big" >
                 <div class="button-inner">
-                  {#if $is_loadingS}
+                  {#if is_loading}
                     <div class="center">
                       <div class="wave"></div>
                       <div class="wave"></div>
@@ -227,7 +215,7 @@
             <div class="box-title">Log in directly with</div>
             <div class="other-group">
               <button
-                on:click={googleAuth}
+                on:click={()=> handleLoginWithGoogle()}
                 id="gg_login"
                 type="button"
                 title="google"
@@ -239,7 +227,7 @@
                 </svg>
               </button>
               <button
-                on:click={handleFacebookAuthi}
+                on:click={()=> handleFacebookAuth()}
                 id="fb_login"
                 type="button"
                 title="facebook"
@@ -270,29 +258,6 @@
     border: 1px solid rgb(233, 234, 242) !important;
     background-color: rgb(245, 246, 250) !important;
   }
-  .kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.507);
-    filter: none !important;
-  }
-
-  .dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    /* background-color: rgb(23, 24, 27); */
-  }
 
   .dialog-head.has-close {
     margin-right: 3.75rem;
@@ -313,12 +278,6 @@
   img {
     overflow-clip-margin: content-box;
     overflow: clip;
-  }
-
-
-  .fLASqZ:hover {
-    transition: 0.5s ease-in-out;
-    transform: rotate(60deg);
   }
 
   .ipnwmW.dialog-body {
@@ -350,10 +309,6 @@
     position: absolute;
     right: 0px;
     top: -1.875rem;
-  }
-
-  .dialog-body > div {
-    flex: 1 1 0%;
   }
 
   .kDuLvp {
@@ -393,25 +348,6 @@
     opacity: 1;
   }
 
-  .kDuLvp .input-control input {
-    flex: 1 1 0%;
-    width: 100%;
-    height: 100%;
-    min-width: 1rem;
-    padding: 0px;
-    border: none;
-    background-color: transparent;
-    outline: none;
-    color: rgb(245, 246, 247);
-  }
-
-  .iajVfs .box-title {
-    text-align: center;
-    width: 100%;
-    line-height: 1;
-    margin-bottom: 0.875rem;
-    color: rgba(153, 164, 176, 0.6);
-  }
 
   .iajVfs {
     padding: 1rem 2.5rem 1.25rem;
@@ -572,9 +508,7 @@
 
 
 
-  .cBmlor.button-big {
-    height: 3.625rem;
-  }
+ 
 
   .cfNMkN .buttons .button:last-of-type {
     width: 15rem;
@@ -582,19 +516,6 @@
     margin-left: 0.625rem;
   }
 
-  .cBmlor.button-big {
-    height: 3.625rem;
-  }
-
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
 
   .cfNMkN .signin {
     color: rgb(245, 246, 247);
@@ -602,24 +523,6 @@
   }
 
   /* ======================================================= mobile ========================================= */
-
-
-
-  .dialog-head.has-close {
-    margin-right: 3.75rem;
-  }
-
-  .dialog-head {
-    position: relative;
-    z-index: 10;
-    flex: 0 0 auto;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 3.75rem;
-    margin-left: 1.125rem;
-    transition: all 0.5s ease 0s;
-  }
 
 
   .dA-dCPD .welcome .msg1 {
@@ -674,25 +577,12 @@
   }
 
 
-  .cBmlor.button-big {
-    height: 3.625rem;
-  }
-
   .jBwyNM .buttons .button:first-of-type {
     width: 11rem;
     flex: 0 0 auto;
     margin-right: 0.625rem;
   }
 
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
 
   .kDuLvp .input-label {
     display: flex;
@@ -717,16 +607,6 @@
     opacity: 1;
   }
 
-  .kDuLvp .input-control input {
-    flex: 1 1 0%;
-    width: 100%;
-    height: 100%;
-    min-width: 1rem;
-    padding: 0px;
-    border: none;
-    background-color: transparent;
-    color: rgb(245, 246, 247);
-  }
 
   .gEBngo.button {
     color: rgb(245, 246, 247);

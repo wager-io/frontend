@@ -9,3 +9,6 @@ export let current_route = writable(current_routeEl)
 
 let nested_current_routeEl = ""
 export let nested_current_route = writable(nested_current_routeEl)
+
+let _url = ""
+export let url = writable(_url)

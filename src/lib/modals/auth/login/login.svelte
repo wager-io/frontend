@@ -1,71 +1,60 @@
 <script>
-  import { goto } from "$app/navigation";
-  import AiFillEye from "svelte-icons-pack/ai/AiFillEye";
-  import Icon from "svelte-icons-pack/Icon.svelte";
-  import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
-  import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
-  import { handleLogin } from "$lib/firebaseAuth/index";
-  import {
-    handleGoogleAuth,
-    handleFacebookAuth,
-  } from "$lib/firebaseAuth/index";
-  import { createEventDispatcher } from "svelte";
-  import { browser } from "$app/environment";
-  import { onMount } from "svelte";
-  import { current_route } from "$lib/store/routes";
-  import { error_msgS, is_loadingS } from "$lib/nestedpages/auth/signup/store";
-  import Forget from "../forget/+page.svelte";
-  import { isLightMode } from "../../../lib/store/theme";
-  import { screen } from "$lib/store/screen"
-  const dispatch = createEventDispatcher();
-  let email = "";
-  let password = "";
-  const googleAuth = () => {
-    handleGoogleAuth();
-  };
+import { goto } from "$app/navigation";
+import AiFillEye from "svelte-icons-pack/ai/AiFillEye";
+import Icon from "svelte-icons-pack/Icon.svelte";
+import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
+import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
+import { handleLogin } from "$lib/firebaseAuth/index";
+import { handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index";
+import { browser } from "$app/environment";
+import { handleAuthToken } from "$lib/store/routes"
+import { profileStore } from "$lib/store/profile"
+import { default_Wallet, coin_list } from "$lib/store/coins"
+import { onMount } from "svelte";
+import { current_route, url } from "$lib/store/routes";
+// import Forget from "../forget/+page.svelte";
+import { isLightMode } from "$lib/store/theme";
+import { screen } from "$lib/store/screen";
 
-  const handleFacebookAuthi = () => {
-    handleFacebookAuth();
-  };
+let email = "";
+let password = "";
+$: is_loading = false
+$: errors = ''
 
-  const handleSubmit = () => {
-    if (!email) {
-      error_msgS.set("email field can't be empty");
-      setTimeout(() => {
-        error_msgS.set(false);
-      }, 4000);
-    } else if (!password) {
-      error_msgS.set("Password is required");
-      setTimeout(() => {
-        error_msgS.set(false);
-      }, 4000);
-    } else {
-      handleLogin(email, password);
-    }
-  };
+const handleSubmit = async() => { 
+  is_loading = true
+  const respo = await handleLogin(email, password);
+  is_loading = respo.loading
+  errors = respo.error
+  setTimeout(()=>{
+    errors = ""
+  },4000)
+  if(respo.responses){
+    errors = respo.responses.error
+    let respos = respo.responses.response_data
+    localStorage.setItem("user", JSON.stringify(respos.Token));
+    handleAuthToken.set(respos.Token)
+    profileStore.set(respos.result)
+    let hisex = respos.wallet
+      coin_list.set(hisex)
+      hisex.forEach(element => {
+        if(element.is_active){
+          default_Wallet.set(element)
+        }
+     });
+     goto($url)
+  }
 
-  const handleCancel = () => {
-    // dispatch("close", 3)
-    goto("/");
-  };
+};
 
-  let is_mobile = false;
-  onMount(() => {
-    if (browser && window.innerWidth < 650) {
-      is_mobile = true;
-    } else {
-      is_mobile = false;
-    }
-  });
-
-  // $:{
-  //     const currentPath = browser && window.location.pathname;
-  //     if(currentPath === "/forget"){
-  //         is_forget_password = true
-  //     }else if( currentPath === "/login"){
-  //         is_forget_password = false
-  //     }
-  // }
+let is_mobile = false;
+onMount(() => {
+  if (browser && window.innerWidth < 650) {
+    is_mobile = true;
+  } else {
+    is_mobile = false;
+  }
+});
 
   let is_forget_password = false;
   const handleForgetPassword = () => {
@@ -79,22 +68,44 @@
       window.history.replaceState(null, "forget", "/forget");
     }
   };
-</script>
 
+
+const handleLoginWithGoogle = (async()=>{
+  is_loading = true
+  const respo = await handleGoogleAuth()
+  is_loading = respo.loading
+  errors = respo.error
+  setTimeout(()=>{
+    errors = ""
+  },4000)
+  if(respo.responses){
+    errors = respo.responses.error
+    let respos = respo.responses.response_data
+    localStorage.setItem("user", JSON.stringify(respos.Token));
+    handleAuthToken.set(respos.Token)
+    profileStore.set(respos.result)
+    let hisex = respos.wallet
+      coin_list.set(hisex)
+      hisex.forEach(element => {
+        if(element.is_active){
+          default_Wallet.set(element)
+        }
+     });
+     goto($url)
+  }
+})
+
+</script>
 <div class="sc-bkkeKt kBjSXI">
-  {#if $error_msgS}
+  {#if errors}
     <div class="error-message">
       <div class="hTTvsjh">
-        <div>{$error_msgS}</div>
+        <div>{errors}</div>
       </div>
     </div>
   {/if}
 
-  <div
-    class="dialog"
-    style={`${
-    $screen < 650
-        ? "transform: scale(1) translateZ(5px);"
+<div class="dialog" style={`${$screen < 650 ? "transform: scale(1) translateZ(5px);"
         : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"
     }  `}
   >
@@ -105,15 +116,8 @@
         src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png"
       />
     </div>
-
-    <button
-      on:click={() => handleCancel()}
-      class="sc-ieecCq fLASqZ close-icon dialog-close"
-    >
-      <Icon
-        src={IoCloseSharp}
-        size="18"
-        color="rgb(255, 255, 255)"
+    <button on:click={() => goto($url)} class="sc-ieecCq fLASqZ close-icon dialog-close">
+      <Icon src={IoCloseSharp} size="18" color="rgb(255, 255, 255)"
         className="custom-icon"
         title="arror"
       />
@@ -142,11 +146,7 @@
                 <div class="input-label">Email Address</div>
                 <div class={$isLightMode ? "light-input-control input-control": "input-control"}>
                   <input
-                    bind:value={email}
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Email"
-                  />
+                    bind:value={email} type="text" autocomplete="off"  placeholder="Email" />
                 </div>
               </div>
               <div class="sc-ezbkAF kDuLvp input sc-bYoBSM ixxYMF">
@@ -175,13 +175,13 @@
             <hr />
             <div class="buttons">
               <button
-                disabled={$is_loadingS}
+                disabled={is_loading || !email || !password}
                 type="submit"
                 on:click={handleSubmit}
                 class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-big"
               >
                 <div class="button-inner">
-                  {#if $is_loadingS}
+                  {#if is_loading}
                     <div class="center">
                       <div class="wave"></div>
                       <div class="wave"></div>
@@ -200,18 +200,13 @@
                 </div>
               </button>
               <button
-                on:click={() => goto("/register")}
+                on:click={() => goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)}
                 class="sc-iqseJM sc-crHmcD cBmlor gEBngo button button-big signup"
               >
                 <div class="button-inner">
                   <span>Sign up</span>
-                  <Icon
-                    src={RiSystemArrowRightSLine}
-                    size="18"
-                    color=" rgb(245, 246, 247)"
-                    className="sc-gsDKAQ hxODWG icon"
-                    title="arror"
-                  />
+                  <Icon src={RiSystemArrowRightSLine} size="18"
+                    color=" rgb(245, 246, 247)" className="sc-gsDKAQ hxODWG icon" title="arror"  />
                 </div>
               </button>
             </div>
@@ -221,7 +216,7 @@
             <div class="box-title">Log in directly with</div>
             <div class="other-group">
               <button
-                on:click={googleAuth}
+                on:click={()=> handleLoginWithGoogle()}
                 id="gg_login"
                 type="button"
                 title="google"
@@ -237,7 +232,7 @@
               </button>
 
               <button
-                on:click={handleFacebookAuthi}
+                on:click={()=> handleFacebookAuth()}
                 id="fb_login"
                 type="button"
                 title="facebook"
@@ -259,7 +254,7 @@
         </div>
       </div>
     {:else}
-      <Forget on:close={handleForgetPassword} on:cancel={handleCancel} />
+      <!-- <Forget on:close={handleForgetPassword} on:cancel={handleCancel} /> -->
     {/if}
   </div>
 </div>
@@ -488,24 +483,6 @@
     margin-right: 0.625rem;
   }
 
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-
-  .cBmlor.button-big {
-    height: 3.625rem;
-  }
-
-  .cBmlor.button-big {
-    height: 3.625rem;
-  }
-
   .lnrkkr .signup {
     color: rgb(245, 246, 247);
     background-color: rgb(49, 52, 60);
@@ -667,33 +644,11 @@
     outline: none;
   }
 
-  .cBmlor {
-    display: block;
-    width: 100%;
-    border-radius: 6.25rem;
-    height: 3rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-  }
-  .cBmlor.button-big {
-    height: 3.625rem;
-  }
 
   .jBwyNM .buttons .button:first-of-type {
     width: 11rem;
     flex: 0 0 auto;
     margin-right: 0.625rem;
-  }
-
-  .cBmlor > .button-inner {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
 
   @media screen and (min-width: 650px) {

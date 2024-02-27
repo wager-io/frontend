@@ -1,81 +1,76 @@
 <script>
-    import Icon from "svelte-icons-pack/Icon.svelte";
-    import IoDice from "svelte-icons-pack/io/IoDice";
-    import IoRocket from "svelte-icons-pack/io/IoRocket";
-    import BiBomb from "svelte-icons-pack/bi/BiBomb";
-    import { routes } from "../lib/store/routes";
-    import { createEventDispatcher } from "svelte";
-    import BsDice5 from "svelte-icons-pack/bs/BsDice5";
-    export let styls;
-    let dispatch = createEventDispatcher();
-    import { goto } from "$app/navigation";
-    let games;
-    $: {
-      games = [
-        {
-          id: 1,
-          name: "Crash",
-          icon: `#icon_Crash`,
-          route: "crash",
-          isAtive: $routes.route === "/(games)/crash",
-        },
-        {
-          id: 2,
-          name: "Classic Dice",
-          icon: `#icon_ClassicDice`,
-          route: "classic-dice",
-          isAtive: $routes.route === "/(games)/classic-dice",
-        },
-        // {
-        //   id: 3,
-        //   name: "Plinko",
-        //   icon: IoDice,
-        //   route: "plinko",
-        //   isAtive: $routes.route === "/(games)/plinko",
-        // },
-        // {
-        //   id: 4,
-        //   name: "Tower",
-        //   icon: IoDice,
-        //   route: "tower",
-        //   isAtive: $routes.route === "/(games)/tower",
-        // },
-        {
-          id: 5,
-          name: "HiLo",
-          icon: `#icon_Plinko`,
-          route: "hilo",
-          isAtive: $routes.route === "/(games)/hilo",
-        },
-        // {
-        //   id: 6,
-        //   name: "Diamonds",
-        //   icon: IoDice,
-        //   route: "diamonds",
-        //   isAtive: $routes.route === "/(games)/diamonds",
-        // },
-        {
-          id: 7,
-          name: "Mines",
-          icon: `#icon_Mines`,
-          route: "mines",
-          isAtive: $routes.route === "/(games)/mines",
-        },
-        // {
-        //   id: 8,
-        //   name: "Keno",
-        //   icon: IoDice,
-        //   route: "keno",
-        //   isAtive: $routes.route === "/(games)/keno",
-        // },
-      ];
-    }
-  
-    const handleOriginalRoute = (e, i) => {
-      goto(e);
-      dispatch("bc", i);
-    };
-  </script>
+  import { routes } from "../lib/store/routes";
+  import { createEventDispatcher } from "svelte";
+  export let styls;
+  let dispatch = createEventDispatcher();
+  import { goto } from "$app/navigation";
+  let games;
+  $: {
+    games = [
+      {
+        id: 1,
+        name: "Crash",
+        icon: `#icon_Crash`,
+        route: "crash",
+        isAtive: $routes.route === "/(games)/crash",
+      },
+      {
+        id: 2,
+        name: "Classic Dice",
+        icon: `#icon_ClassicDice`,
+        route: "classic-dice",
+        isAtive: $routes.route === "/(games)/classic-dice",
+      },
+      // {
+      //   id: 3,
+      //   name: "Plinko",
+      //   icon: IoDice,
+      //   route: "plinko",
+      //   isAtive: $routes.route === "/(games)/plinko",
+      // },
+      // {
+      //   id: 4,
+      //   name: "Tower",
+      //   icon: IoDice,
+      //   route: "tower",
+      //   isAtive: $routes.route === "/(games)/tower",
+      // },
+      {
+        id: 5,
+        name: "HiLo",
+        icon: `#icon_Plinko`,
+        route: "hilo",
+        isAtive: $routes.route === "/(games)/hilo",
+      },
+      // {
+      //   id: 6,
+      //   name: "Diamonds",
+      //   icon: IoDice,
+      //   route: "diamonds",
+      //   isAtive: $routes.route === "/(games)/diamonds",
+      // },
+      {
+        id: 7,
+        name: "Mines",
+        icon: `#icon_Mines`,
+        route: "mines",
+        isAtive: $routes.route === "/(games)/mines",
+      },
+      // {
+      //   id: 8,
+      //   name: "Keno",
+      //   icon: IoDice,
+      //   route: "keno",
+      //   isAtive: $routes.route === "/(games)/keno",
+      // },
+    ];
+  }
+
+  const handleOriginalRoute = (e, i) => {
+    goto(e);
+    dispatch("bc", i);
+  };
+</script>
   
   <div class="orginal-game-routes" style={`left: ${styls ? 240 : 76}px;`}>
     <div class="orginal-game-routes-container">

@@ -539,37 +539,10 @@
 		text-decoration: underline;
 		color: var(--primary-color);
 	}
-	.cBmlor {
-		display: block;
-		width: 100%;
-		border-radius: 6.25rem;
-		height: 3rem;
-		font-weight: bold;
-		cursor: pointer;
-		transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-	}
+
 	.fWAvBM .copy-button {
 		width: 2.5rem;
 		height: 2.5rem;
 		margin-right: -1.25rem;
-	}
-
-	.cBmlor {
-		display: block;
-		width: 100%;
-		border-radius: 6.25rem;
-		height: 3rem;
-		font-weight: bold;
-		cursor: pointer;
-		transition: transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;
-	}
-	.cBmlor > .button-inner {
-		display: flex;
-		-webkit-box-align: center;
-		align-items: center;
-		-webkit-box-pack: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
 	}
 </style>

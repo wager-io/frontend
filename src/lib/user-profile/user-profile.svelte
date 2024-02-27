@@ -1,12 +1,9 @@
 <script>
-import {
-    users_profile
-} from "$lib/store/profile"
-    import EditAvatar from "./edit_avatar.svelte";
+import { users_profile } from "$lib/store/profile"
+import EditAvatar from "./edit_avatar.svelte";
 
 let profile_pic = $users_profile.profile_image
 let username = $users_profile.username
-
 
 let edit_avatar = false
 const handleSubmit = (()=>{

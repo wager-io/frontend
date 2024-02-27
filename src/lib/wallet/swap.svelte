@@ -1,20 +1,11 @@
 <script>
+export let sender
+export let reciever
 import { createEventDispatcher } from "svelte";
-import { coin_list } from "$lib/store/coins"
 const dispatch = createEventDispatcher()
-let reciever = ""
-let sender = ""
 
-$coin_list.forEach(element => {
-    if(element.coin_name === "BTC"){
-        sender = element
-    }
-    else if(element.coin_name === "WGD"){
-        reciever = element
-    }
-});
-
-
+let sender_amount = 0
+let receiver_amount = 0
 
 </script>
 
@@ -39,9 +30,9 @@ $coin_list.forEach(element => {
                             </div>
                         </div>
                         <div class="input-control">
-                            <input type="text" value="0">
-                            <button>Max</button>
-                            <button on:click={()=> dispatch("show")} style="background: none;" class="sc-kHOZwM lkOmCH">
+                            <input type="number" placeholder="Enter amount" bind:value={sender_amount}>
+                            <button on:click={()=> sender_amount = sender.balance}>Max</button>
+                            <button on:click={()=> dispatch("senderControl")} style="background: none;" class="sc-kHOZwM lkOmCH">
                                 <img class="coin-icon" alt="" src={sender.coin_image}>
                                 <span class="currency">{sender.coin_name}</span>
                                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -50,9 +41,9 @@ $coin_list.forEach(element => {
                             </button>
                         </div>
                     </div>
-                    <div class="sc-ywFzA UsBMq">1 BTC ≈ 44434.2837 NND</div>
+                    <div class="sc-ywFzA UsBMq">1   {sender.coin_name} ≈ 44434.2837 {reciever.coin_name}</div>
                     <div class="icon-exchange">
-                        <button>
+                        <button on:click={()=> [sender, reciever] = [reciever, sender]}>
                             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                                 <use xlink:href="#icon_Arrow"></use>
                             </svg>
@@ -68,14 +59,14 @@ $coin_list.forEach(element => {
                             <a href="/transactions/bill/BCD/Swap">Record</a>
                         </div>
                         <div class="input-control">
-                            <input type="text" value="0">
-                            <div class="sc-kHOZwM lkOmCH">
+                            <input type="number" placeholder="Enter amount" bind:value={receiver_amount}>
+                            <button on:click={()=> dispatch("receiverControl")} style="background: none;" class="sc-kHOZwM lkOmCH">
                                 <img class="coin-icon" alt="" src="{reciever.coin_image}">
                                 <span class="currency">{reciever.coin_name}</span>
                                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                                     <use xlink:href="#icon_Arrow"></use>
                                 </svg>
-                            </div>
+                            </button>
                         </div>
                     </div>
                     <div class="tips">
@@ -84,7 +75,7 @@ $coin_list.forEach(element => {
                         </div>
                         <div class="item">Swap fee: 
                             <span>0.00000000</span> 
-                            BTC
+                            {sender.coin_name}
                         </div>
                     </div>
                     <button class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal sub-btn" disabled="">

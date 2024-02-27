@@ -1,35 +1,66 @@
 <script>
 import { createEventDispatcher } from "svelte";
-import { default_Wallet } from "$lib/store/coins"
+import { default_Wallet } from "$lib/store/coins";
 import Coins from "./coins.svelte";
 import Deposit from "./deposit.svelte";
 import Swap from "./swap.svelte";
 import Vault from "./vault.svelte";
 import Withdraw from "./withdraw.svelte";
 import { screen } from "$lib/store/screen";
+import FromCoins from "./swapControllers/fromCoins.svelte";
+import { coin_list } from "$lib/store/coins";
+import ToCoins from "./swapControllers/toCoins.svelte";
+let reciever = ""
+let sender = ""
+$coin_list.forEach(element => {
+    if(element.coin_name === "BTC"){
+        sender = element
+    }
+    else if(element.coin_name === "WGD"){
+        reciever = element    
+    }
+});
 
 $: active_coin = $default_Wallet
 $: show_coins = false
+$: show_sender = false
+$: show_receiver = false
 $: active_tab = "deposit"
 const dispatch = createEventDispatcher()
 const handleCoinSelect = ((event)=>{
    active_coin = event.detail
    show_coins = false
 })
+const handleSetBack = (()=>{
+   show_coins = false
+   show_sender = false
+   show_receiver = false
+})
+
+const handleSwapCoinSelect = ((event)=>{
+   sender = event.detail
+   show_sender = false
+})
+
+const handleSwapCoinSelectW = ((event)=>{
+   reciever = event.detail
+   show_receiver = false
+})
+
 
 </script>
 
 
 <div class="sc-bkkeKt kBjSXI" style="opacity: 1;">
    <div class="dialog " style=" { $screen >  650 ? "opacity: 1; width: 464px; height: 620px; margin-top: -310px; margin-left: -232px; transform: scale(1) translateZ(0px)" : "transform: scale(1) translateZ(0px)"};">
-      <button on:click={()=> show_coins = false} class="dialog-back" style="opacity: 1; transform: none;">
+      <button on:click={()=> handleSetBack()} class="dialog-back" style="opacity: 1; transform: none;">
          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
             <use xlink:href="#icon_Arrow"></use>
          </svg>
       </button>
-      <div class="dialog-head {show_coins ? "has-back": "has-close"}">
+      <div class="dialog-head {show_coins || show_sender || show_receiver ? "has-back": "has-close"}">
          <div class="dialog-title">{show_coins ? "Choose Coin" : "Wallet" }</div>
-         {#if !show_coins}
+         {#if !show_coins && !show_sender && !show_receiver}
          <div class="sc-jSYIrd fktpVO">
             <button>
                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -47,6 +78,10 @@ const handleCoinSelect = ((event)=>{
       </button>
       {#if show_coins}
          <Coins on:select={handleCoinSelect}/>
+      {:else if show_sender}
+         <FromCoins reciever={reciever} on:select={handleSwapCoinSelect}/>
+      {:else if show_receiver}
+         <ToCoins sender={sender} on:select={handleSwapCoinSelectW}/>
       {:else}
          <div class="dialog-body no-style " style="z-index: 2; transform: none;">
             <div id="wallet" class="sc-kMyqmI hioXRL">
@@ -81,7 +116,7 @@ const handleCoinSelect = ((event)=>{
                {:else if active_tab === "withdraw"}
                   <Withdraw active_coin={active_coin} on:show={()=> show_coins = true}/>
                {:else if active_tab === "swap"}
-                  <Swap on:show={()=> show_coins = true}/>
+                  <Swap on:senderControl={()=> show_sender = true} on:receiverControl={()=> show_receiver = true}  reciever={reciever} sender={sender}/>
                {:else}
                   <Vault />
                {/if}

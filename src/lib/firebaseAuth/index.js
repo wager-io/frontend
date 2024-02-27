@@ -1,21 +1,13 @@
 import firebase from "firebase/compat/app";
 import "firebase/firestore";
-import { browser } from '$app/environment';
 import { initializeApp } from "firebase/app";
 import {  goto } from "$app/navigation"
-import { useLogin } from "../hook/useLogin";
-import { useProfile } from "../hook/useProfile";
 import { getFirestore } from "firebase/firestore";
 import { useRegister } from "./createUser";
-import { fbUseLogin } from "./fbSignup";
 import {handleisLoggin, profileStore} from "../store/profile"
 import { firebaseConfiguration } from "./firebaseConfig";
-import { error_msg, is_loading} from "../../lib/nestedpages/auth/login/store"
-import {  error_msgS, is_loadingS } from "$lib/nestedpages/auth/signup/store"
-const { register } = useRegister()
-const { createProfile } = useProfile()
-const { login } = useLogin()
-const { fblogin } = fbUseLogin()
+import { handleCheckUsername } from "./usernameHook"
+
 
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider,
 signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -23,59 +15,74 @@ const firebaseConfig = firebaseConfiguration()
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
-export const handleSignIn = (async (email, password, reff)=>{
-    is_loadingS.set(true)
-    const auth = getAuth(app);
-    await createUserWithEmailAndPassword(auth, email, password)
-    .then((res)=>{
-        register({...res, reff})
-    })
-    .catch((err)=>{
-        error_msgS.set(err.code.slice(5))
-            console.log(err.code.slice(5))
-        setInterval(()=>{
-            error_msgS.set('')
-        },4000)
-        is_loadingS.set(false)
-    })
+export const handleSignIn = (async (email, password,username, reff)=>{
+    let responses = ""
+    let loading = true
+    let error = ""
+    let  { response, error_message } =  await handleCheckUsername(username)
+    if(error_message){
+        error = "Something went wrong"
+        loading = false
+    }
+    else if(response.length > 0){
+        error = "Username already exist"
+        loading = false
+    }else{
+        const auth = getAuth(app);
+        await createUserWithEmailAndPassword(auth, email, password)
+        .then(async(res)=>{
+         responses = await useRegister({...res,username, reff})
+          loading = false
+        })
+        .catch((err)=>{
+            loading = false
+            error = err.code.slice(5)
+        })
+    }
+    return {responses, loading, error}
  })
 
 
  export const handleLogin = (async (email, password)=>{
-    is_loadingS.set(true)
+    let responses = ""
+    let loading = true
+    let error = ""
     const auth = getAuth(app);
-   await signInWithEmailAndPassword(auth, email, password)
-   .then((res)=>{
-     login(res)
-     is_loadingS.set(false)
-   })
-   .catch((err)=>{
-    error_msgS.set(err.code.slice(5))
-    setInterval(()=>{
-        error_msgS.set('')
-    },4000)
-    is_loadingS.set(false)
-   })
- })
-
- export const handleGoogleAuth = (()=>{
-    const auth = getAuth(app);
-    signInWithPopup(auth, new GoogleAuthProvider())
-    .then((res)=>{
-        fblogin(res)
-       })
-       .catch((err)=>{
-        alert(err.code)
+    await signInWithEmailAndPassword(auth, email, password)
+    .then(async(res)=>{
+        responses = await useRegister(res)
+        loading = false
     })
- })
+    .catch((err)=>{
+        error = err.code.slice(5)
+        loading = false
+    })
+return { responses, loading, error }
+})
+
+
+export const handleGoogleAuth = (async()=>{
+let responses = ""
+let loading = true
+let error = ""
+const auth = getAuth(app);
+await signInWithPopup(auth, new GoogleAuthProvider())
+    .then(async(res)=>{
+        responses = await useRegister(res)
+        loading = false
+    })
+    .catch((err)=>{
+        error = err.code.slice(5)
+        loading = false
+    })
+    return { responses, loading, error }
+})
 
  export const handleFacebookAuth = (()=>{
     const auth = getAuth(app);
     signInWithPopup(auth, new FacebookAuthProvider())
     .then((res)=>{
         goto("/")
-        login(res)
-        createProfile(res)
        })
        .catch((err)=>{
         alert(err.code)
