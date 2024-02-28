@@ -1,4 +1,5 @@
 <script>
+import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import { handleListGame } from "./hook"
 let gameList = handleListGame()
 
@@ -10,7 +11,7 @@ let gameList = handleListGame()
             <div class="cont-txt ">WAGER <b>IN-HOUSE</b><br>GAMES</div>
         </div>
     </div>
-    <div class="sc-bjeSbO cFDYcT grid-list">
+    <div class="sc-bjeSbO {$screen > 1150 ? "cFDYcT" : $screen < 1500 && $screen > 800 ? "rstYUU" : $screen < 800 && $screen > 650 ? "DhwuIwuu" : "YwiLNS"}  grid-list">
         {#each gameList as game }
         <div class="sc-gfqkcP epfPPG bot-view {game.super ? " super-block" : ""}  game-crash">
             <a class="sc-hKTqa dbJiKC game-item-wrap " href="/{game.url}">
@@ -107,6 +108,24 @@ let gameList = handleListGame()
 .cFDYcT {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    grid-auto-flow: dense;
+    gap: 1.5rem 0.9375rem;
+}
+.rstYUU {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-flow: dense;
+    gap: 1.5rem 0.9375rem;
+}
+.DhwuIwuu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: dense;
+    gap: 1.5rem 0.9375rem;
+}
+.YwiLNS {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     grid-auto-flow: dense;
     gap: 1.5rem 0.9375rem;
 }

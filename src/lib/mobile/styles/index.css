@@ -57,7 +57,6 @@
         text-align: center;
         flex: 1 1 0%;
     }
-
     .beBixG .nav-item {
         margin-top: 2rem;
         display: flex;
@@ -73,7 +72,7 @@
         height: 2.5rem;
     }
     .beBixG .nav-item .nav-right {
-        margin-left: 0rem;
+        margin-left: .3rem;
         font-size: 14px;
     }
     .beBixG .nav-item .open-icon {
@@ -88,7 +87,6 @@
         animation-name: originals;
         animation-duration: 0.5s;
     }
-    
     @keyframes originals {
         0% {
             transform: translate3d(0px, 50%, 0px);

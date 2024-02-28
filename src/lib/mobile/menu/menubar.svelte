@@ -6,7 +6,15 @@ import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
 import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
 import Games from '../components/games.svelte';
 import { createEventDispatcher } from 'svelte'
-import AiFillGift from "svelte-icons-pack/ai/AiFillGift";
+
+import AiOutlineHome from "svelte-icons-pack/ai/AiOutlineHome";
+import AiOutlineAliwangwang from "svelte-icons-pack/ai/AiOutlineAliwangwang";
+import FaSolidDice from "svelte-icons-pack/fa/FaSolidDice";
+import AiOutlineCrown from "svelte-icons-pack/ai/AiOutlineCrown";
+import VscLaw from "svelte-icons-pack/vsc/VscLaw";
+import FaSolidStarHalfAlt from "svelte-icons-pack/fa/FaSolidStarHalfAlt";
+import BiTimeFive from "svelte-icons-pack/bi/BiTimeFive";
+
 
 const dispatch = createEventDispatcher()
 
@@ -47,12 +55,12 @@ const handleNavigation = ((e) => {
             </div>
         </div>
         <button on:click={()=>handleNavigation("/")} class="nav-item"> 
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/home.e1cf89b4.png">
-                <div class="nav-right">Home</div>
+            <Icon src={AiOutlineHome}  size="18"  color="rgba(153, 164, 176, 0.8)" />
+            <div class="nav-right">Home</div>
         </button>
 
         <button class="nav-item" on:click={handleOriginals}>
-                <img alt="menu-icon" src="https://static.nanogames.io/assets/originalcasino.bb7966a7.png">
+                <Icon src={FaSolidDice}  size="18"  color="rgba(153, 164, 176, 0.8)" />
                 <div class="nav-right">Wager Originals</div>
                 <Icon src={RiSystemArrowRightSLine} color="rgba(153, 164, 176, 0.6)" size="27" className="sc-gsDKAQ hxODWG icon open-icon open" title="Custom icon params" />
         </button>
@@ -62,26 +70,26 @@ const handleNavigation = ((e) => {
             <Games on:dipla={handleGames} />
         {/if}
         <button on:click={()=>handleNavigation("/lottery")}  class="nav-item">
-            <img alt="menu-icon" src="https://static.nanogames.io/assets/lottery.bc95b607.png">
+            <Icon src={AiOutlineAliwangwang}  size="18"  color="rgba(153, 164, 176, 0.8)" />
             <div class="nav-right">Lottery</div>
         </button>
         <button on:click={()=>handleNavigation("/vip-games")} class="nav-item special-nav vip">
-            <img alt="menu-icon" src="https://static.nanogames.io/assets/vipclub.3b37e72c.png">
+            <Icon src={AiOutlineCrown}  size="18"  color="rgba(153, 164, 176, 0.8)" />
             <div class="nav-right">VIP Club</div>
         </button>
 
         <button on:click={()=>handleNavigation("/help/provably-fair")} class="nav-item">
-            <img alt="menu-icon" src="https://static.nanogames.io/assets/fairness.12d49bfb.png">
+            <Icon src={VscLaw}  size="18"  color="rgba(153, 164, 176, 0.8)" />
             <div class="nav-right">Provably Fair</div>
         </button>
         <div  class="sc-eGPXGI kCbnNh"></div>
         <button on:click={()=>handleNavigation("/favourite")} class="nav-item">
-            <img alt="menu-icon" src="https://static.nanogames.io/assets/myfavorite.466f0741.png">
+            <Icon src={FaSolidStarHalfAlt}  size="18"  color="rgba(153, 164, 176, 0.8)" />
             <div class="nav-right">Favorite Games</div>
         </button>
 
         <button on:click={()=>handleNavigation("/recent-play")} class="nav-item">
-            <img alt="menu-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAARVBMVEUAAACNI+aTK++NJOWNI+eMI+aNJOaNJOacLOqOJ+uOJeeNJOaNJOWNJOaOI+aNJeeOJOaPJOePJ+WNJOiSJO2NI+aMI+Uq+huBAAAAFnRSTlMA2Q/5aee/uQsmUfPFopB9XEA7OBzSytsOlAAAASJJREFUWMPtlsmuwjAMRZM6Ywc6APf/P/XBAtynQOV4AQtytpGOZMe5sWk0Go2Gjm6Zgh0GG6alM3r6QHhCoVdqthGg6NacUl5dJGDcNJ4T4F23q9J54FTfnAiak/lHmgmxq/RY+LMpOHvYOlPE9WJecLki1vXHs8feYJOv6dMG2tWFG7vqCPK7GzGbdyIzYxTPIXx6L0oe0skMcKYQMQ5BePVEXSEqzgUsiOZIZCIWkWiCOxY5TMIWrceiVdgki1yI8p1HZzKsSDQgFaI7z4oThk+KuLRSxKWpmm0f9Nxs1fUzfP2qgWR4IMVPRHlePtrjyoIiRhhFjHCwMZpg46hlVFHL4c8owl/xHWk/yE9/2folQr/W6Bet769+jUaj8dP8AetcFXVRAZgCAAAAAElFTkSuQmCC">
+            <Icon src={BiTimeFive}  size="23"  color="rgba(153, 164, 176, 0.8)" />
             <div class="nav-right">Recent Play</div>
         </button>
 
@@ -141,13 +149,8 @@ const handleNavigation = ((e) => {
 <style>
 .sc-uojGG.hksQGj{
     width: 100%;
+    margin-bottom: auto;
     position: fixed;
 }
-/* .mobile-sidebar-top-tab{
-    width: 100%;
-    height: 40px;
-    position: fixed;
-    background-color: rgb(36, 38, 43);
-    z-index: 56;
-} */
+
 </style>

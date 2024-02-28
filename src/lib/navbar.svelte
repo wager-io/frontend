@@ -402,22 +402,20 @@
       height: 100%;
       width: 5.25rem;
     }
-    .jVgBRe .login-top .header-login button {
+  .jVgBRe .login-top .header-login button {
       height: 2.5rem;
       text-align: center;
-      /* margin-left: 13px; */
+      margin-left: 13px;
       color: #ffff;
       font-weight: bold;
   }
-  }
-  .euzHLF .wallet-enter {
+  }.euzHLF .wallet-enter {
       margin-right: 24px;
   }
   .juteh {
       position: relative;
       cursor: pointer;
   }
-  
   .jlttqa {
       cursor: pointer;
   }

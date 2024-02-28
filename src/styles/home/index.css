@@ -102,6 +102,13 @@
     margin: 0px auto;
     padding: 1.25rem 1rem;
 }
+@media only screen and (max-width: 650px) {
+    .gyJkwe {
+        max-width: 1832px;
+        margin: 0px auto;
+        padding: 0rem 0rem;
+    }
+}
 .gAnAie {
     transform-origin: left top;
 }

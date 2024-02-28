@@ -199,10 +199,8 @@ const handleLoginWithGoogle = (async()=>{
                   {/if}
                 </div>
               </button>
-              <button
-                on:click={() => goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)}
-                class="sc-iqseJM sc-crHmcD cBmlor gEBngo button button-big signup"
-              >
+              <button on:click={() => goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)}
+                class="sc-iqseJM sc-crHmcD cBmlor gEBngo button button-big signup">
                 <div class="button-inner">
                   <span>Sign up</span>
                   <Icon src={RiSystemArrowRightSLine} size="18"
@@ -436,13 +434,6 @@ const handleLoginWithGoogle = (async()=>{
     background-color: rgb(23, 24, 27);
   }
 
-  .jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-  }
 
   .QccSQ {
     height: 1.7rem;

@@ -9,7 +9,7 @@
         <div class="sc-lheXJl flAnOy">
             <div class="info">
                 <div class="tit">WINNER WINNER<br>CHICKEN DINNER</div>
-                <button  class="sc-iqseJM sc-hBUSln cBmlor blefOg button button-normal">
+                <button on:click={()=> goto("/crash")} class="sc-iqseJM sc-hBUSln cBmlor blefOg button button-normal">
                     <div class="button-inner">Play Now</div>
                 </button>
             </div>
@@ -110,10 +110,13 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
 .hupcRr > div {
     min-width: 30rem;
     align-self: center;
 }
+
+
 .flAnOy {
     position: relative;
     flex: 1 1 0%;
@@ -138,7 +141,6 @@
     width: 10.125rem;
 }
 
-
 .flAnOy .bg {
     position: absolute;
     z-index: 0;
@@ -147,10 +149,7 @@
     bottom: -1.5rem;
     right: -2rem;
 }
-.hupcRr > div {
-    min-width: 30rem;
-    align-self: center;
-}
+
 .civZmU .winner-img {
     position: absolute;
     left: -0.25rem;
@@ -191,9 +190,15 @@
     display: none;
 }
 }
+
 .llygwG .user-number {
-    width: 50%;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 40%;
 }
+
+
 
 .kOrkSG {
     display: flex;
@@ -259,4 +264,45 @@
 .llygwG .user-number > img {
     margin-right: 10%;
 }
+
+
+@media only screen and (max-width: 621px){
+    .hupcRr {
+        padding: 0px 0.375rem 0.375rem;
+        border-radius: 0.625rem;
+        flex-flow: column wrap;
+    }
+    .hupcRr > div {
+        min-width: auto;
+        width: 100%;
+    }
+    .flAnOy .info {
+        padding: 2.5rem 0px 1.875rem 1.25rem;
+        margin: 0px;
+    }
+    .flAnOy .bg {
+        height: 80%;
+        bottom: 0.625rem;
+        right: -1.5rem;
+    }
+    .flAnOy .info .tit {
+        font-size: 1.125rem;
+        line-height: 1.375rem;
+        letter-spacing: 0px;
+    }
+    .flAnOy .info button {
+        margin-top: 3.75rem;
+        width: 7.25rem;
+        height: 2.5rem;
+    }
+    .flAnOy .bg {
+        height: 80%;
+        bottom: 0.625rem;
+        right: -1.5rem;
+    }
+    .llygwG {
+        margin: 0px;
+    }
+}
+
 </style>
