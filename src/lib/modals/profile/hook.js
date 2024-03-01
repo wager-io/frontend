@@ -17,16 +17,16 @@ export const handleprofiling = (async(user)=>{
     return { response, error, loading }
 })
 
-export const handleGlobalStat = (async(user)=>{
+export const handleGlobalStat = (async(user, route)=>{
     let loading = true
     let error = ""
     let response = ""
-    await axios.post(`${ServerURl()}/admin/stat/global`,{
+    await axios.post(`${ServerURl()}/api/statistics/${route}`,{
         user_id: user
     })
     .then(res => {
         loading = false
-        response = res.data[0]
+        response = res.data
     })
     .catch((err) => {
         error =  err

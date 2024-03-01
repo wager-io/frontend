@@ -1,6 +1,8 @@
 <script>
-import { createEventDispatcher } from "svelte";
+export let tab ;
 import { default_Wallet } from "$lib/store/coins";
+import { goto } from "$app/navigation";
+import { url } from "$lib/store/routes";
 import Coins from "./coins.svelte";
 import Deposit from "./deposit.svelte";
 import Swap from "./swap.svelte";
@@ -12,6 +14,7 @@ import { coin_list } from "$lib/store/coins";
 import ToCoins from "./swapControllers/toCoins.svelte";
 let reciever = ""
 let sender = ""
+
 $coin_list.forEach(element => {
     if(element.coin_name === "BTC"){
         sender = element
@@ -25,12 +28,12 @@ $: active_coin = $default_Wallet
 $: show_coins = false
 $: show_sender = false
 $: show_receiver = false
-$: active_tab = "deposit"
-const dispatch = createEventDispatcher()
+
 const handleCoinSelect = ((event)=>{
    active_coin = event.detail
    show_coins = false
 })
+
 const handleSetBack = (()=>{
    show_coins = false
    show_sender = false
@@ -47,9 +50,7 @@ const handleSwapCoinSelectW = ((event)=>{
    show_receiver = false
 })
 
-
 </script>
-
 
 <div class="sc-bkkeKt kBjSXI" style="opacity: 1;">
    <div class="dialog " style=" { $screen >  650 ? "opacity: 1; width: 464px; height: 620px; margin-top: -310px; margin-left: -232px; transform: scale(1) translateZ(0px)" : "transform: scale(1) translateZ(0px)"};">
@@ -69,9 +70,9 @@ const handleSwapCoinSelectW = ((event)=>{
                <span>Transactions</span>
             </button>
          </div>
-         {/if}
+      {/if}
       </div>
-      <button on:click={()=> dispatch("close")} class="sc-ieecCq fLASqZ close-icon dialog-close">
+      <button on:click={() => goto($url)} class="sc-ieecCq fLASqZ close-icon dialog-close">
          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
             <use xlink:href="#icon_Close"></use>
          </svg>
@@ -86,36 +87,36 @@ const handleSwapCoinSelectW = ((event)=>{
          <div class="dialog-body no-style " style="z-index: 2; transform: none;">
             <div id="wallet" class="sc-kMyqmI hioXRL">
                <div class="sc-hctura eeygvl">
-                  <button on:click={()=> active_tab = "deposit"} class="tab {active_tab === "deposit" ? "active" : ""}">
+                  <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit`)}  class="tab {tab === "deposit" ? "active" : ""}">
                      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                         <use xlink:href="#icon_Wallet"></use>
                      </svg>
                      <div class="title">Deposit</div>
                   </button>
-                  <button on:click={()=> active_tab = "withdraw"} class="tab {active_tab === "withdraw" ? "active" : ""}">
+                  <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=withdraw`)} class="tab {tab === "withdraw" ? "active" : ""}">
                      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                         <use xlink:href="#icon_WithDraw"></use>
                      </svg>
                      <div class="title">Withdraw</div>
                   </button>
-                  <button on:click={()=> active_tab = "swap"} class="tab {active_tab === "swap" ? "active" : ""}">
+                  <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=swap`)} class="tab {tab === "swap" ? "active" : ""}">
                      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                         <use xlink:href="#icon_Swap"></use>
                      </svg>
                      <div class="title">WGSwap</div>
                   </button>
-                  <button on:click={()=> active_tab = "vault"} class="tab {active_tab === "vault" ? "active" : ""}">
+                  <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=vault`)} class="tab {tab === "vault" ? "active" : ""}">
                      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                         <use xlink:href="#icon_Vault"></use>
                      </svg>
                      <div class="title">Vault Pro</div>
                   </button>
                </div>
-               {#if active_tab === "deposit"}
+               {#if tab === "deposit"}
                   <Deposit active_coin={active_coin} on:show={()=> show_coins = true}/>
-               {:else if active_tab === "withdraw"}
+               {:else if tab === "withdraw"}
                   <Withdraw active_coin={active_coin} on:show={()=> show_coins = true}/>
-               {:else if active_tab === "swap"}
+               {:else if tab === "swap"}
                   <Swap on:senderControl={()=> show_sender = true} on:receiverControl={()=> show_receiver = true}  reciever={reciever} sender={sender}/>
                {:else}
                   <Vault />

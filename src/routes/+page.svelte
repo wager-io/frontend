@@ -14,7 +14,6 @@ import { handleAuthToken } from "$lib/store/routes";
 register();
 $: is_loading = false
 $: errors = ""
-$: console.log($profileStore)
 
 const handleLoginWithGoogle = (async()=>{
   is_loading = true
@@ -44,9 +43,16 @@ const handleLoginWithGoogle = (async()=>{
 </script>
 
 <div  class="sc-jwQYvw eRdxAb" style={`padding-left:${$screen > 650 && $is_open__Appp ? 50 : 2}px; padding-right:${$is_open__chat ? 360 : 0}px`}>
-        <div class="dark-background svelte-1p2dszo">
-            <div class="header-wrapper svelte-1p2dszo">
 
+    <div class="WKiwniiw home-banner">
+        <div class="bannner-int">
+            <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1709292820/Group_374_nblbe4.png" alt="">
+        </div>
+    </div>
+
+
+    <div class="dark-background svelte-1p2dszo">
+            <div class="header-wrapper svelte-1p2dszo">
         {#if !$handleAuthToken}
             <div class="nsiWn-wnx head-string">
                 <div class="head title">Play smarter</div>
@@ -85,7 +91,7 @@ const handleLoginWithGoogle = (async()=>{
                 
         {#if $handleAuthToken}
             <div class="authenticated-wrapper svelte-1p2dszo" style="--image: url(/_app/immutable/assets/abstract-bg.wS7eZzoT.svg);">
-                <h1 class="weight-semibold line-height-default align-left size-lg text-size-lg variant-highlighted with-icon-space svelte-1d6bfct" style="">Welcome back, {$profileStore.username ? $profileStore.username : ""}</h1> 
+                <h1 class="weight-semibold line-height-default align-left size-lg text-size-lg variant-highlighted with-icon-space svelte-1d6bfct" style=""> Welcome back, <span style="color: #ffff;">{$profileStore.username ? $profileStore.username : ""}</span></h1> 
                 <div class="vip-progress-wrapper svelte-1uxrf3q">
                     <div class="progress-label svelte-h0vqv3">
                         <div class="progress-heading svelte-h0vqv3">
@@ -142,12 +148,6 @@ const handleLoginWithGoogle = (async()=>{
             </div>
         </div>
         {/if}
-              
-            {#if $screen > 750}
-                <div class="header-image svelte-1p2dszo" style="--image: url(/_app/immutable/assets/abstract-bg.wS7eZzoT.svg);">
-                <img loading="lazy" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1708982669/Screenshot_2024-02-26_112142-removebg-preview_ybhtju.png" alt="main-sponsor-of-watford" height="265" draggable="false">
-                </div>
-            {/if}
          
         </div>
     </div>
@@ -164,17 +164,25 @@ const handleLoginWithGoogle = (async()=>{
 
         
 <style>
+.home-banner{
+    width: 100%;
+    height: 100%;
+    /* display: flex; */
+}
+.bannner-int{
+    display: flex;
+    margin: 25px 13px;
+}
+.bannner-int img{
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
 .gyJkwe .screen-wrap {
     max-width: 100%;
     margin: 0px auto;
     padding: 1.25rem 0.625rem;
-}
-.header-image{
-    width: 50%;
-}
-.header-image img{
-    width: 620px;
-    height: 300px;
 }
 
 
@@ -187,17 +195,12 @@ const handleLoginWithGoogle = (async()=>{
     border-radius: 10px;
 }
 
-@media only screen and (max-width: 650px){
-    .dark-background.svelte-1p2dszo.svelte-1p2dszo{
-        margin: 120px 0px 0 0px;
-    }
-}
 
 .dark-background.svelte-1p2dszo.svelte-1p2dszo:before {
     content: "";
     position: absolute;
-    left: -2000px;
-    right: -2000px;
+    left: 0px;
+    right: 0px;
     top: 0;
     bottom: 0;
     /* background: red; */
@@ -210,15 +213,46 @@ const handleLoginWithGoogle = (async()=>{
 }
 .header-wrapper.svelte-1p2dszo.svelte-1p2dszo {
     display: flex;
-    color: #ffff;
     text-align: center;
     position: relative;
+    padding: 30px;
 }
 .vip-progress-wrapper.svelte-1uxrf3q {
     padding-bottom: var(--spacing-1-25);
     width: 100%;
     color: var(--text-color);
 }
+
+
+@media only screen and (max-width: 650px){
+    .home-banner{
+       margin-top: 110px;
+    }
+    .bannner-int img{
+        width: 100%;
+        border-radius: 12px;
+    }
+    .header-wrapper.svelte-1p2dszo.svelte-1p2dszo {
+        display: flex;
+        text-align: center;
+        position: relative;
+        padding: 0px;
+    }
+    .dark-background.svelte-1p2dszo.svelte-1p2dszo {
+    position: relative;
+    background-color: rgb(28, 30, 34);
+    padding: 10px;
+    max-width: 1832px;
+    margin: 40px 0px 0 0px;
+    border-radius: 10px;
+}
+    .bannner-int{
+        display: flex;
+        margin: 25px 3px;
+    }
+}
+
+
 .progress-label.svelte-h0vqv3 {
     width: 100%;
 }

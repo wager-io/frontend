@@ -115,7 +115,7 @@
               {#if coinsEL}
                 <Coins on:coinDefault={()=> coinsEL =! coinsEL} />
               {/if}
-              <button on:click={()=> dispatch("close")} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
+              <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
                 <div class="button-inner">
                   <Icon src={IoWallet} size="18" color="#ffff" className="custom-icon" />
                   <span>Wallet</span>
@@ -130,9 +130,9 @@
               </a>
               <button on:mouseenter={()=> profileNAV = true} on:mouseleave={()=> profileNAV = false} class="svg">
                 <Icon src={AiOutlineMenuUnfold} size="23" color={"rgba(153, 164, 176, 0.8)"} className="custom-icon" />
-                {#if profileNAV}
-                  <Navprofile />
-                {/if}
+                  {#if profileNAV}
+                    <Navprofile />
+                  {/if}
               </button>
             </div>
           </div>
@@ -161,11 +161,6 @@
 
     <div id="mobile-screen" class="sc-hJhJFJ jVgBRe" style="transform: translate3d(0px, 0%, 0px);">
       <div class="login-top top">
-        <div class="logo-wrap">
-        <img alt="logo" style="border-radius: 12px; width:33px"
-          class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" />
-        </div>
         <button on:click={handleMenu} class="sc-bQtKYq cUTdQJ">
           <span class="open-wrap">
             <Icon src={FiMenu}  size="12"   color="#fff"  />
@@ -193,10 +188,12 @@
                     </div>
                   </div>
                 </button>
-                <button on:click={()=> dispatch("close")} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
+                <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=deposit&modal=wallet`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
                   <div class="button-inner">
-                    <Icon src={IoWallet} size="18" color="#ffff" className="custom-icon" />
-                    <span>Deposit</span>
+                    {#if $screen > 500}
+                      <Icon src={IoWallet} size="18" color="#ffff" className="custom-icon" />
+                    {/if}
+                    <span>Wallet</span>
                   </div>
                 </button>
               </button>
@@ -206,11 +203,11 @@
             </div>
              <div class="sc-gnnDb fhlUmF">
                   <div  class="user-wrap">
-                    <a href={`/user/profile/${$profileStore.user_id}`}>
+                    <a href={`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id && $profileStore.user_id}`}>
                       <img class="avatar " alt="" src={$profileStore.profile_image}>
                     </a>
                     <button on:click={()=> profileNAV =! profileNAV} class="svg">
-                      <Icon src={AiOutlineMenuUnfold} size="23" color={"rgba(153, 164, 176, 0.8)"} className="custom-icon" />
+                      <Icon src={AiOutlineMenuUnfold} size="16" color={"rgba(153, 164, 176, 0.8)"} className="custom-icon" />
                     </button>
                   </div>
                   {#if profileNAV}
@@ -400,16 +397,18 @@
     }
     .fGPfpD {
       height: 100%;
-      width: 5.25rem;
+      width: 4rem;
+      font-size: 12px;
     }
   .jVgBRe .login-top .header-login button {
-      height: 2.5rem;
       text-align: center;
-      margin-left: 13px;
       color: #ffff;
       font-weight: bold;
   }
-  }.euzHLF .wallet-enter {
+  }
+
+
+  .euzHLF .wallet-enter {
       margin-right: 24px;
   }
   .juteh {
@@ -421,11 +420,11 @@
   }
   
   .boxpOO {
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      font-weight: 800;
-      min-width: 5.75rem;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-weight: 800;
+    padding: 2px;
   }
   .boxpOO .coin-icon {
       width: 1rem;
@@ -434,7 +433,6 @@
   .boxpOO .currency {
       margin: 0px 0.625rem 0px 0.4375rem;
   }
-  
   .icGouR .balance .amount {
       color: rgb(245, 246, 247);
       font-weight: 800;
@@ -442,12 +440,6 @@
   .erPQzq .amount-str {
       width: 7em;
       display: inline-block;
-  }
-  
-  .jVgBRe .login-top .logo-wrap {
-      margin-right: 1rem;
-      margin-top: 0.25rem;
-      position: relative;
   }
   
   .jVgBRe .login-top .logo-wrap img {

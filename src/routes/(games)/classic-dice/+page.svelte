@@ -349,18 +349,6 @@ $: newScreen = 0
     z-index: 1;
 }
 
-.kQfmQV .tabs-navs .bg {
-    border-radius: 1.125rem;
-    background-image: linear-gradient(to left, rgb(85, 89, 102), rgb(85, 89, 102), rgb(88, 174, 20));
-    opacity: 0.4;
-    height: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    transition: right 0.2s ease-out 0s, left 0.3s ease-out 0s;
-    transform: translateZ(0px);
-    box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 0.3125rem;
-}
 .cFxmZX {
     width: 100%;
     border-radius: 1.25rem;

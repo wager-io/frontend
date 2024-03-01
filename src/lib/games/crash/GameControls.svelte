@@ -1217,8 +1217,7 @@
               />
               <!-- svelte-ignore a11y-click-events-have-key-events -->
               <!-- svelte-ignore a11y-no-static-element-interactions -->
-              <div
-                on:click={() => {
+              <div on:click={() => {
                   if (autoBetting) return;
                   autoBet && autoBet.onLose.setReset(!autoBet.onLose.reset);
                   updateAutoBetInfo("increaseOnLose", !autoBet.onLose.reset);

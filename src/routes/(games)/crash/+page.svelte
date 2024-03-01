@@ -37,7 +37,6 @@ onMount(async () => {
       const gameInstance = new CrashGame();
       await gameInstance.initialize();
       crashGame.set(gameInstance);
-      console.log(gameInstance)
       gameInit = true;
     } catch (error) {
       console.log("Error init game ", error);
@@ -56,7 +55,7 @@ onMount(async () => {
       <GameActions />
     </div>
     {#if newScreen > 900}
-    <LiveBets />
+      <LiveBets />
     {/if}
   </div>
   <div class="sc-cxpSdN kQfmQV tabs game-tabs len-3">

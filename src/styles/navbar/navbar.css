@@ -266,7 +266,8 @@
 
 .icGouR {
   position: relative;
-  margin: 0.4375rem 0.25rem 0.4375rem 0.4375rem;
+  font-size: 11px;
+  overflow: hidden;
 }
 
 
@@ -307,6 +308,11 @@
     -webkit-box-pack: center;
     justify-content: center;
   }
+  .icGouR {
+    position: relative;
+    font-size: 14px;
+    overflow: hidden;
+  }
 }
 
 @media only screen and (max-width: 650px) {
@@ -320,5 +326,38 @@
   .erPQzq .amount-str {
     display: inline-block;
   }
-  
+  .fhlUmF {
+      width: 3.4rem;
+      height: 2rem;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      background-color: rgb(30, 32, 36);
+      border-radius: 1.25rem;
+      cursor: pointer;
+      z-index: 9;
+      margin-left: 10px;
+  }
+  .fhlUmF .user-wrap > a .avatar {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+  }
+  .fhlUmF .user-wrap > a {
+    font-size: 0px;
+    margin-right: 7px;
+  }
+  .LQlWw {
+    background-color: rgb(30, 32, 36);
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    height: 2.3rem;
+    border-radius: 1.5rem;
+    padding-left: 0.875rem;
+    line-height: 1;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+  }
 }

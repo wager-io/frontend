@@ -4,6 +4,7 @@ export let data;
 
 </script>
 
+
 <div class="s1orvhr wallet-page page-max-width-wrap">
    <div class="title ttu">Wallet</div>
    <div class="content-area bg-transparent">

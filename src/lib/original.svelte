@@ -117,20 +117,19 @@
   
     .original-content .icon,
     .IsActive-original-content .icon {
-    font-size: 24px;
-    padding: 5px 1px;
+      margin: 5.4px;
     fill: rgba(153, 164, 176, 0.8);
     }
   
     .orginal-game-routes-container .IsActive-original-content {
       display: flex;
       gap: 5px;
-      padding: 6px 0;
+      /* padding: 6px 0; */
       width: 90%;
       border-radius: 30px;
       border: 1px solid #42b3096b;
       color: rgba(153, 164, 176, 0.8);
-      margin: 5px;
+      /* margin: 5px; */
       transition: 0.7s ease;
       cursor: pointer;
     }

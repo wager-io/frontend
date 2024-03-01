@@ -18,26 +18,27 @@ import RiDeviceDatabase2Fill from "svelte-icons-pack/ri/RiDeviceDatabase2Fill";
 import RiDesignPencilFill from "svelte-icons-pack/ri/RiDesignPencilFill";
 import BiBarChartAlt from "svelte-icons-pack/bi/BiBarChartAlt";
 export let user
-
-import axios from 'axios';
 import { onMount } from 'svelte';
 import {  profileStore } from "$lib/store/profile"
-import { page } from '$app/stores'
 import UserProfile from '$lib/user-profile/user-profile.svelte';
 import Statistics from '$lib/user-profile/statistics.svelte';
 import Progress from '../../components/progress.svelte';
+import Loader from '$lib/components/loader.svelte';
 $: users_profile = ""
 $: userStatistics = ""
 
 let is_edit = false
 let is_stats = false
+$: is_loading = true
 
 onMount(async()=>{
    const result = await handleprofiling(user)
-   const response = await handleGlobalStat(user)
-   users_profile = result.response
+   const response = await handleGlobalStat(user, "global")
     userStatistics = response.response
+   users_profile = result.response
+    is_loading = result.loading
 })
+
 
 const handleDiooosb = ((e)=>{
     if(e === 1){
@@ -91,6 +92,7 @@ $:{
             <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
         </button>
 
+        {#if !is_loading}
         <div class="dialog-body no-style" style="z-index: 2; transform: none;">
             <div class="sc-dkPtRN jScFby scroll-view sc-bOTDDd gTGvhG user__profile">
                 <div class="sc-zjkyB jXCVwe">
@@ -112,8 +114,7 @@ $:{
                         <div class="name-box">
                             <div class="user-name">{users_profile.username}</div>
                         </div>
-
-                        <!-- <Progress chat={$users_profile}/> -->
+                        <Progress chat={users_profile}/>
 
                         {#if $profileStore.user_id !== user}
                         <div class="actions">
@@ -567,10 +568,13 @@ $:{
                 </div>
                 {/if}
 
-<!-- 
-                <div class="joined">Joined on&nbsp;{$users_profile.joined_at}</div> -->
+                <div class="joined">Joined on&nbsp;{users_profile.joined_at}</div>
             </div>
         </div>
+        {:else}
+            <Loader />
+        {/if}
+     
         <!-- <UserProfile />
  
 

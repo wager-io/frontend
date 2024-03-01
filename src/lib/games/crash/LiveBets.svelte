@@ -363,22 +363,13 @@
                         <div class="moon"></div>
                       {/if}
                     </td><td>
-                      <div
-                        class="sc-Galmp erPQzq coin notranslate monospace bold status-{bet.status} {bet.rate >
-                        0
-                          ? 'is-win'
-                          : bet.status === 3
-                            ? 'is-lose'
-                            : ''}"
-                      >
+                      <div class="sc-Galmp erPQzq coin notranslate monospace bold status-{bet.status} {bet.rate >
+                        0 ? 'is-win' : bet.status === 3 ? 'is-lose' : ''}">
                         <img alt="" class="coin-icon" src={bet.currencyImage} />
                         <div class="amount">
-                          <span class="amount-str"
-                            >{removeTrailingZeros(bet.bet.toFixed(7))}<span
-                              class="suffix"
-                              >{getSuffix(bet.bet.toFixed(7))}</span
-                            ></span
-                          >
+                          <span class="amount-str">{removeTrailingZeros(bet.bet.toFixed(7))}<span
+                              class="suffix">{getSuffix(bet.bet.toFixed(7))}</span>
+                            </span>
                         </div>
                       </div>
                     </td></tr
@@ -390,26 +381,21 @@
         {:else}
           <div class="sc-epFoly etYRmD">
             <div class="sc-eCImPb biQums cuPxwd empty">
-              <img
-                alt="No data"
-                src="https://static.nanogames.io/assets/empty.acd1f5fe.png"
-              />
+              <img alt="No data" src="https://static.nanogames.io/assets/empty.acd1f5fe.png" />
               <div class="msg">Oops! There is no data yet!</div>
             </div>
           </div>
         {/if}
       </div>
       <div class="foot">
-        <button
-          on:click={() => (showingMore = !showingMore)}
-          class="list-toggle {showingMore ? 'show-more' : 'show-less'}"
-          ><div>{showingMore ? "Show less" : "Show more"}</div>
-          <svg
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            class="sc-gsDKAQ hxODWG icon"
-            ><use xlink:href="#icon_Arrow"></use></svg
-          ></button
-        >
+        <button on:click={() => (showingMore = !showingMore)}
+          class="list-toggle {showingMore ? 'show-more' : 'show-less'}">
+          <div>{showingMore ? "Show less" : "Show more"}</div>
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+            class="sc-gsDKAQ hxODWG icon" >
+            <use xlink:href="#icon_Arrow"></use>
+          </svg>
+        </button>
       </div>
     </div>
   {/if}

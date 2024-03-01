@@ -7,7 +7,6 @@
 	</svg>
 </div>
 
-
 <style>
 	.hTWjOR {
 		display: flex;

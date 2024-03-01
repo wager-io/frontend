@@ -48,14 +48,14 @@
     align-items: center;
     margin-left: auto;
 }
-.jVgBRe .login-top .header-login button p {
+/* .jVgBRe .login-top .header-login button p {
     width: 6.25rem;
     height: 2.5rem;
     line-height: 2.5rem;
     text-align: center;
     color:var(--primary-color);
     font-weight: bold;
-}
+} */
 .jVgBRe .login-top .header-login .fnKcEH.button  {
     width: 6.25rem;
     height: 2.5rem;

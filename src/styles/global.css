@@ -65,22 +65,7 @@
   font-size: 0.75rem;
 }
 
-.kQfmQV .tabs-navs .bg {
-  border-radius: 1.125rem;
-  background-image: conic-gradient(
-    from 1turn,
-    #9900CC,
-    rgb(98, 64, 177)
-  );
-  opacity: 0.4;
-  height: 100%;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  transition: right 0.2s ease-out 0s, left 0.3s ease-out 0s;
-  transform: translateZ(0px);
-  box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 0.3125rem;
-}
+
 
 .dialog {
     position: absolute;

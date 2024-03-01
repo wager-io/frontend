@@ -12,7 +12,7 @@ import axios from "axios";
 import { createEventDispatcher } from 'svelte';
 const dispatch = createEventDispatcher()
 import { handleAuthToken } from "$lib/store/routes";
-import { profileStore, handleisLoading, handleisLoggin, app_Loading } from "$lib/store/profile";
+import { profileStore, handleisLoggin, app_Loading } from "$lib/store/profile";
 import { onMount } from "svelte";
 import {  goto } from "$app/navigation";
 import { default_Wallet, coin_list } from "$lib/store/coins";

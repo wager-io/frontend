@@ -10,17 +10,9 @@
 <div class="sc-hKumaY FHHZH">
   <div class="sc-cxpSdN kQfmQV tabs">
     <div class="tabs-navs">
-      <button on:click={changeGameType(1)} class="tabs-nav {$crashGameType === 1 ? 'is-active' : ''}"
-        >Classic</button
-      ><button on:click={changeGameType(2)} class="tabs-nav {$crashGameType === 2 ? 'is-active' : ''}"
-        >Trenball</button
-      >
-      <div
-        class="bg"
-        style="left: {$crashGameType === 1
-          ? '0'
-          : '50'}%; right: {$crashGameType === 1 ? '50' : '0'}%;"
-      ></div>
+      <button on:click={changeGameType(1)} class="tabs-nav {$crashGameType === 1 ? 'is-active' : ''}">Classic</button>
+      <button on:click={changeGameType(2)} class="tabs-nav {$crashGameType === 2 ? 'is-active' : ''}">Trenball</button>
+      <div class="bg" style="left: {$crashGameType === 1 ? '0': '50'}%; right: {$crashGameType === 1 ? '50' : '0'}%;"></div>
     </div>
   </div>
 </div>

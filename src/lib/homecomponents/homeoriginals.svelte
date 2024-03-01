@@ -231,4 +231,12 @@ let gameList = handleListGame()
     background-position: center center;
     background-size: 32%;
 }
+
+@media only screen and (max-width:650px){
+    .hmXLyn {
+        position: relative;
+        margin-top: 52px;
+    }
+}
+
 </style>

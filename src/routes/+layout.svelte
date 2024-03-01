@@ -7,9 +7,9 @@ import { goto } from "$app/navigation";
 import { currencyRates } from "$lib/store/currency";
 import { browser } from '$app/environment';
 import { page } from '$app/stores';
+
 $: routes.set(data)
 $: url.set($page.url.pathname)
-
 $: urlString =  ($page.url.href);
 $: paramString = urlString.split('?')[1];
 $: queryString = new URLSearchParams(paramString);
@@ -24,8 +24,6 @@ $:{
     }
     tab = seaser[0]
 }
-
-$: console.log(seaser)
 
 $: {
     if($handleAuthToken && tab === "register" && tab === "login"){
@@ -182,8 +180,8 @@ $: is_deposit = false
     <Profile user={seaser[1]}/>
 {/if}
 
-{#if is_deposit}
-    <LayoutEl on:close={()=> is_deposit = false} />
+{#if paramString && tab === "wallet"}
+    <LayoutEl tab={seaser[1]} />
 {/if}
 
 {#if $profileStore && $profileStore.born === '' && $handleNestedRoute !== "/login/info" }
