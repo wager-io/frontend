@@ -18,8 +18,8 @@
 
     <div class="sc-fpYaaq dfzEec">
         <div class="sc-eCImPb cuPxwd empty ">
-            <img alt="" src="https://static.nanogames.io/assets/empty.acd1f5fe.png">
-            <div class="msg">Oops! There is no data yet!</div>
+            <div class="opps-msg"> Oops!</div>
+            <div class="msg"> There is no data yet!</div>
         </div>
     </div>
 

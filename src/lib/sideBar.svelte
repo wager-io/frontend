@@ -119,14 +119,14 @@ const handeTheme = ((e) => {
                     <p>Currently</p>
                 </div>
             </div> -->
-            <div class="border_bottom">
+            <!-- <div class="border_bottom">
                 <div class="live">
                     <div class="support-icon">
                         <Icon src={FaSolidHeadphones}  size="18"  color="#ffff" />
                     </div>
                     <span>Live Support</span>
                 </div>
-            </div>
+            </div> -->
             <div class="border_bottom end">
                 <div class="network">
                     <span>Social Media</span>

@@ -63,7 +63,7 @@ const handleSwapCoinSelectW = ((event)=>{
          <div class="dialog-title">{show_coins ? "Choose Coin" : "Wallet" }</div>
          {#if !show_coins && !show_sender && !show_receiver}
          <div class="sc-jSYIrd fktpVO">
-            <button>
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=transaction&modal=deposit&cur=All`)}>
                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                   <use xlink:href="#icon_Transaction"></use>
                </svg>

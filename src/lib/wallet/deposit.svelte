@@ -3,7 +3,8 @@ import {onMount} from "svelte"
 import { handleDepositHook, handleFetchPendingOrder, handleDepositRefresh, handleDepositExpire} from "./hook";
 import { handleAuthToken } from "$lib/store/routes";
 import { currencyRates } from "$lib/store/currency";
-import { coin_list } from "$lib/store/coins"
+import { coin_list } from "$lib/store/coins";
+import { url } from "$lib/store/routes";
 export let active_coin;
 $: deposit_address = ''
 let is_loading = true;
@@ -122,7 +123,7 @@ function handleCopyCode(event) {
             <div class="sc-ezbkAF kDuLvp input ">
                 <div class="input-label">
                     <div style="flex: 1 1 0%;">Deposit Currency</div>
-                    <a href="/transactions/deposit/">Record</a>
+                    <a href="{$url === "/" ? "" : $url}/?tab=transaction&modal=deposit&cur=btc">Record</a>
                 </div>
                 <button disabled={deposit_address} on:click={()=> dispatch("show")} class="sc-kszsFN evIEvq input-control">
                     <div class="sc-cBIieI wvKye">

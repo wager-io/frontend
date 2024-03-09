@@ -86,12 +86,6 @@
     width: 12.5rem;
 }
 
-.blefOg.button {
-    color: rgb(245, 246, 247);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(241, 149, 17);
-    background-image: conic-gradient(from 1turn, rgb(241, 149, 17), rgb(246, 199, 34));
-}
 
 .emJdUB .wrap .cont .next-time .txt {
     color: rgb(255, 191, 57);

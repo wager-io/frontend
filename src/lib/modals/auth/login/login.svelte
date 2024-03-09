@@ -110,9 +110,7 @@ const handleLoginWithGoogle = (async()=>{
     }  `}
   >
     <div class="dialog-head has-close">
-      <img
-        alt="logo"
-        class="sc-bOtlzW QccSQ"
+      <img alt="logo"  class="sc-bOtlzW QccSQ"
         src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png"
       />
     </div>
@@ -130,10 +128,8 @@ const handleLoginWithGoogle = (async()=>{
       >
         <div class="welcome">
           <div class="msg1">BUILD THE BEST CRYPTO CASINO TOGETHER</div>
-          <img
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704543204/NIKE1_34_1_ji6ln1.png"
-            alt=""
-          />
+          <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704543204/NIKE1_34_1_ji6ln1.png"
+            alt="" />
         </div>
         <div
           class={$isLightMode ? "light-bg sc-dkPtRN jScFby scroll-view hide-bar sc-bjztik ceTZhf" :"sc-dkPtRN jScFby scroll-view hide-bar sc-bjztik ceTZhf"}
@@ -263,45 +259,7 @@ const handleLoginWithGoogle = (async()=>{
     border: 1px solid rgb(233, 234, 242) !important;
     background-color: rgb(245, 246, 250) !important;
   }
-  .kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgb(0, 0, 0);
-    filter: none !important;
-  }
-
-  .dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    /* background-color: rgb(23, 24, 27); */
-  }
-
-  .dialog-head.has-close {
-    margin-right: 3.75rem;
-  }
-
-  .dialog-head {
-    position: relative;
-    z-index: 10;
-    flex: 0 0 auto;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 3.75rem;
-    margin-left: 1.125rem;
-    transition: all 0.5s ease 0s;
-  }
+ 
 
   img {
     overflow-clip-margin: content-box;
@@ -424,7 +382,6 @@ const handleLoginWithGoogle = (async()=>{
     position: relative;
   }
 
-
   .ceTZhf {
     position: absolute;
     inset: 16.25rem 0px 0px;
@@ -488,14 +445,6 @@ const handleLoginWithGoogle = (async()=>{
     background-color: rgb(107, 113, 128);
   }
 
-  .jScFby {
-    box-sizing: border-box;
-    height: 100%;
-    overflow-y: auto;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-  }
-
   .ceTZhf {
     position: absolute;
     inset: 16.25rem 0px 0px;
@@ -531,60 +480,6 @@ const handleLoginWithGoogle = (async()=>{
     fill: rgb(245, 246, 247);
   }
 
-  /* ============================= mobile ===================================== */
-
-  .kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.507);
-    filter: none !important;
-  }
-
-  .dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    background-color: rgb(23, 24, 27);
-  }
-
-  .dialog-head.has-close {
-    margin-right: 3.75rem;
-  }
-  .dialog-head {
-    position: relative;
-    z-index: 10;
-    flex: 0 0 auto;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 3.75rem;
-    margin-left: 1.125rem;
-    transition: all 0.5s ease 0s;
-  }
-  .fLASqZ {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    z-index: 11;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 3.75rem;
-    height: 3.75rem;
-    cursor: pointer;
-  }
 
   .dA-dCPD .welcome .msg1 {
     font-size: 1.5rem;

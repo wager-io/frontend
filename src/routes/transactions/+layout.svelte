@@ -7,8 +7,8 @@ import { screen } from "$lib/store/screen";
 let urlString =  ($page.url.href);
 let paramString = urlString.split('?')[1];
 let queryString = new URLSearchParams(paramString);
-$: correnncies = false
-let route = $routes.route
+$: correnncies = false;
+let route = $routes.route;
 let coins = [
     {coin_name: "All", coin_img: "All currencies", active: true},
     {coin_name: "btc", coin_img: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400", active: false},
@@ -34,7 +34,7 @@ coins.forEach(element => {
 
 const handleOption = ((event)=>{
     active_coin = event.detail
-})
+});
 
 </script>
 

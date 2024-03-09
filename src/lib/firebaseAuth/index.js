@@ -7,8 +7,6 @@ import { useRegister } from "./createUser";
 import {handleisLoggin, profileStore} from "../store/profile"
 import { firebaseConfiguration } from "./firebaseConfig";
 import { handleCheckUsername } from "./usernameHook"
-
-
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider,
 signInWithEmailAndPassword, signOut } from "firebase/auth";
 const firebaseConfig = firebaseConfiguration()
@@ -24,10 +22,11 @@ export const handleSignIn = (async (email, password,username, reff)=>{
         error = "Something went wrong"
         loading = false
     }
-    else if(response.length > 0){
+    else if(response){
         error = "Username already exist"
         loading = false
-    }else{
+    }
+    else{
         const auth = getAuth(app);
         await createUserWithEmailAndPassword(auth, email, password)
         .then(async(res)=>{

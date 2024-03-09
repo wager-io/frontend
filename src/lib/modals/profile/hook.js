@@ -21,8 +21,9 @@ export const handleGlobalStat = (async(user, route)=>{
     let loading = true
     let error = ""
     let response = ""
-    await axios.post(`${ServerURl()}/api/statistics/${route}`,{
-        user_id: user
+    await axios.post(`${ServerURl()}/api/stats/global`,{
+        user_id: user,
+        game:route
     })
     .then(res => {
         loading = false

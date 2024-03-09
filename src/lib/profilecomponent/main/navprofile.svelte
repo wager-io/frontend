@@ -8,7 +8,8 @@ import axios from "axios"
 import { url } from "$lib/store/routes";
 import { onMount } from "svelte";
 import { ServerURl } from "$lib/backendUrl"
-    import Progress from "../../components/progress.svelte";
+import Progress from "../../components/progress.svelte";
+
 const URL = ServerURl()
 const handleProfile = (async()=>{
     try{
@@ -66,12 +67,12 @@ const handleStatistics = (()=>{
                 </div>
             </div>
         </a>
-        <button on:click={()=> goto("/setting/general")} class="right">
+        <!-- <button on:click={()=> goto("/setting/general")} class="right">
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                 <use xlink:href="#icon_Setting"></use>
             </svg>
             <p>Global Settings</p>
-        </button>
+        </button> -->
     </div>
     {:else}
     <h1 style="text-align: center; padding:20px">Loading...</h1>
@@ -86,7 +87,7 @@ const handleStatistics = (()=>{
                    User Information
                </div>
            </button>
-               <button on:click={()=> goto("/wallet/balance")} class="link-item">
+               <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit`)} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Wallet"></use>
@@ -102,7 +103,7 @@ const handleStatistics = (()=>{
                        Statistics
                    </div>
                </button>
-               <button disabled on:click={()=> goto("/wallet/swap")}  class="link-item">
+               <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=swap`)}  class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Swap"></use>
@@ -110,7 +111,7 @@ const handleStatistics = (()=>{
                        BA Swap
                    </div>
                </button>
-               <button disabled on:click={()=> goto("/wallet/transaction")} class="link-item">
+               <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=transaction&modal=deposit&cur=All`)} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Transaction"></use>
@@ -118,7 +119,7 @@ const handleStatistics = (()=>{
                        Transactions
                    </div>
                </button>
-               <button disabled class="link-item">
+               <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=vault`)} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Vault"></use>
@@ -126,28 +127,28 @@ const handleStatistics = (()=>{
                        Vault Pro
                    </div>
                </button>
-               <button disabled class="link-item">
+               <button on:click={()=> goto("/lottery")} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Support"></use>
                        </svg>
-                       Live Support
+                       Lottery
                    </div>
                </button>
-               <div disabled class="link-item">
+               <button on:click={()=> goto("/recent-play")} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Reward"></use>
                        </svg>
-                       Reward
+                       Recent Play
                    </div>
-               </div>
-               <button on:click={()=> goto("/affiliate")} class="link-item">
+               </button>
+               <button on:click={()=> goto("/favourite")} class="link-item">
                    <div class="hover">
                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                            <use xlink:href="#icon_Affiliate"></use>
                        </svg>
-                       Affiliate
+                       Favourite
                    </div>
                </button>
                <button on:click={()=> goto("/vip-games")} class="link-item">

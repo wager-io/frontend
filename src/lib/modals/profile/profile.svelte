@@ -11,23 +11,24 @@ import BsCoin from "svelte-icons-pack/bs/BsCoin";
 import { browser } from '$app/environment';
 import BiMedal from "svelte-icons-pack/bi/BiMedal";
 import IoPersonAddSharp from "svelte-icons-pack/io/IoPersonAddSharp";
-import "../../../styles/profile/index.css"
+import "../../../styles/profile/index.css";
 import FaSolidMoneyBillWave from "svelte-icons-pack/fa/FaSolidMoneyBillWave";
 import RiSystemArrowLeftSLine from "svelte-icons-pack/ri/RiSystemArrowLeftSLine";
 import RiDeviceDatabase2Fill from "svelte-icons-pack/ri/RiDeviceDatabase2Fill";
 import RiDesignPencilFill from "svelte-icons-pack/ri/RiDesignPencilFill";
 import BiBarChartAlt from "svelte-icons-pack/bi/BiBarChartAlt";
 export let user
+export let modal
 import { onMount } from 'svelte';
 import {  profileStore } from "$lib/store/profile"
 import UserProfile from '$lib/user-profile/user-profile.svelte';
 import Statistics from '$lib/user-profile/statistics.svelte';
 import Progress from '../../components/progress.svelte';
 import Loader from '$lib/components/loader.svelte';
-$: users_profile = ""
-$: userStatistics = ""
+import EditAvatar from '$lib/user-profile/edit_avatar.svelte';
+$: users_profile = "";
+$: userStatistics = "";
 
-let is_edit = false
 let is_stats = false
 $: is_loading = true
 
@@ -37,21 +38,6 @@ onMount(async()=>{
     userStatistics = response.response
    users_profile = result.response
     is_loading = result.loading
-})
-
-
-const handleDiooosb = ((e)=>{
-    if(e === 1){
-        is_stats = false
-        is_edit = false
-    }
-    else if(e === 2){
-        is_stats = false
-        is_edit = true
-    }else{
-        is_stats = true
-        is_edit = false
-    }
 })
 
 
@@ -69,30 +55,37 @@ $:{
 
 <div class="sc-bkkeKt kBjSXI" style="opacity: 1;">
     <div class="dialog "style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
-        {#if is_edit || is_stats}
-            <button on:click={()=> handleDiooosb(1)} class="dialog-back" style="opacity: 1; transform: none;">
+        {#if modal || is_stats}
+            <button on:click={()=> history.back()} class="dialog-back" style="opacity: 1; transform: none;">
                 <Icon src={RiSystemArrowLeftSLine}  size="23"  color="rgba(153, 164, 176, 0.6)" />
             </button>
         {/if}
-        <div class={`dialog-head ${is_edit || is_stats ? "has-back" : "has-close"} `}>
-            {#if !is_edit && !is_stats}
+        <div class={`dialog-head ${modal || is_stats ? "has-back" : "has-close"} `}>
+            {#if !modal && !is_stats}
                 <div class="dialog-title">User Information</div>
                 <div class="sc-hgJWpk cGdWiX vip-level">
                     <div class="vip-box" style="background-image: url(&quot;https://static.nanogames.io/assets/vip_type1.9697d4e3.svg&quot;);">
                         V{users_profile.vip_level ? users_profile.vip_level : 0}</div>
                 </div>
-            {:else if is_edit}
+            {:else if modal === "edit"}
                 <div class="dialog-title">Nickname</div>
             {:else if is_stats}
             <div class="dialog-title">Details</div>
             {/if}
         </div>
 
-        <button on:click={() => goto($url)} class="sc-ieecCq fLASqZ close-icon dialog-close">
-            <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
-        </button>
+    <button on:click={() => goto($url)} class="sc-ieecCq fLASqZ close-icon dialog-close">
+        <Icon src={IoCloseSharp}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
+    </button>
 
-        {#if !is_loading}
+    {#if !is_loading}
+        {#if modal === "edit"}
+            <UserProfile />
+         {:else if modal === "avatar"}
+            <EditAvatar />
+        {:else if modal === "statistics"}
+            <Statistics profile={users_profile} user={user} statistic={userStatistics} />
+        {:else}
         <div class="dialog-body no-style" style="z-index: 2; transform: none;">
             <div class="sc-dkPtRN jScFby scroll-view sc-bOTDDd gTGvhG user__profile">
                 <div class="sc-zjkyB jXCVwe">
@@ -104,7 +97,7 @@ $:{
                             0
                         </button>
                         {#if $profileStore.user_id === user}
-                            <button on:click={()=>  handleDiooosb(2)} class="button edit">
+                            <button on:click={()=>  goto(`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id}&modal=edit`)} class="button edit">
                                 <Icon src={RiDesignPencilFill}  size="16"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
                             </button>
                         {/if}
@@ -114,7 +107,7 @@ $:{
                         <div class="name-box">
                             <div class="user-name">{users_profile.username}</div>
                         </div>
-                        <Progress chat={users_profile}/>
+                        <Progress chat={users_profile} style={"user-level"}/>
 
                         {#if $profileStore.user_id !== user}
                         <div class="actions">
@@ -224,7 +217,7 @@ $:{
                             <Icon src={BiBarChartAlt}  size="16"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
                         </span>
                         Statistics
-                        <button on:click={()=>  handleDiooosb(4)} class="hover">
+                        <button on:click={()=>  goto(`${$url === "/" ? "" : $url}/?tab=profile&id=${user}&modal=statistics`)} class="hover">
                             Details
                             <Icon src={RiSystemArrowRightSLine}  size="30"  color="rgba(153, 164, 176, 0.8)" className="sc-gsDKAQ hxODWG icon right right-fold" />
                         </button>
@@ -362,7 +355,7 @@ $:{
                             <Icon src={BiBarChartAlt}  size="16"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
                         </span>
                         Statistics
-                        <button on:click={()=>  handleDiooosb(4)} class="hover">
+                        <button on:click={()=>  goto(`${$url === "/" ? "" : $url}/?tab=profile&id=${user}&modal=statistics`)} class="hover">
                             Details
                             <Icon src={RiSystemArrowRightSLine}  size="30"  color="rgba(153, 164, 176, 0.8)" className="sc-gsDKAQ hxODWG icon right right-fold" />
                         </button>
@@ -514,7 +507,7 @@ $:{
                             <Icon src={BiBarChartAlt}  size="16"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" />
                         </span>
                         Statistics
-                        <button on:click={()=>  handleDiooosb(4)} class="hover">
+                        <button on:click={()=>  goto(`${$url === "/" ? "" : $url}/?tab=profile&id=${user}&modal=statistics`)} class="hover">
                             Details
                             <Icon src={RiSystemArrowRightSLine}  size="30"  color="rgba(153, 164, 176, 0.8)" className="sc-gsDKAQ hxODWG icon right right-fold" />
                         </button>
@@ -571,6 +564,9 @@ $:{
                 <div class="joined">Joined on&nbsp;{users_profile.joined_at}</div>
             </div>
         </div>
+        {/if}
+
+   
         {:else}
             <Loader />
         {/if}

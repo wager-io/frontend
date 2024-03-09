@@ -1,7 +1,27 @@
 <script>
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import AiOutlineCamera from "svelte-icons-pack/ai/AiOutlineCamera";
-let image = "https://img2.nanogames.io/avatar/505090/l?t=1695187081164"
+import {  profileStore } from "$lib/store/profile"
+import { handleAuthToken } from "$lib/store/routes";
+import { useChangeUsername } from "$lib/firebaseAuth/createUser"
+import { goto } from "$app/navigation";
+import { url } from "$lib/store/routes";
+import Loader from "../components/loader.svelte";
+
+$: image = $profileStore.profile_image
+let username = $profileStore.username
+$: is_loading = false
+$: track = is_loading || !image
+
+const handleSubmit = (async()=>{
+    is_loading = true
+   let response = await useChangeUsername({profile_image:image, username}, $handleAuthToken)
+   is_loading = response.is_loading
+   if(response.response){
+        profileStore.set(response.response)
+        goto($url)
+   }
+})
 
 let default_images = [
     {id: 1, img: "https://img2.nanogames.io/avatar/head1.png", state: "is-active"},
@@ -26,6 +46,9 @@ const handleDefaultImaage = ((e)=>{
 </script>
 
 <div class="dialog-body no-style " style="z-index: 2; transform: none;">
+    {#if is_loading}
+        <Loader />
+    {:else}
     <div class="sc-dkPtRN jScFby scroll-view sc-bjztik iZmuoy">
         <div class="crop-area" aria-disabled="false">
             <div data-testid="container" class="reactEasyCrop_Container">
@@ -42,17 +65,18 @@ const handleDefaultImaage = ((e)=>{
                 <div class="input-label">Default Avatar</div>
                 <div class="buttons">
                     {#each default_images as img (img.id)}  
-                    <button on:click={()=> handleDefaultImaage(img.id)} class={img.state} style="opacity: 1; transform: none;">
-                        <img src={img.img} alt="">
-                    </button>
+                        <button on:click={()=> handleDefaultImaage(img.id)} class={img.state} style="opacity: 1; transform: none;">
+                            <img src={img.img} alt="">
+                        </button>
                     {/each}
                 </div>
             </div>
-            <button class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+            <button disabled={track} on:click={handleSubmit} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
                 <div class="button-inner">Submit</div>
             </button>
         </div>
     </div>
+    {/if}
 </div>
 
 <style>
@@ -61,8 +85,24 @@ const handleDefaultImaage = ((e)=>{
     background-color: rgb(23, 24, 27);
 }
 
+.dialog-body {
+    position: absolute;
+    inset: 0px;
+    display: flex;
+    overflow: hidden;
+}
+
+
 .reactEasyCrop_Image {
     will-change: transform;
+}
+
+.jScFby {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
 }
 
 
@@ -78,11 +118,6 @@ const handleDefaultImaage = ((e)=>{
     color: rgba(0, 0, 0, 0.8);
 }
 
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .reactEasyCrop_Container {
     position: absolute;
@@ -133,11 +168,6 @@ const handleDefaultImaage = ((e)=>{
     margin: -1.875rem 0px 0px -1.875rem;
 }
 
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .iZmuoy .upload input {
     opacity: 0;
@@ -148,17 +178,6 @@ const handleDefaultImaage = ((e)=>{
     height: 100%;
 }
 
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .iZmuoy .wrap-box {
     margin: 30px 6%;
@@ -202,13 +221,6 @@ const handleDefaultImaage = ((e)=>{
 .iZmuoy .button {
     margin: 1.875rem auto 0px;
     width: 18.75rem;
-}
-
-.fnKcEH.button {
-    color: rgb(245, 246, 247);
-    box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
-    background-color: rgb(67, 179, 9);
-    background-image: conic-gradient(from 1turn, rgb(67, 179, 9), rgb(93, 219, 28));
 }
 
 .iYpTcp button.is-active {

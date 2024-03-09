@@ -1,57 +1,76 @@
 <script>
-import { users_profile } from "$lib/store/profile"
-import EditAvatar from "./edit_avatar.svelte";
+import { profileStore } from "$lib/store/profile"
+import { handleAuthToken } from "$lib/store/routes";
+import { useChangeUsername } from "$lib/firebaseAuth/createUser"
+import { goto } from "$app/navigation";
+import { url } from "$lib/store/routes";
+import Loader from "../components/loader.svelte";
+$: profile_pic = $profileStore.profile_image
+let username = $profileStore.username
+$: is_loading = false
+$: track = is_loading || !profile_pic || (username && username.length > 17) ||(username && username.length < 2)
 
-let profile_pic = $users_profile.profile_image
-let username = $users_profile.username
-
-let edit_avatar = false
-const handleSubmit = (()=>{
-    
+const handleSubmit = (async()=>{
+    is_loading = true
+   let response = await useChangeUsername({profile_image:profile_pic, username}, $handleAuthToken)
+   is_loading = response.is_loading
+   if(response.response){
+        profileStore.set(response.response)
+        goto($url)
+   }
 })
 
 
 </script>
 
-{#if !edit_avatar}
+
 <div class="dialog-body default-style " style="z-index: 2; transform: none;">
-    <div class="sc-dkPtRN jScFby scroll-view sc-eTwdGJ bUoqwc">
-        <div class="flex-column full">
-            <div class="avatar-box">
-                <img class="avatar " alt="" src={profile_pic}>
-                <button on:click={()=> edit_avatar = true}>Edit Your Avatar</button>
-            </div>
-            <div class="dialog-box">
-                <div class="sc-ezbkAF kDuLvp input ">
-                    <div class="input-label">Username </div>
-                    <div class="input-control">
-                        <input type="text" autocomplete="off" placeholder="2-16 characters" bind:value={username}>
-                    </div>
+    {#if is_loading}
+        <Loader />
+    {:else}
+        <div class="sc-dkPtRN jScFby scroll-view sc-eTwdGJ bUoqwc">
+            <div class="flex-column full">
+                <div class="avatar-box">
+                    <img class="avatar " alt="" src={profile_pic}>
+                    <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id}&modal=avatar`)}>Edit Your Avatar</button>
                 </div>
-                <div class="tip-warnning">Do not use special punctuation, otherwise your account may not be supported.</div>
-                <button on:click={handleSubmit} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
-                    <div class="button-inner">Modify</div>
-                </button>
+                <div class="dialog-box">
+                    <div class="sc-ezbkAF kDuLvp input ">
+                        <div class="input-label">Username </div>
+                        <div class="input-control">
+                            <input type="text" autocomplete="off" placeholder="2-16 characters" bind:value={username}>
+                        </div>
+                    </div>
+                    <div class="tip-warnning">Do not use special punctuation, otherwise your account may not be supported.</div>
+                    <button disabled={track} on:click={handleSubmit} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+                        <div class="button-inner">Modify</div>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    {/if}
+  
 </div>
-{:else}
-<EditAvatar />
-{/if}
 
 <style>
 .default-style {
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);
 }
-
+.dialog-body {
+    position: absolute;
+    inset: 0px;
+    display: flex;
+    overflow: hidden;
+}
 .default-style > div {
     border-radius: 20px;
     background-color: rgb(30, 32, 36);
     padding: 1.25rem 1.25rem 0px;
 }
-
+.dialog-body > div {
+    flex: 1 1 0%;
+}
 .bUoqwc {
     min-height: 100%;
 }

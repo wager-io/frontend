@@ -138,25 +138,31 @@ const handleWGDwallet = async () => {
     }
   }
 
-  const handleAdminTransaction = (async(auth, route)=>{
-    let responcse = ""
-    let is_loading = true
-    if(auth){
-        await axios.get(`${URL}/admin/transaction/${route}`,{
-            user
-        })
-        .then((response)=>{
-            responcse = response.data
-            is_loading = false
-        })
-        .catch((error)=>{
-            console.log(error)
-        })
-    }else{
-        responcse = "No user"
-    }
-    return {responcse, is_loading}
-  })
+const handleTransaction = (async(auth, route)=>{
+  let responcse = ""
+  let is_loading = true
+  let error = ''
+  if(auth){
+      await axios.get(`${ServerURl()}/api/transaction/${route}`,{
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${auth}`,
+        }
+      })
+      .then((response)=>{
+          responcse = response.data
+          is_loading = false
+      })
+      .catch((err)=>{
+          error = err
+          is_loading = false
+      })
+  }else{
+      error = "No user"
+      is_loading = false
+  }
+  return {responcse, is_loading, error}
+})
 
   return {
     handleprofile,
@@ -166,7 +172,7 @@ const handleWGDwallet = async () => {
     handleWGDwallet,
     getExchangeEth,
     getExchangeBTC,
-    handleAdminTransaction
+    handleTransaction
   };
 };
 

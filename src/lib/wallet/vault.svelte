@@ -14,12 +14,10 @@ setTimeout(() => {
                 <Loader />
             </div>
             {:else}
-            <div class="sc-lhMiDA ePAxUv">
-                <div class="sc-eCImPb cuPxwd  full-abs">
-                    <img src="https://static.nanogames.io/assets/empty.acd1f5fe.png" alt="">
-                    <div class="msg">Sorry, Page not available! </div>
+                <div class="sc-eCImPb cuPxwd empty ">
+                    <div class="opps-msg"> Oops!</div>
+                    <div class="msg"> There is no data yet!</div>
                 </div>
-            </div>
             {/if}
         </div>
     </div>
@@ -30,7 +28,6 @@ setTimeout(() => {
     flex: 1 1 auto;
     position: relative;
 }
-
 .fxFgHv {
     border-radius: 1.25rem;
     background-color: rgb(30, 32, 36);

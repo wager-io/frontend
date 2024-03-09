@@ -14,7 +14,7 @@ $: urlString =  ($page.url.href);
 $: paramString = urlString.split('?')[1];
 $: queryString = new URLSearchParams(paramString);
 $: seaser = []
-$: tab = ""
+$: tab = "";
 $:{
     seaser = []
     if(paramString){
@@ -63,10 +63,11 @@ import Loader from "$lib/components/loader.svelte";
 import LayoutEl from "$lib/wallet/layout.svelte"
 import Login from "$lib/modals/auth/login/login.svelte";
 import Register from "$lib/modals/auth/register/register.svelte";
-import Profile from "../lib/modals/profile/profile.svelte";
+import Profile from "$lib/modals/profile/profile.svelte";
+import Transaction from "$lib/modals/transaction/transaction.svelte";
 // import Layout from "../lib/deposit/layout.svelte";
-$: is_login = false
 
+$: is_login = false
 let isOpenSide = true
 let isChatRoom = 0
 $: isMenu = false
@@ -163,7 +164,8 @@ const handleChatroom = ((e) => {
     }
 })
 
-$: is_deposit = false
+$: console.log(tab)
+
 </script>
 
 <div data-theme={$theme} class="app">
@@ -183,6 +185,11 @@ $: is_deposit = false
 {#if paramString && tab === "wallet"}
     <LayoutEl tab={seaser[1]} />
 {/if}
+
+{#if paramString && tab === "transaction"}
+    <Transaction tab={seaser[1]} currency={seaser[2]} bill={seaser[3]}/>
+{/if}
+
 
 {#if $profileStore && $profileStore.born === '' && $handleNestedRoute !== "/login/info" }
     <ProfileAuth />
@@ -222,9 +229,9 @@ $: is_deposit = false
 {/if}
     
 {#if !$app_Loading}
-<div id="header" class={`sc-gVkuDy gAvMHL ${isOpenSide ? `side-unfold ${isChatRoom ? "right-chat" : ""}` : `side-fold ${isChatRoom ? "right-chat" : ""}`} `}>
-    <Navbar on:close={()=> is_deposit = true} on:handleChatRoom={handleChatroom} on:login={()=> is_login = true}  on:handleMenuMobile={()=> isMenu = true }/>
-</div>
+    <div id="header" class={`sc-gVkuDy gAvMHL ${isOpenSide ? `side-unfold ${isChatRoom ? "right-chat" : ""}` : `side-fold ${isChatRoom ? "right-chat" : ""}`} `}>
+        <Navbar on:handleChatRoom={handleChatroom} on:login={()=> is_login = true}  on:handleMenuMobile={()=> isMenu = true }/>
+    </div>
 {/if}
 
 {#if !$app_Loading}

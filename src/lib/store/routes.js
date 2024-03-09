@@ -1,6 +1,8 @@
 import { writable} from "svelte/store"
+
 let route = ""
 export let routes = writable(route)
+
 let authToken = ''
 export let handleAuthToken = writable(authToken)
 

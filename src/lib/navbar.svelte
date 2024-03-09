@@ -10,7 +10,7 @@
     import { browser } from "$app/environment";
     import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
     import { url } from "./store/routes";
-    import { default_Wallet } from "$lib/store/coins"
+    import { default_Wallet } from "$lib/store/coins";
     import { profileStore, handleisLoggin } from "$lib/store/profile";
     import { createEventDispatcher } from "svelte";
     import {chatCounter, showChatCounter} from "$lib/store/chat-counter"
@@ -19,7 +19,6 @@
     import Navprofile from "./profilecomponent/main/navprofile.svelte";
     $: browser && localStorage.setItem("preload", JSON.stringify("is_active"));
     const dispatch = createEventDispatcher();
-
     const handleChat = (e) => {
       dispatch("handleChatRoom", e);
     };

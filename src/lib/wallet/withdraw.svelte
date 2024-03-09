@@ -1,6 +1,7 @@
 <script>
 import VipRule from "./vip_rule.svelte";
 export let active_coin;
+import { url } from "$lib/store/routes";
 import { handleAuthToken } from "$lib/store/routes";
 import { handleWithdraw } from "./hook"
 import { createEventDispatcher } from "svelte";
@@ -16,8 +17,6 @@ const handleWithdrawEl = async()=>{
     console.log(response)
 }
 
-
-  
 </script>
 
 <div class="sc-dkPtRN jScFby scroll-view sc-fbWUsZ eDKSkl" id="withdraw">
@@ -25,7 +24,7 @@ const handleWithdrawEl = async()=>{
         <div class="sc-ezbkAF kDuLvp input ">
             <div class="input-label">
                 <div style="flex: 1 1 0%;">Withdraw Currency</div>
-                <a href="/transactions/withdraw/BTC">Record</a>
+                <a href="{$url === "/" ? "" : $url}/?tab=transaction&modal=withdraw&cur=btc">Record</a>
             </div>
             <button on:click={()=> dispatch("show")} class="sc-kszsFN evIEvq input-control">
                 <div class="sc-cBIieI wvKye">

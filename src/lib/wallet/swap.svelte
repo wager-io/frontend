@@ -1,4 +1,5 @@
 <script>
+import { url } from "$lib/store/routes";
 export let sender
 export let reciever
 import { createEventDispatcher } from "svelte";
@@ -41,7 +42,7 @@ let receiver_amount = 0
                             </button>
                         </div>
                     </div>
-                    <div class="sc-ywFzA UsBMq">1   {sender.coin_name} ≈ 44434.2837 {reciever.coin_name}</div>
+                    <div class="sc-ywFzA UsBMq">1 {sender.coin_name} ≈ 44434.2837 {reciever.coin_name}</div>
                     <div class="icon-exchange">
                         <button on:click={()=> [sender, reciever] = [reciever, sender]}>
                             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -56,7 +57,7 @@ let receiver_amount = 0
                                     <circle cx="50" cy="50" r="20" fill="none" stroke-width="8" stroke-linecap="round" stroke-dasharray="126, 126" style="stroke-dashoffset: -8;"></circle>
                                 </svg>
                             </div>
-                            <a href="/transactions/bill/BCD/Swap">Record</a>
+                            <a href="{$url === "/" ? "" : $url}/?tab=transaction&modal=bill&cur=btc">Record</a>
                         </div>
                         <div class="input-control">
                             <input type="number" placeholder="Enter amount" bind:value={receiver_amount}>

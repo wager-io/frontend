@@ -2,6 +2,7 @@
   import { slide, fade } from "svelte/transition";
   import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
   import { goto } from "$app/navigation";
+  import { url } from "$lib/store/routes";
   import moment from "moment";
   import { handleisLoggin } from "$lib/store/profile";
   import History from "./history.svelte";
@@ -42,8 +43,7 @@
   const getTickets = async () => {
     if ($handleisLoggin) {
       try {
-        const { data } =
-          await UseFetchData($handleAuthToken).fetch("/lottery/tickets");
+        const { data } = await UseFetchData($handleAuthToken).fetch("/lottery/tickets");
         return data;
       } catch (error) {
         return null;
@@ -63,7 +63,7 @@
     if ($handleisLoggin) {
       if (inIntermission || gameEnded) return;
       buyTicketDialogOpen = true;
-    } else goto("/login");
+    } else goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`);
   };
 
   const startCountDown = () => {
@@ -231,14 +231,12 @@
           Lottery Game ID. <span>{gameData?.game_id ?? "..."}</span>
         </div>
         <a href="#lottery_rule" class="rule">Rules</a>
-        <button on:click={() => (provablyFairD = { tab: 1 })} class="fairness"
-          >Provably Fair</button>
+        <button on:click={() => (provablyFairD = { tab: 1 })} class="fairness">Provably Fair</button>
+        <div class="title">Lottery</div>
         <div class="cont">
           <div class="next-time">
             <div class="txt">
-              {inIntermission
-                ? "Game will begin in a few minutes..."
-                : "Next Draw in"}
+              {inIntermission ? "Game will begin in a few minutes..." : "Next Draw in"}
             </div>
             {#if !inIntermission}
               <div class="time">
@@ -248,12 +246,9 @@
               </div>
             {/if}
           </div>
-          <button
-            disabled={inIntermission || gameEnded}
-            class="sc-iqseJM sc-hBUSln cBmlor blefOg button button-normal"
-          >
-            <div
-              role="button"
+          <button disabled={inIntermission || gameEnded}
+            class="sc-iqseJM sc-hBUSln cBmlor blefOg button button-normal" >
+            <div role="button"
               tabindex="-1"
               on:keydown={handleBuyTicket}
               on:click={handleBuyTicket}
@@ -271,8 +266,7 @@
         <div class="sc-hAWBJg gAsrpM auto-scroll">
           <div style="position: absolute; transform: none;">
             {#each purchases as ticket (ticket.ticket_id)}
-              <div
-                out:fade={{ duration: 300 }}
+              <div  out:fade={{ duration: 300 }}
                 in:slide={{ duration: 300 }}
                 class="win-item"
               >
@@ -734,3 +728,27 @@
     <Loader />
   </div>
 {/if}
+
+
+<style>
+.blefOg.button {
+  color: var(--text-5);
+  box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
+  background-color: rgb(240 209 40);
+  background-image: conic-gradient(
+    from 1turn,
+    rgb(173, 152, 31),
+    rgb(240 209 40)
+  );
+}
+.wrap .title{
+  font-size: 53px;
+  color: #ffff;
+  font-weight: 700;
+  width: fit-content;
+  text-align: center;
+  position: absolute;
+  left: 41%;
+  top: 20%;
+}
+</style>

@@ -130,6 +130,11 @@
     transition: all 0.5s ease 0s;
 }
 
+.dialog-back svg {
+  transform: rotate(180deg);
+  width: 16px;
+  height: 16px;
+}
 
 /* .dialog {
     width: 100%;
@@ -499,4 +504,13 @@ p {
   justify-content: center;
   width: 3.75rem;
   height: 3.75rem;
+}
+
+.opps-msg{
+  font-size: 64px;
+  font-weight: 800;
+  margin-top: 40px;
+  background: linear-gradient(86.06deg, #BE5EF8 17.3%, #B2C730 62.22%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
