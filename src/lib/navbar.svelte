@@ -168,8 +168,8 @@
       
           <div class="header-login">
             {#if !$handleisLoggin}
-            <button on:click={()=> goto("/login")}>Sign in</button>
-            <button on:click={()=> goto("/register")} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+            <button style="margin-right: 15px;" on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)}>Sign in</button>
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
               <div class="button-inner">Sign up</div>
             </button>
             {:else}

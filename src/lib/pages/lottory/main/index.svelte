@@ -742,13 +742,15 @@
   );
 }
 .wrap .title{
-  font-size: 53px;
-  color: #ffff;
-  font-weight: 700;
-  width: fit-content;
-  text-align: center;
-  position: absolute;
-  left: 41%;
-  top: 20%;
+    font-size: 53px;
+    color: #ffff;
+    font-weight: 700;
+    /* width: fit-content; */
+    text-align: center;
+    margin-top: 25px;
+    /* position: absolute; */
+    /* left: 41%; */
+    text-align: center;
+    /* top: 20%; */
 }
 </style>

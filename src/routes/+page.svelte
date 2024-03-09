@@ -210,7 +210,7 @@ const handleLoginWithGoogle = (async()=>{
     max-width: 1832px;
     margin: 40px 15px 0 15px;
     border-radius: 10px;
-    background: linear-gradient(90.05deg, #010010 7.95%, #10233A 18.59%, #2E688C 39.32%, rgba(169, 44, 180, 0.61) 62.51%, #010010 89.29%);
+    background: linear-gradient(94.02deg, #010010 -0.67%, rgba(169, 44, 180, 0.61) 69.91%, #010010 116.81%);
 }
 .banner-title{
     color: #ffff;
@@ -288,9 +288,39 @@ const handleLoginWithGoogle = (async()=>{
     }
     .bannner-int{
         display: flex;
+        flex-direction: column;
         margin: 25px 3px;
     }
+    .banner-body{
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        margin: 30px 15px;
+    }
 }
+@media only screen and (max-width: 400px){
+.banner-title{
+    color: #ffff;
+    font-size: 22px;
+    text-align: center;
+    font-weight: 800;
+    width: 100%;
+    line-height: 50px;
+    padding-bottom: 20px;
+}
+.banner-title span{
+    font-size: 33px;
+    font-weight: 800;
+    background: linear-gradient(86.06deg, #BE5EF8 17.3%, #B2C730 62.22%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.banner-image img{
+   width: 17rem;
+}
+}
+
+
 
 .progress-heading.svelte-h0vqv3 {
     display: flex;
