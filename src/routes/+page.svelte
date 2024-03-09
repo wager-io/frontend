@@ -241,23 +241,7 @@ const handleLoginWithGoogle = (async()=>{
    width: 25rem;
 }
 
-.banner-image img {
-  position: relative;
-  animation-name: example;
-  animation-duration: 5s;
-  animation-timing-function: linear;
-  animation-delay: 2s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
 
-@keyframes example {
-  0%   { left:0px; top:0px;}
-  25%  { left:00px; top:0px;}
-  50%  { left:100px; top:0px;}
-  75%  { left:0px; top:0px;}
-  100% { left:0px; top:0px;}
-}
 
 .gyJkwe .screen-wrap {
     max-width: 100%;
@@ -317,6 +301,26 @@ const handleLoginWithGoogle = (async()=>{
 }
 .banner-image img{
    width: 17rem;
+}
+}
+
+@media only screen and (min-width: 650px){
+    .banner-image img {
+  position: relative;
+  animation-name: example;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes example {
+  0%   { left:0px; top:0px;}
+  25%  { left:00px; top:0px;}
+  50%  { left:100px; top:0px;}
+  75%  { left:0px; top:0px;}
+  100% { left:0px; top:0px;}
 }
 }
 
