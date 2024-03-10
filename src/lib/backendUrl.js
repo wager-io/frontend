@@ -10,5 +10,5 @@ export const VerifyURl = () => {
 
 export const SocketURL = (()=>{
     // return "http://localhost:3000"
-    return "https://wager-real-time-88fcd32da568.herokuapp.com"
+    return "https://wager-backend.vercel.app"
 })
