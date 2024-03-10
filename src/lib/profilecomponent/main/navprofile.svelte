@@ -201,24 +201,24 @@ const handleStatistics = (()=>{
     align-items: center;
     flex: 1 1 0%;
 }
- .right {
+ /* .right {
     display: flex;
     -webkit-box-align: center;
     align-items: center;
     -webkit-box-pack: end;
     justify-content: flex-end;
-}
+} */
 .emGYim .user-info .left {
     display: flex;
 }
-.emGYim .user-info .right {
+/* .emGYim .user-info .right {
     cursor: pointer;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
     padding-top: 0.25rem;
     height: 1.25rem;
-}
+} */
 .emGYim .user-info .left > img {
     width: 2.625rem;
     height: 2.625rem;
