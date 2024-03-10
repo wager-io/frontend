@@ -16,9 +16,9 @@
   import axios from "axios";
   import { GIFs } from "./data/index";
   import { emojis } from "./data/index";
+  import { url } from "$lib/store/routes";
   import { createEventDispatcher, onMount } from "svelte";
   import { tipped_user } from "$lib/store/tipUser";
-  import { tipped } from "$lib/store/tipped";
   import { profileStore } from "$lib/store/profile";
   import { handleisLoggin } from "$lib/store/profile";
   import { handleAuthToken } from "$lib/store/routes";
@@ -36,8 +36,6 @@
   let newMessages = "";
   let textareaRef;
   let showRule = false;
-  let showRegion = false;
-  let showTopWinner = false;
   let URL = ServerURl();
   let defaultUsername = [];
   let filteredUsers = [];
@@ -106,7 +104,6 @@
 
     if (inputValue.includes("@")) {
       let atPosition = inputValue.lastIndexOf("@");
-
       if (atPosition - 1 == -1 || inputValue.charAt(atPosition - 1) === " ") {
         const searchTerm = inputValue.substring(atPosition + 1);
         filteredUsers = defaultUsername.filter((user) =>
@@ -196,7 +193,7 @@
           };
           handleChattingMessages(data);
         } else {
-          goto("/login");
+          goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)
           handlecloseChat();
         }
       }

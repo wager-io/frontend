@@ -9,7 +9,7 @@
     import Icon from "svelte-icons-pack/Icon.svelte";
     import { browser } from "$app/environment";
     import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
-    import { url } from "./store/routes";
+    import { url } from "$lib/store/routes";
     import { default_Wallet } from "$lib/store/coins";
     import { profileStore, handleisLoggin } from "$lib/store/profile";
     import { createEventDispatcher } from "svelte";

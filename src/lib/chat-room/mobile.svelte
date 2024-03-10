@@ -4,7 +4,6 @@
   import "./styles/coinrain.css";
   import "./styles/gif.css";
   import { goto } from "$app/navigation";
-  import SiRainmeter from "svelte-icons-pack/si/SiRainmeter";
   import BsTelegram from "svelte-icons-pack/bs/BsTelegram";
   import Icon from "svelte-icons-pack/Icon.svelte";
   import CgInfo from "svelte-icons-pack/cg/CgInfo";
