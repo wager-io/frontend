@@ -1,6 +1,6 @@
 export const ServerURl = (()=>{
-    // return "http://localhost:8000"
-    return "https://wager-backend.vercel.app"
+    return "http://localhost:8000"
+    // return "https://wager-backend.vercel.app"
 })
 
 export const VerifyURl = () => {

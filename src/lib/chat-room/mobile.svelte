@@ -7,11 +7,9 @@
   import BsTelegram from "svelte-icons-pack/bs/BsTelegram";
   import Icon from "svelte-icons-pack/Icon.svelte";
   import CgInfo from "svelte-icons-pack/cg/CgInfo";
-  import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
   import IoClose from "svelte-icons-pack/io/IoClose";
   import BsFiletypeGif from "svelte-icons-pack/bs/BsFiletypeGif";
   import BsEmojiSunglasses from "svelte-icons-pack/bs/BsEmojiSunglasses";
-  import FaSolidAt from "svelte-icons-pack/fa/FaSolidAt";
   import WiRaindrop from "svelte-icons-pack/wi/WiRaindrop";
   import RiFinanceCopperCoinLine from "svelte-icons-pack/ri/RiFinanceCopperCoinLine";
   import { afterUpdate, tick } from "svelte";
