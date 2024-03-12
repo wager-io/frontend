@@ -7,6 +7,35 @@ import { goto } from "$app/navigation";
 import { currencyRates } from "$lib/store/currency";
 import { browser } from '$app/environment';
 import { page } from '$app/stores';
+import "../styles/global.css"
+import Icon from 'svelte-icons-pack/Icon.svelte';
+import HiSolidMenu from "svelte-icons-pack/hi/HiSolidMenu";
+import { UserProfileEl } from "$lib/index";
+const { handleprofile ,getExchangeEth, getExchangeBTC} = UserProfileEl()
+import { theme } from "$lib/store/_theme";
+import {showChatCounter, chatCounter} from "$lib/store/chat-counter"
+import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
+import Navbar from "$lib/navbar.svelte";
+import ProfileAuth from "$lib/profleAuth/index.svelte";
+import { profileStore } from "$lib/store/profile"
+import SideBar from "$lib/sideBar.svelte";
+import Footer from "$lib/footer.svelte";
+import Menubar from "$lib/mobile/menu/menubar.svelte";
+import ChatSide from "../lib/chat-room/index.svelte"
+import Notification from "../lib/notification/index.svelte";
+import { handleNestedRoute } from "$lib/store/nested_routes";
+import { handleisLoggin, handleisLoading } from "$lib/store/profile"
+import "../styles/errors/error.css";
+import { onMount } from "svelte";
+import { default_Wallet, coin_list } from "../lib/store/coins"
+import { vipProfiile } from "$lib/store/profile";
+import Closesidebar from "$lib/closesidebar.svelte";
+import Loader from "$lib/components/loader.svelte";
+import LayoutEl from "$lib/wallet/layout.svelte"
+import Login from "$lib/modals/auth/login/login.svelte";
+import Register from "$lib/modals/auth/register/register.svelte";
+import Profile from "$lib/modals/profile/profile.svelte";
+import Transaction from "$lib/modals/transaction/transaction.svelte";
 
 $: routes.set(data)
 $: url.set($page.url.pathname)
@@ -15,6 +44,7 @@ $: paramString = urlString.split('?')[1];
 $: queryString = new URLSearchParams(paramString);
 $: seaser = []
 $: tab = "";
+$: app_isLoading = true
 $:{
     seaser = []
     if(paramString){
@@ -31,42 +61,6 @@ $: {
     }
 }
 
-import "../styles/global.css"
-import Icon from 'svelte-icons-pack/Icon.svelte';
-import HiSolidMenu from "svelte-icons-pack/hi/HiSolidMenu";
-import { UserProfileEl } from "$lib/index";
-const { handleprofile ,getExchangeEth, getExchangeBTC} = UserProfileEl()
-import { theme } from "$lib/store/_theme";
-import {showChatCounter, chatCounter} from "$lib/store/chat-counter"
-
-setTimeout(()=>{
-    if(data.preloaed === null){
-            window.location.href = ("/")
-    }
-},3000)
-
-import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
-import Navbar from "$lib/navbar.svelte";
-import ProfileAuth from "$lib/profleAuth/index.svelte";
-import { profileStore, app_Loading } from "$lib/store/profile"
-import SideBar from "$lib/sideBar.svelte";
-import Footer from "$lib/footer.svelte";
-import Menubar from "$lib/mobile/menu/menubar.svelte";
-import ChatSide from "../lib/chat-room/index.svelte"
-import Notification from "../lib/notification/index.svelte";
-import { handleNestedRoute } from "$lib/store/nested_routes";
-import { handleisLoggin, handleisLoading } from "$lib/store/profile"
-import "../styles/errors/error.css";
-import { onMount } from "svelte";
-import Closesidebar from "$lib/closesidebar.svelte";
-import Loader from "$lib/components/loader.svelte";
-import LayoutEl from "$lib/wallet/layout.svelte"
-import Login from "$lib/modals/auth/login/login.svelte";
-import Register from "$lib/modals/auth/register/register.svelte";
-import Profile from "$lib/modals/profile/profile.svelte";
-import Transaction from "$lib/modals/transaction/transaction.svelte";
-// import Layout from "../lib/deposit/layout.svelte";
-
 $: is_login = false
 let isOpenSide = true
 let isChatRoom = 0
@@ -74,7 +68,24 @@ $: isMenu = false
 let sideDetection = 0
 
 onMount(async()=>{
-    await handleprofile($handleAuthToken)
+  let { is_loading, error, response } =  await handleprofile($handleAuthToken)
+    app_isLoading = is_loading
+    if(error){
+        profileStore.set({})
+        localStorage.removeItem("user");
+        localStorage.removeItem("user_bet_amount");
+    }
+    if(response){
+        profileStore.set(response.users)
+        vipProfiile.set(response.users)
+        let wallet = response.wallet
+        coin_list.set(wallet)
+        wallet.forEach(element => {
+            if(element.is_active){
+            default_Wallet.set(element)
+            }
+        });
+    }
   let eth = await getExchangeEth()
    let btc = await getExchangeBTC()
    currencyRates.set({eth, btc})
@@ -213,7 +224,7 @@ $: console.log(tab)
     </div>
 </div>
 
-{#if $app_Loading}
+{#if app_isLoading}
 <div class="preloading">
     <div class="gyuys">
         <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
@@ -228,13 +239,13 @@ $: console.log(tab)
     </div>
 {/if}
     
-{#if !$app_Loading}
+{#if !app_isLoading}
     <div id="header" class={`sc-gVkuDy gAvMHL ${isOpenSide ? `side-unfold ${isChatRoom ? "right-chat" : ""}` : `side-fold ${isChatRoom ? "right-chat" : ""}`} `}>
         <Navbar on:handleChatRoom={handleChatroom} on:login={()=> is_login = true}  on:handleMenuMobile={()=> isMenu = true }/>
     </div>
 {/if}
 
-{#if !$app_Loading}
+{#if !app_isLoading}
     <main class="sc-lhMiDA ePAxUv">
         <slot></slot>
     </main>

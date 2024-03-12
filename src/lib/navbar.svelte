@@ -17,7 +17,6 @@
     import { goto } from "$app/navigation";
     import Coins from "./profilecomponent/main/coins.svelte";
     import Navprofile from "./profilecomponent/main/navprofile.svelte";
-    $: browser && localStorage.setItem("preload", JSON.stringify("is_active"));
     const dispatch = createEventDispatcher();
     const handleChat = (e) => {
       dispatch("handleChatRoom", e);

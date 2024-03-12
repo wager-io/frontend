@@ -1,54 +1,32 @@
-import { profileStore, handleisLoggin, app_Loading } from "$lib/store/profile";
+import { handleisLoggin } from "$lib/store/profile";
 import axios from "axios"
-import { default_Wallet, coin_list } from "../lib/store/coins"
-import { vipProfiile } from "$lib/store/profile";
+
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
 
 export  const UserProfileEl = (auth) => {
 
 const handleprofile = async (auth) => {
-    app_Loading.set(true)
-    if(auth){
-        const response = await fetch( `${URL}/api/profile`,{
-                method: "GET",
-                headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${auth}`
-                }
-            });
-            const json = await response.json();
-            if(!response.ok){
-            app_Loading.set(false)
-            handleisLoggin.set(false)
-            profileStore.set({})
-            window.location.href = ("")
-            localStorage.removeItem("user");
-            localStorage.removeItem("user_bet_amount");
-            }
-            if (response.ok) {
-                profileStore.set(json.users[0])
-                vipProfiile.set(json.users[0])
-                app_Loading.set(false)
-                handleisLoggin.set(true)
-                let wallet = json.wallet
-                coin_list.set(wallet)
-                wallet.forEach(element => {
-                  if(element.is_active){
-                    default_Wallet.set(element)
-                  }
-               });
-            }
-            else{
-              handleisLoggin.set(false)
-              profileStore.set({})
-              window.location.href = ("")
-              localStorage.removeItem("user");
-              localStorage.removeItem("user_bet_amount");
-            }
-    }else{
-        app_Loading.set(false)
-    }
+    let is_loading = true
+    let error = ""
+    let response = ""
+    await axios.get(`${URL}/api/profile`,{
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${auth}`
+        }
+    })
+    .then((res)=>{
+        response = res.data
+        handleisLoggin.set(true)
+        is_loading = false
+    })
+    .catch((err)=>{
+        error = err.message
+        handleisLoggin.set(false)
+        is_loading = false
+    })
+    return { is_loading, error, response }
 };
 
 
