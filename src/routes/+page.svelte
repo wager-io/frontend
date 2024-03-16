@@ -305,7 +305,7 @@ const handleLoginWithGoogle = (async()=>{
 }
 
 @media only screen and (min-width: 650px){
-    .banner-image img {
+.banner-image img {
   position: relative;
   animation-name: example;
   animation-duration: 5s;
@@ -315,13 +315,6 @@ const handleLoginWithGoogle = (async()=>{
   animation-direction: alternate;
 }
 
-@keyframes example {
-  0%   { left:0px; top:0px;}
-  25%  { left:00px; top:0px;}
-  50%  { left:100px; top:0px;}
-  75%  { left:0px; top:0px;}
-  100% { left:0px; top:0px;}
-}
 }
 
 

@@ -11,27 +11,28 @@ import "../styles/global.css"
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import HiSolidMenu from "svelte-icons-pack/hi/HiSolidMenu";
 import { UserProfileEl } from "$lib/index";
-const { handleprofile ,getExchangeEth, getExchangeBTC} = UserProfileEl()
+const { handleprofile ,getExchangeEth, getExchangeBTC } = UserProfileEl()
 import { theme } from "$lib/store/_theme";
-import {showChatCounter, chatCounter} from "$lib/store/chat-counter"
-import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
+import {showChatCounter, chatCounter} from "$lib/store/chat-counter";
+import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import Navbar from "$lib/navbar.svelte";
 import ProfileAuth from "$lib/profleAuth/index.svelte";
 import { profileStore } from "$lib/store/profile"
 import SideBar from "$lib/sideBar.svelte";
+import { fetchPreviousMessage } from "../lib/chat-room/hook";
 import Footer from "$lib/footer.svelte";
 import Menubar from "$lib/mobile/menu/menubar.svelte";
-import ChatSide from "../lib/chat-room/index.svelte"
-import Notification from "../lib/notification/index.svelte";
+import ChatSide from "$lib/chat-room/index.svelte"
+import Notification from "$lib/notification/index.svelte";
 import { handleNestedRoute } from "$lib/store/nested_routes";
 import { handleisLoggin, handleisLoading } from "$lib/store/profile"
 import "../styles/errors/error.css";
 import { onMount } from "svelte";
-import { default_Wallet, coin_list } from "../lib/store/coins"
+import { default_Wallet, coin_list } from "$lib/store/coins"
 import { vipProfiile } from "$lib/store/profile";
 import Closesidebar from "$lib/closesidebar.svelte";
 import Loader from "$lib/components/loader.svelte";
-import LayoutEl from "$lib/wallet/layout.svelte"
+import LayoutEl from "$lib/wallet/layout.svelte";
 import Login from "$lib/modals/auth/login/login.svelte";
 import Register from "$lib/modals/auth/register/register.svelte";
 import Profile from "$lib/modals/profile/profile.svelte";
@@ -89,6 +90,10 @@ onMount(async()=>{
   let eth = await getExchangeEth()
    let btc = await getExchangeBTC()
    currencyRates.set({eth, btc})
+})
+
+onMount(async()=>{
+    await fetchPreviousMessage()
 })
     
 $:{

@@ -1,10 +1,13 @@
 <script>
+import { onMount } from "svelte";
 import { payout, range} from "$lib/games/ClassicDice/store/index"
-import { HandleDicePoint, betPosition, dice_history, Handles_alive, HandleHas_won,
+import { HandleDicePoint, betPosition, dice_history, 
+    Handles_alive, HandleHas_won,dicegameplays,
  rollunder, flix } from "./store/index"
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import AiOutlineSwap from "svelte-icons-pack/ai/AiOutlineSwap";
 import { handleisLoggin } from "../../store/profile"
+import { handleSocketEmmission } from "$lib/socket-connection/index"
 import HistoryDetails from "./componets/historyDetails.svelte";
 import { soundManager } from "$lib/games/ClassicDice/store/index";
 import { soundHandler } from "$lib/games/ClassicDice/store/index";
@@ -104,11 +107,18 @@ const handleRollUnder = ()=>{
     }
 }
 
-
 $: history = []
 $:{
     history  = [...$dice_history]
 }
+
+onMount(async()=>{
+    let ably = await handleSocketEmmission()
+    const channel = ably.channels.get("dice-game");
+    await channel.subscribe("all-bet", (message) => {
+        dicegameplays.set([...$dicegameplays, message.data])
+    });
+})
 
 </script>
 
@@ -123,7 +133,7 @@ $:{
                 {#if $dice_history.length !== 0}
                 <div class="recent-list" style={`width: ${$screen < 700 ? 160 : 100}%; transform: translate(0%, 0px);`} >
                 {#each $dice_history.slice(-10) as  dice} 
-                    <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style={`width: ${$screen > 700 ? 290 : 50}px;`}>
+                    <button  on:click={()=> handleDiceHistoryDetail(dice)} class="recent-item" style={`width: ${$screen > 700 ? 90 : 50}px;`}>
                         <div class={`item-wrap ${dice.has_won ? "is-win" : "is-lose"} `}>{(parseFloat(dice.cashout)).toFixed(2)}</div>
                     </button>
                 {/each}

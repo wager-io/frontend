@@ -46,4 +46,8 @@ export const DiceHook = () => {
       }
     };
     return { playdice};
-  };
+};
+
+export const handleMinesBet = (async(data)=>{
+    console.log(data)
+})

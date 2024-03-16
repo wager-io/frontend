@@ -9,6 +9,9 @@
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 		<title>Wager</title>
+		<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+		<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -35,148 +38,147 @@
 				--scroll-color: #24262B;
 				--btn-color:rgb(88, 26, 196);
 				--btn-image:conic-gradient(from 1turn, rgb(74, 43, 128), #9900CC )
-
 				--border-radius: 18px;
-        --card-bg-1: rgb(28, 30, 34);
-        --card-bg-2: rgb(49, 52, 60);
-        --card-bg-3: white;
-        --card-bg-5: rgb(30, 32, 36);
-        --card-bg-4: rgb(36, 38, 43);
-        --card-bg-6: rgb(25, 27, 30);
-        --card-bg-7: rgba(0, 0, 0, 0.3);
-        --card-bg-8: rgba(36, 38, 43, 0.5);
-        --card-bg-9: rgb(26, 28, 32);
-        --card-bg-10: rgb(43, 47, 54);
-        --card-bg-11: rgba(49, 52, 60, 0.4);
-        --card-bg-12: rgb(36, 38, 43);
-        --card-bg-13: rgba(49, 52, 60, 0.6);
-        --text-1: rgb(234, 234, 234);
-        --text-3: rgb(229, 233, 237);
-        --text-4: rgb(153, 164, 176);
-        --text-5: rgb(245, 246, 247);
-        --text-6: rgba(153, 164, 176, 0.6);
-        --text-7: rgb(152, 167, 181);
-        --text-8: rgb(223, 227, 230);
-        --border-1: rgb(45, 48, 53);
-        --border-2: rgba(49, 52, 60, 0.5);
-        --active-tab: linear-gradient(
-          to left,
-          rgb(85, 89, 102),
-          rgb(85, 89, 102),
-          rgb(88, 174, 20)
-        );
-        --tab-nav-bg: rgba(49, 52, 60, 0.7);
-        --original-bg: rgb(45, 48, 53);
-        --original-text: rgba(153, 164, 176, 0.8);
-        --curve-bg-1: linear-gradient(
-          to right,
-          rgb(28, 30, 34),
-          rgb(28, 30, 34)
-        );
-        --curve-bg-img-1: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJoAAABwCAMAAADR/pnBAAAAn1BMVEUAAAAcHiIdHyIdHiIcHiIfIiVwcHAdHiIcHiIcHiMcHyIlLjgcHiIcHiIcHyIcHyIcHyIdHyMeHiQdHyMeHyQcHyIcHiIcHiIcHiIdHyIdHiIhISYiIickJCskJCQ8PDwcHiIcHiIdHyIdHyMcHiIdHyMcHyQeISQoKCgcHiMcHiIcHiIeHiMeICUfHyQfIiUcHyIcHiIdHiIgJSUcHiJEtYpkAAAANHRSTlMA/o7vuSUC+OqQWgnz38+tnHBTQzrXy8O9k4oeFhENBPyypnt2amNNBtqigUs2MSzj0Zcb0lGzEwAAAgJJREFUeNrN3FlS4lAARuHEhAQTQEaZZ0TUVns4+19bN9KUIGrBC5x/Aae+SiWVm5cEfLNSudK56WWF4DLjiEWdp0vwOHKVRT848zh6YdwMzjpO2XlxnLb4jDcdJy6tJV+ULk6D9hcXTkCjlH1aMtAIF5+VFDToJoclCY1pflCy0Lg5uG4aGlcfSx4adx9KItrkx35JRKM42CuZaNzslVQ06rslF6043Cm5aDzulGS08OW9JKPRfi/ZaDtPgo5WXm1LOhqLbclHi7bvBB+N3/9LQtrkdVMS0og3JSONzelISWuN1yUlbXPgddLeTiBO2ts3jJSWFoJASlufxa00Gl5aJdHSWHppP3MtjScvLe1racy8tPBZS6PtpZF5aeVcS2PupZUGWhpVLy181dKIvTTuvbTWWEuj5qVFQy2Nay8tLWhpTL00Gl5aJdHSWHppxZGWRs9LS/taGjMvjaaXduulkXlp5VxLY+6llQZaGlUvLXzR0uh4adS9tIexlkbNS4uGWhpdL21S0NKYemk0vLRfiZbGnZdWHGlpdL20sKml8ZBrafS8tPBZS6M10tKIx1oaVS+NuZcWZloaaV1LI6xpadDz0pittDTafS2NaKmlQfxHSyPKtDS4vdfS1jgt7R+uvrLSIKo2EikNKHYbIykNCFuPtWaupO38oKN6vd7VZn8B7LFgIf7sh1IAAAAASUVORK5CYII=);
-        --curve-bg-img-2: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAADUCAMAAAB5wzuWAAAAk1BMVEUAAAAeICQgKi0eICQeICQeISUeISUeISUeISUfICUpLi5OTk4eICQfICQfIiUgIiYgIiYeICUfICQeICUeICQfICUhIicfICUeISQfISQfISQjIyktLS0eICQeICQeICQfISQfISUfISUfISUeIiYhIychJCciIismJiaAgIAfICQeICQfICUfICUfISUhISYeICRbUIDiAAAAMHRSTlMA9w/v/fu6opJmBwPbxks+NPPp5uFfJtfSeFkVC87AmYaAc1JCKyMdGgK2sKyeai/GNLYaAAACYElEQVR42uzOS07CUABA0bavpdBaoFBAfsof/OHd/+qMYWZiogPjHfSs4ET8WBaaKp8Piujv8Fvx8ySJbv4/A9SbW0eRgbD97EgyEHpRpMlAvhJluJ+KMoS+KEM6EWVIr6IMzE0ZNqYMj0+iDHkpyvBSiDJ0VqIMVSLKcL8UZbg7izI0U1GG0bsoQxiKMtQHUYZ4L8qQLUQZ0qsoA3NTho0pQ9eUIS9FGV4KUYbOSpShSkQZ1ktRhtlZlKE5iTKMj6IMYSjKUB9EGeK+KEO2EGVIe6IM7EwZtqYMXVOGvBRleC1EGTorUYYqEWVYL0UZZhdRhuYkyjA+ijKEoShDPRBliPuiDNlClCHtiTKwM2XYmjJ0TRneSlGG10KU4bkQZXhIRBnWS1GG2UWU4e4kyjA+ijKMhqIMYSDKEPdFGbK9KEO6EGVI96IM8UCUYXQRZahKUYadKVOfRRlyUyadijK8mTJxIsowMWU6pkxciDIcTJm5KZObMpUp05gywZTJTBnaTJtpM23mizbznTbz0c4d2zAIBEAQNEigf/ECCwQmgpj+G3QD3tS6YLeCaeCOEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKzL/qkjBrEqYlYcYkTEnC1CTMEYTZkhamdxJmCcK0pL32HoQ5nyDMHHQ4cAX9QgzvIEwN+hIpQS8r45SD+fQ5Zzhjn3MTVKaYA6Wh5vxcXTkPYOccc9TW9ifkwm67l4Dbw25tY6nH61dfgXj42O/H5kkAAAAASUVORK5CYII=);
-        --vip-img: url(https://static.nanogames.io/assets/flag_bg.fcc40855.png);
-        --vip-card-bg: rgba(49, 52, 58, 0.8);
-        --affiliate-bg: rgb(23, 24, 27);
-        --affiliate-img-1: url(https://static.nanogames.io/assets/graph.line.a4a20112.png);
-        --bxs-1: linear-gradient(rgb(17, 20, 21), rgba(36, 38, 43, 0));
+				--card-bg-1: rgb(28, 30, 34);
+				--card-bg-2: rgb(49, 52, 60);
+				--card-bg-3: white;
+				--card-bg-5: rgb(30, 32, 36);
+				--card-bg-4: rgb(36, 38, 43);
+				--card-bg-6: rgb(25, 27, 30);
+				--card-bg-7: rgba(0, 0, 0, 0.3);
+				--card-bg-8: rgba(36, 38, 43, 0.5);
+				--card-bg-9: rgb(26, 28, 32);
+				--card-bg-10: rgb(43, 47, 54);
+				--card-bg-11: rgba(49, 52, 60, 0.4);
+				--card-bg-12: rgb(36, 38, 43);
+				--card-bg-13: rgba(49, 52, 60, 0.6);
+				--text-1: rgb(234, 234, 234);
+				--text-3: rgb(229, 233, 237);
+				--text-4: rgb(153, 164, 176);
+				--text-5: rgb(245, 246, 247);
+				--text-6: rgba(153, 164, 176, 0.6);
+				--text-7: rgb(152, 167, 181);
+				--text-8: rgb(223, 227, 230);
+				--border-1: rgb(45, 48, 53);
+				--border-2: rgba(49, 52, 60, 0.5);
+				--active-tab: linear-gradient(
+				to left,
+				rgb(85, 89, 102),
+				rgb(85, 89, 102),
+				rgb(88, 174, 20)
+				);
+				--tab-nav-bg: rgba(49, 52, 60, 0.7);
+				--original-bg: rgb(45, 48, 53);
+				--original-text: rgba(153, 164, 176, 0.8);
+				--curve-bg-1: linear-gradient(
+				to right,
+				rgb(28, 30, 34),
+				rgb(28, 30, 34)
+				);
+				--curve-bg-img-1: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJoAAABwCAMAAADR/pnBAAAAn1BMVEUAAAAcHiIdHyIdHiIcHiIfIiVwcHAdHiIcHiIcHiMcHyIlLjgcHiIcHiIcHyIcHyIcHyIdHyMeHiQdHyMeHyQcHyIcHiIcHiIcHiIdHyIdHiIhISYiIickJCskJCQ8PDwcHiIcHiIdHyIdHyMcHiIdHyMcHyQeISQoKCgcHiMcHiIcHiIeHiMeICUfHyQfIiUcHyIcHiIdHiIgJSUcHiJEtYpkAAAANHRSTlMA/o7vuSUC+OqQWgnz38+tnHBTQzrXy8O9k4oeFhENBPyypnt2amNNBtqigUs2MSzj0Zcb0lGzEwAAAgJJREFUeNrN3FlS4lAARuHEhAQTQEaZZ0TUVns4+19bN9KUIGrBC5x/Aae+SiWVm5cEfLNSudK56WWF4DLjiEWdp0vwOHKVRT848zh6YdwMzjpO2XlxnLb4jDcdJy6tJV+ULk6D9hcXTkCjlH1aMtAIF5+VFDToJoclCY1pflCy0Lg5uG4aGlcfSx4adx9KItrkx35JRKM42CuZaNzslVQ06rslF6043Cm5aDzulGS08OW9JKPRfi/ZaDtPgo5WXm1LOhqLbclHi7bvBB+N3/9LQtrkdVMS0og3JSONzelISWuN1yUlbXPgddLeTiBO2ts3jJSWFoJASlufxa00Gl5aJdHSWHppP3MtjScvLe1racy8tPBZS6PtpZF5aeVcS2PupZUGWhpVLy181dKIvTTuvbTWWEuj5qVFQy2Nay8tLWhpTL00Gl5aJdHSWHppxZGWRs9LS/taGjMvjaaXduulkXlp5VxLY+6llQZaGlUvLXzR0uh4adS9tIexlkbNS4uGWhpdL21S0NKYemk0vLRfiZbGnZdWHGlpdL20sKml8ZBrafS8tPBZS6M10tKIx1oaVS+NuZcWZloaaV1LI6xpadDz0pittDTafS2NaKmlQfxHSyPKtDS4vdfS1jgt7R+uvrLSIKo2EikNKHYbIykNCFuPtWaupO38oKN6vd7VZn8B7LFgIf7sh1IAAAAASUVORK5CYII=);
+				--curve-bg-img-2: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAADUCAMAAAB5wzuWAAAAk1BMVEUAAAAeICQgKi0eICQeICQeISUeISUeISUeISUfICUpLi5OTk4eICQfICQfIiUgIiYgIiYeICUfICQeICUeICQfICUhIicfICUeISQfISQfISQjIyktLS0eICQeICQeICQfISQfISUfISUfISUeIiYhIychJCciIismJiaAgIAfICQeICQfICUfICUfISUhISYeICRbUIDiAAAAMHRSTlMA9w/v/fu6opJmBwPbxks+NPPp5uFfJtfSeFkVC87AmYaAc1JCKyMdGgK2sKyeai/GNLYaAAACYElEQVR42uzOS07CUABA0bavpdBaoFBAfsof/OHd/+qMYWZiogPjHfSs4ET8WBaaKp8Piujv8Fvx8ySJbv4/A9SbW0eRgbD97EgyEHpRpMlAvhJluJ+KMoS+KEM6EWVIr6IMzE0ZNqYMj0+iDHkpyvBSiDJ0VqIMVSLKcL8UZbg7izI0U1GG0bsoQxiKMtQHUYZ4L8qQLUQZ0qsoA3NTho0pQ9eUIS9FGV4KUYbOSpShSkQZ1ktRhtlZlKE5iTKMj6IMYSjKUB9EGeK+KEO2EGVIe6IM7EwZtqYMXVOGvBRleC1EGTorUYYqEWVYL0UZZhdRhuYkyjA+ijKEoShDPRBliPuiDNlClCHtiTKwM2XYmjJ0TRneSlGG10KU4bkQZXhIRBnWS1GG2UWU4e4kyjA+ijKMhqIMYSDKEPdFGbK9KEO6EGVI96IM8UCUYXQRZahKUYadKVOfRRlyUyadijK8mTJxIsowMWU6pkxciDIcTJm5KZObMpUp05gywZTJTBnaTJtpM23mizbznTbz0c4d2zAIBEAQNEigf/ECCwQmgpj+G3QD3tS6YLeCaeCOEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKDCWGEkOJocRQYigxlBhKzL/qkjBrEqYlYcYkTEnC1CTMEYTZkhamdxJmCcK0pL32HoQ5nyDMHHQ4cAX9QgzvIEwN+hIpQS8r45SD+fQ5Zzhjn3MTVKaYA6Wh5vxcXTkPYOccc9TW9ifkwm67l4Dbw25tY6nH61dfgXj42O/H5kkAAAAASUVORK5CYII=);
+				--vip-img: url(https://static.nanogames.io/assets/flag_bg.fcc40855.png);
+				--vip-card-bg: rgba(49, 52, 58, 0.8);
+				--affiliate-bg: rgb(23, 24, 27);
+				--affiliate-img-1: url(https://static.nanogames.io/assets/graph.line.a4a20112.png);
+				--bxs-1: linear-gradient(rgb(17, 20, 21), rgba(36, 38, 43, 0));
 			}
 
 			:root {
-    --spacing-0-125: .125rem;
-    --spacing-0-25: .25rem;
-    --spacing-0-5: .5rem;
-    --spacing-0-75: .75rem;
-    --spacing-1: 1rem;
-    --spacing-1-25: 1.25rem;
-    --spacing-1-5: 1.5rem;
-    --spacing-1-75: 1.75rem;
-    --spacing-2: 2rem;
-    --spacing-2-25: 2.25rem;
-    --spacing-2-5: 2.5rem;
-    --spacing-2-75: 2.75rem;
-    --spacing-3: 3rem;
-    --spacing-3-25: 3.25rem;
-    --spacing-3-5: 3.5rem;
-    --spacing-3-75: 3.75rem;
-    --spacing-4: 4rem;
-    --spacing-4-25: 4.25rem;
-    --spacing-4-5: 4.5rem;
-    --spacing-4-75: 4.75rem;
-    --spacing-5: 5rem;
-    --spacingEm-0-125: .125em;
-    --spacingEm-0-25: .25em;
-    --spacingEm-0-5: .5em;
-    --spacingEm-0-75: .75em;
-    --spacingEm-1: 1em;
-    --spacingEm-1-25: 1.25em;
-    --spacingEm-1-5: 1.5em;
-    --spacingEm-1-75: 1.75em;
-    --spacingEm-2: 2em;
-    --spacingEm-2-5: 2.5em;
-    --spacingEm-3: 3em;
-    --spacingEm-3-5: 3.5em;
-    --spacingEm-4: 4em;
-    --spacingEm-4-5: 4.5em;
-    --spacingEm-5: 5em;
-    --border-radius-0-125: .125rem;
-    --border-radius-0-15: .15rem;
-    --border-radius-0-25: .25rem;
-    --border-radius-0-5: .5rem;
-    --borderWidth-1: 1px;
-    --borderWidth-2: 2px;
-    --borderWidth-4: 4px;
-    --borderWidth-8: 8px;
-    --text-size-10xl: 7rem;
-    --text-size-9xl: 6.25rem;
-    --text-size-8xl: 5.5rem;
-    --text-size-7xl-responsive-large: 5rem;
-    --text-size-7xl: 4.75rem;
-    --text-size-7xl-responsive-small: 4.5rem;
-    --text-size-6xl-responsive-large: 4.25rem;
-    --text-size-6xl: 4rem;
-    --text-size-6xl-responsive-small: 3.75rem;
-    --text-size-5xl-responsive-large: 3.5rem;
-    --text-size-5xl: 3.25rem;
-    --text-size-5xl-responsive-small: 3rem;
-    --text-size-4xl-responsive-large: 2.75rem;
-    --text-size-4xl: 2.5rem;
-    --text-size-4xl-responsive-small: 2.25rem;
-    --text-size-3xl-responsive-large: 2.25rem;
-    --text-size-3xl: 2rem;
-    --text-size-3xl-responsive-small: 1.75rem;
-    --text-size-2xl-responsive-large: 2rem;
-    --text-size-2xl: 1.75rem;
-    --text-size-2xl-responsive-small: 1.5rem;
-    --text-size-xl-responsive-large: 1.75rem;
-    --text-size-xl: 1.5rem;
-    --text-size-xl-responsive-small: 1.25rem;
-    --text-size-lg-responsive-large: 1.5rem;
-    --text-size-lg: 1.25rem;
-    --text-size-lg-responsive-small: 1.125rem;
-    --text-size-md-responsive-large: 1.25rem;
-    --text-size-md: 1.125rem;
-    --text-size-md-responsive-small: 1rem;
-    --text-size-base-responsive-large: 1.125rem;
-    --text-size-base: 1rem;
-    --text-size-base-responsive-small: 1rem;
-    --text-size-default-responsive-large: 1rem;
-    --text-size-default: .875rem;
-    --text-size-default-responsive-small: .875rem;
-    --text-size-sm-responsive-large: .875rem;
-    --text-size-sm: .75rem;
-    --text-size-sm-responsive-small: .75rem;
-    --text-size-xs-responsive-large: .75rem;
-    --text-size-xs: .625rem;
-    --text-size-default-fixed-responsive-small: .875rem;
-    --transition-fast: .2s;
-    --transition-medium: .25s;
-    --transition-slow: .35s;
-    --scrollbar-size: 6px;
-    --focus-outline-width: var(--spacing-0-125);
-    --focus-outline-grey: var(--focus-outline-width) solid var(--grey-200);
-    --focus-outline-white: var(--focus-outline-width) solid var(--white);
-}
+			--spacing-0-125: .125rem;
+			--spacing-0-25: .25rem;
+			--spacing-0-5: .5rem;
+			--spacing-0-75: .75rem;
+			--spacing-1: 1rem;
+			--spacing-1-25: 1.25rem;
+			--spacing-1-5: 1.5rem;
+			--spacing-1-75: 1.75rem;
+			--spacing-2: 2rem;
+			--spacing-2-25: 2.25rem;
+			--spacing-2-5: 2.5rem;
+			--spacing-2-75: 2.75rem;
+			--spacing-3: 3rem;
+			--spacing-3-25: 3.25rem;
+			--spacing-3-5: 3.5rem;
+			--spacing-3-75: 3.75rem;
+			--spacing-4: 4rem;
+			--spacing-4-25: 4.25rem;
+			--spacing-4-5: 4.5rem;
+			--spacing-4-75: 4.75rem;
+			--spacing-5: 5rem;
+			--spacingEm-0-125: .125em;
+			--spacingEm-0-25: .25em;
+			--spacingEm-0-5: .5em;
+			--spacingEm-0-75: .75em;
+			--spacingEm-1: 1em;
+			--spacingEm-1-25: 1.25em;
+			--spacingEm-1-5: 1.5em;
+			--spacingEm-1-75: 1.75em;
+			--spacingEm-2: 2em;
+			--spacingEm-2-5: 2.5em;
+			--spacingEm-3: 3em;
+			--spacingEm-3-5: 3.5em;
+			--spacingEm-4: 4em;
+			--spacingEm-4-5: 4.5em;
+			--spacingEm-5: 5em;
+			--border-radius-0-125: .125rem;
+			--border-radius-0-15: .15rem;
+			--border-radius-0-25: .25rem;
+			--border-radius-0-5: .5rem;
+			--borderWidth-1: 1px;
+			--borderWidth-2: 2px;
+			--borderWidth-4: 4px;
+			--borderWidth-8: 8px;
+			--text-size-10xl: 7rem;
+			--text-size-9xl: 6.25rem;
+			--text-size-8xl: 5.5rem;
+			--text-size-7xl-responsive-large: 5rem;
+			--text-size-7xl: 4.75rem;
+			--text-size-7xl-responsive-small: 4.5rem;
+			--text-size-6xl-responsive-large: 4.25rem;
+			--text-size-6xl: 4rem;
+			--text-size-6xl-responsive-small: 3.75rem;
+			--text-size-5xl-responsive-large: 3.5rem;
+			--text-size-5xl: 3.25rem;
+			--text-size-5xl-responsive-small: 3rem;
+			--text-size-4xl-responsive-large: 2.75rem;
+			--text-size-4xl: 2.5rem;
+			--text-size-4xl-responsive-small: 2.25rem;
+			--text-size-3xl-responsive-large: 2.25rem;
+			--text-size-3xl: 2rem;
+			--text-size-3xl-responsive-small: 1.75rem;
+			--text-size-2xl-responsive-large: 2rem;
+			--text-size-2xl: 1.75rem;
+			--text-size-2xl-responsive-small: 1.5rem;
+			--text-size-xl-responsive-large: 1.75rem;
+			--text-size-xl: 1.5rem;
+			--text-size-xl-responsive-small: 1.25rem;
+			--text-size-lg-responsive-large: 1.5rem;
+			--text-size-lg: 1.25rem;
+			--text-size-lg-responsive-small: 1.125rem;
+			--text-size-md-responsive-large: 1.25rem;
+			--text-size-md: 1.125rem;
+			--text-size-md-responsive-small: 1rem;
+			--text-size-base-responsive-large: 1.125rem;
+			--text-size-base: 1rem;
+			--text-size-base-responsive-small: 1rem;
+			--text-size-default-responsive-large: 1rem;
+			--text-size-default: .875rem;
+			--text-size-default-responsive-small: .875rem;
+			--text-size-sm-responsive-large: .875rem;
+			--text-size-sm: .75rem;
+			--text-size-sm-responsive-small: .75rem;
+			--text-size-xs-responsive-large: .75rem;
+			--text-size-xs: .625rem;
+			--text-size-default-fixed-responsive-small: .875rem;
+			--transition-fast: .2s;
+			--transition-medium: .25s;
+			--transition-slow: .35s;
+			--scrollbar-size: 6px;
+			--focus-outline-width: var(--spacing-0-125);
+			--focus-outline-grey: var(--focus-outline-width) solid var(--grey-200);
+			--focus-outline-white: var(--focus-outline-width) solid var(--white);
+		}
 
 *{
 				padding: 0;

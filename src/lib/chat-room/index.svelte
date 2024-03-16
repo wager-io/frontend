@@ -1,141 +1,42 @@
 <script>
-  import IoLanguageOutline from "svelte-icons-pack/io/IoLanguageOutline";
   import "./styles/index.css";
-  import "./styles/coinrain.css";
-  import "./styles/gif.css";
   import { goto } from "$app/navigation";
-  import WiRaindrop from "svelte-icons-pack/wi/WiRaindrop";
+  import { levelColor, formatTime } from "./hook"
+  import { handleSocketEmmission } from "$lib/socket-connection/index"
   import BsTelegram from "svelte-icons-pack/bs/BsTelegram";
   import Icon from "svelte-icons-pack/Icon.svelte";
-  import CgInfo from "svelte-icons-pack/cg/CgInfo";
   import IoClose from "svelte-icons-pack/io/IoClose";
-  import BsFiletypeGif from "svelte-icons-pack/bs/BsFiletypeGif";
   import BsEmojiSunglasses from "svelte-icons-pack/bs/BsEmojiSunglasses";
-  import RiFinanceCopperCoinLine from "svelte-icons-pack/ri/RiFinanceCopperCoinLine";
   import { afterUpdate, tick } from "svelte";
-  import axios from "axios";
-  import { GIFs } from "./data/index";
-  import { emojis } from "./data/index";
+  import { GIFs, emojis } from "./data/index";
   import { url } from "$lib/store/routes";
   import { createEventDispatcher, onMount } from "svelte";
-  import { tipped_user } from "$lib/store/tipUser";
   import { profileStore } from "$lib/store/profile";
   import { handleisLoggin } from "$lib/store/profile";
-  import { handleAuthToken } from "$lib/store/routes";
-  import { handleCountdown } from "$lib/games/ClassicDice/socket/index";
-  const { handleChattingMessages, handleGrabCoinDrop } = handleCountdown();
   import { chats } from "$lib/chat-room/store/index";
-  import { ServerURl } from "../backendUrl";
   import Mobile from "./mobile.svelte";
-  import { coin_list, default_Wallet } from "$lib/store/coins";
-  import Progress from "$lib/components/progress.svelte"
- 
-  $: error_msg = ""
+  import Progress from "$lib/components/progress.svelte";
+  let ably = ""
 
+  onMount(async()=>{
+    ably =  await handleSocketEmmission()
+  });
+
+  onMount(async()=>{
+    const channel = ably.channels.get("return-message");
+    await channel.subscribe("chat-message", (message) => {
+      chats.set([...$chats,...message.data])
+    });
+  })
+
+  $: error_msg = ""
   let element;
   let newMessages = "";
   let textareaRef;
   let showRule = false;
-  let URL = ServerURl();
   let defaultUsername = [];
-  let filteredUsers = [];
-  let showMention = false;
-  const MATCH_TIP = /^\/tip\s+@(\S+)\s*$/;
-
-  const updateWallet = () => {
-    axios
-      .get(`${URL}/api/profile`, {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${$handleAuthToken}`,
-        },
-      })
-      .then((res) => {
-        let walletData = res.data.wallet;
-        coin_list.set(walletData);
-        walletData.forEach((element) => {
-          if (element.is_active) {
-            default_Wallet.set(element);
-          }
-        });
-      })
-      .catch((err) => {});
-  };
-
-  chats.subscribe(($chats) => {
-    updateWallet();
-  });
-
-  onMount(async () => {
-    axios.get(`${URL}/api/users/previus-chats`).then((res) => {
-      chats.set(res.data);
-    });
-    axios.get(`${URL}/api/users/mention-user`).then((res) => {
-      defaultUsername = res.data;
-    });
-  });
-
-  const grab_drop_coin = async (user_id, username, id) => {
-    if ($profileStore.vip_level >= 7) {
-      handleGrabCoinDrop({
-        user_id,
-        username,
-        id,
-      });
-      updateWallet();
-      error_msg = "Coin grabbed"
-    } else {
-      error_msg = "Vip level 7 can grab coin drops"
-      setTimeout(() => {
-        error_msg = ""
-      }, 3000);
-    }
-  };
-
-  function levelColor(level){
-    if(level <=7) return "type-1"
-    if(level > 7 && level <= 21) return "type-2"
-    if(level > 21 && level <= 37) return "type-3"
-    if(level > 37 && level <= 55) return "type-4"
-  }
-
-  const mentionUser = (e) => {
-    const inputValue = e.target.value;
-
-    if (inputValue.includes("@")) {
-      let atPosition = inputValue.lastIndexOf("@");
-      if (atPosition - 1 == -1 || inputValue.charAt(atPosition - 1) === " ") {
-        const searchTerm = inputValue.substring(atPosition + 1);
-        filteredUsers = defaultUsername.filter((user) =>
-          user.username.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        showMention = true;
-      } else {
-        showMention = false;
-      }
-    } else {
-      showMention = false;
-    }
-  };
-
-  function onUsernameFocus(e) {
-    e.stopPropagation();
-    e.target.classList.add("is-selected");
-  }
-
-  function onUsernameBlur(e) {
-    e.stopPropagation();
-    e.target.classList.remove("is-selected");
-  }
-
-  function userNameClick(username) {
-    newMessages =
-      newMessages.substring(0, newMessages.lastIndexOf("@")) + `@${username} `;
-    showMention = false;
-    textareaRef.focus();
-  }
-
+  $: isGif = false;
+  $: isEmoji = false;
 
   function chatFormatter(text) {
     const pattern = /@(\w+)/g;
@@ -151,37 +52,19 @@
   }
 
   const handleSendMessage = async (e, name) => {
-    if (
-      (e.key === "Enter" && name.newMessages) ||
-      e.type === "click" ||
-      e === "gifHit"
-    ) {
+    if ( (e.key === "Enter" && name.newMessages) || e.type === "click" || e === "gifHit") {
       if (e.key === "Enter") {
-        e.preventDefault();
+         e.preventDefault();
       }
-
       if ($chats && element) {
         scrollToBottom(element);
       }
-
-      if (newMessages === "/rain ") {
-        goto("/user/rain");
-      } else if (newMessages === "/coindrop ") {
-        goto("/user/coindrop_send");
-      } else if (newMessages.match(MATCH_TIP)) {
-        let usernameWithoutAt = newMessages.match(/@(\w+)/);
-
-        let user_name = usernameWithoutAt[1];
-        tipped_user.set(
-          defaultUsername.filter((user) => user.username === user_name)[0]
-        );
-        goto("/user/tip");
-      } else {
+       else {
         if ($handleisLoggin) {
           let data = {
             msg_id: Math.floor(Math.random() * 230000000),
             user_id: $profileStore.user_id,
-            type: name.type,
+            type: name.type,  
             text: name.newMessages ? name.newMessages : ".",
             profle_img: $profileStore.profile_image,
             username: $profileStore.username,
@@ -189,10 +72,15 @@
             hide_profile: $profileStore.hide_profile,
             vip_level: $profileStore.vip_level,
             time: new Date(),
-            profile: $profileStore,
+            profile: $profileStore
           };
-          handleChattingMessages(data);
-        } else {
+         // get the channel to subscribe to
+          const channel = ably.channels.get('quickstart');
+          await channel.publish("first", data)
+        //  let {response} = await handlePublicChat(data);
+        //  chats.set([response, ...$chats])
+        } 
+        else {
           goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)
           handlecloseChat();
         }
@@ -202,20 +90,8 @@
     }
   };
 
-  // const scrollToBottom = async (node) => {
-  //     node.scroll({
-  //         top: node.scrollHeight,
-  //         behavior: 'smooth'
-  //     });
-  // }
-  // $:{
-  //  afterUpdate(() => {
-  //     if ($chats) scrollToBottom(element);
-  // })
-  // }
 
   let chatContainer;
-
   onMount(() => {
     scrollToBottom();
   });
@@ -235,93 +111,10 @@
     }
   }
 
-  let isGif = false;
-  const handleGIF = () => {
-    if (isGif) {
-      isGif = false;
-    } else {
-      isGif = true;
-    }
-  };
-
-  let isEmoji = false;
-  const handleEmoji = () => {
-    if (isEmoji) {
-      isEmoji = false;
-    } else {
-      isEmoji = true;
-    }
-  };
-
   const handleMerge = (e) => {
     newMessages += e;
   };
 
-  let isTipsControl = false;
-  let tipsControl = [
-    {
-      id: 0,
-      img: "https://static.nanogames.io/assets/user.22808cc8.svg",
-      Itemfunction: "/User",
-      text: "@User view user",
-      isSelected: true,
-    },
-    {
-      id: 1,
-      img: "https://static.nanogames.io/assets/tip.35667d2b.svg",
-      Itemfunction: "/Tip",
-      text: "@User tip user",
-      isSelected: false,
-    },
-    {
-      id: 2,
-      img: "https://static.nanogames.io/assets/rain.91c937f7.svg",
-      Itemfunction: "/Rain",
-      text: "Make it rain",
-      isSelected: false,
-    },
-    {
-      id: 3,
-      img: "https://static.nanogames.io/assets/coindrop.8fcb1038.svg",
-      Itemfunction: "/Coindrop",
-      text: "Tip group",
-      isSelected: false,
-    },
-  ];
-
-  $: if (newMessages === "/") {
-    isTipsControl = true;
-  } else {
-    isTipsControl = false;
-  }
-
-  const handleTipsControls = (e) => {
-    for (let i = 0; i < tipsControl.length; i++) {
-      tipsControl[i].isSelected = false;
-    }
-    tipsControl[e].isSelected = true;
-    if (e === 0) {
-      newMessages = "/user @";
-    }
-    if (e === 1) {
-      newMessages = "/tip @";
-    }
-    if (e === 2) {
-      newMessages = "/rain ";
-    }
-    if (e === 3) {
-      newMessages = "/coindrop ";
-    }
-  };
-  function formatTime(timestamp) {
-    const date = new Date(timestamp);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-    const formattedMinutes = minutes.toString().padStart(2, "0");
-    return `${formattedHours}:${formattedMinutes} ${ampm}`;
-  }
 </script>
 
 <svelte:body
@@ -335,8 +128,6 @@
   </div>
 {/if}
 
-
-
 <div id="main-screen" class="sc-cVAmsi bJUiGv" style="transform: none;">
   <div class="sc-ewSTlh hHMWvP" id="public-chat">
     <div class="sc-hJZKUC dWgZek">
@@ -346,41 +137,28 @@
       <div class="chat-features">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div
-          on:click={() => {
-            showRule = true;
-          }}  class="inform">
-          <Icon src={CgInfo} size="25" color="rgb(85, 91, 101)" title="rules" />
+
+        <div on:click={() => { showRule = true; }} class="inform">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+            <use xlink:href="#icon_Inform"></use>
+          </svg>
         </div>
-        <div class="sc-iWBNLc bXthlR rich-btn">
-          <img
-            alt="rich"
-            src="https://static.nanogames.io/assets/rich.8786d13b.png"
-          />
-        </div>
+
         <button on:click={handlecloseChat} class="sc-ieecCq fLASqZ close-icon">
-          <Icon
-            src={IoClose}
-            size="17"
-            color="rgba(153, 164, 176, 0.8)"
-            title="arror"
-          />
+          <Icon src={IoClose} size="17" color="rgba(153, 164, 176, 0.8)"  />
         </button>
       </div>
     </div>
     <div class="sc-bSqaIl eA-dYOl">
-      <div
-        bind:this={chatContainer}
-        id="chat-container"
-        class="sc-dkPtRN gtrd scroll-view sc-cNKqjZ dPmCMO sc-jvvksu fuYrTE chat-list"
-      >
+      <div bind:this={chatContainer}  id="chat-container"
+        class="sc-dkPtRN gtrd scroll-view sc-cNKqjZ dPmCMO sc-jvvksu fuYrTE chat-list" >
         <div class="sc-AjmGg kgsidd">
           <!-- {#if defaultUsername.length > 0} -->
           {#each $chats as chat, i}
             <div class="flat-item">
               <div class="sc-tAExr VfNib notranslate">
                 <div class="head">
-                  <a class="head-link" href={`/user/profile/${chat.user_id}`}>
+                  <a class="head-link" href={`${$url === "/" ? "" : $url}/?tab=profile&id=${chat.user_id && chat.user_id}`}>
                     <img class="avatar" alt="" src={chat.profle_img} />
                     <div class={`sc-jQrDum jouJMO user-level ${levelColor(chat.vip_level)}`}>
                       <div class="level-wrap">
@@ -393,7 +171,7 @@
                 <div class="content">
                   <div class="title">
                     <div class="name">
-                      <a href={`/user/profile/${chat.user_id}`}>
+                      <a href={`${$url === "/" ? "" : $url}/?tab=profile&id=${chat.user_id && chat.user_id}`}>
                         <span>{chat.username}</span>
                       </a>
                       <div class="time">{formatTime(chat.time)}</div>
@@ -405,146 +183,7 @@
                         {@html chatFormatter(chat.text)}
                       </div>
                     </div>
-                  {:else if chat.type === "wol"}
-                    <!-- ====================== Win or lose ======================= -->
-                    <div class="msg-wrap">
-                      <div class="sc-eVmaCL blLCEp">
-                        <div
-                          class="sc-jKTccl sc-bUbRBg sc-gA-DPUo bkGvjR Gdkwx hsvoqO full-message"
-                        >
-                          <div class="share-message">Almost busted lol</div>
-                          <div class="wrap">
-                            <div class="sc-ekRyGy dWrldy">
-                              <div class="mid-area">
-                                <div
-                                  class="sc-cdJjGe ljeDJu msg"
-                                  style="cursor: pointer;"
-                                >
-                                  <div class="titles">
-                                    <div class="sc-fDMmqs gPLFex animation-win">
-                                      <div class="star-item item-1"></div>
-                                      <div class="star-item item-2"></div>
-                                      <div class="star-item item-3"></div>
-                                      <div class="star-item item-4"></div>
-                                    </div>
-                                    <div class="word">
-                                      <p class="one">Winning tastes sweet!</p>
-                                      <p class="two">Mines Wow Moment</p>
-                                    </div>
-                                  </div>
-                                  <div class="bet-area open">
-                                    <svg
-                                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                                      class="sc-gsDKAQ hxODWG icon"
-                                    >
-                                      <use xlink:href="#icon_Mines"></use>
-                                    </svg>
-                                    <p>Bet ID: #6397680204923891</p>
-                                    <div class="right">
-                                      <svg
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        class="sc-gsDKAQ hxODWG icon"
-                                      >
-                                        <use xlink:href="#icon_Arrow"></use>
-                                      </svg>
-                                    </div>
-                                  </div>
-                                  <div class="info-area">
-                                    <div class="left">
-                                      <p>
-                                        <img
-                                          alt=""
-                                          src="https://static.nanogames.io/assets/bigwin.562a3883.png"
-                                        />
-                                      </p>
-                                      <div
-                                        class="sc-iMrobD bJlNFA animation-card-wrap left"
-                                      >
-                                        <div class="animation-card win">
-                                          <div class="win-ribbon">
-                                            <img
-                                              alt=""
-                                              src="https://static.nanogames.io/assets/ribbon.ea676df2.gif"
-                                              class=""
-                                            />65.0569x
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="right">
-                                      <div class="top">
-                                        <img
-                                          class="coin-icon"
-                                          alt=""
-                                          src="https://www.linkpicture.com/q/dpp_logo.png"
-                                        />
-                                        <p>Profit</p>
-                                      </div>
-                                      <div
-                                        class="sc-iMrobD bJlNFA animation-card-wrap right-win"
-                                      >
-                                        <div class="animation-card win">
-                                          <div class="win-ribbon">
-                                            <img
-                                              alt=""
-                                              src="https://static.nanogames.io/assets/ribbon.ea676df2.gif"
-                                              class="delay"
-                                            />
-                                            +32.0
-                                            <span>PPD</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bottom-btns">
-                                <div class="sc-kQoPux hjpnCZ animation-like">
-                                  <svg
-                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    class="sc-gsDKAQ hxODWG icon common"
-                                  >
-                                    <use xlink:href="#icon_Like"></use>
-                                  </svg>
-                                  <div class="like-dom"></div>
-                                  <span class="count-info">01</span>
-                                </div>
-                                <div class="share">
-                                  <svg
-                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    class="sc-gsDKAQ hxODWG icon"
-                                  >
-                                    <use xlink:href="#icon_Share"></use>
-                                  </svg>Share
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  {:else if chat.type === "tip"}
-                    <!-- ====================== tips ====================== -->
-                    <div class="msg-wrap">
-                      <div
-                        class="sc-jKTccl sc-bUbRBg sc-iuqRDJ bkGvjR Gdkwx gkHCXh ane"
-                      >
-                        I tipped&nbsp;&nbsp;
-                        <a class="cl-primary" href="/user/profile/285947"
-                          >{chat.tipped_user}</a
-                        >
-                        <div class="msg-cont">
-                          <img
-                            class="coin-icon"
-                            alt=""
-                            src={chat.tipped_coin_image}
-                          />
-                          {(chat.tipped_amount,
-                          chat.tip_Token)}\{chat.tipped_amount}
-                        </div>
-                      </div>
-                    </div>
+                
                   {:else if chat.type === "gif"}
                     <!-- ============================= Emoji ============================= -->
                     <div class="msg-wrap">
@@ -554,91 +193,11 @@
                         </div>
                       </div>
                     </div>
-                    <!-- ======================= coin drop============== -->
-                  {:else if chat.type === "coin_drop"}
-                    <div class="msg-wrap">
-                      <div class="sc-PZsNp cciZxO">
-                        <div class="sc-dGXBhE cfLlrJ">
-                          <img
-                            alt="coindrop-more"
-                            src="https://static.nanogames.io/assets/coindrop-more.ff14c8e3.png"
-                            class="right-open-img"
-                          />
-                          <!-- svelte-ignore a11y-no-static-element-interactions -->
-                          {#if chat.coin_drop_participant}
-                            <!-- content here -->
-                            {#if chat.coin_drop_num === chat.coin_drop_participant.length || chat.coin_drop_participant.length > chat.coin_drop_num}
-                              <div class="coindrop-status">Completed</div>
-                            {:else}
-                              <!-- content here -->
-                              <!-- svelte-ignore a11y-click-events-have-key-events -->
-                              <div
-                                on:click={() =>
-                                  grab_drop_coin(
-                                    $profileStore.user_id,
-                                    $profileStore.username,
-                                    chat.msg_id
-                                  )}
-                                class="coindrop-status"
-                              >
-                                Grab
-                              </div>
-                            {/if}
-                          {/if}
-                        </div>
-                      </div>
-                    </div>
-                  {:else if chat.type === "tips"}
-                    <!-- ===============================  coin tips ================================= -->
-                    <div class="msg-wrap">
-                      <div
-                        class="sc-jKTccl sc-bUbRBg sc-iuqRDJ bkGvjR Gdkwx gkHCXh ane"
-                      >
-                        I tipped&nbsp;&nbsp;
-                        <a class="cl-primary" href="/user/profile/336277">
-                          @vvvvx
-                        </a>
-                        <div class="msg-cont">
-                          <img
-                            class="coin-icon"
-                            alt=""
-                            src="/coin/BTC.black.png"
-                          />
-                          1 USDT
-                        </div>
-                      </div>
-                    </div>
-                  {:else if chat.type === "rain"}
-                    <div class="msg-wrap">
-                      <div class="sc-jKTccl bkGvjR">
-                        <p>
-                          <span>{chat.username}</span> rained
-                          {#if chat.coin_rain_comment}
-                            and left a message: "{chat.coin_rain_comment}"
-                          {/if}
-                        </p>
-                        <div class="distribution">
-                          <ul>
-                            {#each chat.coin_rain_participant as item}
-                              <li>
-                                <p><a href="/">{item.username}</a></p>
-                                <p>
-                                  <img src={chat.coin_rain_image} alt="" />
-                                  <span>{item.share}.000000</span>
-                                </p>
-                              </li>
-                            {/each}
-                          </ul>
-                        </div>
-                        <p>Congratulation!</p>
-                      </div>
-                    </div>
                   {/if}
                 </div>
               </div>
             </div>
           {/each}
-          <!-- {/if} -->
         </div>
       </div>
 
@@ -647,25 +206,13 @@
         <div class="send-input">
           <div class="sc-ezbkAF kDuLvp input sc-ikJyIC iowset input-area">
             <div class="input-control">
-              <textarea
-                bind:this={textareaRef}
-                on:keyup={mentionUser}
-                bind:value={newMessages}
-                placeholder="Your Message"
-                style="height: 44px;"
-              ></textarea>
-              <button
-                on:click={handleEmoji}
-                class="sc-JkixQ cVsgdS emoji-r-wrap"
-              >
+              <textarea bind:this={textareaRef} bind:value={newMessages}  placeholder="Your Message"  style="height: 44px;"  ></textarea>
+              <button on:click={()=> isEmoji =! isEmoji} class="sc-JkixQ cVsgdS emoji-r-wrap"  >
                 {#if isEmoji}
                   <div class="emoji-box-wrap">
                     <div class="sc-dkPtRN jScFby scroll-view emoji-box">
                       {#each emojis as emoji}
-                        <button
-                          on:click={() => handleMerge(emoji)}
-                          class="emoji">{emoji}</button
-                        >
+                        <button on:click={() => handleMerge(emoji)} class="emoji">{emoji}</button>
                       {/each}
                     </div>
                   </div>
@@ -675,53 +222,23 @@
             </div>
           </div>
           {#if newMessages}
-            <button
-              on:click={() =>
-                handleSendMessage(event, { newMessages, type: "normal" })}
-              class="sc-JkixQ cVsgdS emoji-r-wrap"
-            >
-              <Icon src={BsTelegram} size="34" color="#fff" title="arror" />
+            <button on:click={() =>  handleSendMessage(event, { newMessages, type: "normal" })}
+              class="sc-JkixQ cVsgdS emoji-r-wrap" >
+              <Icon src={BsTelegram} size="34" color="#fff" />
             </button>
           {/if}
         </div>
 
         <div class="send-controls">
           <div class="left-actions">
-            <a class="chat-icon" href="/user/rain">
-              <Icon
-                src={WiRaindrop}
-                size="28"
-                color="rgba(153, 164, 176, 0.8)"
-                title="arror"
-              />
-            </a>
-            <button on:click={() => (newMessages = "/")} class="command-btn">
-              <Icon
-                src={IoLanguageOutline}
-                size="20"
-                color="rgba(153, 164, 176, 0.8)"
-                title="arror"
-              />
-            </button>
-            <a class="chat-icon" href="/user/coindrop_send">
-              <Icon
-                src={RiFinanceCopperCoinLine}
-                size="20"
-                color="rgba(153, 164, 176, 0.8)"
-                title="arror"
-              />
-            </a>
           </div>
           <div class="sc-dkQkyq gbjudO gift-r-wrap hide-gift">
             {#if isGif}
               <div class="gift-box-wrap">
                 <div class="sc-dkPtRN jScFby scroll-view sc-jivBlf jhjroN">
                   {#each GIFs as gif}
-                    <button
-                      on:click={() =>
-                        handleSendMessage("gifHit", { gif, type: "gif" })}
-                      class="gift-item"
-                    >
+                    <button on:click={() =>  handleSendMessage("gifHit", { gif, type: "gif" })}
+                      class="gift-item">
                       <img class="gift-img" src={gif} alt="" />
                     </button>
                   {/each}
@@ -729,62 +246,23 @@
                 <div class="giphy-copyright"></div>
               </div>
             {/if}
-
-            <button on:click={handleGIF} class="gift-btn">
-              <Icon src={BsFiletypeGif} size="16" color="rgba(153, 164, 176, 0.8)" />
+            <button on:click={()=> isGif =! isGif} class="gift-btn">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                <use xlink:href="#icon_GIF"></use>
+              </svg>
             </button>
           </div>
         </div>
-
-        <!-- ===================================== tips pops ========================================= -->
-
-        {#if showMention}
-          <ul class="sc-cHzqoD dWoTka">
-            {#each filteredUsers as info, i}
-              <button
-                on:blur={onUsernameBlur}
-                on:focus={onUsernameFocus}
-                on:click={() => userNameClick(info.username)}
-                class={`item ${i == 0 ? "is-selected" : ""}`}
-              >
-                <div class="sc-hZpJaK guGGGt chat-command-label">
-                  <span class="label-desc">@{info.username}</span>
-                </div>
-              </button>
-            {/each}
-          </ul>
-        {/if}
-
-        {#if isTipsControl}
-          <div class="sc-cHzqoD dWoTka">
-            {#each tipsControl as tips (tips.id)}
-              <button
-                on:click={() => handleTipsControls(tips.id)}
-                class={`item ${tips.isSelected ? "is-selected" : ""}`}
-              >
-                <div class="sc-hZpJaK guGGGt chat-command-label">
-                  <img src={tips.img} alt="" class="label-img" />
-                  <span class="label-txt">{tips.Itemfunction}</span>
-                  <span class="label-desc">{tips.text}</span>
-                </div>
-              </button>
-            {/each}
-          </div>
-        {/if}
       </div>
     </div>
   </div>
 </div>
 
-<Mobile on:closeChat={handlecloseChat} />
+<Mobile on:closeChat={handlecloseChat} ably={ably} />
 
 <style>
   .sc-jKTccl p span {
     font-weight: bold;
-  }
-
-  .sc-jKTccl a {
-    color: var(--primary-color) !important;
   }
 
   .distribution {
@@ -796,29 +274,6 @@
     margin-bottom: 10px;
   }
 
-  .distribution ul {
-    list-style: none;
-    display: grid;
-    gap: 5px;
-  }
-  .distribution ul li {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .distribution ul li p {
-    display: flex;
-    align-items: center;
-  }
-
-  .distribution ul li p img {
-    width: 15px;
-    margin-right: 2px;
-  }
-  .distribution ul li p a {
-    font-weight: bold;
-    color: var(--primary-color);
-  }
   .overlay {
     position: fixed;
     width: 100vw;
@@ -840,22 +295,6 @@
     /* padding-bottom: 50px !important; */
     height: max-content;
   }
-
-  .overlay .content ul {
-    list-style: none;
-    font-size: 14px;
-  }
-
-  .overlay .content ul li {
-    margin-bottom: 12px;
-    font-size: 14px;
-  }
-
-  .overlay .content p {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-
   .region_container {
     width: 220px;
     border-radius: 20px;
@@ -934,18 +373,6 @@
     line-height: 36px;
   }
 
-  .dWrldy .mid-area .titles .word {
-    margin-left: 0.375rem;
-  }
-
-  .dWrldy .mid-area .titles .word {
-    margin-left: 0.375rem;
-  }
-
-  .dWrldy .mid-area .titles .word .two {
-    max-width: 200px;
-  }
-
   .gkHCXh {
     background-image: url(https://static.nanogames.io/assets/tip_glod.df7fc7f5.png),
       linear-gradient(30deg, rgb(98, 86, 49), rgb(58, 56, 45));
@@ -980,36 +407,6 @@
     color: var(--primary-color);
   }
 
-  .gkHCXh .msg-cont {
-    background-color: rgba(246, 199, 34, 0.3);
-    border-radius: 0.625rem;
-    padding: 0.625rem 0.875rem;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    color: rgb(255, 255, 255);
-    font-weight: 800;
-    margin-top: 0.5625rem;
-  }
-
-  .gkHCXh .msg-cont .coin-icon {
-    width: 1.125rem;
-    margin-right: 0.4375rem;
-  }
-
-  .ljeDJu .titles .word .two {
-    margin: 0px;
-    font-size: 0.75rem;
-    height: 1.125rem;
-    display: -webkit-box;
-    -webkit-box-align: center;
-    align-items: center;
-    color: var(--text-6);
-    text-transform: capitalize;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   .VfNib .content .title .name > div,
   .VfNib .content .title .name > a {
     height: 100%;
@@ -1038,242 +435,6 @@
     opacity: 0.9;
   }
 
-  .hsvoqO .share-message {
-    line-height: 1.125rem;
-    margin-bottom: 0.5rem;
-    padding-left: 0.125rem;
-  }
-
-  .hsvoqO .wrap {
-    height: 13.25rem;
-    width: 265px;
-  }
-
-  .ljeDJu .info-area .left > p > img {
-    width: 5rem;
-    margin-left: -0.5rem;
-    margin-bottom: -0.3rem;
-  }
-
-  .dWrldy .mid-area {
-    padding: 0.5rem 0.625rem;
-    background-color: rgba(36, 38, 43, 0.85);
-    border-radius: 0.625rem;
-  }
-
-  .dWrldy
-    .mid-area
-    .info-area
-    > .right
-    .animation-card-wrap
-    .animation-card
-    .win-ribbon {
-    font-size: 0.745rem;
-  }
-
-  .ljeDJu .titles {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-  }
-
-  .ljeDJu .info-area .right .top {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-left: 0.5rem;
-    height: 1.25rem;
-  }
-
-  .ljeDJu .info-area .right .top > p {
-    margin: 0px;
-    font-size: 0.75rem;
-    color: var(--text-6);
-  }
-
-  .dWrldy .mid-area .bet-area {
-    margin-top: 0.625rem;
-    height: 2.75rem;
-    border: 0px;
-    border-radius: 0.625rem;
-  }
-
-  .dWrldy .bottom-btns {
-    height: 1rem;
-    margin-top: 0.625rem;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-  }
-
-  .ljeDJu .bet-area > p {
-    margin: 0px 0px 0px 0.875rem;
-    color: var(--text-5);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .dWrldy .mid-area .bet-area .right {
-    margin-left: auto;
-    margin-right: 0.6rem;
-    height: 0.875rem;
-  }
-
-  .dWrldy .mid-area .info-area {
-    margin-top: 0.375rem;
-  }
-
-  .ljeDJu .info-area {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-top: 0.75rem;
-  }
-
-  .ljeDJu .info-area .left {
-    width: 49%;
-  }
-
-  .dWrldy .mid-area .info-area > .left p {
-    margin-left: 0.5rem;
-  }
-
-  .ljeDJu .info-area .left > p {
-    margin: 0px 0px 0px 1rem;
-    font-size: 0.75rem;
-    height: 1rem;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    color: var(--text-6);
-  }
-
-  .ljeDJu .info-area .left > p {
-    margin: 0px 0px 0px 1rem;
-    font-size: 0.75rem;
-    height: 1rem;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    color: var(--text-6);
-  }
-
-  .dWrldy .mid-area .info-area img {
-    animation: auto ease 0s 1 normal none running none;
-  }
-
-  .ljeDJu .info-area .left .animation-card-wrap {
-    width: 100%;
-    height: 3.5rem;
-    margin-top: 0.25rem;
-    border-radius: 1.25rem;
-  }
-
-  .bJlNFA .animation-card.win {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAABgCAMAAADxVp2mAAAASFBMVEUAAAAmKC0mKS4yNjsqLzgnKS4nLC8nKS4mKC4nKS8nKi8oLDAoLzIpKTAqLDKAgIAoKS4uLjEnKS4mKi4mKi8oKi9LS0smKC7J+jS1AAAAGHRSTlMAZmAGDFsoVFg3QR8UJBkCMRBGTzwsA0uWLpxyAAAC1ElEQVR42u3caa6jMBAE4CrbYBYDYb//TSeaSIRJnPx4r50wor8LgBrFrvYSKKWUUkoppZRS/znXQEW4YoKK1YUDVKwuHKFidaGHeuAyXhmoSF2uFpzb0vTRutDh5FaacWr6x7ow4ORq/nWtTt7v6sIaZ+e5MYabHGeXM+qCs1syxpQ4vQtjKpyeNYzIWiR2/EAwMWrokZIrLOTUFvJ6vjA5JOMK9hDTsEcCA18wFwtZ+4TdCtaFLRJo+VKWdxDUNv09YTeCdWGDFEa+5mvIcaRZy6bNJKNSw6sZKZR8ZwwQU8lHpTxd7nKGb5jSQUyQiEphykO31SVh7qrelsVC0rof2hf8SFeQHG/VyXkzQF4gPzct1f8O7fiRefuVb9/UQ97KF7LZQpwXGNoX8/yuEFe/nKkXJDBINGUln0Ba5xlT5B1SCE+PEervLITNjFqQxsgd38j1d1kOUdYwxiONWig69nzmWyB5tquQxFLwrhXv79YAKY53meFmRhLz/kE2QX9XOdE5ohjKPFj0Zvc1U7BrdWnCgppXhdy0vycTSMNYXeq+e/4MFknNJIc0bYwpIW8L2AUSK3/bXFepG7v4yviA1AbW+IWQsIOJqz60q7SMTioO7TuYdLr1Qxu0Fr/QxKL6gqSsJ2lxaEvBR1WH1FzGDMc280mO9IJZcWixNibgA+qD7+hP3GLptvHe4ROOfc6sN1ssvYV1PUx502Gn1TMIb8P6DBUN6y3Uk+r4wes7upUFDingu6w/6J0QP1l8lTvoGdOVRYsbmx/0Hb+iIll2AMJkqHfjHnYafDt7vYQQW/bTbP72cLleptypSb2c8XY3UyPonh24OWoE/YZ+W3/VNnevNrzTPvfNYQnTQ6FrS88HXsffG9tUGfcOvsfwURNvjMmywmsf+c8eu/4hRIzXu9pxs94vjbNkprNRzKArVHG1TtJxna7cKaWUUkoppZT6lj+R5hbb13ebwwAAAABJRU5ErkJggg==);
-  }
-
-  .dWrldy .bottom-btns .share,
-  .dWrldy .bottom-btns .animation-like {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 100%;
-    margin-left: 0.75rem;
-    cursor: pointer;
-    color: var(--text-6);
-  }
-
-  .dWrldy .mid-area .info-area > .left .animation-card-wrap .animation-card {
-    font-size: 1.125rem;
-    border-radius: 0.625rem;
-  }
-
-  .bJlNFA .animation-card.win {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAABgCAMAAADxVp2mAAAASFBMVEUAAAAmKC0mKS4yNjsqLzgnKS4nLC8nKS4mKC4nKS8nKi8oLDAoLzIpKTAqLDKAgIAoKS4uLjEnKS4mKi4mKi8oKi9LS0smKC7J+jS1AAAAGHRSTlMAZmAGDFsoVFg3QR8UJBkCMRBGTzwsA0uWLpxyAAAC1ElEQVR42u3caa6jMBAE4CrbYBYDYb//TSeaSIRJnPx4r50wor8LgBrFrvYSKKWUUkoppZRS/znXQEW4YoKK1YUDVKwuHKFidaGHeuAyXhmoSF2uFpzb0vTRutDh5FaacWr6x7ow4ORq/nWtTt7v6sIaZ+e5MYabHGeXM+qCs1syxpQ4vQtjKpyeNYzIWiR2/EAwMWrokZIrLOTUFvJ6vjA5JOMK9hDTsEcCA18wFwtZ+4TdCtaFLRJo+VKWdxDUNv09YTeCdWGDFEa+5mvIcaRZy6bNJKNSw6sZKZR8ZwwQU8lHpTxd7nKGb5jSQUyQiEphykO31SVh7qrelsVC0rof2hf8SFeQHG/VyXkzQF4gPzct1f8O7fiRefuVb9/UQ97KF7LZQpwXGNoX8/yuEFe/nKkXJDBINGUln0Ba5xlT5B1SCE+PEervLITNjFqQxsgd38j1d1kOUdYwxiONWig69nzmWyB5tquQxFLwrhXv79YAKY53meFmRhLz/kE2QX9XOdE5ohjKPFj0Zvc1U7BrdWnCgppXhdy0vycTSMNYXeq+e/4MFknNJIc0bYwpIW8L2AUSK3/bXFepG7v4yviA1AbW+IWQsIOJqz60q7SMTioO7TuYdLr1Qxu0Fr/QxKL6gqSsJ2lxaEvBR1WH1FzGDMc280mO9IJZcWixNibgA+qD7+hP3GLptvHe4ROOfc6sN1ssvYV1PUx502Gn1TMIb8P6DBUN6y3Uk+r4wes7upUFDingu6w/6J0QP1l8lTvoGdOVRYsbmx/0Hb+iIll2AMJkqHfjHnYafDt7vYQQW/bTbP72cLleptypSb2c8XY3UyPonh24OWoE/YZ+W3/VNnevNrzTPvfNYQnTQ6FrS88HXsffG9tUGfcOvsfwURNvjMmywmsf+c8eu/4hRIzXu9pxs94vjbNkprNRzKArVHG1TtJxna7cKaWUUkoppZT6lj+R5hbb13ebwwAAAABJRU5ErkJggg==);
-  }
-
-  .dWrldy .bottom-btns .share > svg,
-  .dWrldy .bottom-btns .animation-like > svg {
-    margin-right: 0.375rem;
-  }
-
-  .bJlNFA .animation-card {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(60, 63, 73);
-    color: var(--text-5);
-    background-size: 100%;
-    font-size: 1.5rem;
-    font-weight: bold;
-    background-repeat: no-repeat;
-    background-position: center center;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    position: relative;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .ljeDJu .info-area .right {
-    width: 49%;
-    margin-left: 2%;
-  }
-
-  .dWrldy .mid-area .info-area > .right .top {
-    height: 1rem;
-  }
-
-  .dWrldy .mid-area .info-area > .right .top > img {
-    width: 0.875rem;
-    height: 0.875rem;
-    margin-right: 0.25rem;
-  }
-
-  .ljeDJu .info-area .right .top > img {
-    width: 1rem;
-    height: 1rem;
-    margin-right: 2px;
-  }
-
-  .dWrldy .mid-area .info-area img {
-    animation: auto ease 0s 1 normal none running none;
-  }
-
-  .hjpnCZ > svg {
-    display: inline-block;
-    fill: rgba(153, 164, 176, 0.6);
-  }
-
-  .hjpnCZ .like-dom {
-    width: 3rem;
-    top: -6.875rem;
-    left: -1.3125rem;
-    position: absolute;
-    z-index: 0;
-  }
-
-  .hjpnCZ .count-info {
-    width: 2rem;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .dWrldy .bottom-btns .share,
-  .dWrldy .bottom-btns .animation-like {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 100%;
-    margin-left: 0.75rem;
-    cursor: pointer;
-    color: var(--text-6);
-  }
 
   .bkGvjR {
     user-select: text;
@@ -1288,166 +449,9 @@
     background-color: rgba(49, 52, 58, 0.6);
   }
 
-  .ljeDJu .info-area .right .animation-card-wrap {
-    width: 100%;
-    height: 3.5rem;
-    margin-top: 0.25rem;
-    border-radius: 1.25rem;
-  }
-
-  .dWrldy .mid-area .info-area > .right .animation-card-wrap {
-    height: 3rem;
-    border-radius: 0.625rem;
-  }
-
-  .bJlNFA .animation-card .win-ribbon {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .bJlNFA .animation-card .win-ribbon > img {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    animation: 4s ease 0s infinite normal none running ribbonAnimation;
-  }
-
-  .dWrldy .mid-area .info-area > .right .top {
-    height: 1rem;
-  }
-
-  .dWrldy .mid-area .info-area > .right .top {
-    height: 1rem;
-  }
-
-  .ljeDJu .info-area .right .top > img {
-    width: 1rem;
-    height: 1rem;
-    margin-right: 2px;
-  }
-
-  .dWrldy .mid-area .info-area img {
-    animation: auto ease 0s 1 normal none running none;
-  }
-
-  .dWrldy .mid-area .info-area img {
-    animation: auto ease 0s 1 normal none running none;
-  }
-
-  .dWrldy .mid-area .info-area > .right .animation-card-wrap {
-    height: 3rem;
-    border-radius: 0.625rem;
-  }
-
-  .ljeDJu .info-area .right .animation-card-wrap {
-    width: 100%;
-    height: 3.5rem;
-    margin-top: 0.25rem;
-    border-radius: 1.25rem;
-  }
-
-  .bJlNFA.right-win .animation-card {
-    font-size: 1rem;
-    color: rgb(67, 179, 9);
-  }
-
-  .bJlNFA .animation-card.win {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAABgCAMAAADxVp2mAAAASFBMVEUAAAAmKC0mKS4yNjsqLzgnKS4nLC8nKS4mKC4nKS8nKi8oLDAoLzIpKTAqLDKAgIAoKS4uLjEnKS4mKi4mKi8oKi9LS0smKC7J+jS1AAAAGHRSTlMAZmAGDFsoVFg3QR8UJBkCMRBGTzwsA0uWLpxyAAAC1ElEQVR42u3caa6jMBAE4CrbYBYDYb//TSeaSIRJnPx4r50wor8LgBrFrvYSKKWUUkoppZRS/znXQEW4YoKK1YUDVKwuHKFidaGHeuAyXhmoSF2uFpzb0vTRutDh5FaacWr6x7ow4ORq/nWtTt7v6sIaZ+e5MYabHGeXM+qCs1syxpQ4vQtjKpyeNYzIWiR2/EAwMWrokZIrLOTUFvJ6vjA5JOMK9hDTsEcCA18wFwtZ+4TdCtaFLRJo+VKWdxDUNv09YTeCdWGDFEa+5mvIcaRZy6bNJKNSw6sZKZR8ZwwQU8lHpTxd7nKGb5jSQUyQiEphykO31SVh7qrelsVC0rof2hf8SFeQHG/VyXkzQF4gPzct1f8O7fiRefuVb9/UQ97KF7LZQpwXGNoX8/yuEFe/nKkXJDBINGUln0Ba5xlT5B1SCE+PEervLITNjFqQxsgd38j1d1kOUdYwxiONWig69nzmWyB5tquQxFLwrhXv79YAKY53meFmRhLz/kE2QX9XOdE5ohjKPFj0Zvc1U7BrdWnCgppXhdy0vycTSMNYXeq+e/4MFknNJIc0bYwpIW8L2AUSK3/bXFepG7v4yviA1AbW+IWQsIOJqz60q7SMTioO7TuYdLr1Qxu0Fr/QxKL6gqSsJ2lxaEvBR1WH1FzGDMc280mO9IJZcWixNibgA+qD7+hP3GLptvHe4ROOfc6sN1ssvYV1PUx502Gn1TMIb8P6DBUN6y3Uk+r4wes7upUFDingu6w/6J0QP1l8lTvoGdOVRYsbmx/0Hb+iIll2AMJkqHfjHnYafDt7vYQQW/bTbP72cLleptypSb2c8XY3UyPonh24OWoE/YZ+W3/VNnevNrzTPvfNYQnTQ6FrS88HXsffG9tUGfcOvsfwURNvjMmywmsf+c8eu/4hRIzXu9pxs94vjbNkprNRzKArVHG1TtJxna7cKaWUUkoppZT6lj+R5hbb13ebwwAAAABJRU5ErkJggg==);
-  }
-
-  .dWrldy .mid-area .info-area > .right .animation-card-wrap .animation-card {
-    border-radius: 0.625rem;
-  }
-
-  .dWrldy .mid-area .bet-area .right {
-    margin-left: auto;
-    margin-right: 0.6rem;
-    height: 0.875rem;
-  }
-
-  .dWrldy .mid-area .bet-area .right > svg {
-    font-size: 0.625rem;
-  }
-
-  .ljeDJu .bet-area > p {
-    margin: 0px 0px 0px 0.875rem;
-    color: var(--text-5);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .dWrldy .mid-area .bet-area > svg {
-    width: 1.5rem;
-    height: auto;
-  }
-
-  .ljeDJu .bet-area > svg {
-    height: auto;
-    width: 1.875rem;
-    margin-left: 1rem;
-  }
-
-  .ljeDJu .bet-area {
-    display: flex;
-    margin-top: 0.625rem;
-    background-color: var(--sidebar-card-bg);
-    height: 3.5rem;
-    -webkit-box-align: center;
-    align-items: center;
-    border-radius: 1.25rem;
-    border: 1px solid var(--sidebar-card-bg);
-  }
 
   /* ======================= mobile =================================== */
-  .kBjSXI {
-    position: fixed;
-    z-index: 1000;
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.7);
-    filter: none !important;
-  }
 
-  .dialog {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    left: 50%;
-    top: 50%;
-    width: 464px;
-    height: 720px;
-    margin: -375px 0px 0px -280px;
-    transition-property: width, height, margin-left, margin-top;
-    transition-duration: 0.5s;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    background: var(--affiliate-bg);
-  }
-
-  .dialog-head {
-    position: relative;
-    z-index: 10;
-    flex: 0 0 auto;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    height: 3.75rem;
-    margin-left: 1.125rem;
-    transition: all 0.5s ease 0s;
-  }
-
-  .dialog-head.has-close {
-    margin-right: 3.75rem;
-  }
   .dWgZek {
     height: 4rem;
     position: relative;
@@ -1486,13 +490,6 @@
     background-image: var(--bxs-1);
     opacity: 0.25;
   }
-
-  .no-style {
-    padding-top: 3.75rem;
-    background: var(--affiliate-bg);
-  }
-
-
 
   .hHMWvP {
     width: 100%;
@@ -1547,16 +544,6 @@
     margin-bottom: 0.375rem;
     display: flex;
     height: 100%;
-  }
-
-  .ddROGz .send-controls .left-actions .chat-icon {
-    line-height: 1;
-    margin-right: 1.5rem;
-  }
-
-  .ddROGz .send-controls .left-actions .command-btn {
-    cursor: pointer;
-    margin-right: 1.5rem;
   }
 
   .kgsidd {

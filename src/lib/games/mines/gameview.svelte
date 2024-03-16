@@ -1,11 +1,6 @@
 <script>
-import {
-    payout
-} from "$lib/games/ClassicDice/store/index"
-import {
-    mine_history,
-    HandleSelectedMine,
-    minesStore,
+import { payout } from "$lib/games/ClassicDice/store/index"
+import { mine_history, HandleSelectedMine, minesStore,
     HandleNextTime,
     HandlemineGems,
     HandleMineCount,

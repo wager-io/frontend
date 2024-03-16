@@ -1,10 +1,8 @@
 import { handleisLoggin } from "$lib/store/profile";
 import axios from "axios"
-
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
-
-export  const UserProfileEl = (auth) => {
+export const UserProfileEl = (auth) => {
 
 const handleprofile = async (auth) => {
     let is_loading = true

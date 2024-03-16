@@ -3,8 +3,6 @@ const URl = ServerURl()
 import axios from "axios"
 import { HandleDicePoint, HandleHas_won, Handles_Loading } from "../store/index"
 import { default_Wallet } from "$lib/store/coins";
-import { handleCountdown} from "$lib/games/ClassicDice/socket/index"
-const { handleDicebet } = handleCountdown()
 
 export const DiceBet = async(data, auth) => {
     let response = ""
@@ -26,7 +24,6 @@ export const DiceBet = async(data, auth) => {
          }
          default_Wallet.set(wallet)
         HandleDicePoint.set(fopp.cashout)
-        handleDicebet(fopp)
         if(fopp.has_won){
             HandleHas_won.set(true)
         }else{

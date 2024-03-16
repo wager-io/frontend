@@ -21,4 +21,3 @@ export const handleDiceGameEncrypt = (async(auth)=>{
     })
     return { is_loading }
 })
-
