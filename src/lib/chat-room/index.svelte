@@ -2,7 +2,7 @@
   import "./styles/index.css";
   import { goto } from "$app/navigation";
   import { levelColor, formatTime } from "./hook"
-  import { handleSocketEmmission } from "$lib/socket-connection/index"
+  // import { handleSocketEmmission } from "$lib/socket-connection/index"
   import BsTelegram from "svelte-icons-pack/bs/BsTelegram";
   import Icon from "svelte-icons-pack/Icon.svelte";
   import IoClose from "svelte-icons-pack/io/IoClose";
@@ -17,17 +17,19 @@
   import Mobile from "./mobile.svelte";
   import Progress from "$lib/components/progress.svelte";
   let ably = ""
+  import { handleWebSocket } from "$lib/socket"
 
-  onMount(async()=>{
-    ably =  await handleSocketEmmission()
-  });
+  // onMount(async()=>{
 
-  onMount(async()=>{
-    const channel = ably.channels.get("return-message");
-    await channel.subscribe("chat-message", (message) => {
-      chats.set([...$chats,...message.data])
-    });
-  })
+  //   // ably =  await handleSocketEmmission()
+  // });
+
+  // onMount(async()=>{
+  //   const channel = ably.channels.get("return-message");
+  //   await channel.subscribe("chat-message", (message) => {
+  //     chats.set([...$chats,...message.data])
+  //   });
+  // })
 
   $: error_msg = ""
   let element;
@@ -74,9 +76,11 @@
             time: new Date(),
             profile: $profileStore
           };
+          const { handleChattingMessages } = await handleWebSocket()
+         await handleChattingMessages(data)
          // get the channel to subscribe to
-          const channel = ably.channels.get('quickstart');
-          await channel.publish("first", data)
+          // const channel = ably.channels.get('quickstart');
+          // await channel.publish("first", data)
         //  let {response} = await handlePublicChat(data);
         //  chats.set([response, ...$chats])
         } 

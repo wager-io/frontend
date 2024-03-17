@@ -31,6 +31,7 @@ import { onMount } from "svelte";
 import { default_Wallet, coin_list } from "$lib/store/coins"
 import { vipProfiile } from "$lib/store/profile";
 import Closesidebar from "$lib/closesidebar.svelte";
+import { handleWebSocket } from "$lib/socket"
 import Loader from "$lib/components/loader.svelte";
 import LayoutEl from "$lib/wallet/layout.svelte";
 import Login from "$lib/modals/auth/login/login.svelte";
@@ -93,6 +94,7 @@ onMount(async()=>{
 })
 
 onMount(async()=>{
+    await handleWebSocket()
     await fetchPreviousMessage()
 })
     
