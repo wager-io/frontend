@@ -246,11 +246,11 @@ $: console.log(tab)
     </div>
 {/if}
     
-{#if !app_isLoading}
+<!-- {#if !app_isLoading}
     <div id="header" class={`sc-gVkuDy gAvMHL ${isOpenSide ? `side-unfold ${isChatRoom ? "right-chat" : ""}` : `side-fold ${isChatRoom ? "right-chat" : ""}`} `}>
         <Navbar on:handleChatRoom={handleChatroom} on:login={()=> is_login = true}  on:handleMenuMobile={()=> isMenu = true }/>
     </div>
-{/if}
+{/if} -->
 
 {#if !app_isLoading}
     <main class="sc-lhMiDA ePAxUv">
