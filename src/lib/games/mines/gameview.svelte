@@ -2888,7 +2888,6 @@ onMount(async () => {
     $handleAuthToken && handleActivemies()
 })
 
-$: console.log($HandleMineCount)
 
 </script>
 

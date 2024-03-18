@@ -17,19 +17,6 @@
   import Mobile from "./mobile.svelte";
   import Progress from "$lib/components/progress.svelte";
   import { handleWebSocket } from "$lib/socket"
-
-  // onMount(async()=>{
-
-  //   // ably =  await handleSocketEmmission()
-  // });
-
-  // onMount(async()=>{
-  //   const channel = ably.channels.get("return-message");
-  //   await channel.subscribe("chat-message", (message) => {
-  //     chats.set([...$chats,...message.data])
-  //   });
-  // })
-
   $: error_msg = ""
   let element;
   let newMessages = "";
@@ -152,7 +139,7 @@
         class="sc-dkPtRN gtrd scroll-view sc-cNKqjZ dPmCMO sc-jvvksu fuYrTE chat-list" >
         <div class="sc-AjmGg kgsidd">
           <!-- {#if defaultUsername.length > 0} -->
-          {#each $chats as chat, i}
+          {#each $chats as chat}
             <div class="flat-item">
               <div class="sc-tAExr VfNib notranslate">
                 <div class="head">

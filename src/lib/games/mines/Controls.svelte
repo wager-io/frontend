@@ -30,7 +30,6 @@ let is_manual = true
     {#if !is_manual}
         <AutoControllers />
     {/if}
-
 </div>
 
 <style>

@@ -28,9 +28,9 @@ DicegameSocket()
 import { ServerURl } from "$lib/backendUrl";
 import Mobile from "./mobile.svelte";
 import Mybet from "$lib/games/mines/componets/mybet.svelte";
-    import Loader from "../../../lib/components/loader.svelte";
+    import Loader from "$lib/components/loader.svelte";
 const URl = ServerURl()
-let is_loading = false
+$: is_loading = false
 const handleMinesGameEncrypt = (async()=>{
     is_loading = true
     await axios.get(`${URl}/api/user/mine-game/mine-encrypt`,{
@@ -132,12 +132,11 @@ const handleSoundState = (()=>{
 
 {#if !is_loading}
 <div style={`${$is_open__chat && $is_open__Appp && $screen > 1579 || $is_open__chat && !$is_open__Appp && $screen > 1219 || !$is_open__chat && !$is_open__Appp && $screen > 1049 || !$is_open__chat && $is_open__Appp && $screen > 1214 ? "" : "display:none"}`} id="dice-main">
-    <div id="game-ClassicDice" class={`sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf ${$is_open__Appp && `is-open`} ${$is_open__chat && `is-chat`}`}>
+    <div id="game-Mines" class={`sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf ${$is_open__Appp && `is-open`} ${$is_open__chat && `is-chat`}`}>
         <div class="game-area">
             <div class="game-main">
                 <Controls />
                 <Gameview />
-
                 <div class="game-actions">
                     <button disabled={playPlayb} on:click={()=> playBackground() } class={`action-item ${playPlayb ? "active" : ""} `}>
                         <Icon src={FiMusic}  size="23"  color={` ${playPlayb ? "rgb(67, 179, 9)" : "rgba(153, 164, 176, 0.6)"} `} title="Music" />
@@ -232,6 +231,34 @@ const handleSoundState = (()=>{
 .lmWKWf.is-chat{
     padding-right: 360px;
 }
+.lmWKWf.game-style0, .lmWKWf.game-style1, .lmWKWf.game-style-iframe {
+    max-width: 1368px;
+    margin: 0px auto;
+    padding: 1.25rem 0.625rem;
+}
+.lmWKWf {
+    min-height: 90vh;
+}
+
+.lmWKWf.game-style0 .game-area, .lmWKWf.game-style1 .game-area, .lmWKWf.game-style-iframe .game-area {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gYWFhf .game-area .game-main {
+    min-height: 52.5rem;
+}
+.lmWKWf.game-style0 .game-main {
+    padding-left: 330px;
+    min-height: 47.5rem;
+}
+.lmWKWf.game-style0 .game-main, .lmWKWf.game-style1 .game-main, .lmWKWf.game-style-iframe .game-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+    overflow: hidden;
+}
+
 .tdthuy {
     display: flex;
     align-items: center;

@@ -9,22 +9,6 @@ import { chatCounter } from "$lib/store/chat-counter"
 import { profileStore } from "$lib/store/profile";
 
 export const handleCountdown = (()=>{
-    const handleDicebet = ((data)=>{ 
-        socket.emit("dice-bet", data)
-    })
-
-    socket.on("dice-gamePLayers", data => {
-        dicegameplays.set(data)
-    })
-
-    socket.on("dice-wallet", data => {
-        dice_wallet.set(data)
-    })
-
-    socket.on("new-messages", data => {
-        chats.set(data.newMessage)
-    })
-
     socket.on("grabCoinDropResponse", data => {
     const newData = data.data
     if (newData)
@@ -42,9 +26,6 @@ export const handleCountdown = (()=>{
         handleliveHistory.set(data)
     })
 
-    const handleChattingMessages = ((data) => {
-        socket.emit("message", data)
-    })
 
     const handleGrabCoinDrop = ((data) => {
         socket.emit("grab_coin", data)
@@ -62,5 +43,5 @@ export const handleCountdown = (()=>{
         dice_troo.set(data)
         Handles_Loading.set(false)
     })
-    return { handleDicebet, handleChattingMessages, handleMinesHistory, handleCrashActiveBet, handleGrabCoinDrop }
+    return {handleMinesHistory, handleCrashActiveBet, handleGrabCoinDrop }
 })

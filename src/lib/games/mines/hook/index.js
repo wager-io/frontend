@@ -1,53 +1,143 @@
 
-import { HandleDicePoint, isbetLoadingBtn,dice_history } from "../store/index"
+
 import {default_Wallet} from "../../../store/coins"
 import cr from "../audio/mixkit-achievement-bell-600.wav"
-import { HandleHas_won } from "../store/index";
-import { browser } from '$app/environment';
 import { ServerURl } from "$lib/backendUrl"
 const URl = ServerURl()
 
-function playSound() {
+export function playSound() {
   const audio = new Audio(cr);
   audio.volume = 0.5;
   audio.play();
 }
 
-export const DiceHook = () => {
-    const user = browser && JSON.parse(localStorage.getItem('user'))
-    const playdice = async (data) => {
-      isbetLoadingBtn.set(true)
-      const response = await fetch(
-        `${URl}/api/user/dice-game/bet`,{
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-type": "application/json",
-            'Authorization': `Bearer ${user.Token}`
-          },
-        }
-      );
-      const json = await response.json();
-      if (!response.ok) {
-        console.log(json.error)
-      }
-      if (response.ok) {
-        isbetLoadingBtn.set(false)
-        dice_history.set(json.history)
-        default_Wallet.set(json.wallet)
-        HandleDicePoint.set(json.point)
-        let prev = json.history[json.history.length - 1]
-        if(prev.has_won){
-          playSound()
-          HandleHas_won.set(true)
-        }else{
-          HandleHas_won.set(false)
-        }
-      }
-    };
-    return { playdice};
-};
 
-export const handleMinesBet = (async(data)=>{
-    console.log(data)
+export const handleMinesSet = (()=>{
+  let skown = [{
+    id: 1,
+    active: false,
+    mine: true
+},
+{
+    id: 2,
+    active: false,
+    mine: false
+},
+{
+    id: 3,
+    active: false,
+    mine: false
+},
+{
+    id: 4,
+    active: false,
+    mine: false
+},
+{
+    id: 5,
+    active: false,
+    mine: false
+},
+{
+    id: 6,
+    active: false,
+    mine: false
+},
+{
+    id: 7,
+    active: false,
+    mine: false
+},
+{
+    id: 8,
+    active: false,
+    mine: false
+},
+{
+    id: 9,
+    active: false,
+    mine: false
+},
+{
+    id: 10,
+    active: false,
+    mine: false
+},
+{
+    id: 11,
+    active: false,
+    mine: false
+},
+{
+    id: 12,
+    active: false,
+    mine: true
+},
+{
+    id: 13,
+    active: false,
+    mine: false
+},
+{
+    id: 14,
+    active: false,
+    mine: false
+},
+{
+    id: 15,
+    active: false,
+    mine: false
+},
+{
+    id: 16,
+    active: false,
+    mine: false
+},
+{
+    id: 17,
+    active: false,
+    mine: false
+},
+{
+    id: 18,
+    active: false,
+    mine: false
+},
+{
+    id: 19,
+    active: false,
+    mine: false
+},
+{
+    id: 20,
+    active: false,
+    mine: false
+},
+{
+    id: 21,
+    active: false,
+    mine: false
+},
+{
+    id: 22,
+    active: false,
+    mine: false
+},
+{
+    id: 23,
+    active: false,
+    mine: true
+},
+{
+    id: 24,
+    active: false,
+    mine: false
+},
+{
+    id: 25,
+    active: false,
+    mine: false
+},
+]
+return skown 
 })
