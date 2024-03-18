@@ -50,6 +50,7 @@ $:{
         is_mobile = false
     }
 }
+$: image = users_profile.profile_image
 
 </script>
 
@@ -102,7 +103,14 @@ $:{
                             </button>
                         {/if}
                         <div class="avatar-box">
-                            <img class="avatar " alt="" src={users_profile.profile_image}>
+                            {#if image.color}
+                            <div class="avatar "
+                                style={`background-color:${image.color}; width:4.5rem; height:4.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
+                                    {$profileStore.username.charAt(0)}
+                                </div>
+                            {:else}
+                                <img class="avatar " alt="" src={image.image ? image.image : ""}>
+                            {/if}
                         </div>
                         <div class="name-box">
                             <div class="user-name">{users_profile.username}</div>

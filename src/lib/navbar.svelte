@@ -1,52 +1,53 @@
 <script>
-    import "../styles/navbar/mobileNavbar.css";
-    import AiOutlineSearch from "svelte-icons-pack/ai/AiOutlineSearch";
-    import IoWallet from "svelte-icons-pack/io/IoWallet";
-    import AiOutlineMenuUnfold from "svelte-icons-pack/ai/AiOutlineMenuUnfold";
-    import "../styles/navbar/navbar.css";
-    import FiMenu from "svelte-icons-pack/fi/FiMenu";
-    import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
-    import Icon from "svelte-icons-pack/Icon.svelte";
-    import { browser } from "$app/environment";
-    import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
-    import { url } from "$lib/store/routes";
-    import { default_Wallet } from "$lib/store/coins";
-    import { profileStore, handleisLoggin } from "$lib/store/profile";
-    import { createEventDispatcher } from "svelte";
-    import {chatCounter, showChatCounter} from "$lib/store/chat-counter"
-    import { goto } from "$app/navigation";
-    import Coins from "./profilecomponent/main/coins.svelte";
-    import Navprofile from "./profilecomponent/main/navprofile.svelte";
-    const dispatch = createEventDispatcher();
-    const handleChat = (e) => {
-      dispatch("handleChatRoom", e);
-    };
-    const handleMenu = () => {
-      dispatch("handleMenuMobile");
-    };
+  import "../styles/navbar/mobileNavbar.css";
+  import AiOutlineSearch from "svelte-icons-pack/ai/AiOutlineSearch";
+  import IoWallet from "svelte-icons-pack/io/IoWallet";
+  import AiOutlineMenuUnfold from "svelte-icons-pack/ai/AiOutlineMenuUnfold";
+  import "../styles/navbar/navbar.css";
+  import FiMenu from "svelte-icons-pack/fi/FiMenu";
+  import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
+  import Icon from "svelte-icons-pack/Icon.svelte";
+  import { browser } from "$app/environment";
+  import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
+  import { url } from "$lib/store/routes";
+  import { default_Wallet } from "$lib/store/coins";
+  import { profileStore, handleisLoggin } from "$lib/store/profile";
+  import { createEventDispatcher } from "svelte";
+  import {chatCounter, showChatCounter} from "$lib/store/chat-counter"
+  import { goto } from "$app/navigation";
+  import Coins from "./profilecomponent/main/coins.svelte";
+  import Navprofile from "./profilecomponent/main/navprofile.svelte";
+  const dispatch = createEventDispatcher();
+
+  const handleChat = (e) => {
+    dispatch("handleChatRoom", e);
+  };
+
+  const handleMenu = () => {
+    dispatch("handleMenuMobile");
+  };
   
-    $: newScreen = 0
-    $: {
-      if($is_open__Appp && !$is_open__chat){
-        newScreen = $screen - 240
-      }
-      else if(!$is_open__Appp && $is_open__chat){
-        newScreen = $screen - 432
-      }
-      else if(!$is_open__Appp && !$is_open__chat){
-        newScreen = $screen - 72
-      }
-      else if($is_open__Appp && $is_open__chat){
-        newScreen = $screen - 600
-      }
+  $: newScreen = 0
+  $: {
+    if($is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 240
     }
+    else if(!$is_open__Appp && $is_open__chat){
+      newScreen = $screen - 432
+    }
+    else if(!$is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 72
+    }
+    else if($is_open__Appp && $is_open__chat){
+      newScreen = $screen - 600
+    }
+  }
   
-    $: coinsEL = false
-    $: profileNAV = false
-    $: deposit = false
+  $: image = $profileStore.profile_image
+  $: coinsEL = false
+  $: profileNAV = false
   
 </script>
-
 
   <div id="main-screen" class="header-wrap">
     <div class="header">
@@ -124,7 +125,11 @@
           <div class="sc-gnnDb fWkueO">
             <div class="user-wrap">
               <a href={`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id && $profileStore.user_id}`}>
-                <img class="avatar " alt="" src={$profileStore.profile_image && $profileStore.profile_image}>
+                {#if image.color}
+                  <div class="avatar " style={`background-color:${image.color}`}>{$profileStore.username.charAt(0)}</div>
+                {:else}
+                  <img class="avatar " alt="" src={image.image ? image.image : ""}>
+                {/if}
               </a>
               <button on:mouseenter={()=> profileNAV = true} on:mouseleave={()=> profileNAV = false} class="svg">
                 <Icon src={AiOutlineMenuUnfold} size="23" color={"rgba(153, 164, 176, 0.8)"} className="custom-icon" />
@@ -145,7 +150,9 @@
           </button> -->
           <button id="chat" class="sc-eicpiI PGOpB">
             <button on:click={handleChat} class="chat-btn ">
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Chat"></use></svg>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                <use xlink:href="#icon_Chat"></use>
+              </svg>
               {#if $showChatCounter && $chatCounter}
                   <div class="sc-fotOHu gGSOuF badge">{$chatCounter}</div>
               {/if}

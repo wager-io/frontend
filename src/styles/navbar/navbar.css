@@ -247,7 +247,10 @@
   display: flex;
 }
 .fWkueO .user-wrap > a {
-  font-size: 0px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: capitalize;
 }
 .fWkueO .svg {
   width: 2.5rem;
@@ -262,6 +265,9 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icGouR {
