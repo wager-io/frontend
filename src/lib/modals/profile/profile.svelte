@@ -116,7 +116,6 @@ $: image = users_profile.profile_image
                             <div class="user-name">{users_profile.username}</div>
                         </div>
                         <Progress chat={users_profile} style={"user-level"}/>
-
                         {#if $profileStore.user_id !== user}
                         <div class="actions">
                             {#if !users_profile.refuse_tips}

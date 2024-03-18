@@ -145,7 +145,14 @@
                       <div class="sc-tAExr VfNib notranslate">
                         <div class="head">
                           <a class="head-link" href={`${$url === "/" ? "" : $url}/?tab=profile&id=${chat.user_id && chat.user_id}`}>
-                            <img class="avatar" alt="" src={chat.profle_img} />
+                            {#if chat.profle_img.color}
+                            <div class="avatar "
+                                style={`background-color:${chat.profle_img.color}; width:2.5rem; height:2.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
+                                    {chat.username.charAt(0)}
+                                </div>
+                            {:else}
+                                <img class="avatar " alt="" src={chat.profle_img.image ? chat.profle_img.image : ""}>
+                            {/if}
                             <div class={`sc-jQrDum jouJMO user-level  ${levelColor(chat.vip_level)}`}>
                               <div class="level-wrap">
                                 <span>V</span><span>{chat.vip_level}</span>

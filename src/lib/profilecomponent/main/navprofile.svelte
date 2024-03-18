@@ -54,12 +54,12 @@ $: image = $profileStore.profile_image
     <div class="user-info">
         <a class="left" href={`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id && $profileStore.user_id}`}>
             {#if image.color}
-                <div class="avatar "
+                <div class="avatar"
                  style={`background-color:${image.color}; width:2.5rem; height:2.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
                     {$profileStore.username.charAt(0)}
                 </div>
             {:else}
-                <img class="avatar " alt="" src={image.image ? image.image : ""}>
+                <img class="avatar" alt="" src={image.image ? image.image : ""}>
             {/if}
             <div class="name-level">
                 <p>{$profileStore.username}</p>

@@ -171,7 +171,6 @@
             <Icon src={FiMenu}  size="12"   color="#fff"  />
           </span>
         </button>
-      
           <div class="header-login">
             {#if !$handleisLoggin}
             <button style="margin-right: 15px;" on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)}>Sign in</button>

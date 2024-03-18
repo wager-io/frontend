@@ -78,11 +78,6 @@
           };
           const { handleChattingMessages } = await handleWebSocket()
          await handleChattingMessages(data)
-         // get the channel to subscribe to
-          // const channel = ably.channels.get('quickstart');
-          // await channel.publish("first", data)
-        //  let {response} = await handlePublicChat(data);
-        //  chats.set([response, ...$chats])
         } 
         else {
           goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)
@@ -118,10 +113,6 @@
   const handleMerge = (e) => {
     newMessages += e;
   };
-
-  $: image = $profileStore.profile_image
-
-  $: console.log($chats)
 
 </script>
 
