@@ -15,7 +15,7 @@
   import { handleisLoggin } from "$lib/store/profile";
   import { chats } from "$lib/chat-room/store/index";
   import Progress from "$lib/components/progress.svelte";
-  export let ably
+  import { handleWebSocket } from "$lib/socket"
 
   $: error_msg = ""
   let element;
@@ -61,11 +61,8 @@
             time: new Date(),
             profile: $profileStore
           };
-         // get the channel to subscribe to
-          const channel = ably.channels.get('quickstart');
-          await channel.publish("first", data)
-        //  let {response} = await handlePublicChat(data);
-        //  chats.set([response, ...$chats])
+          const { handleChattingMessages } = await handleWebSocket()
+         await handleChattingMessages(data)
         } 
         else {
           goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)

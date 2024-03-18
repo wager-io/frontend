@@ -333,7 +333,7 @@
     display: inline-block;
   }
   .fhlUmF {
-      width: 3.4rem;
+      width: 4rem;
       height: 2rem;
       display: flex;
       -webkit-box-align: center;
@@ -345,13 +345,20 @@
       margin-left: 10px;
   }
   .fhlUmF .user-wrap > a .avatar {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.9rem;
+    height: 1.9rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
     border-radius: 50%;
   }
   .fhlUmF .user-wrap > a {
-    font-size: 0px;
     margin-right: 7px;
+    font-size: 14px;
+
   }
   .LQlWw {
     background-color: rgb(30, 32, 36);

@@ -207,9 +207,9 @@
             </div>
              <div class="sc-gnnDb fhlUmF">
                   <div  class="user-wrap">
-                    <a href={`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id && $profileStore.user_id}`}>
+                    <a style="font-size:13px; color:#fff" href={`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id && $profileStore.user_id}`}>
                       {#if image.color}
-                         <div class="avatar " style={`background-color:${image.color}`}>{$profileStore.username.charAt(0)}</div>
+                         <div class="avatar " style={`background-color:${image.color};`}>{$profileStore.username.charAt(0)}</div>
                       {:else}
                         <img class="avatar " alt="" src={image.image ? image.image : ""}>
                       {/if}

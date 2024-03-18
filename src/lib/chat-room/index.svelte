@@ -16,7 +16,6 @@
   import { chats } from "$lib/chat-room/store/index";
   import Mobile from "./mobile.svelte";
   import Progress from "$lib/components/progress.svelte";
-  let ably = ""
   import { handleWebSocket } from "$lib/socket"
 
   // onMount(async()=>{
@@ -264,7 +263,7 @@
   </div>
 </div>
 
-<Mobile on:closeChat={handlecloseChat} ably={ably} />
+<Mobile on:closeChat={handlecloseChat} />
 
 <style>
   .sc-jKTccl p span {
