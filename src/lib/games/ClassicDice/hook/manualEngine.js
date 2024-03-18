@@ -1,11 +1,11 @@
-import { ServerURl } from "$lib/backendUrl"
-const URl = ServerURl()
-import axios from "axios"
-import { HandleDicePoint, HandleHas_won, Handles_Loading } from "../store/index"
+import { ServerURl } from "$lib/backendUrl";
+const URl = ServerURl();
+import axios from "axios";
+import { HandleDicePoint, HandleHas_won, Handles_Loading } from "../store/index";
 import { default_Wallet } from "$lib/store/coins";
 
 export const DiceBet = async(data, auth) => {
-    let response = ""
+    let response = "";
     Handles_Loading.set(true);
       auth && await axios.post(`${URl}/api/user/dice-game/bet`,{
         data

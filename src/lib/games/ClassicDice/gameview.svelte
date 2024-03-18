@@ -7,7 +7,6 @@ import { HandleDicePoint, betPosition, dice_history,
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import AiOutlineSwap from "svelte-icons-pack/ai/AiOutlineSwap";
 import { handleisLoggin } from "../../store/profile"
-import { handleSocketEmmission } from "$lib/socket-connection/index"
 import HistoryDetails from "./componets/historyDetails.svelte";
 import { soundManager } from "$lib/games/ClassicDice/store/index";
 import { soundHandler } from "$lib/games/ClassicDice/store/index";
@@ -111,14 +110,6 @@ $: history = []
 $:{
     history  = [...$dice_history]
 }
-
-onMount(async()=>{
-    let ably = await handleSocketEmmission()
-    const channel = ably.channels.get("dice-game");
-    await channel.subscribe("all-bet", (message) => {
-        dicegameplays.set([...$dicegameplays, message.data])
-    });
-})
 
 </script>
 

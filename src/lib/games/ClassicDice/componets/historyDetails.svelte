@@ -113,13 +113,13 @@ const handleSeedMedal = ((event)=>{
                         {:else}
                         <img class="win-state" alt="" src="https://static.nanogames.io/assets/win.431b83d6.png">
                         {/if}
-                        <div class="sc-jibziO gZqspm game-share">
+                        <!-- <div class="sc-jibziO gZqspm game-share">
                             <button on:click={handleSharedBet} class="sc-jibziO gZqspm game-share">
                                 <Icon src={FaSolidShare}  size="23"  color="rgba(153, 164, 176, 0.6)" className="custom-icon" title="share to friends" />
                             </button>
-                        </div>
-                        <div class="rt_info">
-                            <img class="avatar avatar" alt="" src={deatls.profile_img}>
+                        </div> -->
+                        <div class="rt_info">              
+                            <!-- <img class="avatar avatar" alt="" src={deatls.profile_img}> -->
                             <div class="name">{deatls.username}</div>
                             <div class="flex">
                                 <div class="betid">{`${deatls.bet_id ? `Betting ID: ${deatls.bet_id}` : "" }`}</div>
@@ -410,13 +410,13 @@ const handleSeedMedal = ((event)=>{
     padding-top: 2.875rem;
     text-align: center;
 }
-.Osnbt .rt_info .avatar {
+/* .Osnbt .rt_info .avatar {
     width: 4.625rem;
     height: 4.625rem;
     border-radius: 50%;
     border: 2px solid rgb(70, 70, 70);
     font-size: 0px;
-}
+} */
 .Osnbt .rt_info .name {
     line-height: 1.25rem;
     margin-top: 0.5rem;

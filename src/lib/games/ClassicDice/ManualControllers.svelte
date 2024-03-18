@@ -7,6 +7,7 @@ import BsExclamationCircle from "svelte-icons-pack/bs/BsExclamationCircle";
 import { payout, isbetLoadingBtn, betPosition,rollunder, Handles_Loading} from "./store";
 import { profileStore, handleisLoggin } from "$lib/store/profile";
 import { handleAuthToken } from "$lib/store/routes"
+import { handleWebSocket } from "$lib/socket"
 import { dice_history } from "../ClassicDice/store/index";
 import { error_msg } from "./store/index";
 import { soundManager } from "$lib/games/ClassicDice/store/index";
@@ -14,7 +15,6 @@ import { onMount } from "svelte";
 import { DiceBet } from "../ClassicDice/hook/manualEngine";
 import { DiceEncription } from "$lib/games/ClassicDice/store/index";
 import { soundHandler } from "$lib/games/ClassicDice/store/index";
-
 $: default_coins = "/coin/BTC.black.png"
 $: bet_amount = 0
 
@@ -66,7 +66,6 @@ const dive = (sign) => {
   if ($default_Wallet.coin_name === "ETH" && bet_amount < 0.4) {
     bet_amount = (0.4).toFixed(7);
   }
-
 };
 
   const mult = () => {
@@ -81,7 +80,6 @@ const dive = (sign) => {
     bet_amount = (0.00004).toFixed(7);
   }
 
-
   if ($default_Wallet.coin_name === "BTC" && bet_amount > 0.2) {
     bet_amount = (0.2).toFixed(7);
   }
@@ -91,9 +89,7 @@ const dive = (sign) => {
   if ($default_Wallet.coin_name === "ETH" && bet_amount < 0.4) {
     bet_amount = (0.4).toFixed(7);
   }
-  
 };
-
 
   $: non = 0;
   const handleRollSubmit = async () => {
@@ -158,14 +154,16 @@ const dive = (sign) => {
           is_roll_under: $rollunder,
           wining_amount: parseFloat(wining_amount) - parseFloat(bet_amount),
         };
-        isbetLoadingBtn.set(true);
-        non += 1;
+        isbetLoadingBtn.set(true); 
+      non += 1;
       const respnse = await DiceBet(data, $handleAuthToken)
+      const { handleDicebet } = await handleWebSocket()
+      await handleDicebet(respnse)
       if(respnse.has_won){
         $soundManager.Play(winSound, $soundHandler);
       }
       dice_history.set([...$dice_history, respnse])
-      }
+    }
     } else {
       error_msg.set("You are not Logged in");
       Handles_Loading.set(false);

@@ -17,7 +17,7 @@ import {showChatCounter, chatCounter} from "$lib/store/chat-counter";
 import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import Navbar from "$lib/navbar.svelte";
 import ProfileAuth from "$lib/profleAuth/index.svelte";
-import { profileStore } from "$lib/store/profile"
+import { profileStore } from "$lib/store/profile";
 import SideBar from "$lib/sideBar.svelte";
 import { fetchPreviousMessage } from "../lib/chat-room/hook";
 import Footer from "$lib/footer.svelte";

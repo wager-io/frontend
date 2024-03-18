@@ -6,6 +6,7 @@ import { default_Wallet } from '../../store/coins';
 import { profileStore, handleisLoggin } from "$lib/store/profile";
 import { DiceBet } from "../ClassicDice/hook/manualEngine";
 import { handleAuthToken } from "$lib/store/routes";
+import { handleWebSocket } from "$lib/socket"
 import { dice_history } from "../ClassicDice/store/index";
 import { payout, betPosition } from "./store";
 import { soundManager, turboManager} from "$lib/games/ClassicDice/store/index";
@@ -221,6 +222,8 @@ const handleRollSubmit = (async()=>{
             }
             non += 1
            const response = await DiceBet(data, $handleAuthToken)
+           const { handleDicebet } = await handleWebSocket()
+            await handleDicebet(response)
            if(response.has_won){
             winning_track.set($winning_track += parseFloat(response.profit))
                 if($handleOnwin){
