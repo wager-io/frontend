@@ -289,7 +289,7 @@ $: console.log(tab)
 
 <style>
 
-#header.side-unfold{
+/* #header.side-unfold{
     padding-left: 240px;
 }
 
@@ -302,7 +302,7 @@ $: console.log(tab)
 }
 #header.side-unfold.right-chat{
     padding-right: 340px;
-}
+} */
 .preloading{
     background-color: var(--background-color);
     position: fixed;
@@ -339,7 +339,7 @@ $: console.log(tab)
         transition: all 4.5s ease;
     }
 }
-
+/* 
 .gAvMHL {
     height: 4rem;
     position: fixed;
@@ -360,5 +360,5 @@ $: console.log(tab)
     height: 0.75rem;
     background-image: linear-gradient(rgb(17, 20, 21), rgba(36, 38, 43, 0));
     opacity: 0.25;
-}
+} */
 </style>
