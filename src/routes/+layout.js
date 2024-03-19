@@ -1,6 +1,4 @@
-import {
-  browser
-} from '$app/environment'
+import { browser } from '$app/environment'
 
 
 const id = browser && JSON.parse(localStorage.getItem('user'))

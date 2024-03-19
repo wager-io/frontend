@@ -20,8 +20,10 @@ export const useChangeUsername = (async(data, auth)=>{
   let error = ""
   let response = ""
   let is_loading = true
-  await  axios.post(`${ServerURl()}/api/profile/update-user`, 
-  { data },{
+  await  axios.post(`${ServerURl()}/api/profile/update-user`,
+  {
+     data 
+  },{
       headers: {
       "Content-type": "application/json",
       'Authorization': `Bearer ${auth}`

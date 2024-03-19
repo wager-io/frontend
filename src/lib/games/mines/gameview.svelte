@@ -11,6 +11,7 @@ import { mine_history, HandleSelectedMine, minesStore,
     HandleIsAlive,
     HandleWinning
 } from "./store/index"
+import { soundHandler} from "$lib/games/mines/store/index";
 import { MinesHistory } from "./hook/diceHistory";
 import { handleCountdown } from "$lib/games/ClassicDice/socket/index"
 const { handleMinesHistory} = handleCountdown()
@@ -60,9 +61,11 @@ const handleDiceHistoryDetail = ((data) => {
 })
 
 function playSound() {
-    const audio = new Audio(cr);
-    audio.volume = 0.5;
-    audio.play();
+    if($soundHandler){
+        const audio = new Audio(cr);
+        audio.volume = 0.5;
+        audio.play();
+    }
 }
 
 // Function to toggle play/pause
@@ -76,9 +79,11 @@ function togglePlayback() {
 }
 
 const handleChange = ((e) => {
-    const audio = new Audio(win);
-    audio.volume = 0.5;
-    audio.play();
+    if($soundHandler){
+        const audio = new Audio(win);
+        audio.volume = 0.5;
+        audio.play();
+    }
 })
 
 let skown = [{
@@ -209,9 +214,11 @@ let skown = [{
 ]
 
 const handleFubbf = (() => {
-    const audio = new Audio(wion);
-    audio.volume = 0.5;
-    audio.play();
+    if($soundHandler){
+        const audio = new Audio(wion);
+        audio.volume = 0.5;
+        audio.play();
+    }
 })
 
 const handleLostBet = (async (data) => {

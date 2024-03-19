@@ -48,8 +48,11 @@ export let onWin = writable(winIncrement)
 let settings = {}
 export let settingEl = writable(settings)
 
-let sounds = 1
+let sounds = 0
 export let soundHandler = writable(sounds)
+
+let background_mu = 0
+export let BackMusicHandler = writable(background_mu)
 
 let Cashoii = 0
 export let Cashout = writable(Cashoii)

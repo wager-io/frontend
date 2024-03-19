@@ -10,7 +10,7 @@ import { handleAuthToken } from "$lib/store/routes"
 import { handleisLoggin, profileStore } from "$lib/store/profile"
 import { error_msg } from "./store/index"
 import { bet_amount,canCashout, soundHandler,mine_history,HandleSelectedMine,HandleNextTime,HandleGame_id,
-     MinesEncription,HandleHas_won,HandleMineCount, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
+    MinesEncription,HandleHas_won,HandleMineCount, HandlemineGems,HandleWinning,  HandleIsAlive} from "$lib/games/mines/store/index"
 import axios from "axios";
 import Loader from "$lib/components/loader.svelte";
 import successSound from "./audio/success-1-6297.mp3"
@@ -54,13 +54,13 @@ const mult = (()=>{
     bet_amount.set(($bet_amount * 2).toFixed(4))
 })
 
-
 function HandleWinningSound(e) {
-    const audio = new Audio(successSound);
-    audio.volume = 1;
-    audio.play();
+    if($soundHandler){
+        const audio = new Audio(successSound);
+        audio.volume = 1;
+        audio.play();
+    }
 }
-
 
 let jufy = false
 const handleDspo = (()=>{

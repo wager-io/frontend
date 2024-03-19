@@ -36,14 +36,12 @@ let range = 50
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
 
-let ishover = false
-const handleRangl = ((w) => {
-    if (w === 1) {
-        ishover = true
-    } else {
-        ishover = false
-    }
-})
+$: isHelp = false
+$: is_hotkey = false
+$: is_stats = false
+$: isSeed = false
+$: playPlayb = false
+$: tabs = 1
 
 let is_manual = true
 const handleTabs = ((e)=>{
@@ -67,7 +65,7 @@ const handleSoundState = (()=>{
         audio.play();
     }else{
         const audio = new Audio(background);        
-        audio.volume = 0;
+        audio.currentTime  = 0;
         audio.paused();
     }
 })
@@ -80,25 +78,6 @@ function playBackground() {
     }
 }
 
-let isHelp = false
-const handleIsHelp = (()=>{
-    isHelp = !isHelp
-})
-
-let is_stats = false
-let stats = (()=>{
-    is_stats = !is_stats
-})
-
-let isSeed = false
-const  hanhisSeed = (()=>{
-    isSeed = !isSeed
-})
-
-let is_hotkey = false
-const handleHotKey = (()=>{
-    is_hotkey = !is_hotkey
-})
 
 let DgII = ''
 let hisQQ = false
@@ -115,25 +94,6 @@ let newItem;
     $: {
     newItem =  [...$dicegameplays].reverse()
 }
-
-let is_allbet = true
-let is_mybet = false
-let is_contest = false
-const handleAllbet = ((e) => {
-    if (e === 1) {
-        is_allbet = true
-        is_mybet = false
-        is_contest = false
-    } else if (e === 2) {
-        is_allbet = false
-        is_mybet = true
-    } else {
-        is_contest = true
-        is_allbet = false
-        is_mybet = false
-    }
-})
-
 
 let houseEgde = 1
 let game__charges = 100 / houseEgde
@@ -2786,19 +2746,19 @@ const handleAutoSet = ((erii)=>{
 </script>
 
 {#if isHelp}
-    <Help on:close={handleIsHelp} />
+    <Help on:close={()=> isHelp = !isHelp} />
 {/if}
 
 {#if is_stats}
-    <LiveStats on:close={stats} />
+    <LiveStats on:close={()=> is_stats = !is_stats} />
 {/if}
 
 {#if isSeed}
-<SeedSetting on:close={hanhisSeed}/>
+    <SeedSetting on:close={()=> isSeed = !isSeed}/>
 {/if}
 
 {#if hisQQ}
-<HistoryDetails on:close={handleDiceHistoryDetail} DgII={DgII} />
+    <HistoryDetails on:close={handleDiceHistoryDetail} DgII={DgII} />
 {/if}
 
 <div id="game-Mines" class={`sc-haTkiu lmWKWf game-style-mobile sc-bOtlzW bKHexS ${$is_open__Appp && `is-open`} ${$is_open__chat && `is-chat`}`}>
@@ -2928,24 +2888,30 @@ const handleAutoSet = ((erii)=>{
                 <MobileAutoController />
             {/if}
             <div class="game-actions">
-                <button on:click={()=> handleSoundState()} class={`action-item ${playPlayb ? "active" : ""} `}>
-                    <Icon src={FiMusic}  size="23"  color={` ${playPlayb ? "rgb(67, 179, 9)" : "rgba(153, 164, 176, 0.6)"} `} title="Music" />
+                <button on:click={()=> handleSoundState() } class={`action-item ${playPlayb ? "active" : ""} `}>
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                        <use xlink:href={`#${playPlayb ? "icon_MusicOn" : "icon_MusicOff"}`}></use>
+                    </svg>
                 </button>
                 <button on:click={()=> playBackground()} class={`action-item ${$soundHandler ? "active" : ""} `}>
-                    {#if $soundHandler}
-                        <Icon src={TiVolumeDown}  size="23"  color={`rgb(67, 179, 9)`} title="Sound" />
-                        {:else}
-                        <Icon src={TiVolumeMute}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Sound closed" />
-                    {/if}
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                        <use xlink:href={`#${$soundHandler ? "icon_SoundOn" : "icon_SoundOff"}`}></use>
+                    </svg>
                 </button>
-                <button on:click={hanhisSeed} class="action-item  " id="set_seed">
-                    <Icon src={BsEgg}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Seed" />
+                <button on:click={()=>isSeed = !isSeed} class="action-item  " id="set_seed">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                        <use xlink:href="#icon_Seed"></use>
+                    </svg>
                 </button>
-                <button on:click={stats} class="action-item  ">
-                    <Icon src={RiMapGuideFill}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Live stat" />
+                <button on:click={()=> is_stats = !is_stats} class="action-item  ">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                        <use xlink:href="#icon_LiveStats"></use>
+                    </svg>
                 </button>
-                <button on:click={handleIsHelp} class="action-item  ">
-                    <Icon src={AiOutlineQuestionCircle}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Help" />
+                <button on:click={()=>  isHelp = !isHelp} class="action-item  ">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                        <use xlink:href="#icon_Help"></use>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -2954,21 +2920,21 @@ const handleAutoSet = ((erii)=>{
 
     <div class="sc-cxpSdN kQfmQV tabs game-tabs len-3">
         <div class="tabs-navs">
-            <button on:click={()=>handleAllbet(1)} class={`tabs-nav ${is_allbet && "is-active"}`}>All Bets</button>
-            <button on:click={()=>handleAllbet(2)} class={`tabs-nav ${is_mybet && "is-active"}`}>My Bets</button>
-            <button on:click={()=>handleAllbet(3)} class={`tabs-nav ${is_contest && "is-active"}`}>Contest</button>
-            {#if is_allbet}
+            <button on:click={()=> tabs = 1} class={`tabs-nav ${tabs === 1 && "is-active"}`}>All Bets</button>
+            <button on:click={()=> tabs = 2} class={`tabs-nav ${tabs === 2 && "is-active"}`}>My Bets</button>
+            <button on:click={()=> tabs = 3} class={`tabs-nav ${tabs === 3 && "is-active"}`}>Contest</button>
+            {#if tabs === 1}
             <div class="bg" style={`left: 0%; right: 66.6667%;`}></div>
-            {:else if is_mybet}
+            {:else if tabs === 2}
             <div class="bg" style="left: 33.3333%; right: 33.3333%;"></div>
-            {:else if is_contest}
+            {:else if tabs === 3}
             <div class="bg" style="left: 66.6667%; right: 0%;"></div>
             {/if}
         </div>
-    {#if is_allbet}
-        <Allbet />
-        {:else if is_mybet}
-        <Mybet />
+        {#if tabs === 1}
+            <Allbet />
+        {:else if tabs === 2}
+            <Mybet />
         {/if}
     </div>
 </div>
@@ -3154,7 +3120,9 @@ const handleAutoSet = ((erii)=>{
     color: rgb(245, 246, 247);
     background-color: rgb(67, 179, 9);
 }
-
+.lmWKWf .action-item.active .icon {
+    fill: rgb(67, 179, 9);
+}
 .fIoiVG .item-wrap {
     display: flex;
     -webkit-box-align: center;

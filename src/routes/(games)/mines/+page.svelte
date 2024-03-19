@@ -2,35 +2,46 @@
 import Gameview from "$lib/games/mines/gameview.svelte";
 import "$lib/games/mines/styles/index.css";
 import Controls from "$lib/games/mines/Controls.svelte";
-import Icon from 'svelte-icons-pack/Icon.svelte';
-import FiMusic from "svelte-icons-pack/fi/FiMusic";
-import TiVolumeDown from "svelte-icons-pack/ti/TiVolumeDown";
 import {onMount} from "svelte";
 import axios from "axios";
 import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import { handleAuthToken } from "$lib/store/routes";
-import RiSystemArrowDropRightLine from "svelte-icons-pack/ri/RiSystemArrowDropRightLine";
 import { DicegameSocket } from "$lib/games/mines/socket/Socket"
-import TiVolumeMute from "svelte-icons-pack/ti/TiVolumeMute";
-import BiSolidKeyboard from "svelte-icons-pack/bi/BiSolidKeyboard";
-import BsEgg from "svelte-icons-pack/bs/BsEgg";
-import RiMapGuideFill from "svelte-icons-pack/ri/RiMapGuideFill";
-import AiOutlineQuestionCircle from "svelte-icons-pack/ai/AiOutlineQuestionCircle";
 import Allbet from "$lib/games/mines/componets/allbet.svelte";
 import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
 import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
 import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
 import Help from "$lib/games/mines/componets/help.svelte";
-import { soundHandler} from "$lib/games/mines/store/index";
-import {MinesEncription} from "$lib/games/mines/store/index";
+import { soundHandler, MinesEncription, BackMusicHandler} from "$lib/games/mines/store/index";
+import { browser } from "$app/environment";
 import background from "$lib/games/mines/audio/sadness.mp3";
 DicegameSocket()
 import { ServerURl } from "$lib/backendUrl";
 import Mobile from "./mobile.svelte";
 import Mybet from "$lib/games/mines/componets/mybet.svelte";
-    import Loader from "$lib/components/loader.svelte";
+import Loader from "$lib/components/loader.svelte";
 const URl = ServerURl()
+
 $: is_loading = false
+$: isHelp = false
+$: is_hotkey = false
+$: is_stats = false
+$: isSeed = false
+$: tabs = 1
+const audio = new Audio(background);
+
+onMount(()=>{
+    const background = browser && JSON.parse(localStorage.getItem('mines-background-music'))
+    const sound = browser && JSON.parse(localStorage.getItem('mines-sound'))
+    BackMusicHandler.set(background)
+    soundHandler.set(sound)
+    if($BackMusicHandler){
+        audio.volume = 1;
+        audio.loop = true;
+        audio.play();
+    }
+})
+
 const handleMinesGameEncrypt = (async()=>{
     is_loading = true
     await axios.get(`${URl}/api/user/mine-game/mine-encrypt`,{
@@ -53,82 +64,51 @@ onMount(()=>{
   $handleAuthToken && handleMinesGameEncrypt()
 })
 
-let playPlayb = false
+
 function playBackground() {
-    playPlayb =! playPlayb
-    if(playPlayb){
-        const audio = new Audio(background);
+    if(!$BackMusicHandler){
         audio.volume = 1;
+        audio.loop = true;
         audio.play();
-    }else{
-        const audio = new Audio(background);        
+        localStorage.setItem("mines-background-music", true);
+        BackMusicHandler.set(true)
+    }else{     
         audio.volume = 0;
-        audio.paused();
+        audio.pause();
+        audio.currentTime = 0;
+        localStorage.setItem("mines-background-music", false);
+        BackMusicHandler.set(false)
     }
 }
-    
-let is_allbet = true
-let is_mybet = false
-let is_contest = false
-const handleAllbet = ((e) => {
-    if (e === 1) {
-        is_allbet = true
-        is_mybet = false
-        is_contest = false
-    } else if (e === 2) {
-        is_allbet = false
-        is_mybet = true
-    } else {
-        is_contest = true
-        is_allbet = false
-        is_mybet = false
-    }
-})
-let is_hotkey = false
-const handleHotKey = (()=>{
-    is_hotkey = !is_hotkey
-})
 
-let is_stats = false
-let stats = (()=>{
-    is_stats = !is_stats
-})
-let isSeed = false
-const  hanhisSeed = (()=>{
-    isSeed = !isSeed
-})
-
-let isHelp = false
-const handleIsHelp = (()=>{
-    isHelp = !isHelp
-})
  
 const handleSoundState = (()=>{
     if($soundHandler){
         soundHandler.set(0)
+        localStorage.setItem("mines-sound", false);
     }else{
         soundHandler.set(1)
+        localStorage.setItem("mines-sound", true);
     }
 })
 
 </script>
     
 {#if is_hotkey}
-    <Hotkey on:close={handleHotKey} />
+    <Hotkey on:close={()=> is_hotkey = !is_hotkey} />
 {/if}
     
 {#if is_stats}
-    <LiveStats on:close={stats} />
+    <LiveStats on:close={()=> is_stats = !is_stats} />
 {/if}
 
 {#if isSeed}
-    <SeedSetting on:close={hanhisSeed}/>
+    <SeedSetting on:close={()=>isSeed = !isSeed}/>
 {/if}
 
 {#if isHelp}
-    <Help on:close={handleIsHelp} />
+    <Help on:close={()=>  isHelp = !isHelp} />
 {/if}
-    
 
 {#if !is_loading}
 <div style={`${$is_open__chat && $is_open__Appp && $screen > 1579 || $is_open__chat && !$is_open__Appp && $screen > 1219 || !$is_open__chat && !$is_open__Appp && $screen > 1049 || !$is_open__chat && $is_open__Appp && $screen > 1214 ? "" : "display:none"}`} id="dice-main">
@@ -138,29 +118,35 @@ const handleSoundState = (()=>{
                 <Controls />
                 <Gameview />
                 <div class="game-actions">
-                    <button disabled={playPlayb} on:click={()=> playBackground() } class={`action-item ${playPlayb ? "active" : ""} `}>
-                        <Icon src={FiMusic}  size="23"  color={` ${playPlayb ? "rgb(67, 179, 9)" : "rgba(153, 164, 176, 0.6)"} `} title="Music" />
+                    <button on:click={()=> playBackground() } class={`action-item ${$BackMusicHandler ? "active" : ""} `}>
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                            <use xlink:href={`#${$BackMusicHandler ? "icon_MusicOn" : "icon_MusicOff"}`}></use>
+                        </svg>
                     </button>
-
                     <button on:click={()=> handleSoundState()} class={`action-item ${$soundHandler ? "active" : ""} `}>
-                        {#if $soundHandler}
-                            <Icon src={TiVolumeDown}  size="23"  color={`rgb(67, 179, 9)`} title="Sound" />
-                            {:else}
-                            <Icon src={TiVolumeMute}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Sound closed" />
-                        {/if}
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                            <use xlink:href={`#${$soundHandler ? "icon_SoundOn" : "icon_SoundOff"}`}></use>
+                        </svg>
                     </button>
-
-                    <button on:click={handleHotKey} class="action-item  ">
-                        <Icon src={BiSolidKeyboard}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Hot keys" />
+                    <button on:click={()=> is_hotkey = !is_hotkey} class="action-item  ">
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                            <use xlink:href="#icon_HotKeys"></use>
+                        </svg>
                     </button>
-                    <button on:click={hanhisSeed} class="action-item  " id="set_seed">
-                        <Icon src={BsEgg}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Seed" />
+                    <button on:click={()=>isSeed = !isSeed} class="action-item  " id="set_seed">
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                            <use xlink:href="#icon_Seed"></use>
+                        </svg>
                     </button>
-                    <button on:click={stats} class="action-item  ">
-                        <Icon src={RiMapGuideFill}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Live stat" />
+                    <button on:click={()=> is_stats = !is_stats} class="action-item  ">
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                            <use xlink:href="#icon_LiveStats"></use>
+                        </svg>
                     </button>
-                    <button on:click={handleIsHelp} class="action-item  ">
-                        <Icon src={AiOutlineQuestionCircle}  size="23"  color={`rgba(153, 164, 176, 0.6)`} title="Help" />
+                    <button on:click={()=>  isHelp = !isHelp} class="action-item  ">
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                            <use xlink:href="#icon_Help"></use>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -168,20 +154,20 @@ const handleSoundState = (()=>{
 
         <div class="sc-cxpSdN kQfmQV tabs game-tabs len-3">
             <div class="tabs-navs">
-                <button on:click={()=>handleAllbet(1)} class={`tabs-nav ${is_allbet && "is-active"}`}>All Bets</button>
-                <button on:click={()=>handleAllbet(2)} class={`tabs-nav ${is_mybet && "is-active"}`}>My Bets</button>
-                <button on:click={()=>handleAllbet(3)} class={`tabs-nav ${is_contest && "is-active"}`}>Contest</button>
-                {#if is_allbet}
+                <button on:click={()=> tabs = 1} class={`tabs-nav ${tabs === 1 && "is-active"}`}>All Bets</button>
+                <button on:click={()=> tabs = 2} class={`tabs-nav ${tabs === 2 && "is-active"}`}>My Bets</button>
+                <button on:click={()=> tabs = 3} class={`tabs-nav ${tabs === 3 && "is-active"}`}>Contest</button>
+                {#if tabs === 1}
                 <div class="bg" style={`left: 0%; right: 66.6667%;`}></div>
-                {:else if is_mybet}
+                {:else if tabs === 2}
                 <div class="bg" style="left: 33.3333%; right: 33.3333%;"></div>
-                {:else if is_contest}
+                {:else if tabs === 3}
                 <div class="bg" style="left: 66.6667%; right: 0%;"></div>
                 {/if}
             </div>
-            {#if is_allbet}
+            {#if tabs === 1}
                 <Allbet />
-                {:else if is_mybet}
+            {:else if tabs === 2}
                 <Mybet />
             {/if}
         </div>
@@ -199,9 +185,9 @@ const handleSoundState = (()=>{
             <div class="description">Classic Dice, a probability game established by blockchain hash value calculation and algorithm, provides more fun with bet and prediction, in which the closer the number rolled by players to the random number, the higher the probability winning.</div>
             <button class="intro-detail">
             Details
-            <span style="margin-left: 1.125rem;">
-                <Icon src={RiSystemArrowDropRightLine}  size="23"  color="rgba(153, 164, 176, 0.6)"  />
-            </span>
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                    <use xlink:href="#icon_Arrow"></use>
+                </svg>
             </button>
         </div>
     </div>
@@ -239,7 +225,13 @@ const handleSoundState = (()=>{
 .lmWKWf {
     min-height: 90vh;
 }
-
+.lmWKWf .action-item.active .icon {
+    fill: rgb(67, 179, 9);
+}
+.cFxmZX .intro-detail > svg {
+    font-size: 0.5625rem;
+    margin-left: 1.125rem;
+}
 .lmWKWf.game-style0 .game-area, .lmWKWf.game-style1 .game-area, .lmWKWf.game-style-iframe .game-area {
     display: flex;
     flex-wrap: wrap;
