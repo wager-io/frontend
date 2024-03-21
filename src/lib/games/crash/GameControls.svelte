@@ -411,7 +411,7 @@
 
 <div id="crash-control-1"
   class="sc-hLVXRe cYiOHZ game-control {$screen < 951 ? 'mobile-view' : 'style1'}">
-  <div class="sc-iwjdpV {autoBetting && $crashGameType === 2 ? 'eLa-Dxl' : 'ikWSlH'} radio game-control-switch"
+  <!-- <div class="sc-iwjdpV {autoBetting && $crashGameType === 2 ? 'eLa-Dxl' : 'ikWSlH'} radio game-control-switch"
     disabled={autoBetting && $crashGameType === 2}>
     <button disabled={autoBetting && $crashGameType === 2}
       on:click={setActivePanel(1)}
@@ -426,7 +426,7 @@
         {$crashGameType === 2 ? "Auto" : "Advance"}
       </div>
     </button>
-  </div>
+  </div> -->
   <div class="game-control-panel">
     {#if activePanel === 1}
       <!-- Classic OR Trend -->
@@ -1382,7 +1382,7 @@
     display: flex;
     opacity: 0.5;
   }
-  .cYiOHZ.style1 .game-control-switch > button {
+  /* .cYiOHZ.style1 .game-control-switch > button {
     position: relative;
   }
 
@@ -1390,7 +1390,7 @@
     flex: 1 1 0%;
     cursor: pointer;
     color: rgba(153, 164, 176, 0.6);
-  }
+  } */
   .cYiOHZ.style1:not(.mobile-view) .game-control-switch .label {
     transform: translate(-50%, -50%) rotate(-90deg);
   }
@@ -1401,26 +1401,26 @@
     transform: translate(-50%, -50%);
     white-space: nowrap;
   }
-  .cYiOHZ .game-control-switch > button.is-active {
+  /* .cYiOHZ .game-control-switch > button.is-active {
     color: rgb(245, 246, 247);
     font-weight: bold;
-  }
-  .cYiOHZ.style1.mobile-view .game-control-switch > button.is-active {
+  } */
+  /* .cYiOHZ.style1.mobile-view .game-control-switch > button.is-active {
     border-bottom: 2px solid var(--primary-color);
     background-image: linear-gradient(
       to top,
       #9900cc44,
       rgba(0, 0, 0, 0) 50%
     );
-  }
-  .cYiOHZ.style1:not(.mobile-view) .game-control-switch > button.is-active {
+  } */
+  /* .cYiOHZ.style1:not(.mobile-view) .game-control-switch > button.is-active {
     border-right: 2px solid var(--primary-color);
     background-image: linear-gradient(
       to left,
       #9900cc44,
       rgba(0, 0, 0, 0) 50%
     );
-  }
+  } */
   .cYiOHZ.style1:not(.mobile-view) .game-control-switch::after {
     content: "";
     position: absolute;
