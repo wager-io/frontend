@@ -7,10 +7,10 @@ import axios from "axios";
 import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import { handleAuthToken } from "$lib/store/routes";
 import Allbet from "$lib/games/mines/componets/allbet.svelte";
-// import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
-// import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
-// import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
-// import Help from "$lib/games/mines/componets/help.svelte";
+import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
+import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
+import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
+import Help from "$lib/games/mines/componets/help.svelte";
 import { soundHandler, MinesEncription, BackMusicHandler} from "$lib/games/mines/store/index";
 import { browser } from "$app/environment";
 import background from "$lib/games/mines/audio/sadness.mp3";
@@ -92,7 +92,7 @@ const handleSoundState = (()=>{
 
 </script>
     
-<!-- {#if is_hotkey}
+{#if is_hotkey}
     <Hotkey on:close={()=> is_hotkey = !is_hotkey} />
 {/if}
     
@@ -106,7 +106,7 @@ const handleSoundState = (()=>{
 
 {#if isHelp}
     <Help on:close={()=>  isHelp = !isHelp} />
-{/if} -->
+{/if}
 
 {#if !is_loading}
 <div style={`${$is_open__chat && $is_open__Appp && $screen > 1579 || $is_open__chat && !$is_open__Appp && $screen > 1219 || !$is_open__chat && !$is_open__Appp && $screen > 1049 || !$is_open__chat && $is_open__Appp && $screen > 1214 ? "" : "display:none"}`} id="dice-main">
@@ -418,5 +418,3 @@ const handleSoundState = (()=>{
         justify-content: center;
     }
 </style>
-
-<div>Why is this not opening? </div>
