@@ -1,5 +1,5 @@
 <script>
-// import AutoControllers from "./AutoControllers.svelte";
+import AutoControllers from "./AutoControllers.svelte";
 import ManualControllers from "./ManualControllers.svelte";
 import { HandleIsAlive, HandleWinning, HandleHas_won } from "../mines/store/index";
 let is_manual = true
@@ -26,13 +26,14 @@ const hanleManualControls = ((e)=>{
             <div class="label">Auto</div>
         </button>
     </div>
-    <ManualControllers />
-    <!-- {#if is_manual}
-        
+    
+    {#if is_manual}
+        <ManualControllers />
     {/if}
     {#if !is_manual}
-        <AutoControllers />
-    {/if} -->
+         <AutoControllers />
+    {/if}
+   
 </div>
 
 <style>
