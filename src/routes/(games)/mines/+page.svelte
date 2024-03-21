@@ -1,7 +1,7 @@
 <script>
 import Gameview from "$lib/games/mines/gameview.svelte";
 import "$lib/games/mines/styles/index.css";
-// import Controls from "$lib/games/mines/Controls.svelte";
+import Controls from "$lib/games/mines/Controls.svelte";
 import {onMount} from "svelte";
 import axios from "axios";
 import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
@@ -113,7 +113,7 @@ const handleSoundState = (()=>{
     <div id="game-Mines" class={`sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf ${$is_open__Appp && `is-open`} ${$is_open__chat && `is-chat`}`}>
         <div class="game-area">
             <div class="game-main">
-                <!-- <Controls /> -->
+                <Controls />
                 <Gameview /> 
                 <div class="game-actions">
                     <button on:click={()=> playBackground() } class={`action-item ${$BackMusicHandler ? "active" : ""} `}>
