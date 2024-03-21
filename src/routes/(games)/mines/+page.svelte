@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 import Gameview from "$lib/games/mines/gameview.svelte";
 import "$lib/games/mines/styles/index.css";
 import Controls from "$lib/games/mines/Controls.svelte";
@@ -419,5 +419,6 @@ const handleSoundState = (()=>{
         -webkit-box-pack: center;
         justify-content: center;
     }
-</style>
-    
+</style> -->
+
+<div>Why is this not opening? </div>
