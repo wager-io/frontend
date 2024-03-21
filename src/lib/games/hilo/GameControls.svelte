@@ -4,6 +4,7 @@
   import { onMount, createEventDispatcher } from "svelte";
   import { default_Wallet } from "$lib/store/coins";
   import { goto } from "$app/navigation";
+  import { url } from "$lib/store/routes";
   import { handleisLoggin } from "$lib/store/profile";
   import Tooltip from "$lib/components/tooltip.svelte";
   import {
@@ -203,7 +204,7 @@
 
   const handleBetOrCashout = () => {
     if (!$handleisLoggin) {
-      goto("/login");
+      goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`);
       return;
     }
     if ((!canBet && !canCashOut) || isLoading) return;
@@ -326,25 +327,17 @@
                   class="fix-layer"
                   style="opacity: 1; transform: none;"
                 >
-                  <button
-                    on:click={handleAdjustBet("min")}
+                  <button on:click={handleAdjustBet("min")}
                     class={bet_amount <= betRange.min ? "active" : ""}
-                    >Min</button
-                  >
+                    >Min</button>
                   <div bind:this={slider} class="sc-kLwhqv eOA-dmL slider">
-                    <div
-                      class="slider-after"
-                      style="transform: scaleX(2.27273e-06);"
-                    ></div>
-                    <div
-                      on:pointerdown={() => (isGrabbing = true)}
+                    <div  class="slider-after" style="transform: scaleX(2.27273e-06);"></div>
+                    <div on:pointerdown={() => (isGrabbing = true)}
                       class="slider-handler-wrap"
-                      style="transform: translateX({sliderPercentage}%);"
-                    >
+                      style="transform: translateX({sliderPercentage}%);">
                       <button class="slider-handler"></button>
                     </div>
-                    <div
-                      class="slider-before"
+                    <div class="slider-before"
                       style="transform: scaleX(0.999998);"
                     ></div>
                   </div>

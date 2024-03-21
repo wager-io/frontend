@@ -141,18 +141,13 @@
   </div>
   <div class="sc-cxpSdN kQfmQV tabs game-tabs len-2">
     <div class="tabs-navs">
-      <button
-        on:click={() => (currentTab = 1)}
-        class="tabs-nav {currentTab === 1 ? 'is-active' : ''}">All Bets</button
-      >
-      <button
-        on:click={() => (currentTab = 2)}
-        class="tabs-nav {currentTab === 2 ? 'is-active' : ''}">My Bets</button
-      >
-      <div
-        class="bg is-reverse"
-        style="width: 50%; left: {currentTab === 2 ? '50%' : '0'};"
-      ></div>
+      <button on:click={() => (currentTab = 1)}
+        class="tabs-nav {currentTab === 1 ? 'is-active' : ''}">All Bets</button>
+      <button  on:click={() => (currentTab = 2)}
+        class="tabs-nav {currentTab === 2 ? 'is-active' : ''}">My Bets</button>
+      <div class="bg is-reverse"
+        style="width: 50%; left: {currentTab === 2 ? '50%' : '0'};">
+      </div>
     </div>
     <div class="tabs-view" style="transform: none;">
       {#if currentTab === 1}
@@ -178,12 +173,11 @@
       Hi-lo is an online single player guessing game in which you guess the card
       point is higher (hi) or lower (lo) compared to the previous one.
     </div>
-    <button class="intro-detail"
-      >Details<svg
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Arrow"></use></svg
-      ></button
-    >
+    <button class="intro-detail">Details
+      <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+        class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Arrow"></use>
+      </svg>
+    </button>
   </div>
 </div>
 

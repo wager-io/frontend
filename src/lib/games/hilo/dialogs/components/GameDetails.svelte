@@ -69,9 +69,6 @@
         >
       </div>
       <div class="rt_info">
-        <img alt=""
-          class="avatar avatar"
-          src={gameDetails.betLog.user.image || "/assets/hilo/avatar.a1ff78fe.png"}/>
         <div class="name">
           {#if gameDetails.betLog.user.hidden}
             <span class="hidden-name">
@@ -366,13 +363,13 @@
     padding-top: 2.875rem;
     text-align: center;
   }
-  .Osnbt .rt_info .avatar {
+  /* .Osnbt .rt_info .avatar {
     width: 4.625rem;
     height: 4.625rem;
     border-radius: 50%;
     border: 2px solid rgb(70, 70, 70);
     font-size: 0px;
-  }
+  } */
   .Osnbt .rt_info .name {
     line-height: 1.25rem;
     margin-top: 0.5rem;

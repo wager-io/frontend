@@ -4,6 +4,7 @@
   import Loader from "$lib/components/loader.svelte";
   import HiloDialog from "./dialogs/HiloDialog.svelte";
   import useFormatter from "$lib/hook/formatter";
+  import { url } from "$lib/store/routes";
   const { removeTrailingZeros, getSuffix } = useFormatter();
   $: hiloDialogData = null;
 </script>
@@ -28,12 +29,13 @@
         </thead>
         <tbody>
         {#each $recentBets as bet, index (`${bet.bet_id}_${index}`)}
-          <tr on:click={() => (hiloDialogData = { tab: 1, betID: bet.bet_id })}
-            ><td><a href="/hilo" class="hash ellipsis">{bet.bet_id}</a></td><td
-              ><a
-                class="sc-jUosCB iTDswZ user-info"
-                href="/user/profile/{bet.user_id}"
-                ><div class="name">
+          <tr on:click={() => (hiloDialogData = { tab: 1, betID: bet.bet_id })}>
+            <td>
+              <a href="/hilo" class="hash ellipsis">{bet.bet_id}</a>
+            </td>
+              <td>
+                <a class="sc-jUosCB iTDswZ user-info" href={`${$url === "/" ? "" : $url}/?tab=profile&id=${bet.user_id}`}>
+                  <div class="name">
                   {#if bet.user.hidden}
                     <span
                       style="display: inline-flex; gap: 2px;justify-content: center;"

@@ -1,8 +1,6 @@
 <script>
 import Icon from 'svelte-icons-pack/Icon.svelte';
 import RiSystemArrowRightSLine from "svelte-icons-pack/ri/RiSystemArrowRightSLine";
-
-import FaSolidHeadphones from "svelte-icons-pack/fa/FaSolidHeadphones";
 import AiOutlineHome from "svelte-icons-pack/ai/AiOutlineHome";
 import AiOutlineAliwangwang from "svelte-icons-pack/ai/AiOutlineAliwangwang";
 import FaSolidDice from "svelte-icons-pack/fa/FaSolidDice";
@@ -56,7 +54,7 @@ const openOriginal = ((e) => {
             <Original styls={styls} />
             {/if}
         </button>
-        <button disabled={true} on:click={()=> goto("/lottery")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route === "/lottery" ? "select" : ""}`}>
+        <button on:click={()=> goto("/lottery")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route === "/lottery" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <Icon src={AiOutlineAliwangwang}  size="18"  color="rgba(153, 164, 176, 0.8)" />
             </div>
@@ -66,7 +64,7 @@ const openOriginal = ((e) => {
                 <Icon src={VscLaw}  size="18"  color="rgba(153, 164, 176, 0.8)" />
             </div>
         </button> -->
-        <button disabled={true} on:click={()=> goto("/vip-games")} class={`sc-iNGGcK knLCVT menu-item special-nav vip ${ routes.route === "/vip-games" ? "select" : ""}`}>
+        <button on:click={()=> goto("/vip-games")} class={`sc-iNGGcK knLCVT menu-item special-nav vip ${ routes.route === "/vip-games" ? "select" : ""}`}>
             <div class="menu-mobile">
                 <Icon src={AiOutlineCrown}  size="18"  color="rgba(153, 164, 176, 0.8)" />
             </div>

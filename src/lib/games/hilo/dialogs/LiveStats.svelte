@@ -4,15 +4,8 @@
   import useFormatter from "$lib/hook/formatter";
   import useLiveStats from "$lib/hook/livestats";
   import { liveStats } from "../store";
-  import {
-    Chart,
-    CategoryScale,
-    LinearScale,
-    LineController,
-    LineElement,
-    PointElement,
-    Filler,
-  } from "chart.js";
+  import { Chart, CategoryScale, LinearScale,
+    LineController, LineElement, PointElement,Filler } from "chart.js";
   Chart.register(
     CategoryScale,
     LinearScale,
