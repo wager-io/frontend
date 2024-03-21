@@ -408,17 +408,12 @@
 </div>
 {/if}
 
-<div
-  id="crash-control-1"
-  class="sc-hLVXRe cYiOHZ game-control style1 {$screen < 951
-    ? 'mobile-view' : ''}">
-  <div
-    class="sc-iwjdpV {autoBetting && $crashGameType === 2
-      ? 'eLa-Dxl'
-      : 'ikWSlH'} radio game-control-switch"
+
+<div id="crash-control-1"
+  class="sc-hLVXRe cYiOHZ game-control {$screen < 951 ? 'mobile-view' : 'style1'}">
+  <div class="sc-iwjdpV {autoBetting && $crashGameType === 2 ? 'eLa-Dxl' : 'ikWSlH'} radio game-control-switch"
     disabled={autoBetting && $crashGameType === 2}>
-    <button
-      disabled={autoBetting && $crashGameType === 2}
+    <button disabled={autoBetting && $crashGameType === 2}
       on:click={setActivePanel(1)}
       class={activePanel === 1 ? "is-active" : ""}>
       <div class="label">Manual</div>
@@ -660,8 +655,7 @@
               /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
               <div class="sc-kDTinF bswIvI button-group">
                 <button disabled={xBetting || inputDisabled} on:click={handleSetXAmount("/")}
-                  >/2</button
-                >
+                  >/2</button>
                 <button disabled={xBetting || inputDisabled} on:click={handleSetXAmount("*")}
                   >x2</button
                 >

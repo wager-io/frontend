@@ -240,7 +240,7 @@ export default class CrashGameGraph extends EventEmitter {
         (2 * this.height) / 5
       );
     } else if (this.game.status === GameStatus.STARTING) {
-      this.ctx.font = `bold ${this.fontSizePx(3)} ${CrashGameGraph.fontFamily}`;
+      this.ctx.font = `bold ${this.fontSizePx(5)} ${CrashGameGraph.fontFamily}`;
       this.ctx.fillStyle = this.colors[0];
 
       const seconds = (this.game.startTime - Date.now()) / 1000;

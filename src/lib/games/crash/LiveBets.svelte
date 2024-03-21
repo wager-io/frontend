@@ -6,6 +6,7 @@
   import { screen } from "$lib/store/screen";
   import { onDestroy, onMount } from "svelte";
   import { crashGameType, crashGame } from "./store";
+  import { url } from "$lib/store/routes";
   import useFormatter from "$lib/hook/formatter";
   const { autorun } = connect();
   const { removeTrailingZeros, getSuffix } = useFormatter();
@@ -116,35 +117,28 @@
           <table class="sc-gWXbKe iUeetX table is-hover">
             <tbody>
               {#each players as player (player.userId)}
-                <tr
-                  ><td class="user"
-                    ><a
-                      class="sc-jUosCB iTDswZ user-info"
-                      href="/user/profile/{player.userId}"
-                      ><img
-                        alt=""
-                        class="avatar"
-                        src={player.hidden
-                          ? "/assets/avatar.a1ff78fe.png"
-                          : player.avatar}
-                      />
+                <tr>
+                  <td class="user">
+                    <a class="sc-jUosCB iTDswZ user-info"
+                    href={`${$url === "/" ? "" : $url}/?tab=profile&id=${player.user_id}`}>
+                      <img alt="" class="avatar"
+                        src={player.hidden ? "/assets/avatar.a1ff78fe.png" : player.avatar} />
                       <div class="name">
                         {#if player.hidden}
-                          <span class="hidden-name"
-                            ><svg
-                              xmlns:xlink="http://www.w3.org/1999/xlink"
-                              class="sc-gsDKAQ hxODWG icon"
-                              ><use xlink:href="#icon_Hidden"></use></svg
-                            >Hidden</span
-                          >
+                          <span class="hidden-name">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                              class="sc-gsDKAQ hxODWG icon">
+                              <use xlink:href="#icon_Hidden"></use>
+                              </svg>Hidden</span>
                         {:else}
                           {player.name}
                         {/if}
-                      </div></a
-                    ></td
-                  ><td class="escape"
-                    ><span class="ttl opacity"
-                      >{#if player.rate > 0}
+                      </div>
+                    </a>
+                      </td>
+                      <td class="escape">
+                        <span class="ttl opacity">
+                          {#if player.rate > 0}
                         {player.rate.toFixed(2) + "x"}
                       {:else if gameStatus === 3}
                         bang
@@ -206,10 +200,6 @@
         {:else}
           <div class="sc-epFoly etYRmD">
             <div class="sc-eCImPb biQums cuPxwd empty">
-              <img
-                alt="No data"
-                src="https://static.nanogames.io/assets/empty.acd1f5fe.png"
-              />
               <div class="msg">Oops! There is no data yet!</div>
             </div>
           </div>
@@ -237,10 +227,7 @@
           <div class="title">Red Shiba</div>
         </div>
         <div class="item knife">
-          <img
-            alt=""
-            src="https://static.nanogames.io/assets/knife.1e91682e.png"
-          />
+          <img alt="" src="https://static.nanogames.io/assets/knife.1e91682e.png" />
           <div class="title">VS</div>
         </div>
         <div class="item green">
@@ -281,13 +268,11 @@
               <tbody>
                 {#each redList as bet, index (`${bet.userId}_${index}`)}
                   <tr
-                    ><td
-                      ><a
-                        class="sc-jUosCB iTDswZ user-info"
-                        href="/user/profile/{bet.userId}"
-                        ><img
-                          alt=""
-                          class="avatar"
+                    ><td>
+                      
+                      <a class="sc-jUosCB iTDswZ user-info"
+                      href={`${$url === "/" ? "" : $url}/?tab=profile&id=${bet.user_id}`}>
+                        <img  alt="" class="avatar"
                           src={bet.hidden
                             ? "/assets/avatar.a1ff78fe.png"
                             : bet.avatar}
@@ -333,27 +318,17 @@
             <table class="sc-gWXbKe iUeetX table is-hover">
               <tbody>
                 {#each greenList as bet, index (`${bet.userId}_${index}`)}
-                  <tr
-                    ><td
-                      ><a
-                        class="sc-jUosCB iTDswZ user-info"
-                        href="/user/profile/{bet.userId}"
-                        ><img
-                          alt=""
-                          class="avatar"
-                          src={bet.hidden
-                            ? "/assets/avatar.a1ff78fe.png"
-                            : bet.avatar}
-                        />
+                  <tr>
+                    <td>
+                      <a class="sc-jUosCB iTDswZ user-info"
+                        href={`${$url === "/" ? "" : $url}/?tab=profile&id=${bet.user_id}`}><img
+                          alt="" class="avatar" src={bet.hidden ? "/assets/avatar.a1ff78fe.png" : bet.avatar} />
                         <div class="name">
                           {#if bet.hidden}
-                            <span class="hidden-name"
-                              ><svg
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                                class="sc-gsDKAQ hxODWG icon"
-                                ><use xlink:href="#icon_Hidden"></use></svg
-                              >Hidden</span
-                            >
+                            <span class="hidden-name">
+                              <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Hidden"></use>
+                                </svg>Hidden</span>
                           {:else}
                             {bet.name}
                           {/if}
@@ -381,7 +356,6 @@
         {:else}
           <div class="sc-epFoly etYRmD">
             <div class="sc-eCImPb biQums cuPxwd empty">
-              <img alt="No data" src="https://static.nanogames.io/assets/empty.acd1f5fe.png" />
               <div class="msg">Oops! There is no data yet!</div>
             </div>
           </div>

@@ -7,11 +7,7 @@
   import { url } from "$lib/store/routes";
   import { handleisLoggin } from "$lib/store/profile";
   import Tooltip from "$lib/components/tooltip.svelte";
-  import {
-    hilo_game,
-    processingRequest,
-    hotkeysEnabled,
-  } from "$lib/games/hilo/store";
+  import { hilo_game, processingRequest, hotkeysEnabled} from "$lib/games/hilo/store";
   import Loader from "$lib/components/loader.svelte";
   import useDeck from "./hooks/deck";
   const { getCardRank, ranks } = useDeck();

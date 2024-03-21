@@ -248,7 +248,6 @@ const GameEventHandler = class extends EventEmitter {
   // Bet validations
   async beforeBetCheck(amount, currency = this.currencyName) {
     if (!UserStore.getInstance().user) {
-      window.location.href = "/login";
       throw new Error("You need to be signed in");
     }
     if (!amount) throw new Error("Set a bet amount");

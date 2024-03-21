@@ -1,6 +1,6 @@
 export const ServerURl = (()=>{
-    // return "http://localhost:8000"
-    return "https://wager-backend.onrender.com"
+    return "http://localhost:8000"
+    // return "https://wager-backend.onrender.com"
 })
 
 export const VerifyURl = () => {

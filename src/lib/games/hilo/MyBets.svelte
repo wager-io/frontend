@@ -79,10 +79,6 @@
 {:else}
   <div class="sc-epFoly etYRmD">
     <div class="sc-eCImPb biQums cuPxwd empty">
-      <img
-        alt="No data"
-        src="https://static.nanogames.io/assets/empty.acd1f5fe.png"
-      />
       <div class="msg">Oops! There is no data yet!</div>
     </div>
   </div>
