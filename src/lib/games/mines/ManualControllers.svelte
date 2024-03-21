@@ -16,8 +16,7 @@ import Loader from "$lib/components/loader.svelte";
 import successSound from "./audio/success-1-6297.mp3"
 import { ServerURl } from "$lib/backendUrl"
 import { onMount } from "svelte";
-import { handleCountdown } from "$lib/games/ClassicDice/socket/index"
-const { handleMinesHistory } = handleCountdown()
+
 const URL = ServerURl()
 // import {useLiveStats} from "$lib/hook/livestats"
 // const {recordGame} = useLiveStats(liveStats, "MINES_LIVE_STATS")
@@ -39,8 +38,6 @@ onMount(()=>{
         bet_amount.set((100).toFixed(4))
     }
 })
-
-
 
 $:{
     wining_amount = ($bet_amount * $payout).toFixed(9)
@@ -341,7 +338,6 @@ const handleCashout = (async()=>{
             bet_token_name:iuss.bet_token_name
         }
         mine_history.set([...$mine_history, response.data.mineGameHistory[0]])
-        handleMinesHistory(response.data.mineGameHistory[0])
         HandleWinning.set(jks)
         HandleIsAlive.set(false)
         HandleHas_won.set(true)
