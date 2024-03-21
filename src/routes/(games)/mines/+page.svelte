@@ -1,21 +1,21 @@
 <script>
-import Gameview from "$lib/games/mines/gameview.svelte";
+// import Gameview from "$lib/games/mines/gameview.svelte";
 import "$lib/games/mines/styles/index.css";
-import Controls from "$lib/games/mines/Controls.svelte";
+// import Controls from "$lib/games/mines/Controls.svelte";
 import {onMount} from "svelte";
 import axios from "axios";
 import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import { handleAuthToken } from "$lib/store/routes";
 import Allbet from "$lib/games/mines/componets/allbet.svelte";
-import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
-import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
-import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
-import Help from "$lib/games/mines/componets/help.svelte";
+// import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
+// import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
+// import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
+// import Help from "$lib/games/mines/componets/help.svelte";
 import { soundHandler, MinesEncription, BackMusicHandler} from "$lib/games/mines/store/index";
 import { browser } from "$app/environment";
 import background from "$lib/games/mines/audio/sadness.mp3";
 import { ServerURl } from "$lib/backendUrl";
-import Mobile from "./mobile.svelte";
+// import Mobile from "./mobile.svelte";
 import Mybet from "$lib/games/mines/componets/mybet.svelte";
 import Loader from "$lib/components/loader.svelte";
 const URl = ServerURl()
@@ -92,7 +92,7 @@ const handleSoundState = (()=>{
 
 </script>
     
-{#if is_hotkey}
+<!-- {#if is_hotkey}
     <Hotkey on:close={()=> is_hotkey = !is_hotkey} />
 {/if}
     
@@ -106,15 +106,15 @@ const handleSoundState = (()=>{
 
 {#if isHelp}
     <Help on:close={()=>  isHelp = !isHelp} />
-{/if}
+{/if} -->
 
 {#if !is_loading}
 <div style={`${$is_open__chat && $is_open__Appp && $screen > 1579 || $is_open__chat && !$is_open__Appp && $screen > 1219 || !$is_open__chat && !$is_open__Appp && $screen > 1049 || !$is_open__chat && $is_open__Appp && $screen > 1214 ? "" : "display:none"}`} id="dice-main">
     <div id="game-Mines" class={`sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf ${$is_open__Appp && `is-open`} ${$is_open__chat && `is-chat`}`}>
         <div class="game-area">
             <div class="game-main">
-                <Controls />
-                <Gameview />
+                <!-- <Controls />
+                <Gameview /> -->
                 <div class="game-actions">
                     <button on:click={()=> playBackground() } class={`action-item ${$BackMusicHandler ? "active" : ""} `}>
                         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -191,9 +191,9 @@ const handleSoundState = (()=>{
     </div>
 </div>
 
-<div style={`${$is_open__chat && $is_open__Appp && $screen < 1580 || $is_open__chat && !$is_open__Appp && $screen < 1220 || !$is_open__chat && !$is_open__Appp && $screen < 1050 || !$is_open__chat && $is_open__Appp && $screen < 1215  ? "" : "display:none"}`} class="dice-mobile">
+<!-- <div style={`${$is_open__chat && $is_open__Appp && $screen < 1580 || $is_open__chat && !$is_open__Appp && $screen < 1220 || !$is_open__chat && !$is_open__Appp && $screen < 1050 || !$is_open__chat && $is_open__Appp && $screen < 1215  ? "" : "display:none"}`} class="dice-mobile">
     <Mobile />
-</div>
+</div> -->
 
 {:else}
     <div class="uytutfyh">
