@@ -15,7 +15,7 @@ import { soundHandler, MinesEncription, BackMusicHandler} from "$lib/games/mines
 import { browser } from "$app/environment";
 import background from "$lib/games/mines/audio/sadness.mp3";
 import { ServerURl } from "$lib/backendUrl";
-// import Mobile from "./mobile.svelte";
+import Mobile from "./mobile.svelte";
 import Mybet from "$lib/games/mines/componets/mybet.svelte";
 import Loader from "$lib/components/loader.svelte";
 const URl = ServerURl()
@@ -191,9 +191,9 @@ const handleSoundState = (()=>{
     </div>
 </div>
 
-<!-- <div style={`${$is_open__chat && $is_open__Appp && $screen < 1580 || $is_open__chat && !$is_open__Appp && $screen < 1220 || !$is_open__chat && !$is_open__Appp && $screen < 1050 || !$is_open__chat && $is_open__Appp && $screen < 1215  ? "" : "display:none"}`} class="dice-mobile">
-    <Mobile />
-</div> -->
+<div style={`${$is_open__chat && $is_open__Appp && $screen < 1580 || $is_open__chat && !$is_open__Appp && $screen < 1220 || !$is_open__chat && !$is_open__Appp && $screen < 1050 || !$is_open__chat && $is_open__Appp && $screen < 1215  ? "" : "display:none"}`} class="dice-mobile">
+    <Mobile on:seed={()=> isSeed = true}/>
+</div>
 
 {:else}
     <div class="uytutfyh">

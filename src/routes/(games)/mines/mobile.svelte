@@ -1,17 +1,10 @@
 <script>
-import Icon from 'svelte-icons-pack/Icon.svelte';
-import TiVolumeDown from "svelte-icons-pack/ti/TiVolumeDown";
 import { default_Wallet } from "$lib/store/coins";
 import HistoryDetails from "$lib/games/mines/componets/historyDetails.svelte";
 import MobileManualControllers from '$lib/games/mines/mobileManualControllers.svelte';
 import MobileAutoController from '$lib/games/mines/mobileAutoController.svelte';
-import FiMusic from "svelte-icons-pack/fi/FiMusic";
 import { soundHandler} from "$lib/games/mines/store/index"
 import background from "$lib/games/mines/audio/sadness.mp3"
-import TiVolumeMute from "svelte-icons-pack/ti/TiVolumeMute";
-import BsEgg from "svelte-icons-pack/bs/BsEgg";
-import RiMapGuideFill from "svelte-icons-pack/ri/RiMapGuideFill";
-import AiOutlineQuestionCircle from "svelte-icons-pack/ai/AiOutlineQuestionCircle";
 import Help from "$lib/games/mines/componets/help.svelte";
 import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
 import SeedSetting from "$lib/games/mines/componets/seedSetting.svelte";
@@ -22,12 +15,11 @@ import { mine_history,HandleSelectedMine, minesStore,HandleNextTime, HandlemineG
     skown,  Cashout , HandleHas_won,betDetails, HandleIsAlive, HandleWinning } from "$lib/games/mines/store/index"
 import Mybet from '$lib/games/mines/componets/mybet.svelte';
 import { MinesHistory } from "$lib/games/mines/hook/diceHistory";
-import {  handleCountdown } from "$lib/games/ClassicDice/socket/index"
-const { handleMinesHistory } = handleCountdown()
 const { historyMines } = MinesHistory()
 import { onMount } from "svelte";
 import { handleAuthToken } from "$lib/store/routes";
 import axios from "axios";
+import { createEventDispatcher } from "svelte";
 import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import win from "$lib/games/mines/audio/scale-d6-106129.mp3";
 import wion from "$lib/games/mines/audio/box-crash-106687.mp3";
@@ -35,6 +27,7 @@ import cr from "$lib/games/mines/audio/click.wav";
 let range = 50
 import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
+const dispatch = createEventDispatcher()
 
 $: isHelp = false
 $: is_hotkey = false
@@ -138,7 +131,6 @@ const handleLostBet = (async (data) => {
         })
         .then((res) => {
             mine_history.set([...$mine_history, res.data[0]])
-            handleMinesHistory(res.data[0])
         })
         .catch((error) => {
             console.log(error)
@@ -2745,18 +2737,6 @@ const handleAutoSet = ((erii)=>{
 
 </script>
 
-{#if isHelp}
-    <Help on:close={()=> isHelp = !isHelp} />
-{/if}
-
-{#if is_stats}
-    <LiveStats on:close={()=> is_stats = !is_stats} />
-{/if}
-
-{#if isSeed}
-    <SeedSetting on:close={()=> isSeed = !isSeed}/>
-{/if}
-
 {#if hisQQ}
     <HistoryDetails on:close={handleDiceHistoryDetail} DgII={DgII} />
 {/if}
@@ -2898,17 +2878,17 @@ const handleAutoSet = ((erii)=>{
                         <use xlink:href={`#${$soundHandler ? "icon_SoundOn" : "icon_SoundOff"}`}></use>
                     </svg>
                 </button>
-                <button on:click={()=>isSeed = !isSeed} class="action-item  " id="set_seed">
+                <button on:click={()=>dispatch("seed")} class="action-item  " id="set_seed">
                     <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                         <use xlink:href="#icon_Seed"></use>
                     </svg>
                 </button>
-                <button on:click={()=> is_stats = !is_stats} class="action-item  ">
+                <button on:click={()=> dispatch("stats")} class="action-item  ">
                     <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                         <use xlink:href="#icon_LiveStats"></use>
                     </svg>
                 </button>
-                <button on:click={()=>  isHelp = !isHelp} class="action-item  ">
+                <button on:click={()=> dispatch("help")} class="action-item  ">
                     <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                         <use xlink:href="#icon_Help"></use>
                     </svg>
