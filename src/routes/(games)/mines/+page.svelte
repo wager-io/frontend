@@ -1,5 +1,5 @@
 <script>
-// import Gameview from "$lib/games/mines/gameview.svelte";
+import Gameview from "$lib/games/mines/gameview.svelte";
 import "$lib/games/mines/styles/index.css";
 // import Controls from "$lib/games/mines/Controls.svelte";
 import {onMount} from "svelte";
@@ -113,8 +113,8 @@ const handleSoundState = (()=>{
     <div id="game-Mines" class={`sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf ${$is_open__Appp && `is-open`} ${$is_open__chat && `is-chat`}`}>
         <div class="game-area">
             <div class="game-main">
-                <!-- <Controls />
-                <Gameview /> -->
+                <!-- <Controls /> -->
+                <Gameview /> 
                 <div class="game-actions">
                     <button on:click={()=> playBackground() } class={`action-item ${$BackMusicHandler ? "active" : ""} `}>
                         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
