@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
 import Gameview from "$lib/games/mines/gameview.svelte";
 import "$lib/games/mines/styles/index.css";
 import Controls from "$lib/games/mines/Controls.svelte";
@@ -6,7 +6,6 @@ import {onMount} from "svelte";
 import axios from "axios";
 import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen";
 import { handleAuthToken } from "$lib/store/routes";
-import { DicegameSocket } from "$lib/games/mines/socket/Socket"
 import Allbet from "$lib/games/mines/componets/allbet.svelte";
 import Hotkey from "$lib/games/mines/componets/hotkey.svelte";
 import LiveStats from "$lib/games/mines/componets/liveStats.svelte";
@@ -15,7 +14,6 @@ import Help from "$lib/games/mines/componets/help.svelte";
 import { soundHandler, MinesEncription, BackMusicHandler} from "$lib/games/mines/store/index";
 import { browser } from "$app/environment";
 import background from "$lib/games/mines/audio/sadness.mp3";
-DicegameSocket()
 import { ServerURl } from "$lib/backendUrl";
 import Mobile from "./mobile.svelte";
 import Mybet from "$lib/games/mines/componets/mybet.svelte";
@@ -419,6 +417,6 @@ const handleSoundState = (()=>{
         -webkit-box-pack: center;
         justify-content: center;
     }
-</style> -->
+</style>
 
 <div>Why is this not opening? </div>
