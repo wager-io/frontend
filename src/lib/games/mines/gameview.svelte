@@ -1,53 +1,23 @@
 <script>
-import { payout } from "$lib/games/ClassicDice/store/index"
 import { mine_history, HandleSelectedMine, minesStore,
-    HandleNextTime,
-    HandlemineGems,
-    HandleMineCount,
-    HandleGame_id,
-    Cashout,
-    HandleHas_won,
-    betDetails,
-    HandleIsAlive,
-    HandleWinning
-} from "./store/index"
+    HandleNextTime, HandlemineGems,  HandleMineCount,
+    HandleGame_id, Cashout, HandleHas_won,
+    betDetails,  HandleIsAlive, HandleWinning} from "./store/index"
 import { soundHandler} from "$lib/games/mines/store/index";
 import { MinesHistory } from "./hook/diceHistory";
-import { handleCountdown } from "$lib/games/ClassicDice/socket/index"
-const { handleMinesHistory} = handleCountdown()
 const { historyMines } = MinesHistory()
-import {   onMount
-} from "svelte";
-import {
-    handleAuthToken
-} from "$lib/store/routes";
+import { handleMinesSet } from "./hook/index"
+import { onMount } from "svelte";
+import { handleAuthToken } from "$lib/store/routes";
 import axios from "axios";
-import {
-    handleisLoggin
-} from "../../store/profile";
+import { handleisLoggin } from "../../store/profile";
 import HistoryDetails from "./componets/historyDetails.svelte";
 import win from "./audio/scale-d6-106129.mp3";
 import wion from "./audio/box-crash-106687.mp3";
 import cr from "./audio/click.wav";
-let range = 50
-import {
-    ServerURl
-} from "$lib/backendUrl"
+import { ServerURl } from "$lib/backendUrl"
 const URL = ServerURl()
-
-let ishover = false
-const handleRangl = ((w) => {
-    if (w === 1) {
-        ishover = true
-    } else {
-        ishover = false
-    }
-})
-
-let houseEgde = 1
-let game__charges = 100 / houseEgde
-let game_logic;
-let total_charge;
+let skown = handleMinesSet()
 
 let DgII = ''
 let hisQQ = false
@@ -68,16 +38,6 @@ function playSound() {
     }
 }
 
-// Function to toggle play/pause
-function togglePlayback() {
-    isPlaying = !isPlaying;
-    if (isPlaying) {
-        click.play();
-    } else {
-        click.pause();
-    }
-}
-
 const handleChange = ((e) => {
     if($soundHandler){
         const audio = new Audio(win);
@@ -85,133 +45,6 @@ const handleChange = ((e) => {
         audio.play();
     }
 })
-
-let skown = [{
-        id: 1,
-        active: false,
-        mine: true
-    },
-    {
-        id: 2,
-        active: false,
-        mine: false
-    },
-    {
-        id: 3,
-        active: false,
-        mine: false
-    },
-    {
-        id: 4,
-        active: false,
-        mine: false
-    },
-    {
-        id: 5,
-        active: false,
-        mine: false
-    },
-    {
-        id: 6,
-        active: false,
-        mine: false
-    },
-    {
-        id: 7,
-        active: false,
-        mine: false
-    },
-    {
-        id: 8,
-        active: false,
-        mine: false
-    },
-    {
-        id: 9,
-        active: false,
-        mine: false
-    },
-    {
-        id: 10,
-        active: false,
-        mine: false
-    },
-    {
-        id: 11,
-        active: false,
-        mine: false
-    },
-    {
-        id: 12,
-        active: false,
-        mine: true
-    },
-    {
-        id: 13,
-        active: false,
-        mine: false
-    },
-    {
-        id: 14,
-        active: false,
-        mine: false
-    },
-    {
-        id: 15,
-        active: false,
-        mine: false
-    },
-    {
-        id: 16,
-        active: false,
-        mine: false
-    },
-    {
-        id: 17,
-        active: false,
-        mine: false
-    },
-    {
-        id: 18,
-        active: false,
-        mine: false
-    },
-    {
-        id: 19,
-        active: false,
-        mine: false
-    },
-    {
-        id: 20,
-        active: false,
-        mine: false
-    },
-    {
-        id: 21,
-        active: false,
-        mine: false
-    },
-    {
-        id: 22,
-        active: false,
-        mine: false
-    },
-    {
-        id: 23,
-        active: false,
-        mine: true
-    },
-    {
-        id: 24,
-        active: false,
-        mine: false
-    },
-    {
-        id: 25,
-        active: false,
-        mine: false
-    },
-]
 
 const handleFubbf = (() => {
     if($soundHandler){
@@ -231,7 +64,6 @@ const handleLostBet = (async (data) => {
         })
         .then((res) => {
             mine_history.set([...$mine_history, res.data[0]])
-            handleMinesHistory(res.data[0])
         })
         .catch((error) => {
             console.log(error)
