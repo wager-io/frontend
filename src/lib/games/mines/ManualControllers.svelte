@@ -392,7 +392,7 @@ const handlesjen = (e) => {
 
 </script>
 
-<div class="game-control-panel" style="margin-top: 30px;">
+
     {#if $error_msg}
     <div style="background-color:crimson;" class="error-message">
         <div class="hTTvsjh"> 
@@ -554,7 +554,6 @@ const handlesjen = (e) => {
         </button>
         {/if}
     </div>
-</div>
 <style>
 
 

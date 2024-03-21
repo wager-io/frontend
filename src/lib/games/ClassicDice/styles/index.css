@@ -24,6 +24,11 @@
     flex: 1 1 0%;
     overflow: hidden;
 }
+.lmWKWf.style1 .game-control-switch {
+    order: 2;
+    margin-top: 1.25rem;
+    position: relative;
+}
 .lmWKWf .game-main {
     position: relative;
     border-radius: 1.25rem;

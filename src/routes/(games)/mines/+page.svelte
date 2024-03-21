@@ -15,7 +15,6 @@ import { soundHandler, MinesEncription, BackMusicHandler} from "$lib/games/mines
 import { browser } from "$app/environment";
 import background from "$lib/games/mines/audio/sadness.mp3";
 import { ServerURl } from "$lib/backendUrl";
-import Mobile from "./mobile.svelte";
 import Mybet from "$lib/games/mines/componets/mybet.svelte";
 import Loader from "$lib/components/loader.svelte";
 const URl = ServerURl()
@@ -90,6 +89,22 @@ const handleSoundState = (()=>{
     }
 })
 
+$: newScreen = 0
+  $: {
+    if($is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 240
+    }
+    else if(!$is_open__Appp && $is_open__chat){
+      newScreen = $screen - 432
+    }
+    else if(!$is_open__Appp && !$is_open__chat){
+      newScreen = $screen - 72
+    }
+    else if($is_open__Appp && $is_open__chat){
+      newScreen = $screen - 600
+    }
+}
+
 </script>
     
 {#if is_hotkey}
@@ -109,12 +124,12 @@ const handleSoundState = (()=>{
 {/if}
 
 {#if !is_loading}
-<div style={`${$is_open__chat && $is_open__Appp && $screen > 1579 || $is_open__chat && !$is_open__Appp && $screen > 1219 || !$is_open__chat && !$is_open__Appp && $screen > 1049 || !$is_open__chat && $is_open__Appp && $screen > 1214 ? "" : "display:none"}`} id="dice-main">
-    <div id="game-Mines" class={`sc-haTkiu lmWKWf game-style0 sc-gDGHff gYWFhf ${$is_open__Appp && `is-open`} ${$is_open__chat && `is-chat`}`}>
+<div id="dice-main">
+    <div id="game-Mines" class={`sc-haTkiu lmWKWf ${newScreen > 1000 ? "game-style0" : "game-style1" } sc-gDGHff gYWFhf ${$is_open__Appp ? `is-open` : ""} ${$is_open__chat ? `is-chat` : ""}`}>
         <div class="game-area">
             <div class="game-main">
-                <Controls />
                 <Gameview /> 
+                <Controls newScreen={newScreen} />
                 <div class="game-actions">
                     <button on:click={()=> playBackground() } class={`action-item ${$BackMusicHandler ? "active" : ""} `}>
                         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -126,11 +141,14 @@ const handleSoundState = (()=>{
                             <use xlink:href={`#${$soundHandler ? "icon_SoundOn" : "icon_SoundOff"}`}></use>
                         </svg>
                     </button>
-                    <button on:click={()=> is_hotkey = !is_hotkey} class="action-item  ">
-                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
-                            <use xlink:href="#icon_HotKeys"></use>
-                        </svg>
-                    </button>
+                    {#if $screen > 650}
+                        <button on:click={()=> is_hotkey = !is_hotkey} class="action-item  ">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
+                                <use xlink:href="#icon_HotKeys"></use>
+                            </svg>
+                        </button>
+                    {/if}
+                   
                     <button on:click={()=>isSeed = !isSeed} class="action-item  " id="set_seed">
                         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                             <use xlink:href="#icon_Seed"></use>
@@ -191,10 +209,6 @@ const handleSoundState = (()=>{
     </div>
 </div>
 
-<div style={`${$is_open__chat && $is_open__Appp && $screen < 1580 || $is_open__chat && !$is_open__Appp && $screen < 1220 || !$is_open__chat && !$is_open__Appp && $screen < 1050 || !$is_open__chat && $is_open__Appp && $screen < 1215  ? "" : "display:none"}`} class="dice-mobile">
-    <Mobile on:seed={()=> isSeed = true}/>
-</div>
-
 {:else}
     <div class="uytutfyh">
         <Loader />
@@ -208,13 +222,7 @@ const handleSoundState = (()=>{
     width: 100%;
     height: 100vh;
 }
-.lmWKWf.is-open{
-    padding-left: 50px;
-}
 
-.lmWKWf.is-chat{
-    padding-right: 360px;
-}
 .lmWKWf.game-style0, .lmWKWf.game-style1, .lmWKWf.game-style-iframe {
     max-width: 1368px;
     margin: 0px auto;
@@ -233,6 +241,9 @@ const handleSoundState = (()=>{
 .lmWKWf.game-style0 .game-area, .lmWKWf.game-style1 .game-area, .lmWKWf.game-style-iframe .game-area {
     display: flex;
     flex-wrap: wrap;
+}
+.lmWKWf.game-style1 {
+    padding: 0.625rem;
 }
 
 .gYWFhf .game-area .game-main {
@@ -417,4 +428,11 @@ const handleSoundState = (()=>{
         -webkit-box-pack: center;
         justify-content: center;
     }
+    .lmWKWf.is-open{
+    padding-left: 50px;
+}
+
+.lmWKWf.is-chat{
+    padding-right: 360px;
+}
 </style>

@@ -689,5 +689,4 @@ $:{
     user-select: none;
     cursor: pointer;
 }
-
 </style>

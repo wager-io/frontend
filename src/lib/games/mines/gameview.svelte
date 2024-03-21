@@ -2767,14 +2767,13 @@ onMount(async () => {
         <div class="sc-hcupDf dqwCNK game-box sc-deghWO jKOkvT">
             <div class="sc-gWDJhD hnBJiv mine-stage">
                 {#if $HandleWinning}
-                <div class="sc-lcdCCa gPUDNx win-wrap" style="opacity: 1; transform: none;">
-                    <div class="sc-jrQzAO iodxXo amount">
-                        <span style="transform: scale(0.963115);">{(parseFloat($HandleWinning.profit)).toFixed(5)} {$HandleWinning.bet_token_name}</span>
+                    <div class="sc-lcdCCa gPUDNx win-wrap" style="opacity: 1; transform: none;">
+                        <div class="sc-jrQzAO iodxXo amount">
+                            <span style="transform: scale(0.963115);">{(parseFloat($HandleWinning.profit)).toFixed(5)} {$HandleWinning.bet_token_name}</span>
+                        </div>
+                        <div class="odds">{(parseFloat($HandleWinning.cashout)).toFixed(2)}×</div>
                     </div>
-                    <div class="odds">{(parseFloat($HandleWinning.cashout)).toFixed(2)}×</div>
-                </div>
                 {/if}
-
                 <div class="grids-wrap ">
                     {#if $HandleIsAlive}
                     {#each $minesStore as ui}
@@ -3019,17 +3018,7 @@ onMount(async () => {
     position: relative;
 }
 
-.fPOXr {
-    -webkit-box-flex: 1;
-    flex-grow: 1;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    place-content: center;
-    position: relative;
-    /* padding: 80px 10%; */
-    min-height: 37.5rem;
-}
+
 
 .dqwCNK {
     position: relative;
@@ -3277,5 +3266,39 @@ onMount(async () => {
 
 .unselected .sc-cdJjGe::before {
     opacity: 0.3;
+}
+
+.fPOXr {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    place-content: center;
+    position: relative;
+    /* padding: 80px 10%; */
+}
+
+@media screen and (min-width: 621px){
+    .fPOXr {
+        min-height: 37.5rem;
+    }
+}
+
+@media screen and (max-width: 621px){
+.hnBJiv .grids-wrap {
+    height: 100%;
+    margin: 2.5rem auto 3.75rem;
+    gap: 0.3125rem 0.375rem;
+}
+.gmXWCK {
+    width: 3.125rem;
+    height: 2.8125rem;
+    position: relative;
+}
+.gnjHQb span {
+    font-size: 0.75rem;
+    transform: scale(0.83);
+}
 }
 </style>
