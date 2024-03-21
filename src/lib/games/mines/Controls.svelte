@@ -1,6 +1,6 @@
 <script>
-import AutoControllers from "./AutoControllers.svelte";
-import ManualControllers from "./ManualControllers.svelte";
+// import AutoControllers from "./AutoControllers.svelte";
+// import ManualControllers from "./ManualControllers.svelte";
 import { HandleIsAlive, HandleWinning, HandleHas_won } from "../mines/store/index";
 let is_manual = true
 
@@ -22,7 +22,7 @@ const hanleManualControls = ((e)=>{
         <button disabled={$HandleIsAlive} on:click={()=> hanleManualControls(1)} class={`${is_manual ? "is-active" : ""} `}>
             <div class="label">Manual</div>
         </button>
-        <button disabled={$HandleIsAlive} on:click={()=> hanleManualControls(2)} on:click={hanleManualControls} class={`${!is_manual ? "is-active" : ""} `}>
+        <button disabled={$HandleIsAlive} on:click={()=> hanleManualControls(2)} class={`${!is_manual ? "is-active" : ""} `}>
             <div class="label">Auto</div>
         </button>
     </div>
