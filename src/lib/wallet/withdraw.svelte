@@ -10,6 +10,8 @@ $: viprule = false
 let withdraw_address = ""
 let withdraw_amount = (0).toFixed(8)
 let is_loading = false
+$: track = !withdraw_address || is_loading || withdraw_address.length < 10
+
 
 const handleWithdrawEl = async()=>{
     is_loading = true
@@ -92,7 +94,7 @@ const handleWithdrawEl = async()=>{
                     <div class="sc-faIbUi bGuvOe">
                         Fee&nbsp;<b> {active_coin.coin_name === "BTC" ? 0.0001 : 0.000172} {active_coin.coin_name === "BTC" ? "BTC" : "ETH"}  </b>
                     </div>
-                    <button on:click={handleWithdrawEl} disabled={is_loading} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal sub-btn">
+                    <button on:click={handleWithdrawEl} disabled={track} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal sub-btn">
                         <div class="button-inner">{is_loading ? "Loading..." : "Confirm"}</div>
                     </button>
                 </div>

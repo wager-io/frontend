@@ -102,3 +102,25 @@ export const handleWithdraw = (async(data)=>{
            return error.response.data.message
         })
  })
+
+ export const handleSwapCoins = (async(income, auth)=>{
+    let response = ""
+    let error = ""
+    let isLoading = true
+    await axios.post(`${ServerURl()}/api/transaction/swap`,{
+        data: income
+    },{
+        headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${auth}`
+        }
+    })
+    .then((res)=>{
+        response = res.data
+        isLoading = false
+    })
+    .catch((err)=>{
+        error = err.message
+    })
+    return { response, error, isLoading }
+ })

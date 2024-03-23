@@ -123,18 +123,15 @@
     </div>
   </div>
 {/if}
-<div
-  id="game-Hilo"
+
+<div id="game-Hilo"
   class={`sc-haTkiu lmWKWf game-style0 sc-hKumaY hmdAmi ${$is_open__Appp ? "is_sidebar" : ""} ${$is_open__chat ? "is_chat" : ""}`}
-  style="opacity: 1; transform: none;"
->
+  style="opacity: 1; transform: none;">
   <div class="game-area">
     <div class="game-main {newScreen < 1000 ? 'mobile-view' : ''}">
-      <GameControls
-        on:hiloNextRound={handleNextRound}
+      <GameControls on:hiloNextRound={handleNextRound}
         on:hiloCashout={handleCashOut}
-        on:hiloBet={handleBet}
-      />
+        on:hiloBet={handleBet} />
       <GameView on:hiloNextRound={handleNextRound} />
       <GameActions />
     </div>

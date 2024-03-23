@@ -4,6 +4,7 @@ import { default_Wallet } from "$lib/store/coins";
 import { goto } from "$app/navigation";
 import { url } from "$lib/store/routes";
 import Coins from "./coins.svelte";
+import { onMount } from "svelte";
 import Deposit from "./deposit.svelte";
 import Swap from "./swap.svelte";
 import Vault from "./vault.svelte";
@@ -15,14 +16,17 @@ import ToCoins from "./swapControllers/toCoins.svelte";
 let reciever = ""
 let sender = ""
 
-$coin_list.forEach(element => {
-    if(element.coin_name === "BTC"){
-        sender = element
-    }
-    else if(element.coin_name === "WGD"){
-        reciever = element    
-    }
-});
+onMount(()=>{
+   $coin_list.forEach(element => {
+      if(element.coin_name === "BTC"){
+         sender = element
+      }
+      else if(element.coin_name === "WGD"){
+         reciever = element    
+      }
+   });
+})
+
 
 $: active_coin = $default_Wallet
 $: show_coins = false

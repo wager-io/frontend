@@ -2,11 +2,78 @@
 import { url } from "$lib/store/routes";
 export let sender
 export let reciever
+import { onMount } from "svelte";
+import Loader from "$lib/components/loader.svelte";
 import { createEventDispatcher } from "svelte";
+import { currencyRates } from "$lib/store/currency";
+import { handleAuthToken } from "$lib/store/routes";
+import { handleSwapCoins } from "./hook"
 const dispatch = createEventDispatcher()
 
 let sender_amount = 0
 let receiver_amount = 0
+$: isLoading = false 
+$: rate = ''
+$: pageLoad = true
+$: track = !sender_amount || isLoading
+
+const handleSender = ((data)=>{
+    if(sender.coin_name === "BTC" && reciever.coin_name === "WGD" ){
+        receiver_amount = $currencyRates.btc * data
+    }
+    if(sender.coin_name === "ETH" && reciever.coin_name === "WGD" ){
+        receiver_amount = $currencyRates.eth * data
+    }
+    if(sender.coin_name === "BTC" && reciever.coin_name === "ETH" ){
+        receiver_amount = (parseFloat(($currencyRates.btc / $currencyRates.eth) * data)).toFixed(8)
+    }
+    if(sender.coin_name === "ETH" && reciever.coin_name === "BTC" ){
+        receiver_amount = (parseFloat(($currencyRates.eth / $currencyRates.btc) * data)).toFixed(8)
+    }
+    if(sender.coin_name === "WGD" && reciever.coin_name === "BTC" ){
+        receiver_amount = ((1 / $currencyRates.btc) * data).toFixed(8)
+    }
+    if(sender.coin_name === "WGD" && reciever.coin_name === "ETH" ){
+        receiver_amount = ((1 / $currencyRates.eth) * data).toFixed(8)
+    }
+})
+
+$:{
+    if(sender.coin_name === "BTC" && reciever.coin_name === "WGD" ){
+        rate = $currencyRates.btc
+    }
+    if(sender.coin_name === "ETH" && reciever.coin_name === "WGD" ){
+        rate = $currencyRates.eth
+    }
+    if(sender.coin_name === "BTC" && reciever.coin_name === "ETH" ){
+        rate = $currencyRates.btc / $currencyRates.eth
+    }
+    if(sender.coin_name === "ETH" && reciever.coin_name === "BTC" ){
+        rate = $currencyRates.eth / $currencyRates.btc
+    }
+    if(sender.coin_name === "WGD" && reciever.coin_name === "BTC" ){
+        rate = 1 / $currencyRates.btc
+    }
+    if(sender.coin_name === "WGD" && reciever.coin_name === "ETH" ){
+        rate = 1 / $currencyRates.eth
+    }
+}
+
+const handleSumbit = async()=>{
+    isLoading = true 
+    let data = { sender, receiver_amount, reciever, sender_amount }
+   const { response } = await handleSwapCoins(data, $handleAuthToken)
+   if(response){
+        window.location.href = (`${$url}`)
+   }
+}
+
+onMount(()=>{
+    setTimeout(()=>{
+        pageLoad = false
+    },2000)
+})
+
 
 </script>
 
@@ -20,18 +87,23 @@ let receiver_amount = 0
                     <div class="bg" style="left: 0%; right: 50%;"></div>
                 </div>
             </div> -->
+            {#if !pageLoad}
             <div class="sc-dkPtRN jScFby scroll-view sc-bhnkmi geJgoF" id="swap">
                 <div class="sc-eqUgKp eZLJPD">
                     <div class="sc-ezbkAF kDuLvp input sc-bTfYFJ dETeez">
                         <div class="input-label">
                             <div class="sc-iMrobD dueMAu label-pre">You Send</div>
                             <div class="label-suf">
-                                <button class="min">Min: <span>0.00022181</span></button>
+                            <button class="min">Min: <span>{sender.coin_name === "BTC" ? 
+                                (parseFloat(10 / $currencyRates.btc)).toFixed(8) : sender.coin_name === "ETH" ?  
+                                (parseFloat(10 / $currencyRates.eth)).toFixed(8) : sender.coin_name === "WGD" ? (10).toFixed(4) : 0}
+                            </span>
+                            </button>
                                 <div class="max error ">Balance: <span>{sender.balance}</span></div>
                             </div>
                         </div>
                         <div class="input-control">
-                            <input type="number" placeholder="Enter amount" bind:value={sender_amount}>
+                            <input type="number" placeholder="Enter amount" bind:value="{sender_amount}" on:keyup={(e)=> handleSender(e.target.value)}>
                             <button on:click={()=> sender_amount = sender.balance}>Max</button>
                             <button on:click={()=> dispatch("senderControl")} style="background: none;" class="sc-kHOZwM lkOmCH">
                                 <img class="coin-icon" alt="" src={sender.coin_image}>
@@ -42,7 +114,7 @@ let receiver_amount = 0
                             </button>
                         </div>
                     </div>
-                    <div class="sc-ywFzA UsBMq">1 {sender.coin_name} ≈ 44434.2837 {reciever.coin_name}</div>
+                    <div class="sc-ywFzA UsBMq">1 {sender.coin_name} ≈ {(parseFloat(rate)).toFixed(8)} {reciever.coin_name}</div>
                     <div class="icon-exchange">
                         <button on:click={()=> [sender, reciever] = [reciever, sender]}>
                             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -60,7 +132,7 @@ let receiver_amount = 0
                             <a href="{$url === "/" ? "" : $url}/?tab=transaction&modal=bill&cur=btc">Record</a>
                         </div>
                         <div class="input-control">
-                            <input type="number" placeholder="Enter amount" bind:value={receiver_amount}>
+                            <input type="number" readonly placeholder="Enter amount" value={receiver_amount ? receiver_amount : 0}>
                             <button on:click={()=> dispatch("receiverControl")} style="background: none;" class="sc-kHOZwM lkOmCH">
                                 <img class="coin-icon" alt="" src="{reciever.coin_image}">
                                 <span class="currency">{reciever.coin_name}</span>
@@ -75,15 +147,22 @@ let receiver_amount = 0
                             <span>Seconds</span>
                         </div>
                         <div class="item">Swap fee: 
-                            <span>0.00000000</span> 
+                            <span>0.0000</span> 
                             {sender.coin_name}
                         </div>
                     </div>
-                    <button class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal sub-btn" disabled="">
+                    <button on:click={handleSumbit} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button
+                     button-normal sub-btn" disabled="{track}" >
                         <div class="button-inner">Swap Now</div>
                     </button>
                 </div>
             </div>
+            {:else}
+            <div style="height: 400px;"> 
+                <Loader />
+            </div>
+            {/if}
+           
         </div>
     </div>
 </div>

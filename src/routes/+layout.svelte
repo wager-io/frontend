@@ -161,7 +161,7 @@ onMount(()=>{
         is_mobile = false
     }
 })
-    
+
 let isnotification = false
 const handleChatroom = ((e) => {
     if (isChatRoom) {
@@ -181,8 +181,6 @@ const handleChatroom = ((e) => {
         }
     }
 })
-
-$: console.log(tab)
 
 </script>
 
