@@ -38,28 +38,14 @@
 {#if Boolean(details)}
   <div class="sc-dkPtRN jScFby scroll-view sc-iRFsWr bUSPeg">
     <div class="sc-bvFjSx bAgSeR">
-      <img
-        alt=""
-        class="win-state"
+      <img alt="" class="win-state"
         src="https://static.nanogames.io/assets/{details.won
           ? 'win.431b83d6.png'
           : 'lose.b4ff48b7.png'}"
       />
       <div class="sc-emDsmM fkioFo game-share">
-        <svg
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          class="sc-gsDKAQ hxODWG icon"
-          ><use xlink:href="#icon_Share"></use></svg
-        >
       </div>
       <div class="rt_info">
-        <img
-          alt=""
-          class="avatar avatar"
-          src={details.hidden
-            ? "/assets/avatar.a1ff78fe.png"
-            : details.avatar}
-        />
         <div class="name">
           {#if details.hidden}
             <span class="hidden-name"
@@ -175,8 +161,7 @@
         </div>
       </div>
       <div class="flex btns">
-        <button
-          on:click={() => handleGameID(details)}
+        <button on:click={() => handleGameID(details)}
           class="sc-iqseJM sc-crHmcD cBmlor gEBngo button button-normal all"
           ><div class="button-inner">
             <span>All Players</span><svg
@@ -228,13 +213,13 @@
     padding-top: 2.875rem;
     text-align: center;
   }
-  .bAgSeR .rt_info .avatar {
+  /* .bAgSeR .rt_info .avatar {
     width: 4.625rem;
     height: 4.625rem;
     border-radius: 50%;
     border: 2px solid rgb(70, 70, 70);
     font-size: 0px;
-  }
+  } */
   .bAgSeR .rt_info .name {
     line-height: 1.25rem;
     margin-top: 0.5rem;

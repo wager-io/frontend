@@ -129,8 +129,7 @@ export default class CrashGame extends BaseGame {
     this.nextBetInfo = null;
     this.paused = false;
     this.checkPauseTimer = 0;
-    this.salt =
-      "Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4";
+    this.salt = "Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4";
     this.xbet = new CrashXBetHandler(this);
     this.showXbetLimit = true;
     this.graph = new CrashGameGraph(this);
@@ -608,7 +607,6 @@ export default class CrashGame extends BaseGame {
   }
 
   async handleBetCrash(betData, scriptId) {
-
     if (!betData) {
       betData = {
         bet: this.amount,

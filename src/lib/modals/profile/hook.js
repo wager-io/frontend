@@ -17,6 +17,7 @@ export const handleprofiling = (async(user)=>{
     return { response, error, loading }
 })
 
+
 export const handleGlobalStat = (async(user, route)=>{
     let loading = true
     let error = ""

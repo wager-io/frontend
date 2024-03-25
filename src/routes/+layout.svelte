@@ -195,7 +195,7 @@ const handleChatroom = ((e) => {
 {/if}
 
 {#if paramString && tab === "profile"}
-    <Profile user={seaser[1]}/>
+    <Profile user={seaser[1]} modal={seaser[2]}/>
 {/if}
 
 {#if paramString && tab === "wallet"}

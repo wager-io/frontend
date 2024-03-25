@@ -50,8 +50,8 @@ onMount(async () => {
   <GameHeader />
   <div class="game-area">
     <div class="game-main">
-      <GameControls />
       <GameView />
+      <GameControls />
       <GameActions />
     </div>
     {#if newScreen > 900}

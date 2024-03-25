@@ -260,8 +260,7 @@
     if (canBet) {
       if (placingBet) return;
       placingBet = true;
-      $crashGame
-        .handleBetCrash()
+      $crashGame.handleBetCrash()
         .catch((err) => {
           error_msg.set(err);
           setTimeout(()=>{
@@ -520,7 +519,7 @@
                   on:blur={() => (isFocused = { ...isFocused, bet: false })}
                   on:input={inputValidate}
                   disabled={betting || inputDisabled}
-                  on:change={handleSetAmount("=")}
+                  on:keyup={handleSetAmount("=")}
                   type="text"
                   value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                     currentAmount

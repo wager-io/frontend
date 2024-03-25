@@ -19,6 +19,7 @@ const handleSubmit = (async()=>{
         goto($url)
    }
 })
+$: image = $profileStore.profile_image
 
 </script>
 
@@ -30,8 +31,16 @@ const handleSubmit = (async()=>{
         <div class="sc-dkPtRN jScFby scroll-view sc-eTwdGJ bUoqwc">
             <div class="flex-column full">
                 <div class="avatar-box">
-                    <img class="avatar " alt="" src={profile_pic}>
-                    <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id}&modal=avatar`)}>Edit Your Avatar</button>
+                    {#if image.color}
+                    <div class="avatar "
+                        style={`background-color:${image.color}; width:10.5rem; height:10.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
+                            {$profileStore.username?.charAt(0) ? $profileStore.username.charAt(0) : ""}
+                        </div>
+                    {:else}
+                        <img class="avatar " alt="" src={image.image ? image.image : ""}>
+                    {/if}
+                    <!-- <img class="avatar " alt="" src={profile_pic}> -->
+                    <!-- <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=profile&id=${$profileStore.user_id}&modal=avatar`)}>Edit Your Avatar</button> -->
                 </div>
                 <div class="dialog-box">
                     <div class="sc-ezbkAF kDuLvp input ">

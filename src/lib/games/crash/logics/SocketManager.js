@@ -17,8 +17,7 @@ export default class SocketManager {
           if (response.code === 0) {
             resolve(response.data);
           } else {
-            console.log(
-              `Socket Error: ${socket.nsp}:${event}\n${response.message}`
+            console.log( `Socket Error: ${socket.nsp}:${event}\n${response.message}`
             );
             reject(new Error(response.msg, response.code));
           }

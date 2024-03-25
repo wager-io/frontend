@@ -26,6 +26,7 @@ import Statistics from '$lib/user-profile/statistics.svelte';
 import Progress from '../../components/progress.svelte';
 import Loader from '$lib/components/loader.svelte';
 import EditAvatar from '$lib/user-profile/edit_avatar.svelte';
+import { screen } from "$lib/store/screen";
 $: users_profile = "";
 $: userStatistics = "";
 
@@ -40,22 +41,13 @@ onMount(async()=>{
     is_loading = result.loading
 })
 
-
-let is_mobile = false
-$:{
-    if (browser && window.innerWidth < 650) {
-        is_mobile = true
-    }
-    else {
-        is_mobile = false
-    }
-}
 $: image = users_profile.profile_image
+
 
 </script>
 
 <div class="sc-bkkeKt kBjSXI" style="opacity: 1;">
-    <div class="dialog "style={`${is_mobile ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
+    <div class="dialog "style={`${$screen <  650 ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
         {#if modal || is_stats}
             <button on:click={()=> history.back()} class="dialog-back" style="opacity: 1; transform: none;">
                 <Icon src={RiSystemArrowLeftSLine}  size="23"  color="rgba(153, 164, 176, 0.6)" />
@@ -70,7 +62,7 @@ $: image = users_profile.profile_image
                 </div>
             {:else if modal === "edit"}
                 <div class="dialog-title">Nickname</div>
-            {:else if is_stats}
+            {:else if modal === "statistics"}
             <div class="dialog-title">Details</div>
             {/if}
         </div>
@@ -106,7 +98,7 @@ $: image = users_profile.profile_image
                             {#if image.color}
                             <div class="avatar "
                                 style={`background-color:${image.color}; width:4.5rem; height:4.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
-                                    {$profileStore.username.charAt(0)}
+                                    {$profileStore.username?.charAt(0) ? $profileStore.username.charAt(0) : ""}
                                 </div>
                             {:else}
                                 <img class="avatar " alt="" src={image.image ? image.image : ""}>
@@ -115,7 +107,7 @@ $: image = users_profile.profile_image
                         <div class="name-box">
                             <div class="user-name">{users_profile.username}</div>
                         </div>
-                        <Progress chat={users_profile} style={"user-level"}/>
+                        <Progress chat={users_profile} styleEL={"user-level"}/>
                         {#if $profileStore.user_id !== user}
                         <div class="actions">
                             {#if !users_profile.refuse_tips}

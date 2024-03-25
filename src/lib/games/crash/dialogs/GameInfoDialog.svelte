@@ -79,13 +79,11 @@
         </svg>
           </button>
       {#if currentScreen === "All Players"}
-        <div
-          in:fly={{ x: -80, duration: 150, easing: cubicOut }}
+        <div in:fly={{ x: -80, duration: 150, easing: cubicOut }}
           out:fly={{ x: -80, duration: 150, easing: cubicOut }}
           class="dialog-body default-style"
-          style="z-index: 2; transform: none;"
-        >
-          <AllPlayerScreen {gameID} on:gameDetail={handleShowDetails} />
+          style="z-index: 2; transform: none;">
+          <AllPlayerScreen {gameID} on:gameDetail={handleShowDetails} on:close={handleClose}/>
         </div>
       {:else if currentScreen === "Details"}
         <div

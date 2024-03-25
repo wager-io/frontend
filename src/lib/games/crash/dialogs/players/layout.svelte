@@ -2,6 +2,7 @@
   import Loader from "$lib/components/loader.svelte";
   import useFormatter from "$lib/hook/formatter";
   import Decimal from "decimal.js";
+  import { url } from "$lib/store/routes";
   const { removeTrailingZeros, getSuffix } = useFormatter();
   import { UseFetchData } from "$lib/hook/useFetchData";
   import { handleAuthToken } from "$lib/store/routes";
@@ -20,6 +21,7 @@
       error_msg.set(error.message);
     }
   });
+
 </script>
 
 {#if Boolean(players)}
@@ -35,19 +37,16 @@
         ><tbody>
           {#each players as player, index (`${player.userID}_${index}`)}
             <tr
-              ><td
-                ><a
-                  href="/"
+              ><td>
+                <a href="/"
                   on:click={(e) => {
                     e.preventDefault();
                     dispatch("gameDetail", player.betID);
                   }}
                   class="betid">{player.betID}</a
-                ></td
-              ><td
-                ><a
-                  class="sc-jUosCB iTDswZ user-info username"
-                  href="/user/profile/{player.userID}"
+                ></td><td>
+                <a class="sc-jUosCB iTDswZ user-info username" on:click={()=> dispatch("close")}
+                  href={`${$url === "/" ? "" : $url}/?tab=profile&id=${player.userID && player.userID}`}
                 >
                   {#if player.hidden}
                     <span class="hidden-name"

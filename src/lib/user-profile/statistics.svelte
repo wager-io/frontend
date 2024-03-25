@@ -38,6 +38,8 @@ const handleStatisticsSellect = ((e)=>{
     is_open = false
 })
 
+$: image = profile.profile_image
+
 </script>
 
 {#if is_loading}
@@ -67,7 +69,14 @@ const handleStatisticsSellect = ((e)=>{
                     {/if}
                 </div>
             <div class="user-info flex-center">
-                <img class="avatar " alt="" src="{profile.profile_image}">
+                {#if image.color}
+                <div class="avatar"
+                 style={`background-color:${image.color}; width:2.5rem; height:2.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
+                    {profile.username.charAt(0)}
+                </div>
+            {:else}
+                <img class="avatar" alt="" src={image.image ? image.image : ""}>
+            {/if}
                 <div class="flex-column">
                     <div class="user-name">{profile.username}</div>
                     <Progress chat={profile} style={"level-box"}/>
@@ -114,39 +123,55 @@ const handleStatisticsSellect = ((e)=>{
                     <div class="th">Bet</div>
                     <div class="th">Wagered</div>
                 </div>
-                {#if statistic.usdt.usdt_bets && statistic.ppf.ppf_bets}
+                {#if statistic.total_bet}
                 <div class="tbody">
-                {#if statistic.usdt.usdt_bets}
+                {#if statistic.btc.btc_bets}
                     <div class="tr">
                         <div class="td fc bold">
-                            <img class="coin-icon" alt="" src="{statistic.usdt.usdt_img}">USDT</div>
-                            <div class="td">{statistic.usdt.usdt_win}</div>
-                            <div class="td">{statistic.usdt.usdt_bets}</div>
+                            <img class="coin-icon" alt="" src="{statistic.btc.btc_img}">BTC</div>
+                            <div class="td">{statistic.btc.btc_win}</div>
+                            <div class="td">{statistic.btc.btc_bets}</div>
                             <div class="td bold">
                                 <div class="sc-Galmp erPQzq coin notranslate monospace">
                                     <div class="amount">
-                                        <span class="amount-str">{(parseFloat(statistic.usdt.usdt_wagered)).toFixed(4)}</span>
+                                        <span class="amount-str">{(parseFloat(statistic.btc.btc_wagered)).toFixed(4)}</span>
                                     </div>
                                 </div>
                         </div>
                     </div>
                 {/if}
                 
-                {#if statistic.ppf.ppf_bets}
+                {#if statistic.wgf.wgf_bets}
                     <div class="tr">
                         <div class="td fc bold">
-                            <img class="coin-icon" alt="" src="{statistic.ppf.ppf_img}">ppf</div>
-                            <div class="td">{statistic.ppf.ppf_win}</div>
-                            <div class="td">{statistic.ppf.ppf_bets}</div>
+                            <img class="coin-icon" alt="" src="{statistic.wgf.wgf_img}">WGF</div>
+                            <div class="td">{statistic.wgf.wgf_win}</div>
+                            <div class="td">{statistic.wgf.wgf_bets}</div>
                             <div class="td bold">
                                 <div class="sc-Galmp erPQzq coin notranslate monospace">
                                     <div class="amount">
-                                        <span class="amount-str">{(parseFloat(statistic.ppf.ppf_wagered)).toFixed(4)}</span>
+                                        <span class="amount-str">{(parseFloat(statistic.wgf.wgf_wagered)).toFixed(4)}</span>
                                     </div>
                                 </div>
                         </div>
                     </div>
                 {/if}
+
+                {#if statistic.eth.eth_bets}
+                <div class="tr">
+                    <div class="td fc bold">
+                        <img class="coin-icon" alt="" src="{statistic.eth.eth_img}">ETH</div>
+                        <div class="td">{statistic.eth.eth_win}</div>
+                        <div class="td">{statistic.eth.eth_bets}</div>
+                        <div class="td bold">
+                            <div class="sc-Galmp erPQzq coin notranslate monospace">
+                                <div class="amount">
+                                    <span class="amount-str">{(parseFloat(statistic.eth.eth_wagered)).toFixed(4)}</span>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            {/if}
                   
                 </div>
                     <div class="sc-cCcXHH dXTFyi pagination ">
@@ -169,7 +194,6 @@ const handleStatisticsSellect = ((e)=>{
                     </div>
                     {:else}
                     <div class="sc-eCImPb cuPxwd empty ">
-                        <img alt="" src="https://static.nanogames.io/assets/empty.acd1f5fe.png">
                         <div class="msg">Oops! There is no data yet!</div>
                     </div>
                 {/if}
@@ -180,6 +204,130 @@ const handleStatisticsSellect = ((e)=>{
     
     
 <style>
+.lgnNLC {
+    padding: 0.875rem;
+    background: rgb(23, 24, 27);
+}
+.lgnNLC .head {
+    margin-bottom: 0.75rem;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+.lgnNLC .fc {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.lgnNLC .head .title {
+    font-size: 1rem;
+    color: rgb(245, 246, 247);
+    font-weight: 600;
+}
+.lgnNLC .head .select {
+    flex: 1 1 0%;
+    margin: 0px 1rem;
+    height: 2.25rem;
+}
+.gOHquD .select-trigger {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100%;
+    cursor: pointer;
+    padding: 0px 1.25rem;
+    user-select: none;
+    border-radius: 1.25rem;
+    background-color: rgb(23, 24, 27);
+}
+.lgnNLC .user-info .avatar {
+    width: 2.1875rem;
+    height: 2.1875rem;
+    border-radius: 50%;
+    margin-right: 0.375rem;
+}
+.lgnNLC .user-info .flex-column {
+    align-items: flex-start;
+}
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+.lgnNLC .user-info .user-name {
+    color: rgb(245, 246, 247);
+    max-width: 6.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+}
+.lgnNLC .user-info .level-box {
+    width: 3.75rem;
+}
+.fPtvsS {
+    text-align: left;
+    white-space: nowrap;
+    font-size: 0px;
+}
+.gOHquD.is-open .select-options-wrap {
+    pointer-events: auto;
+}
+.iVwWcQ {
+    position: absolute;
+    padding: 0.3125rem 0px;
+    width: 100%;
+    left: 0px;
+    z-index: 2;
+    pointer-events: none;
+}
+.iVwWcQ .select-options {
+    border-radius: 1.25rem;
+    padding: 0.125rem 0.375rem;
+    background-color: rgb(23, 24, 27);
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 8px 0px;
+    height: auto;
+    max-height: 16.25rem;
+}
+.iVwWcQ .select-options:not(.len-1) > .active {
+    border-color: rgba(91, 174, 28, 0.4);
+}
+.iVwWcQ .select-option {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    padding: 0px 0.625rem;
+    font-size: 0.875rem;
+    height: 2rem;
+    margin: 0.25rem 0px;
+    border: 1px solid transparent;
+    border-radius: 1.0625rem;
+    cursor: pointer;
+    color: rgba(153, 164, 176, 0.6);
+    white-space: nowrap;
+}
+.iVwWcQ .select-options:not(.len-1) > .active::after {
+    content: "";
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.625rem;
+    background-color: rgb(67, 179, 9);
+    box-shadow: rgba(91, 174, 28, 0.15) 0px 0px 0px 0.3125rem;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lgnNLC .head .select-trigger {
+    text-transform: capitalize;
+    background-color: rgba(49, 52, 60, 0.25);
+}
 .gOHquD .select-trigger .arrow > svg {
     font-size: 0.625rem;
     transition: transform 0.5s cubic-bezier(0.36, 0.66, 0.04, 1) 0s;

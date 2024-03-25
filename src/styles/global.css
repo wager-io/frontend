@@ -131,7 +131,7 @@
 }
 
 .dialog-back svg {
-  transform: rotate(180deg);
+  transform: rotate(0deg);
   width: 16px;
   height: 16px;
 }

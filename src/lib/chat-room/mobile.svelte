@@ -155,7 +155,7 @@
                                 <span>V</span><span>{chat.vip_level}</span>
                               </div>
                             </div>
-                            <Progress chat={chat} />
+                            <Progress chat={chat} styleEL={"level"} />
                           </a>
                         </div>
                         <div class="content">

@@ -192,7 +192,7 @@
                     </div>
                   </div>
                 </button>
-                <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=deposit&modal=wallet`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
+                <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal sc-iqVWFU fGPfpD">
                   <div class="button-inner">
                     {#if $screen > 500}
                       <Icon src={IoWallet} size="18" color="#ffff" className="custom-icon" />

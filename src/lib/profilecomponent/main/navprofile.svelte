@@ -64,7 +64,7 @@ $: image = $profileStore.profile_image
             <div class="name-level">
                 <p>{$profileStore.username}</p>
                 <div class="level">
-                    <Progress chat={$profileStore}/>
+                    <Progress styleEL={""} chat={$profileStore}/>
                     <div class="sc-jQrDum jouJMO user-level type-0">
                         <div class="level-wrap">
                             <span>V</span>

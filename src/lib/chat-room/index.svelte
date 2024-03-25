@@ -122,13 +122,11 @@
       <div class="chat-features">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
-
         <div on:click={() => { showRule = true; }} class="inform">
           <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
             <use xlink:href="#icon_Inform"></use>
           </svg>
         </div>
-
         <button on:click={handlecloseChat} class="sc-ieecCq fLASqZ close-icon">
           <Icon src={IoClose} size="17" color="rgba(153, 164, 176, 0.8)"  />
         </button>
@@ -157,7 +155,7 @@
                         <span>V</span><span>{chat.vip_level}</span>
                       </div>
                     </div>
-                    <Progress chat={chat} />
+                    <Progress chat={chat} styleEL={"level"} />
                   </a>
                 </div>
                 <div class="content">

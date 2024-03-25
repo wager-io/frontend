@@ -7,7 +7,11 @@ $: tab = 1
         <div class="tabs-navs">
             <button on:click={()=> tab = 1} class="tabs-nav {tab === 1 ? "is-active" : ""}">Latest bets</button>
             <button on:click={()=> tab = 2} class="tabs-nav {tab === 2 ? "is-active" : ""}">Latest winners</button>
-            <div class="bg" style="left: 0%; right: 50%;"></div>
+            {#if tab === 1}
+                <div class="bg" style={"left: 0%; right: 50%;"}></div>
+            {:else}
+                <div class="bg" style={"left: 50%; right: 0%;"}></div>
+            {/if}
         </div>
         <div class="tabs-view" style="transform: none;">
             <div class="sc-hmvnCu emIWso">
@@ -23,7 +27,8 @@ $: tab = 1
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="game-name"><img src='https://static.nanogames.io/assets/Plinko.408dd155.png' class="game-icon" alt="">
+                            <td class="game-name">
+                                <img src='https://static.nanogames.io/assets/Plinko.408dd155.png' class="game-icon" alt="">
                                 <div class="name">Keno Single</div>
                             </td>
                             <td>
@@ -36,7 +41,29 @@ $: tab = 1
                             <td class="win">
                                 <div class="sc-Galmp erPQzq coin notranslate has-sign">
                                     <img class="coin-icon"  src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579" alt="">
-                                    <div class="amount"><span class="amount-str">+0.00075<span class="suffix">000</span></span>
+                                    <div class="amount">
+                                        <span class="amount-str">+0.00075<span class="suffix">000</span></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="game-name">
+                                <img src='https://static.nanogames.io/assets/Plinko.408dd155.png' class="game-icon" alt="">
+                                <div class="name">Keno Single</div>
+                            </td>
+                            <td>
+                                <a class="sc-jUosCB iTDswZ user-info " href="/user/profile/9587">
+                                    <div class="name">ToTaLScHaDeN</div>
+                                </a>
+                            </td>
+                            <td>6548923183268372</td>
+                            <td>1.60x</td>
+                            <td class="win">
+                                <div class="sc-Galmp erPQzq coin notranslate has-sign">
+                                    <img class="coin-icon"  src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579" alt="">
+                                    <div class="amount">
+                                        <span class="amount-str">+0.00075<span class="suffix">000</span></span>
                                     </div>
                                 </div>
                             </td>

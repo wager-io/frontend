@@ -120,9 +120,16 @@
                 <tr>
                   <td class="user">
                     <a class="sc-jUosCB iTDswZ user-info"
-                    href={`${$url === "/" ? "" : $url}/?tab=profile&id=${player.user_id}`}>
-                      <img alt="" class="avatar"
-                        src={player.hidden ? "/assets/avatar.a1ff78fe.png" : player.avatar} />
+                    href={`${$url === "/" ? "" : $url}/?tab=profile&id=${player.userId}`}>
+                       {#if player.avatar.color}
+                            <div class="avatar "
+                                style={`background-color:${player.avatar.color}; width:2.5rem; height:2.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
+                                    {player.name?.charAt(0) ? player.name.charAt(0) : ""}
+                                </div>
+                            {:else}
+                                <img class="avatar " alt="" src={player.avatar.image ? player.avatar.image : ""}>
+                            {/if}
+                      <!-- <img alt="" class="avatar" src={player.hidden ? "/assets/avatar.a1ff78fe.png" : player.avatar} /> -->
                       <div class="name">
                         {#if player.hidden}
                           <span class="hidden-name">
