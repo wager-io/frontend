@@ -95,12 +95,10 @@
           <DetailsScreen {betID} on:allPlayers={handleShowAllPlayers} />
         </div>
       {:else if currentScreen === "Understanding Trend Chart"}
-        <div
-          in:fly={{ x: 80, duration: 150, easing: cubicOut }}
+        <div in:fly={{ x: 80, duration: 150, easing: cubicOut }}
           out:fly={{ x: 80, duration: 150, easing: cubicOut }}
           class="dialog-body default-style"
-          style="z-index: 2; transform: none;"
-        >
+          style="z-index: 2; transform: none;" >
           <TrendChart />
         </div>
       {:else if currentScreen === "Help"}
