@@ -3,24 +3,24 @@
 </script>
 
 <div class="sc-dkPtRN jScFby scroll-view sc-hLVXRe feFcbu">
-    <pre class="affiliate-terms">The website is supported by the DOTPLAYPLAY.COM prediction platform. Platform games include crash, dice and so on.
+    <pre class="affiliate-terms">The website is supported by the WAGER.SERVCES prediction platform. Platform games include crash, dice and so on.
 
-    By completing the DOTPLAYPLAY.COM Affiliate Program (the "Affiliate Program") application and clicking "I agree to the Terms and Conditions (the “Terms”)” within the registration form, you (hereinafter the "Affiliate") hereby agree to abide by all the terms and conditions set out in this Agreement. The commission structure of the "commission rules" is also an integral part of this agreement. DOTPLAYPLAY.COM reserves the right to amend, alter, delete or extend any provisions of this Agreement, at any time and at its sole discretion, without giving any advance notice to the Affiliate subject to the Terms set out in this Agreement. You hereby agree to:
+    By completing the WAGER.SERVCES Affiliate Program (the "Affiliate Program") application and clicking "I agree to the Terms and Conditions (the “Terms”)” within the registration form, you (hereinafter the "Affiliate") hereby agree to abide by all the terms and conditions set out in this Agreement. The commission structure of the "commission rules" is also an integral part of this agreement. WAGER.SERVCES reserves the right to amend, alter, delete or extend any provisions of this Agreement, at any time and at its sole discretion, without giving any advance notice to the Affiliate subject to the Terms set out in this Agreement. You hereby agree to:
     
     1. Participate in the Affiliate Program
     
-    2. Use of the DOTPLAYPLAY.COM affiliate website and/or DOTPLAYPLAY.COM marketing tools (as hereafter defined).
+    2. Use of the WAGER.SERVCES affiliate website and/or WAGER.SERVCES marketing tools (as hereafter defined).
     
-    3. The condition that the acceptance of any affiliate commissions from DOTPLAYPLAY.COM confirms your irrevocable acceptance of this Agreement and any modifications thereto.
+    3. The condition that the acceptance of any affiliate commissions from WAGER.SERVCES confirms your irrevocable acceptance of this Agreement and any modifications thereto.
     
-    Therefore you shall be obliged to continuously comply with the Terms of this Agreement as well as to comply with the General Terms and Conditions and Privacy Policy of the website DOTPLAYPLAY.COM, as well as with any other rules and/or guidelines brought forward from time to time. An Agreement between the Company and the Affiliate comes into effect on the date the affiliate application is approved.
+    Therefore you shall be obliged to continuously comply with the Terms of this Agreement as well as to comply with the General Terms and Conditions and Privacy Policy of the website WAGER.SERVCES, as well as with any other rules and/or guidelines brought forward from time to time. An Agreement between the Company and the Affiliate comes into effect on the date the affiliate application is approved.
     
     1. Purpose
     1.1. The Affiliate maintains and operates one or more websites on the Internet (hereinafter collectively referred to as "the Website"), and/or refers potential customers through other channels.
     
-    1.2. This Agreement governs the terms and conditions which are related to the promotion of the website DOTPLAYPLAY.COM by the Affiliate, hereinafter referred to as "DOTPLAYPLAY.COM", whereby the Affiliate will be paid a commission as defined in this Agreement depending on the traffic sent to DOTPLAYPLAY.COM and the terms of this Agreement.
+    1.2. This Agreement governs the terms and conditions which are related to the promotion of the website WAGER.SERVCES by the Affiliate, hereinafter referred to as "WAGER.SERVCES", whereby the Affiliate will be paid a commission as defined in this Agreement depending on the traffic sent to WAGER.SERVCES and the terms of this Agreement.
     
-    1.3. The definition of the term Net Gaming Revenue can be found within Article 20 of this Agreement. In case of an introduction of another product, or group of products in the future, DOTPLAYPLAY.COM reserves the right to use an individual definition of the term Net Gaming Revenue for each product.
+    1.3. The definition of the term Net Gaming Revenue can be found within Article 20 of this Agreement. In case of an introduction of another product, or group of products in the future, WAGER.SERVCES reserves the right to use an individual definition of the term Net Gaming Revenue for each product.
     
     2. Acceptance of an Affiliate
     2.1. The Company reserves the right to refuse any registration in its sole and absolute discretion.
@@ -32,9 +32,9 @@
     
     b) Is competent and duly authorized to enter into binding Agreements.
     
-    c) Is the proprietor of all rights, licences and permits to market, promote and advertise DOTPLAYPLAY.COM in accordance with the provisions of this Agreement.
+    c) Is the proprietor of all rights, licences and permits to market, promote and advertise WAGER.SERVCES in accordance with the provisions of this Agreement.
     
-    d) Will comply with all applicable rules, laws and regulations in correlation with the promotion of DOTPLAYPLAY.COM.
+    d) Will comply with all applicable rules, laws and regulations in correlation with the promotion of WAGER.SERVCES.
     
     e) Fully understands and accepts the Terms of the Agreement.
     
@@ -48,9 +48,9 @@
     5. Responsibilities and Obligations of the Affiliate
     5.1. The Affiliate hereby warrants:
     
-    a) To use its best efforts to actively and effectively advertise, market and promote DOTPLAYPLAY.COM as widely as possible in order to maximize the benefit to the parties and to abide by the guidelines of the Company as they may be brought forward from time to time and/or as being published online.
+    a) To use its best efforts to actively and effectively advertise, market and promote WAGER.SERVCES as widely as possible in order to maximize the benefit to the parties and to abide by the guidelines of the Company as they may be brought forward from time to time and/or as being published online.
     
-    b) To market and refer potential players to DOTPLAYPLAY.COM at its own cost and expense. The Affiliate will be solely responsible for the distribution, content and manners of its marketing activities. All of the Affiliate's marketing activities must be professional, proper and lawful under applicable laws and must be in accordance with this Agreement.
+    b) To market and refer potential players to WAGER.SERVCES at its own cost and expense. The Affiliate will be solely responsible for the distribution, content and manners of its marketing activities. All of the Affiliate's marketing activities must be professional, proper and lawful under applicable laws and must be in accordance with this Agreement.
     
     c) To use only the tracking link provided within the scope of the affiliate program, otherwise no guarantee whatsoever can be given for proper registration and sales accounting. Also, not to change or modify in any way any link or marketing material without prior written authorization from the Company.
     
@@ -64,7 +64,7 @@
     
     c) That it will not actively target any jurisdiction where gambling and the promotion thereof is illegal.
     
-    d) That it will not generate traffic to DOTPLAYPLAY.COM by illegal or fraudulent activity, particularly but not limited to:
+    d) That it will not generate traffic to WAGER.SERVCES by illegal or fraudulent activity, particularly but not limited to:
     
     I. Sending spam.
     
@@ -72,12 +72,12 @@
     
     ]III. Registering as a player or making deposits directly or indirectly to any player account through his/her tracker(s) for their own personal use and/or the use of its relatives, friends, employees or other third parties, or in any other way attempt to artificially increase the commission payable or to otherwise defraud the Company. Violation of this provision shall be deemed to be fraud.
     
-    e) That it will not present its website in such a way that it might evoke any risk of confusion with DOTPLAYPLAY.COM and/or the Company and or convey the impression that the website of the contracting party is partly or fully originated with DOTPLAYPLAY.COM and/or the Company.
+    e) That it will not present its website in such a way that it might evoke any risk of confusion with WAGER.SERVCES and/or the Company and or convey the impression that the website of the contracting party is partly or fully originated with WAGER.SERVCES and/or the Company.
     
-    f) Without prejudice to the marketing material as may be forwarded by the Company and/or made available online through the website https://DOTPLAYPLAY.COM/ the affiliate may not use DOTPLAYPLAY.COM or other terms, trademarks and other intellectual property rights that are vested in the Company unless the Company consents to such use in writing.
+    f) Without prejudice to the marketing material as may be forwarded by the Company and/or made available online through the website https://WAGER.SERVCES/ the affiliate may not use WAGER.SERVCES or other terms, trademarks and other intellectual property rights that are vested in the Company unless the Company consents to such use in writing.
     
     6. Payment
-    6.1. The Company agrees to pay the Affiliate a commission based on the Game bet amount generated from new customers referred by the Affiliate’s website and/or other channel. New customers are those customers of the Company who do not yet have a gaming account and who access the Website via the tracking link and who properly register and make bitcoin transfers at least equivalent to the minimum deposit into their DOTPLAYPLAY.COM betting account. The commission shall be deemed to be inclusive of value added tax or any other tax if applicable.
+    6.1. The Company agrees to pay the Affiliate a commission based on the Game bet amount generated from new customers referred by the Affiliate’s website and/or other channel. New customers are those customers of the Company who do not yet have a gaming account and who access the Website via the tracking link and who properly register and make bitcoin transfers at least equivalent to the minimum deposit into their WAGER.SERVCES betting account. The commission shall be deemed to be inclusive of value added tax or any other tax if applicable.
     
     6.2. The commission shall be a percentage of the Game bet amount in accordance with what is set out in the commission structures for the particular product. The calculation is product specific and it is set out in every product-specific commission structure. (see "commission rules" for details)
     
@@ -87,7 +87,7 @@
     
     6.5. Agent Withdraw commission by the Affiliate shall be deemed to be full and the final settlement of the balance due for the period indicated.
     
-    6.6. If the Affiliate disagrees with the balance due as reported, it shall within a period of seven (7) days send an email to the Company to admin@DOTPLAYPLAY.COM and indicate the reasons for the dispute. Or contact customer service through Telegram .Failure to send an email Or contact customer service through Telegram within the prescribed time limit shall be deemed to be considered as an irrevocable acknowledgment of the balance due for the period indicated.
+    6.6. If the Affiliate disagrees with the balance due as reported, it shall within a period of seven (7) days send an email to the Company to admin@WAGER.SERVCES and indicate the reasons for the dispute. Or contact customer service through Telegram .Failure to send an email Or contact customer service through Telegram within the prescribed time limit shall be deemed to be considered as an irrevocable acknowledgment of the balance due for the period indicated.
     
     6.7. May delay the Withdraw request through the agent for up to sixty (60) days, while it investigates and verifies that the relevant transactions comply with the provisions of the Terms.
     
@@ -104,7 +104,7 @@
     
     7.2. The contracting parties hereby agree that upon termination of this Agreement:
     
-    a) The Affiliate must remove all references to DOTPLAYPLAY.COM from the Affiliate's websites and/or other marketing channels and communications, irrespective of whether the communications are commercial or non-commercial.
+    a) The Affiliate must remove all references to WAGER.SERVCES from the Affiliate's websites and/or other marketing channels and communications, irrespective of whether the communications are commercial or non-commercial.
     
     b) All rights and licenses granted to the Affiliate under this Agreement shall immediately terminate and all rights shall revert to the respective licensors, and the Affiliate will cease the use of any trademarks, service marks, logos and other designations vested in the Company.
     
@@ -119,7 +119,7 @@
     8. Warranties
     8.1. The Affiliate expressly acknowledges and agrees that the use of the Internet is at its own risk and that this affiliate program is provided "as is" and "as available" without any warranties or conditions whatsoever, even if expressed or implied. No guarantee is made that it will make access to its website possible at any particular time or any particular location.
     
-    8.2. The Company shall in no event be liable to the Affiliate or anyone else for any inaccuracy, error or omission in, or loss, injury or damage caused in whole or in part by failures, delays or interruptions of the DOTPLAYPLAY.COM website or the affiliate program.
+    8.2. The Company shall in no event be liable to the Affiliate or anyone else for any inaccuracy, error or omission in, or loss, injury or damage caused in whole or in part by failures, delays or interruptions of the WAGER.SERVCES website or the affiliate program.
     
     9. Indemnification
     9.1. The Affiliate agrees to defend, indemnify and hold the Company and its affiliates, successors, officers, employees, agents, directors, shareholders and attorneys, free and harmless from and against any and all claims and liabilities, including reasonable attorneys' and experts' fees, related to or arising from:
@@ -143,7 +143,7 @@
     9.2. The Company reserves the right to participate, at its own expense in the defense of any matter.
     
     10. Company Rights
-    10.1. In order to comply with company or DOTPLAYPLAY.COM policies, and to protect the company or DOTPLAYPLAY.COM's interests, the company or DOTPLAYPLAY.COM can reject any player or close the player account.
+    10.1. In order to comply with company or WAGER.SERVCES policies, and to protect the company or WAGER.SERVCES's interests, the company or WAGER.SERVCES can reject any player or close the player account.
     
     10.2. The Company may refuse any applicant and/or may close any Affiliate’s account if it is necessary to comply with the Company's policy and/or protect the interest of the Company. If the Affiliate is in breach of this Agreement or the Company’s Terms or other rules, policies and guidelines of the Company, the Company may besides closing the Affiliate’s account take any other steps in law to protect its interests.
     
@@ -151,7 +151,7 @@
     11.1. The commission settled to the agent is a percentage of the game betting amount.The exact commission structure is part of this agreement. For details, see the "commission rules" clause.In this case, the Commission is withdrawn to the player's platform wallet (digital currency), but not directly to other addresses.
     
     12. Assignment
-    12.1. The Affiliate may not assign this Agreement, by operation of law or otherwise, without obtaining the prior written consent of the Company. In the event that the affiliate acquires or otherwise obtains control of another affiliate of DOTPLAYPLAY.COM, then accounts will coexist on individual terms.
+    12.1. The Affiliate may not assign this Agreement, by operation of law or otherwise, without obtaining the prior written consent of the Company. In the event that the affiliate acquires or otherwise obtains control of another affiliate of WAGER.SERVCES, then accounts will coexist on individual terms.
     
     12.2. The Company may assign this Agreement, by operation of the law or otherwise, at any time without obtaining the prior consent of the Affiliate.
     
@@ -173,7 +173,7 @@
     17.2. The Affiliate obliges himself/herself not to use the confidential information for any purpose other than the performance of its obligations under this Agreement.
     
     18. Changes to this Agreement
-    18.1. The Company reserves the right to amend, alter, delete or add to any of the provisions of this Agreement, at any time and at its sole discretion, without giving any advance notice to the Affiliate subject to the Terms set out in this Agreement. Any such changes will be published on DOTPLAYPLAY.COM.
+    18.1. The Company reserves the right to amend, alter, delete or add to any of the provisions of this Agreement, at any time and at its sole discretion, without giving any advance notice to the Affiliate subject to the Terms set out in this Agreement. Any such changes will be published on WAGER.SERVCES.
     
     18.2. In case of any discrepancy between the meanings of any translated versions of this Agreement, the English language version shall prevail.
     

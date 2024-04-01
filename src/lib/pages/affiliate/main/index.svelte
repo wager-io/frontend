@@ -244,10 +244,10 @@ const handleCreateReferral = (async()=>{
                 <div class="sc-iKMXQg esTNSq why-casino">
                     <div class="left">
                         <div class="title theme">Build Your Own <br> Casino Club Quickly.</div>
-                        <div class="desc">It's hard to build a casino, but you can start from managing your own table on DOTPLAYPLAY.</div>
+                        <div class="desc">It's hard to build a casino, but you can start from managing your own table on WAGER.</div>
                         <div class="desc">
-                            <span class="theme">DOTPLAYPLAY</span> is not just games, it’s a platform to realize the potential of your hidden dreams.
-                            Join DOTPLAYPLAY and set sail on a new chapter in your wealth journey immediately!
+                            <span class="theme">WAGER</span> is not just games, it’s a platform to realize the potential of your hidden dreams.
+                            Join WAGER and set sail on a new chapter in your wealth journey immediately!
                         </div>
                     </div>
                     <div class="right">
@@ -255,7 +255,7 @@ const handleCreateReferral = (async()=>{
                         <div class="desc">If you got your own plan. you can set up a casino website with your own domain, design style and theme.
                             If you are capable to invite players and their wager amount reaches a billion dollars and above, you will be able to get your own
                             customized casino!</div>
-                        <div class="desc">Contact <a href="mailto:support@dotplayplay.com" class="theme">support@dotplayplay.com</a> for more details</div>
+                        <div class="desc">Contact <a href="mailto:support@wager.com" class="theme">support@wager.com</a> for more details</div>
                     </div>
                 </div>
             </div>
@@ -267,7 +267,7 @@ const handleCreateReferral = (async()=>{
         <div class="section rewards-system">
             <div class="title ttu">
                 <span class="theme">Affiliate</span> Reward System</div>
-            <div class="tip">DOTPLAYPLAY sets up a reward of 100 USD for each referral you invite in addition to commission. Click
+            <div class="tip">WAGER sets up a reward of 100 USD for each referral you invite in addition to commission. Click
                 <span>"Create Referral Code Now"</span> and set sail on a new chapter on your journey of wealth immediately!</div>
         </div>
        
@@ -291,7 +291,7 @@ const handleCreateReferral = (async()=>{
                         </div>
                         <div class="footer">
                             <p class="text">Please contact us for a more profitable customized plan.</p>
-                            <a href="https://t.me/NanoGamesOfficial" target="_blank" class="contact">
+                            <a href="#" target="_blank" class="contact">
                                 <div class="icon-box">
                                     <img src="https://static.nanogames.io/assets/Telegram.f76d7c46.svg" class="sc-gsDKAQ hxODWG icon icon" alt="">
                                 </div>
@@ -318,10 +318,6 @@ const handleCreateReferral = (async()=>{
             <Home on:open={()=>handlePopRule(3)}/>
         </div>
         {/if}
-
-      
-
-
 
 
         <!-- <div class="section">

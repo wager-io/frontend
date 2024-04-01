@@ -13,6 +13,7 @@ import { screen } from "$lib/store/screen";
 import FromCoins from "./swapControllers/fromCoins.svelte";
 import { coin_list } from "$lib/store/coins";
 import ToCoins from "./swapControllers/toCoins.svelte";
+    import Security from "./security.svelte";
 let reciever = ""
 let sender = ""
 
@@ -42,6 +43,9 @@ const handleSetBack = (()=>{
    show_coins = false
    show_sender = false
    show_receiver = false
+   if(tab === "security"){
+      history.back()
+   }
 })
 
 const handleSwapCoinSelect = ((event)=>{
@@ -63,9 +67,9 @@ const handleSwapCoinSelectW = ((event)=>{
             <use xlink:href="#icon_Arrow"></use>
          </svg>
       </button>
-      <div class="dialog-head {show_coins || show_sender || show_receiver ? "has-back": "has-close"}">
-         <div class="dialog-title">{show_coins ? "Choose Coin" : "Wallet" }</div>
-         {#if !show_coins && !show_sender && !show_receiver}
+      <div class="dialog-head {show_coins || show_sender || show_receiver || tab === "security" ? "has-back": "has-close"}">
+         <div class="dialog-title">{show_coins ? "Choose Coin" : tab === "security" ? "Security" : "Wallet" }</div>
+         {#if !show_coins && !show_sender && !show_receiver &&  tab !== "security"}
          <div class="sc-jSYIrd fktpVO">
             <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=transaction&modal=deposit&cur=All`)}>
                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -90,6 +94,7 @@ const handleSwapCoinSelectW = ((event)=>{
       {:else}
          <div class="dialog-body no-style " style="z-index: 2; transform: none;">
             <div id="wallet" class="sc-kMyqmI hioXRL">
+               {#if tab !== "security"}
                <div class="sc-hctura eeygvl">
                   <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=deposit`)}  class="tab {tab === "deposit" ? "active" : ""}">
                      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
@@ -116,14 +121,27 @@ const handleSwapCoinSelectW = ((event)=>{
                      <div class="title">Vault Pro</div>
                   </button>
                </div>
+               {/if}
                {#if tab === "deposit"}
                   <Deposit active_coin={active_coin} on:show={()=> show_coins = true}/>
                {:else if tab === "withdraw"}
                   <Withdraw active_coin={active_coin} on:show={()=> show_coins = true}/>
                {:else if tab === "swap"}
                   <Swap on:senderControl={()=> show_sender = true} on:receiverControl={()=> show_receiver = true}  reciever={reciever} sender={sender}/>
-               {:else}
+               {:else if tab === "vault"}
                   <Vault />
+               {:else if tab === "security"}
+                     <Security />
+               {/if}
+               {#if tab === "vault" || tab === "swap" || tab === "deposit" || tab === "withdraw" || tab !== "security"}
+                  <div class="sc-fpYaaq fFnhBL">
+                     <div class="sc-lnDqNf cTrXaa">
+                        <div class="cont">Your 2FA currently is Disabled</div>
+                        <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=security`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal">
+                           <div class="button-inner">Enable 2FA</div>
+                        </button>
+                     </div>
+                  </div>
                {/if}
             </div>
          </div>
@@ -263,5 +281,33 @@ const handleSwapCoinSelectW = ((event)=>{
     width: 1.4em;
     height: 1.4em;
     fill: rgba(153, 164, 176, 0.6);
+}
+.fFnhBL {
+    position: relative;
+    padding: 36px 0px;
+    border-top: 1px solid rgba(128, 141, 152, 0.1);
+}
+.cTrXaa {
+    margin: 0px auto;
+    display: flex;
+    flex: 0 0 auto;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    background-color: rgb(30, 32, 36);
+    width: 25rem;
+    border-radius: 2.4375rem;
+    height: 3.5rem;
+}
+.cTrXaa .cont {
+    display: flex;
+    width: 11.5rem;
+    padding: 0.625rem 0.625rem 0.625rem 2rem;
+    line-height: 1.125rem;
+    opacity: 0.8;
+}
+.cTrXaa button {
+    width: 12.5rem;
+    height: 100%;
+    margin: 0px;
 }
 </style>

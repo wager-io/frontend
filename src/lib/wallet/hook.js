@@ -124,3 +124,39 @@ export const handleWithdraw = (async(data)=>{
     })
     return { response, error, isLoading }
  })
+
+export const handleFetchSecurity = (async(user)=>{
+    let response = ""
+    let error = ""
+    let isLoading = true
+    await axios.get(`${ServerURl()}/api/users/2fa`, {
+        username: user
+    })
+    .then((res)=>{
+        response = res.data
+        isLoading = false
+    })
+    .catch((err)=>{
+        error = err
+        isLoading = false
+    })
+    return { response, error, isLoading }
+})
+
+export const handleVerifySecurity = (async(key)=>{
+    let response = ""
+    let error = ""
+    let Loading = true
+    await axios.post(`${ServerURl()}/api/users/2fa/verify`, {
+        token: key
+    })
+    .then((res)=>{
+        response = res.data
+        Loading = false
+    })
+    .catch((err)=>{
+        error = err.response.data?.message
+        Loading = false
+    })
+    return { response, error, Loading }
+})
