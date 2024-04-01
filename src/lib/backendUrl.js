@@ -1,6 +1,6 @@
 export const ServerURl = (()=>{
-    // return "http://localhost:8000"
-    return "https://wager-backend.onrender.com"
+    return "http://localhost:8000"
+    // return "https://wager-backend.onrender.com"
 })
 
 export const VerifyURl = () => {
@@ -9,8 +9,8 @@ export const VerifyURl = () => {
 };
 
 export const pageURL = () => {
-    // return "http://localhost:5173";
-    return "https://wager.services";
+    return "http://localhost:5173";
+    // return "https://wager.services";
 };
 
 export const SocketURL = (()=>{

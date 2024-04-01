@@ -143,12 +143,14 @@ export const handleFetchSecurity = (async(user)=>{
     return { response, error, isLoading }
 })
 
-export const handleVerifySecurity = (async(key)=>{
+export const handleVerifySecurity = (async(key, user_id, action)=>{
     let response = ""
     let error = ""
     let Loading = true
     await axios.post(`${ServerURl()}/api/users/2fa/verify`, {
-        token: key
+        token: key,
+        user_id,
+        action
     })
     .then((res)=>{
         response = res.data

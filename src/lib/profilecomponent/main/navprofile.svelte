@@ -74,12 +74,12 @@ $: image = $profileStore.profile_image
                 </div>
             </div>
         </a>
-        <!-- <button on:click={()=> goto("/setting/general")} class="right">
+        <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=security`)} class="right">
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="sc-gsDKAQ hxODWG icon">
                 <use xlink:href="#icon_Setting"></use>
             </svg>
-            <p>Global Settings</p>
-        </button> -->
+            <p>2Fa Security</p>
+        </button>
     </div>
     {:else}
     <h1 style="text-align: center; padding:20px">Loading...</h1>

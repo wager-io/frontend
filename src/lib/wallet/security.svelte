@@ -1,5 +1,6 @@
 <script>
 import { handleFetchSecurity, handleVerifySecurity } from "./hook"
+import { profileStore } from "$lib/store/profile";
 import { onMount } from "svelte"
 $:  Onfocus = false
 $: input = ""
@@ -19,9 +20,9 @@ onMount(async()=>{
     }
 })
 
-const handleSubmit = (async()=>{
+const handleSubmit = (async(action)=>{
     isLoading = true
-    const {response, error, Loading } = await handleVerifySecurity(input)
+    const {response, error, Loading } = await handleVerifySecurity(input, $profileStore?.user_id, action)
     isLoading = Loading
     if(error){
         error_msg = error
@@ -31,6 +32,7 @@ const handleSubmit = (async()=>{
     }
     if(response){
         results = response?.message
+        profileStore.set(response.user)
     }
     input = ""
 })
@@ -53,6 +55,7 @@ const handleSubmit = (async()=>{
 {/if}
 <div class="sc-dkPtRN jScFby scroll-view sc-domHDO heIlpg">
     <div class="sc-jaSCiF ccIMyb">
+        {#if !$profileStore?.google_auth_is_activated}
         <div class="google-step-summary-top">Download and install 
             <a target="_blank" href="https://support.google.com/accounts/answer/1066447?hl=en&amp;rd=1">Google Authenticator</a>. 
             Enable Two-factor Authentication to protect your account from unauthorized access.
@@ -77,6 +80,7 @@ const handleSubmit = (async()=>{
             </div>
         </div>
         <p class="twofa-alert">Write down this code, never reveal it to others. You can use it to regain access to your account if there is no access to the authenticator.</p>
+        {/if}
         <div class="codes">
             <p>Verification code</p>
             <div class="sc-cvZCdy hooaaA">
@@ -93,8 +97,8 @@ const handleSubmit = (async()=>{
                 </div>
             </div>
         </div>
-        <button on:click={handleSubmit} disabled={track} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
-            <div class="button-inner">Enable</div>
+        <button on:click={()=> !$profileStore?.google_auth_is_activated ?  handleSubmit(true) : handleSubmit(false)} disabled={track} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+            <div class="button-inner">{ !$profileStore?.google_auth_is_activated ? "Enable" : "Disable"}</div>
         </button>
     </div>
 </div>

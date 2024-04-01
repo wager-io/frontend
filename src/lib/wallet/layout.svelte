@@ -10,6 +10,7 @@ import Swap from "./swap.svelte";
 import Vault from "./vault.svelte";
 import Withdraw from "./withdraw.svelte";
 import { screen } from "$lib/store/screen";
+import { profileStore } from "$lib/store/profile";
 import FromCoins from "./swapControllers/fromCoins.svelte";
 import { coin_list } from "$lib/store/coins";
 import ToCoins from "./swapControllers/toCoins.svelte";
@@ -133,15 +134,17 @@ const handleSwapCoinSelectW = ((event)=>{
                {:else if tab === "security"}
                      <Security />
                {/if}
-               {#if tab === "vault" || tab === "swap" || tab === "deposit" || tab === "withdraw" || tab !== "security"}
-                  <div class="sc-fpYaaq fFnhBL">
-                     <div class="sc-lnDqNf cTrXaa">
-                        <div class="cont">Your 2FA currently is Disabled</div>
-                        <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=security`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal">
-                           <div class="button-inner">Enable 2FA</div>
-                        </button>
+               {#if tab === "vault" || tab === "swap" || tab === "deposit" || tab === "withdraw" || tab !== "security" }
+                     {#if !$profileStore?.google_auth_is_activated}
+                     <div class="sc-fpYaaq fFnhBL">
+                        <div class="sc-lnDqNf cTrXaa">
+                           <div class="cont">Your 2FA currently is Disabled</div>
+                           <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=wallet&modal=security`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal">
+                              <div class="button-inner">Enable 2FA</div>
+                           </button>
+                        </div>
                      </div>
-                  </div>
+                  {/if}
                {/if}
             </div>
          </div>
