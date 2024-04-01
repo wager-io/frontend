@@ -191,7 +191,7 @@ const handleChatroom = ((e) => {
 {/if}
 
 {#if paramString && tab === "register"}
-    <Register />
+    <Register referID={seaser[2]}/>
 {/if}
 
 {#if paramString && tab === "profile"}

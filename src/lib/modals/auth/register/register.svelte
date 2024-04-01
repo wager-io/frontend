@@ -14,11 +14,12 @@
   import {handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index";
   import { isLightMode } from "$lib/store/theme";
   import { screen } from "$lib/store/screen";
+  export let referID;
 
   let email = "";
   let password = "";
   let username = ""
-  let referral_code = "";
+  let referral_code = referID ? referID : "";
   let aggreement = false;
   $: is_loading = false
   $: error = false

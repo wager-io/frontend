@@ -13,10 +13,10 @@ import Rules from '../component/rules.svelte';
 import UsdRules from '../component/usd_rules.svelte';
 import Home from './home.svelte';
 import { handleAuthToken } from "$lib/store/routes"
+import { ServerURl, pageURL } from "$lib/backendUrl"
+const URL = ServerURl()
 import axios from "axios";
-import {
-    goto
-} from "$app/navigation"
+import { goto } from "$app/navigation"
 
 const dispatch = createEventDispatcher()
 
@@ -40,7 +40,7 @@ function handleCopyCode() {
 
 $:{
     code = $affilliate_info.affiliate_code
-    affiilate_link = `http://localhost:5173/i-${$affilliate_info.affiliate_code}-n/`
+    affiilate_link = `${pageURL()}/?tab=register&modal=auth&ref=${$affilliate_info.affiliate_code}`
 }
 
 function handleCopyLink() {
@@ -79,7 +79,7 @@ const handlePopRule = ((event)=>{
 })
 
 const handleFetchAffilateProfile = (async()=>{
-    await axios.get("http://localhost:8000/api/affiliate", {
+    await axios.get(`${URL}/api/affiliate`, {
         headers:{
             Authorization: `bearer ${$handleAuthToken}`
         }
@@ -108,7 +108,7 @@ const handleCreateReferral = (async()=>{
             error.set("")
         },4000)
     }else{
-        await axios.post("http://localhost:8000/api/affiliate/activate", {
+        await axios.post(`${URL}/api/affiliate/activate`, {
             data : 1
         },{
         headers:{
@@ -168,17 +168,15 @@ const handleCreateReferral = (async()=>{
 {/if}
 
 
-
-
     <div class="sc-cxVPaa fnthVB casino-header">
         <div class="header-sub flex-center">
             <div class="left flex-center">
                 <button on:click={()=>handlePopRule(2)} class="m-item rules">
-                    <Icon src={CgFileDocument} size="18" className="sc-gsDKAQ hxODWG icon" title="Custom icon params" />
+                    <Icon src={CgFileDocument} size="18" className="sc-gsDKAQ hxODWG icon"  />
                     <span>Commission Rules</span>
                 </button>
                 <button on:click={()=>handlePopRule(1)} class="m-item terms">
-                    <Icon src={BsCircleSquare} size="18" className="custom-icon" title="Custom icon params" />
+                    <Icon src={BsCircleSquare} size="18" className="custom-icon"  />
                     <span>Affiliate Terms</span>
                 </button>
             </div>
@@ -223,7 +221,7 @@ const handleCreateReferral = (async()=>{
         <div class="character banner-layer welcome"></div>
         <button on:click={()=> goto("/my-affiliate/dashboard")} class="management">
             <span style="margin: 0px 5px; display:flex;">
-                <Icon src={TiClipboard} size="18" color="#fff" className="custom-icon" title="Custom icon params" />
+                <Icon src={TiClipboard} size="18" color="#fff" className="custom-icon"  />
             </span>
             <span>Affiliate Dashboard</span>
         </button>
@@ -286,7 +284,7 @@ const handleCreateReferral = (async()=>{
                             <div class="flex">
                                 <div class="amount">100 USD</div>
                                 <button on:click={()=>handlePopRule(3)} class="hover theme" >USD Rewards Rules</button>
-                                <Icon src={ RiSystemArrowRightSLine} size="18" color="#fff" className="custom-icon" title="Custom icon params" />
+                                <Icon src={ RiSystemArrowRightSLine} size="18" color="#fff" className="custom-icon"  />
                             </div>
                         </div>
                         <div class="graph" id="system-rewards">
@@ -326,7 +324,7 @@ const handleCreateReferral = (async()=>{
 
 
 
-        <div class="section">
+        <!-- <div class="section">
             <div class="sc-kjOQFR fLdMfS platform-rewards">
                 <div class="is-pc">
                     <div class="title ttu">Rewards sent out till date</div>
@@ -348,10 +346,10 @@ const handleCreateReferral = (async()=>{
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
-        <div class="section">
+        <!-- <div class="section">
             <div class="title ttu">Platform real-time rewards</div>
             <div class="content">
                 <div class="flex">
@@ -461,7 +459,7 @@ const handleCreateReferral = (async()=>{
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         {#if !$handleisLoggin}
         <button class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal button">
@@ -485,7 +483,15 @@ const handleCreateReferral = (async()=>{
     padding-bottom: 120px;
     background: rgb(36, 38, 43);
 }
-
+.kguWsM .button {
+    width: 370px;
+    height: 70px;
+    display: block;
+    margin: 0px auto;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: inherit;
+}
 .kguWsM > .container  {
     margin-top: 60px;
 }
@@ -749,4 +755,11 @@ const handleCreateReferral = (async()=>{
     padding-top: 3.75rem;
     background-color: rgb(23, 24, 27);
 }
+.dialog-body {
+    position: absolute;
+    inset: 0px;
+    display: flex;
+    overflow: hidden;
+}
+
 </style>

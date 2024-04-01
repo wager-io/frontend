@@ -67,6 +67,12 @@ const handeTheme = ((e) => {
                 <span>Lottery</span>
             </div>
         </button>
+        <button on:click={()=> goto("/affiliate")} class={`sc-iNGGcK knLCVT menu-item ${ routes.route ==="/affiliate" ? "select" : ""}`}>
+            <div class="menu-pc">
+                <Icon src={AiOutlineAliwangwang}  size="18"  color="rgba(153, 164, 176, 0.8)" />
+                <span>Affiliate</span>
+            </div>
+        </button>
         <button  on:click={()=> goto("/vip-games")} class={`sc-iNGGcK knLCVT menu-item special-nav vip ${  routes.route === "/vip-games" ? "select" : ""}`} >
             <div class="menu-pc">
                 <Icon src={AiOutlineCrown}  size="18"  color="rgba(153, 164, 176, 0.8)" />
