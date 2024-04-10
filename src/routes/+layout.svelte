@@ -231,7 +231,7 @@ const handleChatroom = ((e) => {
 {#if app_isLoading}
 <div class="preloading">
     <div class="gyuys">
-        <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
+        <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712717958/wager-04_ghvdyu.png">
     </div>
 </div>
 {/if}
