@@ -56,13 +56,13 @@
           {#if newScreen < 580}
             <img alt="logo" style="border-radius: 12px; width:33px"
             class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" />
+            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png" />
           {:else if newScreen < 900 && $handleisLoggin}
           <img alt="logo" style="border-radius: 12px; width:33px"
           class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" />
+            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png" />
           {:else}
-            <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png">
+            <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png">
           {/if}
           </div>
           {#if newScreen > 700 }

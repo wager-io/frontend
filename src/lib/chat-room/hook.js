@@ -29,7 +29,7 @@ export function levelColor(level){
     if(level <=7) return "type-1"
     if(level > 7 && level <= 21) return "type-2"
     if(level > 21 && level <= 37) return "type-3"
-    if(level > 37 && level <= 55) return "type-4"
+    if(level > 37 ) return "type-4"
 }
 
 export function formatTime(timestamp) {

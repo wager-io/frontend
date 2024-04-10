@@ -108,7 +108,7 @@ const handleLoginWithGoogle = (async()=>{
         : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>
     <div class="dialog-head has-close">
       <img alt="logo" class="sc-bOtlzW QccSQ"
-        src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png" />
+        src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png" />
     </div>
     <button
       on:click={() => goto($url)}
@@ -396,8 +396,8 @@ const handleLoginWithGoogle = (async()=>{
   }
 
   .QccSQ {
-    height: 1.7rem;
-    margin: 2rem 10px;
+    height: 4.7rem;
+    margin: 2rem 0px;
   }
 
   .iajVfs .other-group button {

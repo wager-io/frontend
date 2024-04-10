@@ -226,10 +226,11 @@ let gameList = handleListGame()
     position: relative;
     background-color: rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    background-image: url(https://res.cloudinary.com/dxwhz3r81/image/upload/v1698030795/typpe_3_cf83xp.png);
+    background-image: url(https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png);
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 32%;
+    background-size: 62%;
+    opacity: 0.7;
 }
 
 @media only screen and (max-width:650px){
