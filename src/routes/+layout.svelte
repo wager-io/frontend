@@ -34,8 +34,7 @@ import Closesidebar from "$lib/closesidebar.svelte";
 import { handleWebSocket } from "$lib/socket"
 import Loader from "$lib/components/loader.svelte";
 import LayoutEl from "$lib/wallet/layout.svelte";
-import Login from "$lib/modals/auth/login/login.svelte";
-import Register from "$lib/modals/auth/register/register.svelte";
+import Auth from "$lib/modals/auth/layout.svelte";
 import Profile from "$lib/modals/profile/profile.svelte";
 import Transaction from "$lib/modals/transaction/transaction.svelte";
 
@@ -186,13 +185,10 @@ const handleChatroom = ((e) => {
 
 <div data-theme={$theme} class="app">
 
-{#if paramString && tab === "login"}
-    <Login/>
+{#if paramString && tab === "auth"}
+    <Auth modal={seaser[1]} referID={seaser[2]}/>
 {/if}
 
-{#if paramString && tab === "register"}
-    <Register referID={seaser[2]}/>
-{/if}
 
 {#if paramString && tab === "profile"}
     <Profile user={seaser[1]} modal={seaser[2]}/>
@@ -231,7 +227,7 @@ const handleChatroom = ((e) => {
 {#if app_isLoading}
 <div class="preloading">
     <div class="gyuys">
-        <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712717958/wager-04_ghvdyu.png">
+        <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png">
     </div>
 </div>
 {/if}
@@ -344,7 +340,7 @@ const handleChatroom = ((e) => {
     left: 0px;
     top: 0px;
     right: 0px;
-    background-color: rgb(36, 38, 43);
+    background-color: black;
     transition: all 0.2s linear 0s;
     padding-left: 72px;
 }

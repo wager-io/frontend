@@ -54,38 +54,22 @@
       <div class="sc-hGnimi ftyLxH left">
         <div class="sc-iukxot jivBdD logo-pc">
           {#if newScreen < 580}
-            <img alt="logo" style="border-radius: 12px; width:33px"
+            <img alt="logo"
             class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png" />
+            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png" />
           {:else if newScreen < 900 && $handleisLoggin}
-          <img alt="logo" style="border-radius: 12px; width:33px"
+          <img alt="logo" 
           class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png" />
+            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png" />
           {:else}
-            <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1712679165/wager-06_fxek3t.png">
+            <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png">
           {/if}
           </div>
-          {#if newScreen > 700 }
-            <div class="sc-jtXEFf jsyNKG search-pc">
-              <div class="search-input-wrap-pc">
-                <div class="sc-kTLmzF dwaOxj">
-                  <Icon src={AiOutlineSearch} size="18" color={ "rgba(153, 164, 176, 0.8)"} className="custom-icon" />
-                  <input placeholder="Game name | Provider | Category Tag" value="">
-                </div>
-              </div>
-            </div>
-            {:else}
-            <div class="sc-eldieg elBGFt big-enter">
-              <button>
-                <Icon src={AiOutlineSearch} size="18" color={ "rgba(153, 164, 176, 0.8)"} className="custom-icon" />
-              </button>
-          </div>
-          {/if}
         </div>
         {#if !$handleisLoggin}
         <div class="login-in">
-            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)}>Sign in</button>
-            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=login`)}>Sign in</button>
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=register`)} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
               <div class="button-inner">Sign up</div>
             </button>
           <button id="chat" class="sc-eicpiI PGOpB">
@@ -173,8 +157,8 @@
         </button>
           <div class="header-login">
             {#if !$handleisLoggin}
-            <button style="margin-right: 15px;" on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)}>Sign in</button>
-            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
+            <button style="margin-right: 15px;" on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=login`)}>Sign in</button>
+            <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=register`)} class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal">
               <div class="button-inner">Sign up</div>
             </button>
             {:else}
@@ -239,10 +223,7 @@
     </div>
 
   <style>
-  .ftyLxH .big-enter {
-      margin-left: 0%;
-      flex: 0 0 auto;
-  }
+
   .elBGFt.big-enter {
       -webkit-box-pack: end;
       justify-content: flex-end;
@@ -291,28 +272,13 @@
       padding-left: 10px;
   }
   
-  .ftyLxH .search-pc {
-      margin-left: 4%;
-      max-width: 32.5rem;
-  }
+
   .jsyNKG {
       display: flex;
       -webkit-box-align: center;
       align-items: center;
       overflow: hidden;
       flex: 1 1 0%;
-  }
-  .jsyNKG .search-input-wrap-pc {
-      width: 100%;
-      height: 2.875rem;
-      border-radius: 1.4375rem;
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      -webkit-box-pack: justify;
-      justify-content: space-between;
-      border: 1px solid transparent;
-      position: relative;
   }
   .dwaOxj {
       display: flex;
@@ -326,17 +292,6 @@
       height: 100%;
       width: 100%;
       border: 1px solid transparent;
-  }
-  .dwaOxj input {
-      width: 100%;
-      height: 100%;
-      border: none;
-      outline: none;
-      background-color: transparent;
-      margin-left: 0.375rem;
-      position: relative;
-      color: rgb(255, 255, 255);
-      font-weight: bold;
   }
   .login-in {
       display: flex;

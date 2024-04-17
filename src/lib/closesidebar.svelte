@@ -114,7 +114,7 @@ const openOriginal = ((e) => {
     bottom: 0px;
     width: 240px;
     color: rgba(153, 164, 176, 0.8);
-    background-color: rgb(30, 32, 36);
+    background-color: black;
     transition: all 0.2s linear 0s;
 }
 

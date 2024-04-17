@@ -40,7 +40,7 @@ function handleCopyCode() {
 
 $:{
     code = $affilliate_info.affiliate_code
-    affiilate_link = `${pageURL()}/?tab=register&modal=auth&ref=${$affilliate_info.affiliate_code}`
+    affiilate_link = `${pageURL()}/?tab=auth&modal=register&ref=${$affilliate_info.affiliate_code}`
 }
 
 function handleCopyLink() {

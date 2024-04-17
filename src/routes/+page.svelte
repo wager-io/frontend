@@ -43,14 +43,17 @@ const handleLoginWithGoogle = (async()=>{
 
 </script>
 
-<div  class="sc-jwQYvw eRdxAb" style={`padding-left:${$screen > 650 && $is_open__Appp ? 50 : 2}px; padding-right:${$is_open__chat ? 360 : 0}px`}>
+<div  class="sc-jwQYvw eRdxAb" style={`padding-left:${$screen > 650 && $is_open__Appp ? 35 : 2}px; padding-right:${$is_open__chat ? 360 : 0}px`}>
     <div class="WKiwniiw home-banner">
         <div class="bannner-int">
             <div class="banner-body">
                 <div class="banner-title">
-                    Welcome to
-                    <br>
-                    <span>Wager</span>
+                    <div class="text">
+                        Welcome to
+                    </div>
+                    <div class="banner-logo">
+                        <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png" alt="">
+                   </div>
                </div>
           {#if $handleAuthToken}
                 <div class="progress-heading svelte-h0vqv3">
@@ -110,7 +113,7 @@ const handleLoginWithGoogle = (async()=>{
                   <div class="head title">Play smarter</div>
                   <div class="heads body">
                       <div class="buttons">
-                          <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=register&modal=auth`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-big">Register Now</button>
+                          <button on:click={()=> goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=register`)} class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-big">Register Now</button>
                       </div>
                       <div class="sjiwwn seperate">
                           <span>or</span>
@@ -203,12 +206,13 @@ const handleLoginWithGoogle = (async()=>{
     width: 100%;
     margin: 30px 85px;
 }
+
 .bannner-int{
     position: relative;
     display: flex;
     padding: 10px;
     max-width: 1832px;
-    margin: 40px 15px 0 15px;
+    /* margin: 40px 15px 0 15px; */
     border-radius: 10px;
     background: linear-gradient(94.02deg, #010010 -0.67%, rgba(169, 44, 180, 0.61) 69.91%, #010010 116.81%);
 }
@@ -218,15 +222,20 @@ const handleLoginWithGoogle = (async()=>{
     font-weight: 800;
     width: 100%;
     line-height: 50px;
-    padding-bottom: 20px;
+    display: flex;
 }
-
-.banner-title span{
+.banner-title .text{
+    padding: 0px 10px;
+}
+/* .banner-title span{
     font-size: 64px;
     font-weight: 800;
     background: linear-gradient(86.06deg, #BE5EF8 17.3%, #B2C730 62.22%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+} */
+.banner-body img{
+    width: 90px;
 }
 
 .banner-image {

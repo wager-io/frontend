@@ -7,7 +7,7 @@
     bottom: 0px;
     width: 240px;
     color: rgba(153, 164, 176, 0.8);
-    background-color: var(--background-color);
+    background-color: black;
     transition: all 0.2s linear 0s;
 }
 

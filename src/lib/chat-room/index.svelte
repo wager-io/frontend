@@ -66,7 +66,7 @@
          await handleChattingMessages(data)
         } 
         else {
-          goto(`${$url === "/" ? "" : $url}/?tab=login&modal=auth`)
+          goto(`${$url === "/" ? "" : $url}/?tab=auth&modal=login`)
           handlecloseChat();
         }
       }
