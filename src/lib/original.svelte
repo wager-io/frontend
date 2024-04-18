@@ -101,7 +101,7 @@
       height: 100vh;
       top: 0;
       z-index: 1000;
-      background-color: rgb(45, 48, 53);
+      background-color: rgb(18 18 20);
     }
   
     .orginal-game-routes .orginal-game-routes-container {

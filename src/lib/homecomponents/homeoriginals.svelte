@@ -99,7 +99,7 @@ let gameList = handleListGame()
     box-sizing: border-box;
 }
 .blJYGp .grid-list {
-    background-color: rgb(28, 30, 34);
+    background-color: rgb(18 18 20);
     padding: 12px 0.75rem 1.4375rem;
     border-top-right-radius: 1.25rem;
     border-bottom-right-radius: 1.25rem;

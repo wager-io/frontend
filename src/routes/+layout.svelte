@@ -297,7 +297,7 @@ const handleChatroom = ((e) => {
     padding-right: 340px;
 }
 .preloading{
-    background-color: var(--background-color);
+    background-color: black;
     position: fixed;
     width: 100%;
     height: 100%;

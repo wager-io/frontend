@@ -148,7 +148,7 @@ const openOriginal = ((e) => {
 }
 
 .ioXbGd .tab-more .tab-item.select {
-    background-color: rgb(43, 47, 55);
+    background-color: rgb(18 18 20);
 }
 
 .ioXbGd .tab-more .tab-item {

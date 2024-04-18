@@ -122,7 +122,7 @@ $: tab = 1
 .emIWso {
     min-height: 38.25rem;
     padding: 0.625rem;
-    background-color: rgb(30, 32, 36);
+    background-color: rgb(18 18 20);
     border-radius: 1.25rem;
 }
 table {
@@ -142,12 +142,7 @@ table {
 .kQfmQV .tabs-view {
     position: relative;
 }
-.emIWso {
-    min-height: 38.25rem;
-    padding: 0.625rem;
-    background-color: rgb(30, 32, 36);
-    border-radius: 1.25rem;
-}
+
 
 .iUeetX {
     width: 100%;

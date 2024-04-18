@@ -103,7 +103,7 @@
 }
 .hupcRr {
     padding: 1rem;
-    background-color: rgb(49, 52, 60);
+    background-color: rgb(18 18 20);
     border-radius: 1.25rem;
     display: flex;
     -webkit-box-pack: justify;

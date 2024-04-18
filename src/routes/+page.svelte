@@ -301,13 +301,7 @@ const handleLoginWithGoogle = (async()=>{
     line-height: 50px;
     padding-bottom: 20px;
 }
-.banner-title span{
-    font-size: 33px;
-    font-weight: 800;
-    background: linear-gradient(86.06deg, #BE5EF8 17.3%, #B2C730 62.22%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+
 .banner-image img{
    width: 17rem;
 }

@@ -5,7 +5,7 @@
     left: 0px;
     top: 0px;
     right: 0px;
-    background-color: rgb(36, 38, 43);
+    background-color: black;
 }
 .jVgBRe .top, .jVgBRe .login-top {
     border-bottom: 1px solid transparent;
@@ -65,7 +65,7 @@
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    background: rgb(30, 32, 36);
+    background: black;
     height: 3.375rem;
 }
 .jVgBRe .bottom .left {

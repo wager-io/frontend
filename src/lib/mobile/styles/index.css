@@ -3,7 +3,7 @@
         position: fixed;
         z-index: 103;
         inset: 0px;
-        background-color: rgb(30, 32, 36);
+        background-color: black;
         overflow-y: auto;
         animation-name: menu;
         animation-duration: 0.5s;
