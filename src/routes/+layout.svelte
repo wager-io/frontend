@@ -189,7 +189,6 @@ const handleChatroom = ((e) => {
     <Auth modal={seaser[1]} referID={seaser[2]}/>
 {/if}
 
-
 {#if paramString && tab === "profile"}
     <Profile user={seaser[1]} modal={seaser[2]}/>
 {/if}
@@ -216,6 +215,7 @@ const handleChatroom = ((e) => {
     </div>
 {/if}
     
+{#if !app_isLoading}
 <div id="main">
     <div id="menu">
         <button style={`left:${isOpenSide ? 224 : 60}px`} on:click={handleMainMenu}  class="menu">
@@ -223,14 +223,15 @@ const handleChatroom = ((e) => {
         </button>
     </div>
 </div>
+{/if}
 
-{#if app_isLoading}
+<!-- {#if app_isLoading}
 <div class="preloading">
     <div class="gyuys">
         <img class="coin-icon" alt="" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png">
     </div>
 </div>
-{/if}
+{/if} -->
     
 <!-- ======================  mobile menu bar ================= -->
 {#if (isMenu)}
@@ -249,6 +250,10 @@ const handleChatroom = ((e) => {
     <main class="sc-lhMiDA ePAxUv">
         <slot></slot>
     </main>
+{:else}
+    <div class="heis">
+        <Loader />
+    </div>
 {/if}
     
 <!-- <div id="right-bar" style={ is_mobile ? "" : `width: ${isChatRoom ? ((ens - sideDetection) - 360) : ens - sideDetection}px;`} >
@@ -270,18 +275,24 @@ const handleChatroom = ((e) => {
     {/if}
 </div> -->
     
-    {#if (isChatRoom)}
-        {#if isnotification}
-            <Notification />
-        {:else}
-            <ChatSide on:closeChat={handleChatroom} />
-        {/if}
+{#if (isChatRoom)}
+    {#if isnotification}
+        <Notification />
+    {:else}
+        <ChatSide on:closeChat={handleChatroom} />
     {/if}
+{/if}
 
 </div>
 
 <style>
-
+.heis{
+    height: 600px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 #header.side-unfold{
     padding-left: 240px;
 }
@@ -305,7 +316,7 @@ const handleChatroom = ((e) => {
     left: 0;
     z-index: 367898978920;
 }
-.preloading .gyuys{
+/* .preloading .gyuys{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -320,7 +331,7 @@ const handleChatroom = ((e) => {
     width: 170px;
     animation: move 10s infinite;
     opacity: 0.8;
-}
+} */
 
 @keyframes move{
     10%{

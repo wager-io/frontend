@@ -1,19 +1,19 @@
 export const ServerURl = (()=>{
-    // return "http://localhost:8000"
-    return "https://wager-backend.onrender.com"
+    return "http://localhost:8000"
+    // return "https://wager-backend.onrender.com"
 })
 
 export const VerifyURl = () => {
-    // return "http://localhost:5174/verify";
-    return "https://wager-verification.netlify.app";
+    return "http://localhost:5174/verify";
+    // return "https://wager-verification.netlify.app";
 };
 
 export const pageURL = () => {
-    // return "http://localhost:5173";
-    return "https://wager.services";
+    return "http://localhost:5173";
+    // return "https://wager.services";
 };
 
 export const SocketURL = (()=>{
-    // return "http://localhost:3000"
-    return "https://wager-backend.vercel.app"
+    return "http://localhost:3000"
+    // return "https://wager-backend.vercel.app"
 })

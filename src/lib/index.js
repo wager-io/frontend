@@ -5,9 +5,13 @@ const URL = ServerURl()
 export const UserProfileEl = (auth) => {
 
 const handleprofile = async (auth) => {
-    let is_loading = true
-    let error = ""
-    let response = ""
+  let is_loading = true
+  let error = ""
+  let response = ""
+  if(!auth){
+    handleisLoggin.set(false)
+    is_loading = false
+  }else{
     await axios.get(`${URL}/api/profile`,{
       headers: {
         "Content-type": "application/json",
@@ -24,6 +28,8 @@ const handleprofile = async (auth) => {
         handleisLoggin.set(false)
         is_loading = false
     })
+  }
+
     return { is_loading, error, response }
 };
 
