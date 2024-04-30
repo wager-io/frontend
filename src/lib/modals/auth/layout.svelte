@@ -1,23 +1,23 @@
 <script>
-    import { goto } from "$app/navigation";
-    import { handleAuthToken } from "$lib/store/routes"
-    import { default_Wallet, coin_list } from "$lib/store/coins"
-    import { profileStore } from "$lib/store/profile"
-    import Icon from "svelte-icons-pack/Icon.svelte";
-    import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
-    import { browser } from "$app/environment";
-    import { onMount } from "svelte";
-    import { url } from "$lib/store/routes";
-    import {handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index";
-    import { screen } from "$lib/store/screen";
-    import Login from "./login/login.svelte";
-    import Register from "./register/register.svelte";
-    import Forget from "./forget/forget.svelte";
-    export let modal;
-    export let referID;
+  import { goto } from "$app/navigation";
+  import { handleAuthToken } from "$lib/store/routes"
+  import { default_Wallet, coin_list } from "$lib/store/coins"
+  import { profileStore } from "$lib/store/profile"
+  import Icon from "svelte-icons-pack/Icon.svelte";
+  import IoCloseSharp from "svelte-icons-pack/io/IoCloseSharp";
+  import { browser } from "$app/environment";
+  import { onMount } from "svelte";
+  import { url } from "$lib/store/routes";
+  import {handleGoogleAuth, handleFacebookAuth } from "$lib/firebaseAuth/index";
+  import { screen } from "$lib/store/screen";
+  import Login from "./login/login.svelte";
+  import Register from "./register/register.svelte";
+  import Forget from "./forget/forget.svelte";
+  export let modal;
+  export let referID;
 
-    $: is_loading = false
-    $: error = false
+  $: is_loading = false
+  $: error = false
     
   let is_mobile = false;
   onMount(() => {
@@ -71,7 +71,7 @@
 {#if modal !== "forget"}
       <div class="dialog-head has-close">
         <img alt="logo" class="sc-bOtlzW QccSQ"
-          src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png" />
+          src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png" />
       </div>
       <button on:click={() => goto($url)}
         class="sc-ieecCq fLASqZ close-icon dialog-close" >
@@ -80,7 +80,7 @@
       <div class="dialog-body no-style sc-zjkyB ipnwmW" style="z-index: 2; transform: none;" >
         <div class="welcome">
           <div class="msg1">BUILD THE BEST CRYPTO CASINO TOGETHER</div>
-          <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704543204/NIKE1_34_1_ji6ln1.png" alt="" />
+          <!-- <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1704543204/NIKE1_34_1_ji6ln1.png" alt="" /> -->
         </div>
         <div class="sc-dkPtRN jScFby scroll-view hide-bar sc-bjztik ceTZhf"  style="transform: none;">
             {#if modal === "login"}
@@ -163,19 +163,19 @@
   
   
     .ipnwmW .welcome .msg1 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      width: 14.375rem;
-      line-height: 1.2;
-      margin-top: 1.25rem;
-    }
+      font-size: 2.6rem;
+    font-weight: bold;
+    /* width: 14.375rem; */
+    line-height: 1.2;
+    margin-top: 1.25rem;
+}
   
-    .ipnwmW .welcome img {
+    /* .ipnwmW .welcome img {
       height: 13.75rem;
       position: absolute;
       right: 0px;
       top: -1.875rem;
-    }
+    } */
   
     .QccSQ {
       height: 3.3rem;
@@ -199,22 +199,21 @@
       margin-top: 1.25rem;
     }
   
-    .dA-dCPD .welcome img {
+    /* .dA-dCPD .welcome img {
       height: 12.75rem;
       position: absolute;
       right: 0px;
       top: -1.875rem;
-    }
+    } */
 
     @media screen and (max-width: 621px) {
-      .dialog {
-        width: 100%;
-        height: 100%;
-        left: 0px;
-        top: 0px;
-        margin: 0px;
-        border-radius: 0px;
-      }
+      .ipnwmW .welcome .msg1 {
+      font-size: 2rem;
+        font-weight: bold;
+        /* width: 14.375rem; */
+        line-height: 1.2;
+        margin-top: 1.25rem;
+    }
   
       *,
       *:before,
@@ -259,17 +258,6 @@
     justify-content: space-between;
   }
 
-  .iajVfs .other-group button {
-    display: flex;
-    height: 3.5rem;
-    width: 3.5rem;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
 
   .iajVfs .other-group button {
     display: flex;

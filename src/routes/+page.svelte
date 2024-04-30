@@ -52,7 +52,7 @@ const handleLoginWithGoogle = (async()=>{
                         Welcome to
                     </div>
                     <div class="banner-logo">
-                        <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png" alt="">
+                        <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png" alt="">
                    </div>
                </div>
           {#if $handleAuthToken}
@@ -225,7 +225,7 @@ const handleLoginWithGoogle = (async()=>{
     display: flex;
 }
 .banner-title .text{
-    padding: 0px 10px;
+    padding: 10px 10px;
 }
 /* .banner-title span{
     font-size: 64px;
@@ -235,7 +235,7 @@ const handleLoginWithGoogle = (async()=>{
     -webkit-text-fill-color: transparent;
 } */
 .banner-body img{
-    width: 90px;
+    width: 110px;
 }
 
 .banner-image {

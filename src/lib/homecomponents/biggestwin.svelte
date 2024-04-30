@@ -13,7 +13,7 @@
                     <div class="button-inner">Play Now</div>
                 </button>
             </div>
-            <img class="bg" alt="bg" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1709038362/NIKE1_33_1_acpj4o.png">
+            <!-- <img class="bg" alt="bg" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1709038362/NIKE1_33_1_acpj4o.png"> -->
         </div>
         <div class="sc-hWBuOZ civZmU sc-hoHwyw llygwG">
             <img class="winner-img" src="https://static.nanogames.io/assets/topwin.a65b35ca.png" alt="">
@@ -141,14 +141,14 @@
     width: 10.125rem;
 }
 
-.flAnOy .bg {
+/* .flAnOy .bg {
     position: absolute;
     z-index: 0;
     height: 120%;
     width: auto;
     bottom: -1.5rem;
     right: -2rem;
-}
+} */
 
 .civZmU .winner-img {
     position: absolute;
@@ -280,11 +280,11 @@
         padding: 2.5rem 0px 1.875rem 1.25rem;
         margin: 0px;
     }
-    .flAnOy .bg {
+    /* .flAnOy .bg {
         height: 80%;
         bottom: 0.625rem;
         right: -1.5rem;
-    }
+    } */
     .flAnOy .info .tit {
         font-size: 1.125rem;
         line-height: 1.375rem;
@@ -295,11 +295,11 @@
         width: 7.25rem;
         height: 2.5rem;
     }
-    .flAnOy .bg {
+    /* .flAnOy .bg {
         height: 80%;
         bottom: 0.625rem;
         right: -1.5rem;
-    }
+    } */
     .llygwG {
         margin: 0px;
     }

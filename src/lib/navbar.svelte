@@ -56,13 +56,13 @@
           {#if newScreen < 580}
             <img alt="logo"
             class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png" />
+            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png" />
           {:else if newScreen < 900 && $handleisLoggin}
           <img alt="logo" 
           class="coin-icon"
-            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png" />
+            src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png" />
           {:else}
-            <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1713371473/new_wager_logo_ugdiuc.png">
+            <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png">
           {/if}
           </div>
         </div>
