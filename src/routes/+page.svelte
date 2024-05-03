@@ -142,7 +142,7 @@ const handleLoginWithGoogle = (async()=>{
             </div>
          
            <div class="banner-image">
-                <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1709933868/The-Impact-of-Cryptocurrency-on-the-Gambling-Industry-removebg-preview_t1i24y.png" alt="">
+                <img src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714728684/Crypto-Casinos_vd7jbh.png" alt="">
            </div>
         </div>       
     </div>

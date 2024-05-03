@@ -1,68 +1,64 @@
 <script>
-  import "../styles/navbar/mobileNavbar.css";
-  import AiOutlineSearch from "svelte-icons-pack/ai/AiOutlineSearch";
-  import IoWallet from "svelte-icons-pack/io/IoWallet";
-  import AiOutlineMenuUnfold from "svelte-icons-pack/ai/AiOutlineMenuUnfold";
-  import "../styles/navbar/navbar.css";
-  import FiMenu from "svelte-icons-pack/fi/FiMenu";
-  import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
-  import Icon from "svelte-icons-pack/Icon.svelte";
-  import { browser } from "$app/environment";
-  import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
-  import { url } from "$lib/store/routes";
-  import { default_Wallet } from "$lib/store/coins";
-  import { profileStore, handleisLoggin } from "$lib/store/profile";
-  import { createEventDispatcher } from "svelte";
-  import {chatCounter, showChatCounter} from "$lib/store/chat-counter"
-  import { goto } from "$app/navigation";
-  import Coins from "./profilecomponent/main/coins.svelte";
-  import Navprofile from "./profilecomponent/main/navprofile.svelte";
-  const dispatch = createEventDispatcher();
+import "../styles/navbar/mobileNavbar.css";
+import IoWallet from "svelte-icons-pack/io/IoWallet";
+import AiOutlineMenuUnfold from "svelte-icons-pack/ai/AiOutlineMenuUnfold";
+import "../styles/navbar/navbar.css";
+import FiMenu from "svelte-icons-pack/fi/FiMenu";
+import RiSystemArrowDownSLine from "svelte-icons-pack/ri/RiSystemArrowDownSLine";
+import Icon from "svelte-icons-pack/Icon.svelte";
+import { screen, is_open__Appp, is_open__chat } from "$lib/store/screen"
+import { url } from "$lib/store/routes";
+import { default_Wallet } from "$lib/store/coins";
+import { profileStore, handleisLoggin } from "$lib/store/profile";
+import { createEventDispatcher } from "svelte";
+import {chatCounter, showChatCounter} from "$lib/store/chat-counter"
+import { goto } from "$app/navigation";
+import Coins from "./profilecomponent/main/coins.svelte";
+import Navprofile from "./profilecomponent/main/navprofile.svelte";
+const dispatch = createEventDispatcher();
 
-  const handleChat = (e) => {
-    dispatch("handleChatRoom", e);
-  };
+const handleChat = (e) => {
+  dispatch("handleChatRoom", e);
+};
 
-  const handleMenu = () => {
-    dispatch("handleMenuMobile");
-  };
-  
-  $: newScreen = 0
-  $: {
-    if($is_open__Appp && !$is_open__chat){
-      newScreen = $screen - 240
-    }
-    else if(!$is_open__Appp && $is_open__chat){
-      newScreen = $screen - 432
-    }
-    else if(!$is_open__Appp && !$is_open__chat){
-      newScreen = $screen - 72
-    }
-    else if($is_open__Appp && $is_open__chat){
-      newScreen = $screen - 600
-    }
+const handleMenu = () => {
+  dispatch("handleMenuMobile");
+};
+
+$: newScreen = 0
+$: {
+  if($is_open__Appp && !$is_open__chat){
+    newScreen = $screen - 240
   }
-  
-  $: image = $profileStore.profile_image
-  $: coinsEL = false
-  $: profileNAV = false
-  
-</script>
+  else if(!$is_open__Appp && $is_open__chat){
+    newScreen = $screen - 432
+  }
+  else if(!$is_open__Appp && !$is_open__chat){
+    newScreen = $screen - 72
+  }
+  else if($is_open__Appp && $is_open__chat){
+    newScreen = $screen - 600
+  }
+}
 
+$: image = $profileStore.profile_image
+$: coinsEL = false
+$: profileNAV = false
+
+</script>
   <div id="main-screen" class="header-wrap">
     <div class="header">
       <div class="sc-hGnimi ftyLxH left">
         <div class="sc-iukxot jivBdD logo-pc">
           {#if newScreen < 580}
-            <img alt="logo"
-            class="coin-icon"
+            <img alt="logo" class="coin-icon"
             src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png" />
           {:else if newScreen < 900 && $handleisLoggin}
-          <img alt="logo" 
-          class="coin-icon"
+          <img alt="logo"  class="coin-icon"
             src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png" />
           {:else}
-            <img alt="logo" class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png">
+            <img alt="logo" 
+            class="logo-com" src="https://res.cloudinary.com/dxwhz3r81/image/upload/v1714511848/Wager__wshh2r.png">
           {/if}
           </div>
         </div>
